@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DeepSeek V4 Pro — 开源旗舰模型详解 & 演示</title>
+<style>
+:root{
+  --bg:#000;--bg-card:#0a0a0c;--bg-nav:rgba(0,0,0,.82);--bg-section:transparent;
+  --text:#f5f5f7;--text-s:rgba(255,255,255,.55);--text-t:rgba(255,255,255,.3);
+  --accent:#fff;--glow:rgba(255,255,255,.05);
+  --border:rgba(255,255,255,.08);--border-h:rgba(255,255,255,.18);
+  --green:#22c55e;--green-g:rgba(34,197,94,.1);--blue:#3b82f6;--amber:#f59e0b;--cyan:#06b6d4;--red:#ef4444;
+  --hero-g:linear-gradient(180deg,#000 0%,#06060a 50%,#000 100%);
+  --shadow:rgba(0,0,0,.2);
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Noto Sans SC',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#fff;--bg-card:#f5f5f7;--bg-nav:rgba(255,255,255,.85);--bg-section:#fafafa;
+  --text:#1d1d1f;--text-s:rgba(0,0,0,.55);--text-t:rgba(0,0,0,.3);
+  --accent:#1d1d1f;--glow:rgba(0,0,0,.03);
+  --border:rgba(0,0,0,.08);--border-h:rgba(0,0,0,.16);
+  --green:#16a34a;--green-g:rgba(22,163,74,.06);
+  --hero-g:linear-gradient(180deg,#fff 0%,#f5f5f7 50%,#fff 100%);
+  --shadow:rgba(0,0,0,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:background .4s}
+.nav-logo{font-size:15px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+.nav-logo span{font-weight:400;color:var(--text-t);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:20px;align-items:center}
+.nav-links a{font-size:12px;color:var(--text-s);transition:color .2s;font-weight:500;letter-spacing:.02em}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:6px;align-items:center}
+.nav-btn{height:30px;min-width:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;color:var(--text-s);transition:all .25s;font-size:12px;border:1px solid var(--border);cursor:pointer;background:none;padding:0 4px;font-weight:600}
+.nav-btn:hover{border-color:var(--border-h);color:var(--text);background:var(--glow)}
+.lang-btn{padding:0 10px;letter-spacing:.06em;font-size:11px}
+
+/* SECTION */
+.section{padding:120px 40px;position:relative}
+.container{max-width:1080px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-t);margin-bottom:14px;display:block}
+.title{font-size:clamp(30px,5vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.12;margin-bottom:20px}
+.title em{font-style:normal;color:var(--text-t);font-weight:500}
+.subtitle{font-size:clamp(15px,1.7vw,18px);color:var(--text-s);font-weight:400;line-height:1.65;max-width:680px}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:52px 40px 80px;background:var(--hero-g)}
+.hero .label{margin-bottom:20px;color:var(--green)}
+.hero .title{max-width:860px;margin:0 auto 18px}
+.hero .subtitle{margin:0 auto 36px;text-align:center;max-width:660px}
+.hero-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.hero-badge{padding:5px 14px;border-radius:16px;font-size:11px;font-weight:600;letter-spacing:.04em;border:1px solid var(--border)}
+.hero-badge.g{color:var(--green);border-color:color-mix(in srgb,var(--green) 35%,transparent)}
+.hero-badge.b{color:var(--blue);border-color:color-mix(in srgb,var(--blue) 35%,transparent)}
+.hero-badge.a{color:var(--amber);border-color:color-mix(in srgb,var(--amber) 35%,transparent)}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:1080px;margin:0 auto}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 20px;text-align:center;transition:all .3s}
+.stat-card:hover{border-color:var(--border-h);transform:translateY(-2px)}
+.stat-num{font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:6px;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:12px;color:var(--text-s);font-weight:500}
+
+/* SPEC */
+.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;max-width:1080px;margin:0 auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+table th,table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border)}
+table th{font-weight:600;color:var(--text-s);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+table td{font-weight:500}
+table tr:hover td{background:var(--glow)}
+.hl{color:var(--green);font-weight:700}
+.best{color:var(--green);font-weight:700}
+.best::after{content:'★';font-size:9px;margin-left:3px;vertical-align:super}
+.upgrades{list-style:none;font-size:13px;line-height:2.2}
+.upgrades li::before{content:'→';color:var(--green);margin-right:10px;font-weight:700}
+
+/* BENCH */
+.bench-section{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px;margin-bottom:24px;overflow-x:auto}
+.bench-title{font-size:18px;font-weight:700;margin-bottom:24px;letter-spacing:-.02em}
+.bench-table td:first-child{text-align:left;font-weight:600;white-space:nowrap}
+.bench-table td{text-align:center;white-space:nowrap}
+.bench-table th{text-align:center}
+
+/* ARCH */
+.arch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:1080px;margin:0 auto}
+.arch-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px 20px;transition:all .3s}
+.arch-card:hover{border-color:var(--border-h)}
+.arch-card h5{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--green)}
+.arch-card p{font-size:12px;color:var(--text-s);line-height:1.6}
+
+/* COMPARE CARDS */
+.compare-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto}
+.compare-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px 22px;transition:all .3s;position:relative}
+.compare-card:hover{border-color:var(--border-h);transform:translateY(-3px)}
+.compare-card.featured{border-color:var(--green);box-shadow:0 0 30px var(--green-g)}
+.compare-tag{position:absolute;top:14px;right:14px;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:700;letter-spacing:.04em}
+.compare-tag.open{background:var(--green-g);color:var(--green)}
+.compare-card h4{font-size:17px;font-weight:700;margin-bottom:4px}
+.compare-card .model-sub{font-size:12px;color:var(--text-t);margin-bottom:16px}
+.compare-spec{font-size:12px;color:var(--text-s);line-height:2}
+.compare-spec strong{color:var(--text);font-weight:600}
+.compare-best{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--text-s)}
+.compare-best strong{color:var(--green);font-weight:600}
+
+/* DECISION */
+.decision-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1080px;margin:0 auto}
+.decision-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px 20px;transition:all .3s}
+.decision-card:hover{border-color:var(--border-h)}
+.decision-if{font-size:12px;color:var(--text-t);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px}
+.decision-then{font-size:14px;font-weight:700;margin-bottom:6px}
+.decision-why{font-size:12px;color:var(--text-s);line-height:1.6}
+
+/* PRICING */
+.price-table-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--border);background:var(--bg-card)}
+.price-table td,.price-table th{padding:14px 16px}
+.price-table .hl-row td{background:var(--green-g)}
+.price-callout{margin-top:24px;padding:20px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--text-s);line-height:1.7}
+.price-callout strong{color:var(--green);font-weight:600}
+
+/* VIDEO */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:1080px;margin:0 auto}
+.video-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s}
+.video-card:hover{border-color:var(--border-h);transform:translateY(-3px);box-shadow:0 12px 40px var(--shadow)}
+.video-wrap{position:relative;width:100%;padding-top:56.25%;background:#111}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.video-info{padding:16px 20px}
+.video-info h4{font-size:14px;font-weight:600;margin-bottom:4px;letter-spacing:-.01em}
+.video-info p{font-size:12px;color:var(--text-s);line-height:1.5}
+
+/* CASES */
+.case-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1080px;margin:0 auto}
+.case-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:all .3s;position:relative;overflow:hidden}
+.case-card:hover{border-color:var(--border-h);transform:translateY(-3px)}
+.case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));opacity:0;transition:opacity .3s}
+.case-card:hover::before{opacity:1}
+.case-icon{font-size:28px;margin-bottom:12px}
+.case-card h4{font-size:16px;font-weight:700;margin-bottom:8px}
+.case-card p{font-size:13px;color:var(--text-s);line-height:1.6;margin-bottom:12px}
+.case-tag{display:inline-block;padding:3px 10px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:.04em;background:var(--glow);border:1px solid var(--border);margin-right:4px;margin-bottom:4px}
+
+/* MODE CARDS */
+.mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1080px;margin:0 auto}
+.mode-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 20px;text-align:center;transition:all .3s}
+.mode-card:hover{border-color:var(--border-h)}
+.mode-icon{font-size:36px;margin-bottom:10px}
+.mode-card h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.mode-card .mode-desc{font-size:13px;color:var(--text-s);line-height:1.5}
+.mode-code{margin-top:14px;padding:10px;background:var(--glow);border-radius:8px;font-size:11px;font-family:monospace;color:var(--text-s)}
+
+/* LIMIT */
+.limit-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1080px;margin:0 auto}
+.limit-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px}
+.limit-card h4{font-size:15px;font-weight:700;color:var(--amber);margin-bottom:8px}
+.limit-card p{font-size:13px;color:var(--text-s);line-height:1.6}
+
+/* QUICK START */
+.code-block{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:24px;font-family:'SF Mono',Monaco,monospace;font-size:12px;line-height:2;color:var(--text-s);max-width:700px;margin:0 auto;text-align:left;overflow-x:auto}
+.links-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.link-btn{padding:8px 20px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--border);transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.link-btn:hover{border-color:var(--border-h);background:var(--glow)}
+
+/* FOOTER */
+.footer{text-align:center;padding:60px 40px 32px;color:var(--text-t);font-size:11px;border-top:1px solid var(--border)}
+.footer a{color:var(--text-s)}.footer a:hover{color:var(--text)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .section{padding:80px 18px}
+  .nav{padding:0 16px}
+  .nav-links{display:none}
+  .hero{min-height:75vh;padding:52px 18px 60px}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .spec-grid{grid-template-columns:1fr}
+  .compare-grid{grid-template-columns:1fr}
+  .decision-grid{grid-template-columns:1fr}
+  .mode-grid{grid-template-columns:1fr}
+  .limit-grid{grid-template-columns:1fr}
+  .video-grid{grid-template-columns:1fr}
+  .bench-section{padding:20px 12px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">DeepSeek V4 Pro<span data-i18n="nav_sub">模型详解 & 演示</span></div>
+  <div class="nav-links">
+    <a href="#overview" data-i18n="nav_overview">概览</a>
+    <a href="#specs" data-i18n="nav_specs">规格</a>
+    <a href="#benchmarks" data-i18n="nav_bench">性能</a>
+    <a href="#architecture" data-i18n="nav_arch">架构</a>
+    <a href="#comparison" data-i18n="nav_compare">对比</a>
+    <a href="#demos" data-i18n="nav_demo">演示</a>
+    <a href="#cases" data-i18n="nav_cases">案例</a>
+    <a href="#pricing" data-i18n="nav_pricing">定价</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn" onclick="toggleTheme()" title="Toggle theme">◐</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="label" data-i18n="hero_label">2026.04.24 发布 · MIT 开源</span>
+  <h1 class="title" data-i18n="hero_title">DeepSeek V4 Pro<br><em>开源模型的代际飞跃</em></h1>
+  <p class="subtitle" data-i18n="hero_sub">1.6T 参数 MoE · 49B 活跃参数 · 1M 上下文 · LiveCodeBench 全球最高分 93.5</p>
+  <div class="hero-badges">
+    <span class="hero-badge g">SWE-bench 80.6%</span>
+    <span class="hero-badge b">Codeforces 3206</span>
+    <span class="hero-badge a">1M Context</span>
+    <span class="hero-badge g">MIT License</span>
+  </div>
+</section>
+
+<!-- KEY STATS -->
+<section class="section" id="overview">
+  <div class="container">
+    <span class="label" data-i18n="stats_label">核心指标</span>
+    <h2 class="title" data-i18n="stats_title">一图读懂 V4 Pro</h2>
+    <div style="height:32px"></div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">1.6T</div><div class="stat-label" data-i18n="stat_params">总参数量 (MoE)</div></div>
+      <div class="stat-card"><div class="stat-num">49B</div><div class="stat-label" data-i18n="stat_active">每 token 活跃参数</div></div>
+      <div class="stat-card"><div class="stat-num">1M</div><div class="stat-label" data-i18n="stat_ctx">上下文窗口 (tokens)</div></div>
+      <div class="stat-card"><div class="stat-num">93.5</div><div class="stat-label">LiveCodeBench Pass@1</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<section class="section" id="specs" style="padding-top:40px">
+  <div class="container">
+    <span class="label" data-i18n="specs_label">模型规格</span>
+    <h2 class="title" data-i18n="specs_title">V4-Pro vs V4-Flash</h2>
+    <div style="height:24px"></div>
+    <div class="spec-grid">
+      <table>
+        <thead><tr><th data-i18n="th_param">参数</th><th>V4-Pro</th><th>V4-Flash</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="sp_total">总参数量</td><td class="hl">1.6T</td><td>284B</td></tr>
+          <tr><td data-i18n="sp_active">活跃参数/token</td><td class="hl">49B</td><td>13B</td></tr>
+          <tr><td data-i18n="sp_ctx">上下文窗口</td><td class="hl">1M tokens</td><td>1M tokens</td></tr>
+          <tr><td data-i18n="sp_train">训练数据</td><td>33T tokens</td><td>—</td></tr>
+          <tr><td data-i18n="sp_mode">推理模式</td><td>Non-think / Think High / Think Max</td><td>Non-think / Think High</td></tr>
+          <tr><td data-i18n="sp_license">开源协议</td><td class="hl">MIT</td><td>MIT</td></tr>
+          <tr><td data-i18n="sp_input">输入价格</td><td>$1.74/M</td><td>$0.14/M</td></tr>
+          <tr><td data-i18n="sp_output">输出价格</td><td>$3.48/M</td><td>$0.28/M</td></tr>
+        </tbody>
+      </table>
+      <div>
+        <h4 style="font-size:16px;font-weight:700;margin-bottom:14px" data-i18n="upgrade_title">关键升级（vs V3.2）</h4>
+        <ul class="upgrades">
+          <li data-i18n="up_1"><strong>混合注意力架构</strong> — CSA + HCA，推理 FLOPs 仅 27%</li>
+          <li data-i18n="up_2"><strong>KV Cache 缩减 90%</strong> — 1M 上下文实际可用</li>
+          <li data-i18n="up_3"><strong>流形约束超连接 (mHC)</strong> — 万亿参数训练稳定</li>
+          <li data-i18n="up_4"><strong>Muon 优化器</strong> — 替代 AdamW，收敛更快</li>
+          <li data-i18n="up_5"><strong>FP4 混合精度</strong> — MoE 专家 FP4，其余 FP8</li>
+          <li data-i18n="up_6"><strong>33T 训练数据</strong> — 较 V3.2 增加 123%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARKS -->
+<section class="section" id="benchmarks" style="background:linear-gradient(180deg,var(--bg) 0%,color-mix(in srgb,var(--green) 3%,var(--bg)) 50%,var(--bg) 100%)">
+  <div class="container">
+    <span class="label" data-i18n="bench_label">性能对比</span>
+    <h2 class="title" data-i18n="bench_title">Benchmark 全景</h2>
+    <p class="subtitle" style="margin-bottom:40px" data-i18n="bench_sub">V4-Pro-Max vs 顶尖闭源模型 — 差距已缩小到小数点后一位</p>
+    <div id="benchTables"></div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" id="architecture">
+  <div class="container">
+    <span class="label" data-i18n="arch_label">架构创新</span>
+    <h2 class="title" data-i18n="arch_title">五大核心技术</h2>
+    <p class="subtitle" style="margin-bottom:40px" data-i18n="arch_sub">不只是参数规模扩大 — 注意力机制、优化器、训练管线全面重构</p>
+    <div class="arch-grid">
+      <div class="arch-card"><h5 data-i18n="a1_t">1. 压缩稀疏注意力 (CSA)</h5><p data-i18n="a1_d">沿序列维度 4x 压缩 KV Cache，稀疏选择 Top-1024 + 128 token 滑动窗口，精确检索长上下文关键信息。</p></div>
+      <div class="arch-card"><h5 data-i18n="a2_t">2. 高压缩注意力 (HCA)</h5><p data-i18n="a2_d">128x 激进压缩后全连接，每层获得全局视野。与 CSA 交替排列，兼顾精确与广角。</p></div>
+      <div class="arch-card"><h5 data-i18n="a3_t">3. 流形约束超连接 (mHC)</h5><p data-i18n="a3_d">用 Sinkhorn-Knopp 算法约束残差连接到 Birkhoff Polytope，防止万亿参数下信号坍缩。</p></div>
+      <div class="arch-card"><h5 data-i18n="a4_t">4. Muon 优化器</h5><p data-i18n="a4_d">替代 AdamW，在 33T token 数据集上实现更快收敛和更稳定训练。Peak LR: 2.0e-4。</p></div>
+      <div class="arch-card"><h5 data-i18n="a5_t">5. FP4 混合精度训练</h5><p data-i18n="a5_d">MoE 专家权重和 Indexer QK 路径使用 FP4 量化感知训练，其余 FP8，兼顾效率和质量。</p></div>
+    </div>
+    <div style="margin-top:32px;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px">
+      <p style="font-size:13px;color:var(--text-s);line-height:1.8"><strong style="color:var(--text)" data-i18n="eff_title">效率提升：</strong><span data-i18n="eff_desc">尽管 V4-Pro 参数量是 V3.2 的 2.4 倍，但在 1M 上下文场景下，<strong style="color:var(--green)">仅需 27% 的推理 FLOPs 和 10% 的 KV Cache</strong>，使 100 万 token 上下文从理论变成工程可行。</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETITIVE COMPARISON -->
+<section class="section" id="comparison" style="background:linear-gradient(180deg,var(--bg) 0%,color-mix(in srgb,var(--blue) 2%,var(--bg)) 50%,var(--bg) 100%)">
+  <div class="container">
+    <span class="label" data-i18n="cmp_label">竞品对比</span>
+    <h2 class="title" data-i18n="cmp_title">三强鼎立</h2>
+    <p class="subtitle" style="margin-bottom:40px" data-i18n="cmp_sub">DeepSeek V4 Pro vs Claude Opus 4.6 vs GPT-5.5 — 三种截然不同的模型哲学</p>
+    <div class="compare-grid" id="compareCards"></div>
+    <div style="height:48px"></div>
+    <span class="label" data-i18n="dec_label">选型决策</span>
+    <div class="decision-grid" id="decisionGrid"></div>
+  </div>
+</section>
+
+<!-- PRICING COMPARISON -->
+<section class="section" id="pricing" style="background:linear-gradient(180deg,var(--bg) 0%,color-mix(in srgb,var(--green) 3%,var(--bg)) 100%)">
+  <div class="container">
+    <span class="label" data-i18n="price_label">API 定价对比</span>
+    <h2 class="title" data-i18n="price_title">极致性价比</h2>
+    <p class="subtitle" style="margin-bottom:40px" data-i18n="price_sub">V4-Pro 输出价仅为 Claude Opus 4.6 的 1/7，V4-Flash 仅为 GPT-5.5 的 1/100</p>
+    <div class="price-table-wrap" id="priceTable"></div>
+    <div class="price-callout" id="priceCallout"></div>
+  </div>
+</section>
+
+<!-- DEMO VIDEOS -->
+<section class="section" id="demos" style="background:linear-gradient(180deg,var(--bg) 0%,color-mix(in srgb,var(--green) 2%,var(--bg)) 100%)">
+  <div class="container">
+    <span class="label" data-i18n="vid_label">视频演示</span>
+    <h2 class="title" data-i18n="vid_title">实机 Demo</h2>
+    <p class="subtitle" style="margin-bottom:40px" data-i18n="vid_sub">来自独立开发者和评测机构的真实测试 — 编程、UI 克隆、Agent 工作流</p>
+    <div class="video-grid" id="videoGrid"></div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section" id="cases">
+  <div class="container">
+    <span class="label" data-i18n="case_label">应用场景</span>
+    <h2 class="title" data-i18n="case_title">真实落地案例</h2>
+    <p class="subtitle" style="margin-bottom:40px" data-i18n="case_sub">基于 V4-Pro 实测验证 — 1M 上下文 + 深度推理带来的新可能</p>
+    <div class="case-grid" id="caseGrid"></div>
+  </div>
+</section>
+
+<!-- REASONING MODES -->
+<section class="section" style="padding-top:40px">
+  <div class="container">
+    <span class="label" data-i18n="mode_label">推理模式</span>
+    <h2 class="title" data-i18n="mode_title">三种模式，按需切换</h2>
+    <div style="height:24px"></div>
+    <div class="mode-grid" id="modeGrid"></div>
+  </div>
+</section>
+
+<!-- KNOWN LIMITATIONS -->
+<section class="section">
+  <div class="container">
+    <span class="label" data-i18n="lim_label">已知限制</span>
+    <h2 class="title" style="font-size:clamp(22px,3vw,34px)" data-i18n="lim_title">需要了解的坑</h2>
+    <div style="height:16px"></div>
+    <div class="limit-grid" id="limitGrid"></div>
+  </div>
+</section>
+
+<!-- QUICK START -->
+<section class="section" style="padding-bottom:80px">
+  <div class="container" style="text-align:center">
+    <span class="label" data-i18n="qs_label">快速上手</span>
+    <h2 class="title" data-i18n="qs_title">5 分钟接入</h2>
+    <p class="subtitle" style="margin:0 auto 32px;text-align:center" data-i18n="qs_sub">OpenAI 兼容接口，支持 Cursor / VS Code / Claude Code / 直接 API</p>
+    <div class="code-block">
+      <span style="color:var(--text-t)"># API 调用示例</span><br>
+      curl https://api.deepseek.com/v1/chat/completions \<br>
+      &nbsp;&nbsp;-H "Authorization: Bearer $DEEPSEEK_API_KEY" \<br>
+      &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+      &nbsp;&nbsp;-d '{<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"model": "deepseek-v4-pro",<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"messages": [{"role":"user","content":"Hello"}]<br>
+      &nbsp;&nbsp;}'
+    </div>
+    <div class="links-row">
+      <a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro" target="_blank" class="link-btn">🤗 HuggingFace</a>
+      <a href="https://deepinfra.com/blog/deepseek-v4-pro-model-overview" target="_blank" class="link-btn">📖 DeepInfra 指南</a>
+      <a href="https://api-docs.deepseek.com/" target="_blank" class="link-btn">📄 API 文档</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p data-i18n="footer_src">数据来源：DeepSeek 官方 · MorphLLM · DeepInfra · GMI Cloud · HuggingFace · Artificial Analysis · Verdent AI · Evolink</p>
+  <p style="margin-top:6px" data-i18n="footer_date">页面生成于 2026.05.18 · benchmark 数据截至 2026.04.24 发布</p>
+</footer>
+
+<script>
+/* ========== I18N ========== */
+const I18N={
+zh:{
+  nav_sub:'模型详解 & 演示',nav_overview:'概览',nav_specs:'规格',nav_bench:'性能',nav_arch:'架构',nav_compare:'对比',nav_demo:'演示',nav_cases:'案例',nav_pricing:'定价',
+  hero_label:'2026.04.24 发布 · MIT 开源',hero_title:'DeepSeek V4 Pro<br><em>开源模型的代际飞跃</em>',hero_sub:'1.6T 参数 MoE · 49B 活跃参数 · 1M 上下文 · LiveCodeBench 全球最高分 93.5',
+  stats_label:'核心指标',stats_title:'一图读懂 V4 Pro',stat_params:'总参数量 (MoE)',stat_active:'每 token 活跃参数',stat_ctx:'上下文窗口 (tokens)',
+  specs_label:'模型规格',specs_title:'V4-Pro vs V4-Flash',
+  th_param:'参数',sp_total:'总参数量',sp_active:'活跃参数/token',sp_ctx:'上下文窗口',sp_train:'训练数据',sp_mode:'推理模式',sp_license:'开源协议',sp_input:'输入价格',sp_output:'输出价格',
+  upgrade_title:'关键升级（vs V3.2）',
+  up_1:'<strong>混合注意力架构</strong> — CSA + HCA，推理 FLOPs 仅 27%',
+  up_2:'<strong>KV Cache 缩减 90%</strong> — 1M 上下文实际可用',
+  up_3:'<strong>流形约束超连接 (mHC)</strong> — 万亿参数训练稳定',
+  up_4:'<strong>Muon 优化器</strong> — 替代 AdamW，收敛更快',
+  up_5:'<strong>FP4 混合精度</strong> — MoE 专家 FP4，其余 FP8',
+  up_6:'<strong>33T 训练数据</strong> — 较 V3.2 增加 123%',
+  bench_label:'性能对比',bench_title:'Benchmark 全景',bench_sub:'V4-Pro-Max vs 顶尖闭源模型 — 差距已缩小到小数点后一位',
+  bt_coding:'💻 编程能力',bt_reason:'🧠 推理能力',bt_agent:'🤖 Agent & 长上下文',
+  arch_label:'架构创新',arch_title:'五大核心技术',arch_sub:'不只是参数规模扩大 — 注意力机制、优化器、训练管线全面重构',
+  a1_t:'1. 压缩稀疏注意力 (CSA)',a1_d:'沿序列维度 4x 压缩 KV Cache，稀疏选择 Top-1024 + 128 token 滑动窗口，精确检索长上下文关键信息。',
+  a2_t:'2. 高压缩注意力 (HCA)',a2_d:'128x 激进压缩后全连接，每层获得全局视野。与 CSA 交替排列，兼顾精确与广角。',
+  a3_t:'3. 流形约束超连接 (mHC)',a3_d:'用 Sinkhorn-Knopp 算法约束残差连接到 Birkhoff Polytope，防止万亿参数下信号坍缩。',
+  a4_t:'4. Muon 优化器',a4_d:'替代 AdamW，在 33T token 数据集上实现更快收敛和更稳定训练。Peak LR: 2.0e-4。',
+  a5_t:'5. FP4 混合精度训练',a5_d:'MoE 专家权重和 Indexer QK 路径使用 FP4 量化感知训练，其余 FP8，兼顾效率和质量。',
+  eff_title:'效率提升：',eff_desc:'尽管 V4-Pro 参数量是 V3.2 的 2.4 倍，但在 1M 上下文场景下，<strong style="color:var(--green)">仅需 27% 的推理 FLOPs 和 10% 的 KV Cache</strong>，使 100 万 token 上下文从理论变成工程可行。',
+  cmp_label:'竞品对比',cmp_title:'三强鼎立',cmp_sub:'DeepSeek V4 Pro vs Claude Opus 4.6 vs GPT-5.5 — 三种截然不同的模型哲学',
+  dec_label:'选型决策',
+  price_label:'API 定价对比',price_title:'极致性价比',price_sub:'V4-Pro 输出价仅为 Claude Opus 4.6 的 1/7，V4-Flash 仅为 GPT-5.5 的 1/100',
+  vid_label:'视频演示',vid_title:'实机 Demo',vid_sub:'来自独立开发者和评测机构的真实测试 — 编程、UI 克隆、Agent 工作流',
+  case_label:'应用场景',case_title:'真实落地案例',case_sub:'基于 V4-Pro 实测验证 — 1M 上下文 + 深度推理带来的新可能',
+  mode_label:'推理模式',mode_title:'三种模式，按需切换',
+  lim_label:'已知限制',lim_title:'需要了解的坑',
+  qs_label:'快速上手',qs_title:'5 分钟接入',qs_sub:'OpenAI 兼容接口，支持 Cursor / VS Code / Claude Code / 直接 API',
+  footer_src:'数据来源：DeepSeek 官方 · MorphLLM · DeepInfra · GMI Cloud · HuggingFace · Artificial Analysis · Verdent AI · Evolink',
+  footer_date:'页面生成于 2026.05.18 · benchmark 数据截至 2026.04.24 发布',
+  // Compare cards
+  cmp_ds:'开源部署 · 性价比之王',cmp_ds_sub:'MIT 开源 · 可自托管',cmp_claude:'深度推理 · 代码重构',cmp_claude_sub:'闭源 API · Anthropic',cmp_gpt:'工具调用 · 多步工作',cmp_gpt_sub:'闭源 API · OpenAI',
+  cmp_ctx:'上下文窗口',cmp_out:'最大输出',cmp_price:'API 定价',cmp_best:'最佳场景',
+  cmp_ds_best:'开放部署 · 成本敏感型 Agent · 微调需求',cmp_claude_best:'复杂重构 · 推理密集型编程 · 架构决策',cmp_gpt_best:'工具协调 · 计算机使用 · 长链路 Agent',
+  // Decision
+  dec1_if:'如果你需要',dec1_then:'选 DeepSeek V4 Pro',dec1_why:'唯一开源方案，支持自托管、微调、数据本地化，成本仅闭源的 1/7',
+  dec2_if:'如果你追求极致推理',dec2_then:'选 Claude Opus 4.7',dec2_why:'SWE-bench 87.6%（Opus 4.7），推理深度业界最强，适合复杂架构和代码审查',
+  dec3_if:'如果你需要工具编排',dec3_then:'选 GPT-5.5',dec3_why:'Terminal-Bench 82.7%，计算机使用 78.7%，长链路工具协调能力领先',
+  // Price
+  p_model:'模型',p_input:'输入 $/1M',p_output:'输出 $/1M',p_monthly:'月产出 10M tokens',p_open:'开源',p_yes:'✅',p_no:'❌',
+  p_callout:'<strong>成本差距：</strong>V4-Pro 输出价 <strong>$3.48/M</strong>，仅为 Claude Opus 4.6 ($25/M) 的 <strong>1/7</strong>，仅为 GPT-5.5 ($30/M) 的 <strong>1/8.6</strong>。V4-Flash ($0.28/M) 更是 GPT-5.5 的 <strong>1/107</strong>。生产级 Agent 月产 50M output tokens：V4-Pro ~$174 vs Opus 4.6 ~$1,250。',
+  // Videos
+  v1_t:'DeepSeek V4: 最佳开源模型？',v1_d:'完整测试 V4-Pro 和 V4-Flash，编程、数学、推理多维度对比',
+  v2_t:'编程 & 长上下文实测',v2_d:'编程、长上下文检索、Agent 工具调用等真实工作流实测',
+  v3_t:'V4: 自动化构建一切！',v3_d:'用 V4-Pro 构建 Agent、编写脚本、处理复杂任务的自动化工作流演示',
+  v4_t:'测试最大开源模型',v4_d:'涵盖技术规格、成本分析、浏览器 OS 测试等全面深度评测',
+  v5_t:'DeepSeek V4 接入 Claude Code',v5_d:'在 Claude Code 中使用 DeepSeek V4 Pro 的完整测试和成本对比',
+  v6_t:'价格、速度、质量对比',v6_d:'V4 Pro vs Flash 的价格、速度、代码质量全面对比实验',
+  // Cases
+  c1_t:'全仓库级代码分析',c1_d:'将整个遗留代码库一次灌入 V4-Pro，生成架构文档、跨文件 Bug 检测、现代化重构方案。GMI Cloud 实测：可处理完整中型项目。',
+  c2_t:'UI 从零克隆',c2_d:'给定 URL 或截图，V4-Pro 直接生成功能完整的 HTML/CSS/JS。实测从 GitHub Issues 页面一键生成可用的前端克隆。',
+  c3_t:'安全审计 & 漏洞发现',c3_d:'本地代码库自动化漏洞扫描。PenLigent 实测：V4-Pro 能发现真实漏洞，但需人工复核。',
+  c4_t:'企业数据分析',c4_d:'加载完整财报、研报、行业数据到 1M 窗口，V4-Pro 跨文档推理，生成结构化分析报告。',
+  c5_t:'多步 Agent 工作流',c5_d:'V4 新增跨工具调用保持推理链路。配合 LangChain/LangGraph 构建自主 Agent，完成多步骤复杂任务。',
+  c6_t:'医疗 / 法律文档处理',c6_d:'上传完整病历或法律卷宗，在 1M 窗口内关联跨章节信息，生成摘要和建议。',
+  c1_tag:'1M 上下文 · 代码理解 · Agent',c2_tag:'视觉理解 · 前端生成',c3_tag:'安全 · 代码审计',c4_tag:'长上下文 · 金融',c5_tag:'Agent · 工具调用',c6_tag:'医疗 · 法律 · 长文档',
+  // Modes
+  m1_t:'Non-think',m1_d:'快速直觉输出<br>低延迟，适合日常对话、简单任务',m1_c:'输出：[summary] — 跳过思考链',
+  m2_t:'Think High',m2_d:'逻辑分析模式<br>中等延迟，适合编程、规划、复杂问题',m2_c:'输出：[thinking...] → [summary]',
+  m3_t:'Think Max',m3_d:'最强推理模式<br>高延迟高精度，适合困难 Agent 任务',m3_c:'输出：[extended thinking...] → [summary]',
+  // Limits
+  l1_t:'⚠️ 幻觉率偏高',l1_d:'AA-Omniscience 测试中幻觉率 94% — 遇到不确定的问题几乎不会选择"不知道"。生产环境需对输出做置信度校准。',
+  l2_t:'⚠️ Think Max 成本控制',l2_d:'Think Max 模式下 output token 可达 190M+，AA Intelligence Index 测试总成本 $1,071。高频场景需严格监控。'
+},
+en:{
+  nav_sub:'Deep Dive & Demos',nav_overview:'Overview',nav_specs:'Specs',nav_bench:'Benchmarks',nav_arch:'Architecture',nav_compare:'Compare',nav_demo:'Demos',nav_cases:'Cases',nav_pricing:'Pricing',
+  hero_label:'Released 2026.04.24 · MIT Open Source',hero_title:'DeepSeek V4 Pro<br><em>A Generational Leap for Open Source</em>',hero_sub:'1.6T MoE · 49B active params · 1M context · LiveCodeBench #1 at 93.5',
+  stats_label:'Key Metrics',stats_title:'V4 Pro at a Glance',stat_params:'Total Parameters (MoE)',stat_active:'Active Params / Token',stat_ctx:'Context Window (tokens)',
+  specs_label:'Model Specs',specs_title:'V4-Pro vs V4-Flash',
+  th_param:'Parameter',sp_total:'Total Parameters',sp_active:'Active Params/Token',sp_ctx:'Context Window',sp_train:'Training Data',sp_mode:'Reasoning Modes',sp_license:'License',sp_input:'Input Price',sp_output:'Output Price',
+  upgrade_title:'Key Upgrades (vs V3.2)',
+  up_1:'<strong>Hybrid Attention</strong> — CSA + HCA, only 27% inference FLOPs',
+  up_2:'<strong>90% KV Cache Reduction</strong> — 1M context practically usable',
+  up_3:'<strong>Manifold-Constrained Hyper-Connections</strong> — Stable trillion-param training',
+  up_4:'<strong>Muon Optimizer</strong> — Replaces AdamW, faster convergence',
+  up_5:'<strong>FP4 Mixed Precision</strong> — MoE experts FP4, rest FP8',
+  up_6:'<strong>33T Training Data</strong> — 123% increase over V3.2',
+  bench_label:'Benchmarks',bench_title:'Full Benchmark Landscape',bench_sub:'V4-Pro-Max vs top closed-source models — gap narrowed to decimal points',
+  bt_coding:'💻 Coding',bt_reason:'🧠 Reasoning',bt_agent:'🤖 Agent & Long Context',
+  arch_label:'Architecture',arch_title:'Five Core Innovations',arch_sub:'Not just parameter scaling — attention, optimizer, and training pipeline fully redesigned',
+  a1_t:'1. Compressed Sparse Attention (CSA)',a1_d:'4x KV Cache compression along sequence, sparse Top-1024 + 128-token sliding window for precise long-context retrieval.',
+  a2_t:'2. Heavily Compressed Attention (HCA)',a2_d:'128x aggressive compression with full connectivity, giving each layer a global view. Alternated with CSA for precision + breadth.',
+  a3_t:'3. Manifold-Constrained Hyper-Connections',a3_d:'Sinkhorn-Knopp constrains residual connections to Birkhoff Polytope, preventing signal collapse at trillion-parameter scale.',
+  a4_t:'4. Muon Optimizer',a4_d:'Replaces AdamW for most parameters, achieving faster convergence and more stable training across 33T tokens. Peak LR: 2.0e-4.',
+  a5_t:'5. FP4 Mixed Precision Training',a5_d:'MoE expert weights and Indexer QK paths use FP4 quantization-aware training, rest FP8. Balances memory efficiency and quality.',
+  eff_title:'Efficiency Gains:',eff_desc:'Despite being 2.4x the parameters of V3.2, V4-Pro at 1M context requires <strong style="color:var(--green)">only 27% inference FLOPs and 10% KV Cache</strong>, making 1M-token context practically viable.',
+  cmp_label:'Competitive Comparison',cmp_title:'Three-Way Showdown',cmp_sub:'DeepSeek V4 Pro vs Claude Opus 4.6 vs GPT-5.5 — three fundamentally different model philosophies',
+  dec_label:'Decision Framework',
+  price_label:'API Pricing Comparison',price_title:'Unbeatable Value',price_sub:'V4-Pro output is 1/7 of Claude Opus 4.6, V4-Flash is 1/100 of GPT-5.5',
+  vid_label:'Video Demos',vid_title:'Real-World Tests',vid_sub:'Independent developers and reviewers test coding, UI cloning, and agent workflows',
+  case_label:'Use Cases',case_title:'Proven Applications',case_sub:'Tested and verified with V4-Pro — 1M context + deep reasoning unlocks new possibilities',
+  mode_label:'Reasoning Modes',mode_title:'Three Modes, On Demand',
+  lim_label:'Known Limitations',lim_title:'Caveats to Know',
+  qs_label:'Quick Start',qs_title:'Get Started in 5 Minutes',qs_sub:'OpenAI-compatible API, works with Cursor / VS Code / Claude Code / direct API calls',
+  footer_src:'Sources: DeepSeek Official · MorphLLM · DeepInfra · GMI Cloud · HuggingFace · Artificial Analysis · Verdent AI · Evolink',
+  footer_date:'Page generated 2026.05.18 · benchmark data as of 2026.04.24 release',
+  cmp_ds:'Open Deploy · Cost King',cmp_ds_sub:'MIT Open Source · Self-hostable',cmp_claude:'Deep Reasoning · Code Refactor',cmp_claude_sub:'Closed API · Anthropic',cmp_gpt:'Tool Use · Multi-step Work',cmp_gpt_sub:'Closed API · OpenAI',
+  cmp_ctx:'Context Window',cmp_out:'Max Output',cmp_price:'API Pricing',cmp_best:'Best For',
+  cmp_ds_best:'Open deployment · Cost-sensitive agents · Fine-tuning needs',cmp_claude_best:'Complex refactors · Reasoning-heavy coding · Architecture decisions',cmp_gpt_best:'Tool coordination · Computer use · Long-chain agents',
+  dec1_if:'If you want',dec1_then:'Choose DeepSeek V4 Pro',dec1_why:'Only open-weight option. Self-host, fine-tune, data residency. 1/7 the cost of closed alternatives.',
+  dec2_if:'If you need best reasoning',dec2_then:'Choose Claude Opus 4.7',dec2_why:'SWE-bench 87.6% (Opus 4.7), deepest reasoning for complex architecture and code review.',
+  dec3_if:'If you need tool orchestration',dec3_then:'Choose GPT-5.5',dec3_why:'Terminal-Bench 82.7%, computer use 78.7%. Best long-chain tool coordination.',
+  p_model:'Model',p_input:'Input $/1M',p_output:'Output $/1M',p_monthly:'10M output/mo',p_open:'Open Weights',p_yes:'✅',p_no:'❌',
+  p_callout:'<strong>Cost Gap:</strong> V4-Pro output at <strong>$3.48/M</strong> is <strong>1/7</strong> of Claude Opus 4.6 ($25/M) and <strong>1/8.6</strong> of GPT-5.5 ($30/M). V4-Flash ($0.28/M) is <strong>1/107</strong> of GPT-5.5. At 50M output tokens/month: V4-Pro ~$174 vs Opus 4.6 ~$1,250.',
+  v1_t:'DeepSeek V4: Best Open Source Model?',v1_d:'Full test of V4-Pro and V4-Flash across coding, math, and reasoning',
+  v2_t:'Coding & Long Context Tests',v2_d:'Real-world workflow tests: coding, long context retrieval, agent tool calls',
+  v3_t:'V4: Automate & Build Anything!',v3_d:'Build agents, write scripts, and automate complex tasks with V4-Pro',
+  v4_t:'Testing the LARGEST Open Source Model',v4_d:'Deep review covering specs, cost analysis, browser OS testing and more',
+  v5_t:'DeepSeek V4 Inside Claude Code',v5_d:'Full test and cost comparison running V4 Pro through Claude Code',
+  v6_t:'Price, Speed, Quality Compared',v6_d:'V4 Pro vs Flash comprehensive comparison on price, speed, and code quality',
+  c1_t:'Full Repo Code Analysis',c1_d:'Feed an entire legacy codebase into V4-Pro. Generate architecture docs, cross-file bug detection, and modernization plans. Verified: handles complete mid-size projects.',
+  c2_t:'UI Clone from URL/Screenshot',c2_d:'Given a URL or screenshot, V4-Pro generates complete HTML/CSS/JS. Verified: cloned GitHub Issues page in one pass from URL alone.',
+  c3_t:'Security Audit & Vulnerability Discovery',c3_d:'Automated vulnerability scanning in local codebases. PenLigent verified: V4-Pro finds real bugs but needs human review.',
+  c4_t:'Enterprise Data Analysis',c4_d:'Load full financial reports, research papers, and industry data into the 1M window. Cross-document reasoning with structured analysis output.',
+  c5_t:'Multi-step Agent Workflows',c5_d:'V4 preserves reasoning chain across tool calls. Build autonomous agents with LangChain/LangGraph for complex multi-step tasks.',
+  c6_t:'Medical / Legal Document Processing',c6_d:'Upload complete medical records or legal filings. Cross-chapter correlation within 1M window. Summaries and actionable recommendations.',
+  c1_tag:'1M Context · Code Understanding · Agent',c2_tag:'Visual Understanding · Frontend Gen',c3_tag:'Security · Code Audit',c4_tag:'Long Context · Finance',c5_tag:'Agent · Tool Calling',c6_tag:'Medical · Legal · Long Docs',
+  m1_t:'Non-think',m1_d:'Fast intuitive output<br>Low latency, great for daily chat and simple tasks',m1_c:'Output: [summary] — skips thinking chain',
+  m2_t:'Think High',m2_d:'Logical analysis mode<br>Medium latency, ideal for coding, planning, complex problems',m2_c:'Output: [thinking...] → [summary]',
+  m3_t:'Think Max',m3_d:'Maximum reasoning mode<br>High latency, high precision for hard agent tasks',m3_c:'Output: [extended thinking...] → [summary]',
+  l1_t:'⚠️ High Hallucination Rate',l1_d:'94% hallucination rate on AA-Omniscience — almost never says "I don\'t know". Production use requires confidence calibration.',
+  l2_t:'⚠️ Think Max Cost Control',l2_d:'Think Max can produce 190M+ output tokens. AA Intelligence Index test cost $1,071. Strict monitoring needed for high-frequency use.'
+}
+};
+
+let LANG='zh';
+
+function toggleLang(){
+  LANG=LANG==='zh'?'en':'zh';
+  document.getElementById('langBtn').textContent=LANG==='zh'?'EN':'中';
+  applyI18N();
+  renderAll();
+}
+
+function t(k){return I18N[LANG][k]||k}
+
+function applyI18N(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(I18N[LANG][k]) el.innerHTML=I18N[LANG][k];
+  });
+}
+
+/* ========== THEME ========== */
+function toggleTheme(){
+  const h=document.documentElement,d=h.getAttribute('data-theme');
+  h.setAttribute('data-theme',d==='dark'?'light':'dark');
+  localStorage.setItem('theme',h.getAttribute('data-theme'));
+}
+
+/* ========== BENCHMARK DATA ========== */
+const BENCH_DATA=[
+  { id:'coding', titleKey:'bt_coding',
+    headers:['Benchmark','DS V4-Pro Max','Claude Opus 4.6','Claude Sonnet 4.6','GPT-5.4','Gemini 3.1 Pro'],
+    rows:[
+      ['LiveCodeBench Pass@1',93.5,88.8,null,null,91.7],
+      ['SWE-bench Verified',80.6,80.8,79.6,null,80.6],
+      ['Codeforces Rating',3206,null,null,3168,3052],
+      ['HumanEval Pass@1',76.8,null,null,null,null]
+    ]
+  },
+  { id:'reasoning', titleKey:'bt_reason',
+    headers:['Benchmark','DS V4-Pro Max','Claude Opus 4.6','GPT-5.4 xHigh','Gemini 3.1 Pro'],
+    rows:[
+      ['GPQA Diamond',90.1,91.3,93.0,94.3],
+      ['MMLU (EM)',90.1,null,null,null],
+      ['MMLU-Pro (EM)',73.5,null,null,null],
+      ['HLE',37.7,40.0,null,null],
+      ['HMMT 2026 Math',95.2,96.2,null,null]
+    ]
+  },
+  { id:'agent', titleKey:'bt_agent',
+    headers:['Benchmark','DS V4-Pro Max','Kimi K2.6','GLM-5.1','MiniMax-M2.7'],
+    rows:[
+      ['GDPval-AA (Agent)',1554,1484,1535,1514],
+      ['MRCR 1M',83.5,null,null,null]
+    ]
+  }
+];
+
+function renderBenchmarks(){
+  const container=document.getElementById('benchTables');
+  container.innerHTML='';
+  BENCH_DATA.forEach(section=>{
+    const div=document.createElement('div');
+    div.className='bench-section';
+    const allVals=section.rows.flat().filter(v=>typeof v==='number');
+    const max=Math.max(...allVals);
+    let html=`<div class="bench-title">${t(section.titleKey)}</div><table class="bench-table"><thead><tr>`;
+    section.headers.forEach(h=>html+=`<th>${h}</th>`);
+    html+='</tr></thead><tbody>';
+    section.rows.forEach(row=>{
+      html+='<tr>';
+      row.forEach((v,i)=>{
+        if(i===0){html+=`<td>${v}</td>`;return;}
+        const isBest=typeof v==='number'&&v===max;
+        html+=`<td${isBest?' class="best"':''}>${v===null?'—':v}</td>`;
+      });
+      html+='</tr>';
+    });
+    html+='</tbody></table>';
+    div.innerHTML=html;
+    container.appendChild(div);
+  });
+}
+
+/* ========== PRICING DATA ========== */
+const PRICING_DATA=[
+  {name:'V4-Flash',input:.14,output:.28,open:true,highlight:false},
+  {name:'V4-Pro',input:1.74,output:3.48,open:true,highlight:true},
+  {name:'Claude Sonnet 4.6',input:3,output:15,open:false},
+  {name:'Claude Opus 4.6',input:5,output:25,open:false},
+  {name:'GPT-5.4',input:5,output:15,open:false},
+  {name:'GPT-5.5',input:5,output:30,open:false}
+];
+
+function renderPricing(){
+  const wrap=document.getElementById('priceTable');
+  let html=`<table class="price-table"><thead><tr><th>${t('p_model')}</th><th>${t('p_input')}</th><th>${t('p_output')}</th><th>${t('p_monthly')}</th><th>${t('p_open')}</th></tr></thead><tbody>`;
+  PRICING_DATA.forEach(m=>{
+    const cls=m.highlight?' class="hl-row"':'';
+    html+=`<tr${cls}><td style="font-weight:600">${m.name}</td><td>$${m.input.toFixed(2)}</td><td>$${m.output.toFixed(2)}</td><td>$${(m.output*10).toFixed(2)}</td><td>${m.open?t('p_yes'):t('p_no')}</td></tr>`;
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+  document.getElementById('priceCallout').innerHTML=t('p_callout');
+}
+
+/* ========== COMPARE CARDS ========== */
+const COMPARE_DATA=[
+  { nameKey:'cmp_ds',subKey:'cmp_ds_sub',featured:true,tagKey:null,
+    specs:[{k:'cmp_ctx',v:'1M tokens'},{k:'cmp_out',v:'384K tokens'},{k:'cmp_price',v:'$1.74 / $3.48'}],
+    bestKey:'cmp_ds_best' },
+  { nameKey:'cmp_claude',subKey:'cmp_claude_sub',featured:false,tagKey:null,
+    specs:[{k:'cmp_ctx',v:'200K tokens'},{k:'cmp_out',v:'32K tokens'},{k:'cmp_price',v:'$5.00 / $25.00'}],
+    bestKey:'cmp_claude_best' },
+  { nameKey:'cmp_gpt',subKey:'cmp_gpt_sub',featured:false,tagKey:null,
+    specs:[{k:'cmp_ctx',v:'1M tokens'},{k:'cmp_out',v:'128K tokens'},{k:'cmp_price',v:'$5.00 / $30.00'}],
+    bestKey:'cmp_gpt_best' }
+];
+
+function renderCompare(){
+  const grid=document.getElementById('compareCards');
+  grid.innerHTML='';
+  COMPARE_DATA.forEach(c=>{
+    const div=document.createElement('div');
+    div.className='compare-card'+(c.featured?' featured':'');
+    let specsHtml=c.specs.map(s=>`<div><strong>${t(s.k)}:</strong> ${s.v}</div>`).join('');
+    div.innerHTML=`
+      <h4>${t(c.nameKey)}</h4>
+      <div class="model-sub">${t(c.subKey)}</div>
+      <div class="compare-spec">${specsHtml}</div>
+      <div class="compare-best"><strong>${t('cmp_best')}:</strong> ${t(c.bestKey)}</div>
+    `;
+    grid.appendChild(div);
+  });
+  // Decision grid
+  const dg=document.getElementById('decisionGrid');
+  dg.innerHTML='';
+  ['dec1_','dec2_','dec3_'].forEach(p=>{
+    const d=document.createElement('div');
+    d.className='decision-card';
+    d.innerHTML=`<div class="decision-if">${t(p+'if')}</div><div class="decision-then">${t(p+'then')}</div><div class="decision-why">${t(p+'why')}</div>`;
+    dg.appendChild(d);
+  });
+}
+
+/* ========== VIDEO DATA ========== */
+const VIDEO_DATA=[
+  {id:'eV3lAY77IpU',titleKey:'v1_t',descKey:'v1_d'},
+  {id:'TeQAuKs6pQc',titleKey:'v2_t',descKey:'v2_d'},
+  {id:'9hJOx_f-F5I',titleKey:'v3_t',descKey:'v3_d'},
+  {id:'v5qD24cDBHw',titleKey:'v4_t',descKey:'v4_d'},
+  {id:'LRpQ9xjGDV8',titleKey:'v5_t',descKey:'v5_d'},
+  {id:'6vEsvX5_nPk',titleKey:'v6_t',descKey:'v6_d'}
+];
+
+function renderVideos(){
+  const grid=document.getElementById('videoGrid');
+  grid.innerHTML='';
+  VIDEO_DATA.forEach(v=>{
+    const div=document.createElement('div');
+    div.className='video-card';
+    div.innerHTML=`<div class="video-wrap"><iframe src="https://www.youtube.com/embed/${v.id}" allowfullscreen loading="lazy"></iframe></div><div class="video-info"><h4>${t(v.titleKey)}</h4><p>${t(v.descKey)}</p></div>`;
+    grid.appendChild(div);
+  });
+}
+
+/* ========== USE CASES ========== */
+const CASE_DATA=[
+  {icon:'🔧',titleKey:'c1_t',descKey:'c1_d',tagKey:'c1_tag'},
+  {icon:'🖥️',titleKey:'c2_t',descKey:'c2_d',tagKey:'c2_tag'},
+  {icon:'🔒',titleKey:'c3_t',descKey:'c3_d',tagKey:'c3_tag'},
+  {icon:'📊',titleKey:'c4_t',descKey:'c4_d',tagKey:'c4_tag'},
+  {icon:'🤖',titleKey:'c5_t',descKey:'c5_d',tagKey:'c5_tag'},
+  {icon:'🏥',titleKey:'c6_t',descKey:'c6_d',tagKey:'c6_tag'}
+];
+
+function renderCases(){
+  const grid=document.getElementById('caseGrid');
+  grid.innerHTML='';
+  CASE_DATA.forEach(c=>{
+    const div=document.createElement('div');
+    div.className='case-card';
+    const tags=t(c.tagKey).split(' · ').map(t=>`<span class="case-tag">${t}</span>`).join('');
+    div.innerHTML=`<div class="case-icon">${c.icon}</div><h4>${t(c.titleKey)}</h4><p>${t(c.descKey)}</p><div>${tags}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+/* ========== MODES ========== */
+const MODE_DATA=[
+  {icon:'⚡',titleKey:'m1_t',descKey:'m1_d',codeKey:'m1_c',border:'var(--border)'},
+  {icon:'🧠',titleKey:'m2_t',descKey:'m2_d',codeKey:'m2_c',border:'var(--blue)'},
+  {icon:'🔬',titleKey:'m3_t',descKey:'m3_d',codeKey:'m3_c',border:'var(--green)'}
+];
+
+function renderModes(){
+  const grid=document.getElementById('modeGrid');
+  grid.innerHTML='';
+  MODE_DATA.forEach(m=>{
+    const div=document.createElement('div');
+    div.className='mode-card';
+    div.style.borderColor=m.border;
+    div.innerHTML=`<div class="mode-icon">${m.icon}</div><h4>${t(m.titleKey)}</h4><div class="mode-desc">${t(m.descKey)}</div><div class="mode-code">${t(m.codeKey)}</div>`;
+    grid.appendChild(div);
+  });
+}
+
+/* ========== LIMITS ========== */
+const LIMIT_DATA=[
+  {titleKey:'l1_t',descKey:'l1_d'},
+  {titleKey:'l2_t',descKey:'l2_d'}
+];
+
+function renderLimits(){
+  const grid=document.getElementById('limitGrid');
+  grid.innerHTML='';
+  LIMIT_DATA.forEach(l=>{
+    const div=document.createElement('div');
+    div.className='limit-card';
+    div.innerHTML=`<h4>${t(l.titleKey)}</h4><p>${t(l.descKey)}</p>`;
+    grid.appendChild(div);
+  });
+}
+
+/* ========== RENDER ALL ========== */
+function renderAll(){
+  renderBenchmarks();
+  renderPricing();
+  renderCompare();
+  renderVideos();
+  renderCases();
+  renderModes();
+  renderLimits();
+}
+
+/* ========== INIT ========== */
+(function(){
+  const s=localStorage.getItem('theme');
+  if(s)document.documentElement.setAttribute('data-theme',s);
+  renderAll();
+})();
+</script>
+</body>
+</html>
