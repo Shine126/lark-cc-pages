@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM-5.1 vs Kimi K2.6 vs DeepSeek V3.2 — Model Comparison</title>
+<style>
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.8);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #fff; --accent-glow: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --stat-bg: #000; --scenario-bg: #0c0c0e; --quote-bg: #0c0c0e;
+  --hero-gradient: linear-gradient(180deg, #000 0%, #08080a 50%, #000 100%);
+  --highlight-bg: #fff; --highlight-text: #000;
+  --logo-filter: brightness(1);
+  --shadow-card: rgba(0,0,0,0.15);
+  --glm-color: #3b82f6; --kimi-color: #a855f7; --ds-color: #22c55e;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.85);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #1d1d1f; --accent-glow: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --stat-bg: #fff; --scenario-bg: #f5f5f7; --quote-bg: #f5f5f7;
+  --hero-gradient: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #ffffff 100%);
+  --highlight-bg: #1d1d1f; --highlight-text: #fff;
+  --logo-filter: brightness(0);
+  --shadow-card: rgba(0,0,0,0.06);
+  --glm-color: #2563eb; --kimi-color: #9333ea; --ds-color: #16a34a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.35s ease,color 0.35s ease}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:0.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background 0.4s,border-color 0.4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo img{height:24px;width:auto;filter:var(--logo-filter);transition:filter 0.4s}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-secondary);transition:color 0.2s;letter-spacing:0.01em;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all 0.25s ease;font-size:14px;border:1px solid var(--border);cursor:pointer;background:none}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+.lang-btn{font-size:11px;font-weight:600;width:auto;padding:0 12px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:120px 48px;position:relative}
+.container{max-width:1120px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-0.03em;line-height:1.12;margin-bottom:24px}
+.title em{font-style:normal;color:var(--text-tertiary);font-weight:500}
+.subtitle{font-size:clamp(16px,1.8vw,19px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:720px}
+.divider{width:32px;height:1px;background:var(--border-hover);margin:56px auto}
+
+/* HERO */
+.hero{min-height:85vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:900px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 40px;text-align:center;max-width:680px}
+
+/* MODEL CARDS */
+.model-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:64px}
+.model-card{background:var(--bg-card);border:1px solid var(--border);border-radius:18px;padding:36px 28px;transition:all 0.35s ease;position:relative;overflow:hidden}
+.model-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 16px 48px var(--shadow-card)}
+.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0}
+.model-card.glm::before{background:var(--glm-color)}
+.model-card.kimi::before{background:var(--kimi-color)}
+.model-card.ds::before{background:var(--ds-color)}
+.model-card .card-vendor{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:8px}
+.model-card .card-name{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px}
+.model-card .card-arch{font-size:13px;color:var(--text-secondary);margin-bottom:20px}
+.model-card .card-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-right:4px;margin-bottom:16px}
+.card-tag.open{background:color-mix(in srgb, var(--ds-color) 15%, transparent);color:var(--ds-color)}
+.card-tag.flagship{background:color-mix(in srgb, var(--glm-color) 15%, transparent);color:var(--glm-color)}
+.card-tag.moe{background:color-mix(in srgb, var(--kimi-color) 15%, transparent);color:var(--kimi-color)}
+.model-card .card-specs{list-style:none;padding:0;margin:0}
+.model-card .card-specs li{padding:10px 0;font-size:13px;color:var(--text-secondary);border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.model-card .card-specs li:last-child{border-bottom:none}
+.model-card .card-specs .spec-val{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* BENCHMARK TABLE */
+.bench-section{overflow-x:auto}
+.bench-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:14px}
+.bench-table th{text-align:left;padding:14px 16px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.bench-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.bench-table tr:last-child td{border-bottom:none}
+.bench-table .model-col{color:var(--text);font-weight:600}
+.bench-table .best-val{color:var(--text);font-weight:700}
+.bench-table .src-note{font-size:11px;color:var(--text-tertiary);margin-top:2px}
+.bench-note{font-size:12px;color:var(--text-tertiary);margin-top:20px;line-height:1.6}
+
+/* ADVANTAGES */
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.adv-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;transition:all 0.3s ease}
+.adv-card:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.adv-card .adv-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin-bottom:16px}
+.adv-card.glm .adv-icon{background:color-mix(in srgb, var(--glm-color) 15%, transparent);color:var(--glm-color)}
+.adv-card.kimi .adv-icon{background:color-mix(in srgb, var(--kimi-color) 15%, transparent);color:var(--kimi-color)}
+.adv-card.ds .adv-icon{background:color-mix(in srgb, var(--ds-color) 15%, transparent);color:var(--ds-color)}
+.adv-card h4{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.01em}
+.adv-card p{font-size:13px;color:var(--text-secondary);line-height:1.65}
+.adv-card ul{list-style:none;padding:0;margin-top:12px}
+.adv-card ul li{padding:6px 0;font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px}
+.adv-card ul li::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:8px}
+.adv-card.glm ul li::before{background:var(--glm-color)}
+.adv-card.kimi ul li::before{background:var(--kimi-color)}
+.adv-card.ds ul li::before{background:var(--ds-color)}
+
+/* DEMO */
+.demo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:48px}
+.demo-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card);transition:all 0.35s ease}
+.demo-card:hover{border-color:var(--border-hover);transform:translateY(-3px);box-shadow:0 12px 40px var(--shadow-card)}
+.demo-card video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.demo-card .demo-label{padding:16px 20px;font-size:13px;color:var(--text-secondary);line-height:1.5;border-top:1px solid var(--border)}
+.demo-card .demo-label strong{color:var(--text);font-weight:600;display:block;margin-bottom:4px}
+
+/* PRICING */
+.pricing-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:14px}
+.pricing-table th{text-align:left;padding:14px 16px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.pricing-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.pricing-table tr:last-child td{border-bottom:none}
+.pricing-table .model-name{color:var(--text);font-weight:600}
+.pricing-table .highlight-row td{background:var(--accent-glow)}
+.pricing-table .price-tag{font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.pricing-note{font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.6}
+
+/* SELECTION GUIDE */
+.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.guide-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 28px;text-align:center;transition:all 0.3s ease}
+.guide-card:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.guide-card .guide-emoji{font-size:36px;margin-bottom:16px}
+.guide-card h4{font-size:17px;font-weight:700;margin-bottom:8px}
+.guide-card .guide-model{font-size:13px;font-weight:600;margin-bottom:12px;padding:4px 12px;border-radius:8px;display:inline-block}
+.guide-card.glm .guide-model{background:color-mix(in srgb, var(--glm-color) 15%, transparent);color:var(--glm-color)}
+.guide-card.kimi .guide-model{background:color-mix(in srgb, var(--kimi-color) 15%, transparent);color:var(--kimi-color)}
+.guide-card.ds .guide-model{background:color-mix(in srgb, var(--ds-color) 15%, transparent);color:var(--ds-color)}
+.guide-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+/* FOOTER */
+.footer{padding:48px 48px 56px;text-align:center;border-top:0.5px solid var(--border);color:var(--text-tertiary);font-size:12px;letter-spacing:0.01em}
+.footer-logo{height:20px;width:auto;opacity:0.25;margin-bottom:16px;transition:opacity 0.3s}
+.footer:hover .footer-logo{opacity:0.4}
+
+/* LOGO THEME */
+[data-theme="dark"] .logo-dark{display:inline-block!important}[data-theme="dark"] .logo-light{display:none!important}
+[data-theme="light"] .logo-dark{display:none!important}[data-theme="light"] .logo-light{display:inline-block!important}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s cubic-bezier(0.22,1,0.36,1),transform 0.65s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:0.08s}.reveal-d2{transition-delay:0.16s}.reveal-d3{transition-delay:0.24s}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav{padding:0 20px;height:48px}.nav-links{display:none}
+  .section{padding:80px 24px}
+  .container{max-width:100%}
+  .model-cards,.adv-grid,.guide-grid{grid-template-columns:1fr}
+  .demo-grid{grid-template-columns:1fr}
+  .pricing-table{font-size:12px}
+  .pricing-table th,.pricing-table td{padding:10px 8px}
+  .hero{min-height:70vh}
+}
+@media(max-width:1024px) and (min-width:769px){
+  .model-cards,.adv-grid{grid-template-columns:1fr 1fr}
+  .demo-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="../assets/brand/zai-icon-dark.svg" alt="Z.AI" class="logo-dark">
+    <img src="../assets/brand/zai-icon-light.svg" alt="Z.AI" class="logo-light">
+    <div class="nav-logo-text" data-i18n="nav_title">模型对比<span>GLM-5.1 · K2.6 · V3.2</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#models" data-i18n="nav_models">模型概览</a>
+    <a href="#benchmarks" data-i18n="nav_bench">Benchmark</a>
+    <a href="#advantages" data-i18n="nav_adv">核心优势</a>
+    <a href="#demos" data-i18n="nav_demo">GLM 演示</a>
+    <a href="#pricing" data-i18n="nav_price">定价</a>
+    <a href="#guide" data-i18n="nav_guide">选型建议</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="label reveal" data-i18n="hero_label">2026 Flagship Model Comparison</div>
+  <h1 class="title reveal" data-i18n="hero_title">GLM-5.1 vs Kimi K2.6 vs DeepSeek V3.2</h1>
+  <p class="subtitle reveal" data-i18n="hero_desc">三款 2026 年旗舰大模型全面对比：从 Benchmark 性能、长程 Agent 能力、多模态、到 API 定价，帮你快速锁定最合适的模型。</p>
+</section>
+
+<!-- MODELS OVERVIEW -->
+<section class="section" id="models">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">Model Overview</div>
+      <h2 class="title" data-i18n="models_title">三款旗舰，<em>各有所长</em></h2>
+      <p class="subtitle" data-i18n="models_desc">覆盖开源 SOTA、超长上下文 Agent、极致性价比三条路径。</p>
+    </div>
+    <div class="model-cards">
+      <!-- GLM-5.1 -->
+      <div class="model-card glm reveal reveal-d1">
+        <div class="card-vendor">Zhipu AI · 智谱</div>
+        <div class="card-name">GLM-5.1</div>
+        <div class="card-arch" data-i18n="glm_arch">旗舰开源模型 · 长程 Agent 突破</div>
+        <div>
+          <span class="card-tag flagship">Flagship</span>
+          <span class="card-tag open">Open Weight</span>
+        </div>
+        <ul class="card-specs">
+          <li><span data-i18n="spec_ctx">上下文窗口</span><span class="spec-val">200K</span></li>
+          <li><span data-i18n="spec_long">长程任务</span><span class="spec-val">8h</span></li>
+          <li><span data-i18n="spec_mm">多模态</span><span class="spec-val" data-i18n="yes">支持</span></li>
+          <li><span data-i18n="spec_oss">开源</span><span class="spec-val" data-i18n="yes">支持</span></li>
+          <li><span data-i18n="spec_agent">Agent 能力</span><span class="spec-val" data-i18n="glm_agent_level">顶级</span></li>
+        </ul>
+      </div>
+      <!-- Kimi K2.6 -->
+      <div class="model-card kimi reveal reveal-d2">
+        <div class="card-vendor">Moonshot AI · 月之暗面</div>
+        <div class="card-name">Kimi K2.6</div>
+        <div class="card-arch" data-i18n="kimi_arch">MoE 万亿参数 · Agent Swarm</div>
+        <div>
+          <span class="card-tag moe">MoE 1T</span>
+          <span class="card-tag open">Open Source</span>
+        </div>
+        <ul class="card-specs">
+          <li><span data-i18n="spec_ctx">上下文窗口</span><span class="spec-val">262K</span></li>
+          <li><span data-i18n="spec_params">激活参数</span><span class="spec-val">32B</span></li>
+          <li><span data-i18n="spec_swarm">Agent Swarm</span><span class="spec-val">300</span></li>
+          <li><span data-i18n="spec_oss">开源</span><span class="spec-val" data-i18n="yes">支持</span></li>
+          <li><span data-i18n="spec_mm">多模态</span><span class="spec-val" data-i18n="kimi_mm">原生多模态</span></li>
+        </ul>
+      </div>
+      <!-- DeepSeek V3.2 -->
+      <div class="model-card ds reveal reveal-d3">
+        <div class="card-vendor">DeepSeek · 深度求索</div>
+        <div class="card-name">DeepSeek V3.2</div>
+        <div class="card-arch" data-i18n="ds_arch">MoE · 极致性价比</div>
+        <div>
+          <span class="card-tag open">Open Source</span>
+          <span class="card-tag moe">MoE 685B</span>
+        </div>
+        <ul class="card-specs">
+          <li><span data-i18n="spec_ctx">上下文窗口</span><span class="spec-val">131K</span></li>
+          <li><span data-i18n="spec_params">激活参数</span><span class="spec-val">37B</span></li>
+          <li><span data-i18n="spec_cost">成本效率</span><span class="spec-val" data-i18n="ds_cost">业界最低</span></li>
+          <li><span data-i18n="spec_oss">开源</span><span class="spec-val" data-i18n="yes">支持</span></li>
+          <li><span data-i18n="spec_reason">推理能力</span><span class="spec-val" data-i18n="ds_reason">强</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARKS -->
+<section class="section" id="benchmarks">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">Benchmark Comparison</div>
+      <h2 class="title" data-i18n="bench_title">核心评测，<em>数据说话</em></h2>
+      <p class="subtitle" data-i18n="bench_desc">汇总三方公开 Benchmark 数据，客观呈现各模型能力分布。</p>
+    </div>
+    <div class="bench-section reveal">
+      <table class="bench-table">
+        <thead>
+          <tr>
+            <th data-i18n="th_bench">评测项</th>
+            <th style="color:var(--glm-color)">GLM-5.1</th>
+            <th style="color:var(--kimi-color)">Kimi K2.6</th>
+            <th style="color:var(--ds-color)">DeepSeek V3.2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MMLU / MMLU-Pro</td>
+            <td><strong>89.0%</strong><!-- source: automatio.ai GLM-5.1 model card --></td>
+            <td>—</td>
+            <td>81.2%<!-- source: Reddit user-validated benchmarks --></td>
+          </tr>
+          <tr>
+            <td>GPQA Diamond</td>
+            <td><strong>86.2%</strong><!-- source: automatio.ai --></td>
+            <td>75.1%<!-- source: Kimi K2.6 HuggingFace model card --></td>
+            <td>68.4%<!-- source: Reddit validated --></td>
+          </tr>
+          <tr>
+            <td>MATH</td>
+            <td><strong>80.0%</strong><!-- source: automatio.ai --></td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>HumanEval</td>
+            <td><strong>95.3%</strong><!-- source: automatio.ai --></td>
+            <td>89.1 (avg)<!-- source: benchlm.ai --></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>AIME 2025/2026</td>
+            <td><strong>93.3%</strong><!-- source: LayerLens --></td>
+            <td>49.5<!-- source: Kimi K2.6 HF --></td>
+            <td>59.4%<!-- source: Reddit validated --></td>
+          </tr>
+          <tr>
+            <td>SWE-Bench</td>
+            <td>58.4% (Pro)<!-- source: automatio.ai --></td>
+            <td><strong>71.3%</strong> (Verified)<!-- source: Kimi K2.6 HF --></td>
+            <td>70.0%<!-- source: DeepSeek V3.2 GitHub --></td>
+          </tr>
+          <tr>
+            <td>LiveCodeBench v6</td>
+            <td>—</td>
+            <td>53.7<!-- source: Kimi K2.6 HF --></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="bench-note" data-i18n="bench_note">注："—" 表示该模型未在官方公开资料中报告该项评测数据。加粗为该项最佳。数据来源：各模型官方 Model Card、HuggingFace、automatio.ai、benchlm.ai、LayerLens。数据采集于 2026 年 5 月。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section class="section" id="advantages">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">Core Strengths</div>
+      <h2 class="title" data-i18n="adv_title">各模型核心优势</h2>
+    </div>
+    <div class="adv-grid">
+      <div class="adv-card glm reveal reveal-d1">
+        <div class="adv-icon">G</div>
+        <h4 data-i18n="glm_adv_h">GLM-5.1 优势</h4>
+        <p data-i18n="glm_adv_p">综合能力最强，长程 Agent 独树一帜</p>
+        <ul>
+          <li data-i18n="glm_a1">8 小时长程自主任务——自主规划、纠错、交付</li>
+          <li data-i18n="glm_a2">MMLU/GPQA/MATH/AIME 全面领先</li>
+          <li data-i18n="glm_a3">多模态家族：GLM-5V-Turbo 视觉、GLM-5-Turbo 高速版</li>
+          <li data-i18n="glm_a4">国产模型代码能力第一，SWE-Bench Pro 全球第三</li>
+          <li data-i18n="glm_a5">Coding Plan 订阅制，工具生态完善（Cursor/Claude Code/Trae）</li>
+        </ul>
+      </div>
+      <div class="adv-card kimi reveal reveal-d2">
+        <div class="adv-icon">K</div>
+        <h4 data-i18n="kimi_adv_h">Kimi K2.6 优势</h4>
+        <p data-i18n="kimi_adv_p">超长上下文 + Agent Swarm，擅长复杂编排</p>
+        <ul>
+          <li data-i18n="kimi_a1">262K 超长上下文窗口，三款中最长</li>
+          <li data-i18n="kimi_a2">Agent Swarm：最多 300 子 Agent、4000+ 协调步骤</li>
+          <li data-i18n="kimi_a3">SWE-Bench Verified 71.3%，代码修复能力强</li>
+          <li data-i18n="kimi_a4">万亿参数 MoE，激活仅 32B，推理效率高</li>
+          <li data-i18n="kimi_a5">开源生态活跃，NVIDIA/Google Cloud 合作</li>
+        </ul>
+      </div>
+      <div class="adv-card ds reveal reveal-d3">
+        <div class="adv-icon">D</div>
+        <h4 data-i18n="ds_adv_h">DeepSeek V3.2 优势</h4>
+        <p data-i18n="ds_adv_p">极致性价比，大规模部署首选</p>
+        <ul>
+          <li data-i18n="ds_a1">API 价格最低——约为 GPT-5 的 1/15</li>
+          <li data-i18n="ds_a2">Cache Hit 低至 $0.028/M tokens，大批量场景极具优势</li>
+          <li data-i18n="ds_a3">MMLU-Pro 81.2%，综合推理不弱</li>
+          <li data-i18n="ds_a4">完全开源，社区部署自由度高</li>
+          <li data-i18n="ds_a5">AIME 59.4%，较 V3 提升近 20 个百分点</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GLM DEMOS -->
+<section class="section" id="demos">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">GLM-5.1 Live Demos</div>
+      <h2 class="title" data-i18n="demo_title">GLM 模型，<em>实际效果</em></h2>
+      <p class="subtitle" data-i18n="demo_desc">GLM-5.1 及家族模型的实际使用演示——从长程 Coding 到视觉理解。</p>
+    </div>
+    <div class="demo-grid reveal">
+      <div class="demo-card">
+        <video src="../assets/demos/coding-plan-demo.mp4" controls preload="metadata" poster=""></video>
+        <div class="demo-label">
+          <strong data-i18n="demo1_title">GLM Coding Plan</strong>
+          <span data-i18n="demo1_desc">8 小时长程自主编程演示</span>
+        </div>
+      </div>
+      <div class="demo-card">
+        <video src="../assets/demos/research-papers-demo.mp4" controls preload="metadata" poster=""></video>
+        <div class="demo-label">
+          <strong data-i18n="demo2_title">Research Agent</strong>
+          <span data-i18n="demo2_desc">自主研究、检索、生成报告</span>
+        </div>
+      </div>
+      <div class="demo-card">
+        <video src="../assets/demos/glm5v-demo-1.mp4" controls preload="metadata" poster=""></video>
+        <div class="demo-label">
+          <strong data-i18n="demo3_title">GLM-5V-Turbo</strong>
+          <span data-i18n="demo3_desc">多模态视觉理解演示</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">API Pricing</div>
+      <h2 class="title" data-i18n="price_title">API 定价对比</h2>
+      <p class="subtitle" data-i18n="price_desc">按量计费价格对比（美元/百万 tokens），数据更新于 2026 年 5 月。</p>
+    </div>
+    <div class="reveal">
+      <table class="pricing-table">
+        <thead>
+          <tr>
+            <th data-i18n="th_model">模型</th>
+            <th data-i18n="th_input">Input / 1M tokens</th>
+            <th data-i18n="th_output">Output / 1M tokens</th>
+            <th data-i18n="th_ctx">上下文</th>
+            <th data-i18n="th_total">1M in + 1M out</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="model-name" style="color:var(--glm-color)">GLM-5.1</td>
+            <td class="price-tag">$1.40</td>
+            <td class="price-tag">$4.40</td>
+            <td>200K</td>
+            <td class="price-tag">$5.80</td>
+          </tr>
+          <tr>
+            <td class="model-name" style="color:var(--kimi-color)">Kimi K2.6</td>
+            <td class="price-tag">$0.60</td>
+            <td class="price-tag">$2.50</td>
+            <td>262K</td>
+            <td class="price-tag">$3.10</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="model-name" style="color:var(--ds-color)">DeepSeek V3.2</td>
+            <td class="price-tag">$0.28</td>
+            <td class="price-tag">$0.42</td>
+            <td>131K</td>
+            <td class="price-tag"><strong>$0.70</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="pricing-note" data-i18n="price_note">注：GLM-5.1 国内定价约 10/31 元每百万 tokens，Kimi K2.6 约 6.7/28 元，DeepSeek V3.2 约 2/3 元。GLM-5.1 还有 Coding Plan 订阅套餐（非按量计费）。价格来源：各厂商官网，采集于 2026 年 5 月。Cache Hit 价格另计，DeepSeek 低至 $0.028/M。⚠️ 定价数据更新于 2026-05-18，请以官网最新价格为准。</p>
+    </div>
+  </div>
+</section>
+
+<!-- SELECTION GUIDE -->
+<section class="section" id="guide">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">Selection Guide</div>
+      <h2 class="title" data-i18n="guide_title">怎么选？<em>看场景</em></h2>
+    </div>
+    <div class="guide-grid reveal">
+      <div class="guide-card glm">
+        <div class="guide-emoji">&#x1F680;</div>
+        <h4 data-i18n="g1_h">需要最强综合能力</h4>
+        <div class="guide-model">GLM-5.1</div>
+        <p data-i18n="g1_p">长程 Agent、复杂工程任务、多模态需求、企业级 Coding 场景。Benchmark 全面领先，家族模型覆盖视觉/高速版。</p>
+      </div>
+      <div class="guide-card kimi">
+        <div class="guide-emoji">&#x1F9E0;</div>
+        <h4 data-i18n="g2_h">需要超长上下文 & Agent 编排</h4>
+        <div class="guide-model">Kimi K2.6</div>
+        <p data-i18n="g2_p">262K 上下文处理超长文档、代码仓库级分析。Agent Swarm 适合多步骤复杂编排任务。开源生态活跃。</p>
+      </div>
+      <div class="guide-card ds">
+        <div class="guide-emoji">&#x1F4B0;</div>
+        <h4 data-i18n="g3_h">需要极致性价比</h4>
+        <div class="guide-model">DeepSeek V3.2</div>
+        <p data-i18n="g3_p">大规模 API 调用、成本敏感场景、批量处理。价格约为竞品的 1/5~1/8，综合推理能力不弱。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <img src="../assets/brand/zai-icon-dark.svg" alt="Z.AI" class="footer-logo logo-dark">
+  <img src="../assets/brand/zai-icon-light.svg" alt="Z.AI" class="footer-logo logo-light">
+  <p data-i18n="footer1">数据更新于 2026-05-18 | 来源：各模型官方 Model Card、HuggingFace、automatio.ai、benchlm.ai</p>
+  <p style="margin-top:8px" data-i18n="footer2">GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer</p>
+  <p style="margin-top:8px"><a href="https://bigmodel.cn" target="_blank" style="color:var(--text-tertiary);text-decoration:underline">bigmodel.cn</a> · <a href="https://platform.kimi.com" target="_blank" style="color:var(--text-tertiary);text-decoration:underline">platform.kimi.com</a> · <a href="https://platform.deepseek.com" target="_blank" style="color:var(--text-tertiary);text-decoration:underline">platform.deepseek.com</a></p>
+</footer>
+
+<script>
+// Theme toggle
+function toggleTheme(){const t=document.documentElement.getAttribute('data-theme');document.documentElement.setAttribute('data-theme',t==='dark'?'light':'dark')}
+
+// i18n
+const i18n={
+zh:{
+nav_title:'模型对比<span>GLM-5.1 · K2.6 · V3.2</span>',
+nav_models:'模型概览',nav_bench:'Benchmark',nav_adv:'核心优势',nav_demo:'GLM 演示',nav_price:'定价',nav_guide:'选型建议',
+hero_label:'2026 旗舰大模型对比',hero_title:'GLM-5.1 vs Kimi K2.6 vs DeepSeek V3.2',
+hero_desc:'三款 2026 年旗舰大模型全面对比：从 Benchmark 性能、长程 Agent 能力、多模态、到 API 定价，帮你快速锁定最合适的模型。',
+models_title:'三款旗舰，<em>各有所长</em>',models_desc:'覆盖开源 SOTA、超长上下文 Agent、极致性价比三条路径。',
+glm_arch:'旗舰开源模型 · 长程 Agent 突破',kimi_arch:'MoE 万亿参数 · Agent Swarm',ds_arch:'MoE · 极致性价比',
+spec_ctx:'上下文窗口',spec_long:'长程任务',spec_mm:'多模态',spec_oss:'开源',spec_agent:'Agent 能力',spec_params:'激活参数',spec_swarm:'Agent Swarm',spec_cost:'成本效率',spec_reason:'推理能力',
+yes:'支持',glm_agent_level:'顶级',kimi_mm:'原生多模态',ds_cost:'业界最低',ds_reason:'强',
+th_bench:'评测项',
+bench_title:'核心评测，<em>数据说话</em>',bench_desc:'汇总三方公开 Benchmark 数据，客观呈现各模型能力分布。',
+bench_note:'注："—" 表示该模型未在官方公开资料中报告该项评测数据。加粗为该项最佳。数据来源：各模型官方 Model Card、HuggingFace、automatio.ai、benchlm.ai、LayerLens。数据采集于 2026 年 5 月。',
+adv_title:'各模型核心优势',
+glm_adv_h:'GLM-5.1 优势',glm_adv_p:'综合能力最强，长程 Agent 独树一帜',
+glm_a1:'8 小时长程自主任务——自主规划、纠错、交付',glm_a2:'MMLU/GPQA/MATH/AIME 全面领先',glm_a3:'多模态家族：GLM-5V-Turbo 视觉、GLM-5-Turbo 高速版',glm_a4:'国产模型代码能力第一，SWE-Bench Pro 全球第三',glm_a5:'Coding Plan 订阅制，工具生态完善（Cursor/Claude Code/Trae）',
+kimi_adv_h:'Kimi K2.6 优势',kimi_adv_p:'超长上下文 + Agent Swarm，擅长复杂编排',
+kimi_a1:'262K 超长上下文窗口，三款中最长',kimi_a2:'Agent Swarm：最多 300 子 Agent、4000+ 协调步骤',kimi_a3:'SWE-Bench Verified 71.3%，代码修复能力强',kimi_a4:'原生多模态（MoonViT 视觉编码器），15T 图文训练',kimi_a5:'开源生态活跃，NVIDIA/Google Cloud 合作',
+ds_adv_h:'DeepSeek V3.2 优势',ds_adv_p:'极致性价比，大规模部署首选',
+ds_a1:'API 价格最低——约为 GPT-5 的 1/15',ds_a2:'Cache Hit 低至 $0.028/M tokens，大批量场景极具优势',ds_a3:'MMLU-Pro 81.2%，综合推理不弱',ds_a4:'完全开源，社区部署自由度高',ds_a5:'AIME 59.4%，较 V3 提升近 20 个百分点',
+demo_title:'GLM 模型，<em>实际效果</em>',demo_desc:'GLM-5.1 及家族模型的实际使用演示——从长程 Coding 到视觉理解。',
+demo1_title:'GLM Coding Plan',demo1_desc:'8 小时长程自主编程演示',
+demo2_title:'Research Agent',demo2_desc:'自主研究、检索、生成报告',
+demo3_title:'GLM-5V-Turbo',demo3_desc:'多模态视觉理解演示',
+price_title:'API 定价对比',price_desc:'按量计费价格对比（美元/百万 tokens），数据更新于 2026 年 5 月。',
+th_model:'模型',th_input:'Input / 1M',th_output:'Output / 1M',th_ctx:'上下文',th_total:'1M in + 1M out',
+price_note:'注：GLM-5.1 国内定价约 10/31 元每百万 tokens，Kimi K2.6 约 6.7/28 元，DeepSeek V3.2 约 2/3 元。GLM-5.1 还有 Coding Plan 订阅套餐（非按量计费）。价格来源：各厂商官网，采集于 2026 年 5 月。Cache Hit 价格另计，DeepSeek 低至 $0.028/M。⚠️ 定价数据更新于 2026-05-18，请以官网最新价格为准。',
+guide_title:'怎么选？<em>看场景</em>',
+g1_h:'需要最强综合能力',g1_p:'长程 Agent、复杂工程任务、多模态需求、企业级 Coding 场景。Benchmark 全面领先，家族模型覆盖视觉/高速版。',
+g2_h:'需要超长上下文 & Agent 编排',g2_p:'262K 上下文处理超长文档、代码仓库级分析。Agent Swarm 适合多步骤复杂编排任务。开源生态活跃。',
+g3_h:'需要极致性价比',g3_p:'大规模 API 调用、成本敏感场景、批量处理。价格约为竞品的 1/5~1/8，综合推理能力不弱。',
+footer1:'数据更新于 2026-05-18 | 来源：各模型官方 Model Card、HuggingFace、automatio.ai、benchlm.ai',
+footer2:'GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer'
+},
+en:{
+nav_title:'Model Compare<span>GLM-5.1 · K2.6 · V3.2</span>',
+nav_models:'Models',nav_bench:'Benchmarks',nav_adv:'Strengths',nav_demo:'GLM Demos',nav_price:'Pricing',nav_guide:'Guide',
+hero_label:'2026 Flagship Model Comparison',hero_title:'GLM-5.1 vs Kimi K2.6 vs DeepSeek V3.2',
+hero_desc:'A comprehensive comparison of three 2026 flagship LLMs — benchmarks, long-horizon agentic capabilities, multimodal support, and API pricing.',
+models_title:'Three flagships, <em>each excels</em>',models_desc:'Covering open-weight SOTA, ultra-long context agents, and extreme cost-efficiency.',
+glm_arch:'Flagship Open-Weight · Long-Horizon Agent',kimi_arch:'Trillion-Param MoE · Agent Swarm',ds_arch:'MoE · Best Cost-Efficiency',
+spec_ctx:'Context Window',spec_long:'Long-Horizon',spec_mm:'Multimodal',spec_oss:'Open Source',spec_agent:'Agent Capability',spec_params:'Active Params',spec_swarm:'Agent Swarm',spec_cost:'Cost Efficiency',spec_reason:'Reasoning',
+yes:'Yes',glm_agent_level:'Top-tier',kimi_mm:'Native Multimodal',ds_cost:'Industry Lowest',ds_reason:'Strong',
+th_bench:'Benchmark',
+bench_title:'Core Benchmarks, <em>by the numbers</em>',bench_desc:'Aggregated public benchmark data across all three models.',
+bench_note:'Note: "—" means the model did not report this benchmark in official public materials. Bold = best in category. Sources: official Model Cards, HuggingFace, automatio.ai, benchlm.ai, LayerLens. Data collected May 2026.',
+adv_title:'Core Strengths by Model',
+glm_adv_h:'GLM-5.1 Strengths',glm_adv_p:'Best overall, unique long-horizon Agent',
+glm_a1:'8-hour autonomous long-horizon tasks — self-planning, self-correction, delivery',glm_a2:'Leading across MMLU/GPQA/MATH/AIME',glm_a3:'Multimodal family: GLM-5V-Turbo vision, GLM-5-Turbo fast',glm_a4:'#1 domestic coding model, #3 globally on SWE-Bench Pro',glm_a5:'Coding Plan subscription, rich tool ecosystem (Cursor/Claude Code/Trae)',
+kimi_adv_h:'Kimi K2.6 Strengths',kimi_adv_p:'Ultra-long context + Agent Swarm for complex orchestration',
+kimi_a1:'262K context window — longest among the three',kimi_a2:'Agent Swarm: up to 300 sub-agents, 4000+ coordinated steps',kimi_a3:'SWE-Bench Verified 71.3%, strong code repair',kimi_a4:'Native multimodal (MoonViT vision encoder), 15T image-text training',kimi_a5:'Active open-source ecosystem, NVIDIA/Google Cloud partnerships',
+ds_adv_h:'DeepSeek V3.2 Strengths',ds_adv_p:'Best cost-efficiency, ideal for large-scale deployment',
+ds_a1:'Lowest API pricing — ~1/15th of GPT-5',ds_a2:'Cache Hit as low as $0.028/M tokens, ideal for batch workloads',ds_a3:'MMLU-Pro 81.2%, solid general reasoning',ds_a4:'Fully open-source, maximum deployment freedom',ds_a5:'AIME 59.4%, +20pts improvement over V3',
+demo_title:'GLM Models, <em>in action</em>',demo_desc:'Live demos of GLM-5.1 and family models — from long-horizon coding to vision understanding.',
+demo1_title:'GLM Coding Plan',demo1_desc:'8-hour autonomous coding demo',
+demo2_title:'Research Agent',demo2_desc:'Autonomous research, retrieval, report generation',
+demo3_title:'GLM-5V-Turbo',demo3_desc:'Multimodal vision understanding demo',
+price_title:'API Pricing Comparison',price_desc:'Pay-as-you-go pricing (USD per million tokens), updated May 2026.',
+th_model:'Model',th_input:'Input / 1M',th_output:'Output / 1M',th_ctx:'Context',th_total:'1M in + 1M out',
+price_note:'Note: GLM-5.1 domestic pricing ~10/31 CNY per million tokens, Kimi K2.6 ~6.7/28 CNY, DeepSeek V3.2 ~2/3 CNY. GLM-5.1 also offers Coding Plan subscriptions (not pay-as-you-go). Sources: official vendor websites, May 2026. Cache Hit pricing separate; DeepSeek as low as $0.028/M. ⚠️ Pricing data updated 2026-05-18, please verify with official sources.',
+guide_title:'Which one? <em>Depends on your use case</em>',
+g1_h:'Need best overall capability',g1_p:'Long-horizon agents, complex engineering, multimodal, enterprise coding. Leading benchmarks across the board, with vision/fast model variants.',
+g2_h:'Need ultra-long context & agent orchestration',g2_p:'262K context for long documents, repo-level code analysis. Agent Swarm for multi-step orchestration. Active open-source ecosystem.',
+g3_h:'Need best cost-efficiency',g3_p:'Large-scale API calls, cost-sensitive workloads, batch processing. ~1/5 to 1/8 the cost of competitors with solid reasoning.',
+footer1:'Data updated 2026-05-18 | Sources: Official Model Cards, HuggingFace, automatio.ai, benchlm.ai',
+footer2:'GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer'
+}
+};
+let lang='zh';
+function toggleLang(){
+  lang=lang==='zh'?'en':'zh';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(i18n[lang][k]){
+      if(k==='nav_title'||k==='models_title'||k==='bench_title'||k==='adv_title'||k==='demo_title'||k==='price_title'||k==='guide_title'){
+        el.innerHTML=i18n[lang][k];
+      } else {
+        el.textContent=i18n[lang][k];
+      }
+    }
+  });
+  document.getElementById('langBtn').textContent=lang==='zh'?'EN':'中';
+  document.documentElement.lang=lang==='zh'?'zh':'en';
+}
+
+// Reveal on scroll
+const revealEls=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+revealEls.forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
