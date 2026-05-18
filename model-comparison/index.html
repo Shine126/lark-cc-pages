@@ -215,8 +215,8 @@ img,video{max-width:100%;display:block}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-logo">
-    <img src="../assets/brand/zai-icon-dark.svg" alt="Z.AI" class="logo-dark">
-    <img src="../assets/brand/zai-icon-light.svg" alt="Z.AI" class="logo-light">
+    <img src="assets/zai-icon-dark.svg" alt="Z.AI" class="logo-dark">
+    <img src="assets/zai-icon-light.svg" alt="Z.AI" class="logo-light">
     <div class="nav-logo-text" data-i18n="nav_title">GLM-5.1 演示 &amp; 对比<span>三模型横评</span></div>
   </div>
   <div class="nav-links">
@@ -225,6 +225,7 @@ img,video{max-width:100%;display:block}
     <a href="#benchmarks" data-i18n="nav_bench">Benchmark</a>
     <a href="#advantages" data-i18n="nav_adv">核心优势</a>
     <a href="#demos" data-i18n="nav_demo">GLM 演示</a>
+    <a href="#videos" data-i18n="nav_vid">官方视频</a>
     <a href="#pricing" data-i18n="nav_price">定价</a>
     <a href="#guide" data-i18n="nav_guide">选型建议</a>
   </div>
@@ -540,32 +541,71 @@ img,video{max-width:100%;display:block}
     </div>
     <div class="demo-grid reveal">
       <div class="demo-card">
-        <div style="aspect-ratio:16/9;background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:14px;letter-spacing:0.04em">
-          <div style="text-align:center"><div style="font-size:32px;margin-bottom:8px">&#x1F4BB;</div>GLM Coding Plan Demo</div>
-        </div>
+        <video controls preload="metadata" poster="" style="aspect-ratio:16/9;background:var(--bg-card)">
+          <source src="assets/demo-coding.mp4" type="video/mp4">
+        </video>
         <div class="demo-label">
           <strong data-i18n="demo1_title">GLM Coding Plan</strong>
-          <span data-i18n="demo1_desc">8 小时长程自主编程演示——GLM-5.1 通过 Claude Code 接入 Coding Plan，实现自主规划、编码、测试全流程</span>
+          <span data-i18n="demo1_desc">GLM-5.1 通过 Coding Plan 接入编程工具——自主规划、编码、测试全流程。支持 Cursor / Claude Code / Trae 等主流 IDE 插件。</span>
         </div>
       </div>
       <div class="demo-card">
-        <div style="aspect-ratio:16/9;background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:14px;letter-spacing:0.04em">
-          <div style="text-align:center"><div style="font-size:32px;margin-bottom:8px">&#x1F50D;</div>Research Agent Demo</div>
-        </div>
+        <video controls preload="metadata" poster="" style="aspect-ratio:16/9;background:var(--bg-card)">
+          <source src="assets/demo-research.mp4" type="video/mp4">
+        </video>
         <div class="demo-label">
           <strong data-i18n="demo2_title">Research Agent</strong>
-          <span data-i18n="demo2_desc">GLM-5.1 研究论文理解——高亮任意段落即可提问，@其他论文快速对比、引用、获取 benchmark 上下文</span>
+          <span data-i18n="demo2_desc">GLM-5.1 研究论文理解——高亮任意段落即可提问，@其他论文快速对比、引用、获取 benchmark 上下文。</span>
         </div>
       </div>
       <div class="demo-card">
-        <div style="aspect-ratio:16/9;background:var(--bg-card);display:flex;align-items:center;justify-content:center;color:var(--text-tertiary);font-size:14px;letter-spacing:0.04em">
-          <div style="text-align:center"><div style="font-size:32px;margin-bottom:8px">&#x1F441;</div>GLM-5V-Turbo Demo</div>
-        </div>
+        <video controls preload="metadata" poster="" style="aspect-ratio:16/9;background:var(--bg-card)">
+          <source src="assets/demo-vision.mp4" type="video/mp4">
+        </video>
         <div class="demo-label">
           <strong data-i18n="demo3_title">GLM-5V-Turbo</strong>
-          <span data-i18n="demo3_desc">多模态视觉理解演示——图像/视频/文档多模态输入，OCR、视觉分析</span>
+          <span data-i18n="demo3_desc">多模态视觉理解——图像/视频/文档多模态输入，OCR 文字识别、视觉推理分析、图表数据提取。</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICIAL VIDEOS -->
+<section class="section" id="videos">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">Official Demo Videos</div>
+      <h2 class="title" data-i18n="vid_title">官方演示 &amp; <em>社区 Demo</em></h2>
+      <p class="subtitle" data-i18n="vid_desc">GLM-5.1 官方及社区演示视频，覆盖 Coding、研究、Agent 等核心场景。</p>
+    </div>
+    <div class="demo-grid reveal">
+      <div class="demo-card">
+        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="https://www.youtube.com/embed/videoseries?list=TLGGC_jRQKM4JHEwMjA0Mw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="demo-label">
+          <strong data-i18n="vid1_title">GLM-5.1 Launch &amp; Overview</strong>
+          <span data-i18n="vid1_desc">GLM-5.1 发布介绍，综合能力开源第一，长程 Agent 突破。</span>
+        </div>
+      </div>
+      <div class="demo-card">
+        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="https://www.youtube.com/embed/VbrJwXbJvxo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="demo-label">
+          <strong data-i18n="vid2_title">GLM-5V-Turbo Vision Demo</strong>
+          <span data-i18n="vid2_desc">GLM-5V-Turbo 多模态视觉理解——图像分析、OCR 文字识别、视觉推理。</span>
+        </div>
+      </div>
+      <div class="demo-card">
+        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="https://www.youtube.com/embed/wPp8vjMpIeE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <div class="demo-label">
+          <strong data-i18n="vid3_title">GLM-5-Turbo Coding Session</strong>
+          <span data-i18n="vid3_desc">社区实测 GLM-5.1 Coding 场景——接入 Claude Code 进行自主编程开发。</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
+      <a href="https://www.zhipuai.cn/zh/research/157" target="_blank" class="glm-link" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--border);transition:all 0.25s;color:var(--text-secondary)" onmouseover="this.style.borderColor='var(--glm-color)';this.style.color='var(--glm-color)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">📄 GLM-5.1 技术报告</a>
+      <a href="https://docs.bigmodel.cn/cn/guide/models/text/glm-5.1" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--border);transition:all 0.25s;color:var(--text-secondary)" onmouseover="this.style.borderColor='var(--glm-color)';this.style.color='var(--glm-color)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">🇨🇳 国内 API 文档</a>
+      <a href="https://docs.z.ai/guides/llm/glm-5.1" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:10px;font-size:13px;font-weight:600;border:1px solid var(--border);transition:all 0.25s;color:var(--text-secondary)" onmouseover="this.style.borderColor='var(--glm-color)';this.style.color='var(--glm-color)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-secondary)'">🌐 海外 API 文档</a>
     </div>
   </div>
 </section>
@@ -657,8 +697,8 @@ img,video{max-width:100%;display:block}
 
 <!-- FOOTER -->
 <footer class="footer">
-  <img src="../assets/brand/zai-icon-dark.svg" alt="Z.AI" class="footer-logo logo-dark">
-  <img src="../assets/brand/zai-icon-light.svg" alt="Z.AI" class="footer-logo logo-light">
+  <img src="assets/zai-icon-dark.svg" alt="Z.AI" class="footer-logo logo-dark">
+  <img src="assets/zai-icon-light.svg" alt="Z.AI" class="footer-logo logo-light">
   <p data-i18n="footer1">数据更新于 2026-05-18 | 来源：各模型官方 Model Card、HuggingFace、Artificial Analysis、MorphLLM、automatio.ai</p>
   <p style="margin-top:8px" data-i18n="footer2">GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer</p>
   <p style="margin-top:8px"><a href="https://bigmodel.cn" target="_blank" style="color:var(--text-tertiary);text-decoration:underline">bigmodel.cn</a> · <a href="https://platform.kimi.com" target="_blank" style="color:var(--text-tertiary);text-decoration:underline">platform.kimi.com</a> · <a href="https://platform.deepseek.com" target="_blank" style="color:var(--text-tertiary);text-decoration:underline">platform.deepseek.com</a></p>
@@ -672,7 +712,7 @@ function toggleTheme(){const t=document.documentElement.getAttribute('data-theme
 const i18n={
 zh:{
 nav_title:'GLM-5.1 演示 & 对比<span>三模型横评</span>',
-nav_models:'模型概览',nav_bench:'Benchmark',nav_adv:'核心优势',nav_demo:'GLM 演示',nav_price:'定价',nav_guide:'选型建议',
+nav_models:'模型概览',nav_bench:'Benchmark',nav_adv:'核心优势',nav_demo:'GLM 演示',nav_vid:'官方视频',nav_price:'定价',nav_guide:'选型建议',
 hero_label:'2026 旗舰大模型深度对比',hero_title:'GLM-5.1 详细演示 & 三模型对比',
 hero_desc:'GLM-5.1 完整演示材料，对比 Kimi K2.6、DeepSeek V4 Pro 最新数据——Benchmark 性能、长程 Agent、多模态、API 定价全覆盖。',
 glm_h2:'开源模型综合第一，长程 Agent 能力突破',
@@ -694,9 +734,13 @@ kimi_a1:'262K 超长上下文窗口，三款中最长',kimi_a2:'Agent Swarm：�
 ds_adv_h:'DeepSeek V4 Pro 优势',ds_adv_p:'极致性价比 + 最新一代 1T MoE 架构',
 ds_a1:'1M token 超长上下文窗口，业界最大',ds_a2:'SWE-Bench 80.6% + LiveCodeBench 93.5%，代码能力顶尖',ds_a3:'mHC 新架构，1T MoE 参数规模',ds_a4:'API 定价 $1.74/M tokens，性价比领先',ds_a5:'配套推理模型 R2：MMLU 90.8%，开源对标 GPT-4o',
 demo_title:'GLM 模型，<em>实际效果</em>',demo_desc:'GLM-5.1 及家族模型的实际使用演示——从长程 Coding 到视觉理解。',
-demo1_title:'GLM Coding Plan',demo1_desc:'8 小时长程自主编程演示——GLM-5.1 通过 Claude Code 接入 Coding Plan，实现自主规划、编码、测试全流程',
-demo2_title:'Research Agent',demo2_desc:'GLM-5.1 研究论文理解——高亮任意段落即可提问，@其他论文快速对比、引用、获取 benchmark 上下文',
-demo3_title:'GLM-5V-Turbo',demo3_desc:'多模态视觉理解演示——图像/视频/文档多模态输入，OCR、视觉分析',
+demo1_title:'GLM Coding Plan',demo1_desc:'GLM-5.1 通过 Coding Plan 接入编程工具——自主规划、编码、测试全流程。支持 Cursor / Claude Code / Trae 等主流 IDE 插件。',
+demo2_title:'Research Agent',demo2_desc:'GLM-5.1 研究论文理解——高亮任意段落即可提问，@其他论文快速对比、引用、获取 benchmark 上下文。',
+demo3_title:'GLM-5V-Turbo',demo3_desc:'多模态视觉理解——图像/视频/文档多模态输入，OCR 文字识别、视觉推理分析、图表数据提取。',
+vid_title:'官方演示 & <em>社区 Demo</em>',vid_desc:'GLM-5.1 官方及社区演示视频，覆盖 Coding、研究、Agent 等核心场景。',
+vid1_title:'GLM-5.1 Launch & Overview',vid1_desc:'GLM-5.1 发布介绍，综合能力开源第一，长程 Agent 突破。',
+vid2_title:'GLM-5V-Turbo Vision Demo',vid2_desc:'GLM-5V-Turbo 多模态视觉理解——图像分析、OCR 文字识别、视觉推理。',
+vid3_title:'GLM-5-Turbo Coding Session',vid3_desc:'社区实测 GLM-5.1 Coding 场景——接入 Claude Code 进行自主编程开发。',
 price_title:'API 定价对比',price_desc:'按量计费价格对比（美元/百万 tokens），数据更新于 2026 年 5 月。',
 th_model:'模型',th_input:'Input / 1M',th_output:'Output / 1M',th_ctx:'上下文',th_total:'1M in + 1M out',
 price_note:'注：GLM-5.1 国内定价约 10/31 元每百万 tokens，还有 Coding Plan 订阅套餐。DeepSeek V4 Pro 定价取自 MorphLLM 技术报告（2026.04）。Cache Hit 价格另计，DeepSeek 低至 $0.028/M。⚠️ 定价数据更新于 2026-05-18，请以官网最新价格为准。',
@@ -709,7 +753,7 @@ footer2:'GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer'
 },
 en:{
 nav_title:'GLM-5.1 Demo & Compare<span>3-Model Review</span>',
-nav_models:'Models',nav_bench:'Benchmarks',nav_adv:'Strengths',nav_demo:'GLM Demos',nav_price:'Pricing',nav_guide:'Guide',
+nav_models:'Models',nav_bench:'Benchmarks',nav_adv:'Strengths',nav_demo:'GLM Demos',nav_vid:'Videos',nav_price:'Pricing',nav_guide:'Guide',
 hero_label:'2026 Flagship Model Deep Dive',hero_title:'GLM-5.1 Detailed Demo & Model Comparison',
 hero_desc:'Complete GLM-5.1 demo materials, compared against Kimi K2.6 and DeepSeek V4 Pro — benchmarks, long-horizon agents, multimodal, and API pricing.',
 glm_h2:'#1 Open Model Overall,<br>Long-Horizon Agent Breakthrough',
@@ -731,9 +775,13 @@ kimi_a1:'262K context window — longest among the three',kimi_a2:'Agent Swarm: 
 ds_adv_h:'DeepSeek V4 Pro Strengths',ds_adv_p:'Best cost-efficiency + latest 1T MoE architecture',
 ds_a1:'1M token context window — largest in industry',ds_a2:'SWE-Bench 80.6% + LiveCodeBench 93.5%, top coding capability',ds_a3:'mHC new architecture, 1T MoE parameter scale',ds_a4:'API pricing $1.74/M tokens, leading cost-performance',ds_a5:'Companion reasoning model R2: MMLU 90.8%, open-source rival to GPT-4o',
 demo_title:'GLM Models, <em>in action</em>',demo_desc:'Live demos of GLM-5.1 and family models — from long-horizon coding to vision understanding.',
-demo1_title:'GLM Coding Plan',demo1_desc:'8-hour autonomous coding demo — GLM-5.1 via Claude Code with Coding Plan, full autonomous planning, coding, and testing workflow',
-demo2_title:'Research Agent',demo2_desc:'GLM-5.1 research paper understanding — highlight any section to ask questions, @ other papers for quick comparison and benchmark context',
-demo3_title:'GLM-5V-Turbo',demo3_desc:'Multimodal vision understanding demo — image/video/document input, OCR, visual analysis',
+demo1_title:'GLM Coding Plan',demo1_desc:'GLM-5.1 via Coding Plan — autonomous planning, coding, and testing workflow. Supports Cursor / Claude Code / Trae IDE plugins.',
+demo2_title:'Research Agent',demo2_desc:'GLM-5.1 research paper understanding — highlight any section to ask questions, @ other papers for quick comparison and benchmark context.',
+demo3_title:'GLM-5V-Turbo',demo3_desc:'Multimodal vision understanding — image/video/document input, OCR, visual reasoning, chart data extraction.',
+vid_title:'Official Demos & <em>Community Videos</em>',vid_desc:'GLM-5.1 official and community demo videos covering coding, research, and agent scenarios.',
+vid1_title:'GLM-5.1 Launch & Overview',vid1_desc:'GLM-5.1 launch introduction — #1 open model overall, long-horizon Agent breakthrough.',
+vid2_title:'GLM-5V-Turbo Vision Demo',vid2_desc:'GLM-5V-Turbo multimodal vision understanding — image analysis, OCR, visual reasoning.',
+vid3_title:'GLM-5-Turbo Coding Session',vid3_desc:'Community test of GLM-5.1 coding — connected via Claude Code for autonomous development.',
 price_title:'API Pricing Comparison',price_desc:'Pay-as-you-go pricing (USD per million tokens), updated May 2026.',
 th_model:'Model',th_input:'Input / 1M',th_output:'Output / 1M',th_ctx:'Context',th_total:'1M in + 1M out',
 price_note:'Note: GLM-5.1 domestic pricing ~10/31 CNY per million tokens, also offers Coding Plan subscriptions. DeepSeek V4 Pro pricing from MorphLLM technical report (2026.04). Cache Hit pricing separate; DeepSeek from $0.028/M. ⚠️ Pricing data updated 2026-05-18, please verify with official sources.',
