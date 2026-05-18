@@ -283,8 +283,8 @@ img,video{max-width:100%;display:block}
         <div class="stat-label">HumanEval</div>
       </div>
       <div class="glm-stat-card">
-        <div class="stat-num">93.3%</div>
-        <div class="stat-label">AIME 2025/26</div>
+        <div class="stat-num">89.3%</div>
+        <div class="stat-label">AIME 2026</div>
       </div>
     </div>
   </div>
@@ -306,7 +306,7 @@ img,video{max-width:100%;display:block}
         <ul class="fam-specs">
           <li>上下文<span class="fam-val">128K</span></li>
           <li>MMLU-Pro<span class="fam-val">89.0%</span></li>
-          <li>SWE-Bench Pro<span class="fam-val">58.4%</span></li>
+          <li>SWE-Bench Pro<span class="fam-val">58.9%</span></li>
           <li>长程任务<span class="fam-val">8h</span></li>
         </ul>
       </div>
@@ -393,7 +393,7 @@ img,video{max-width:100%;display:block}
           <li><span data-i18n="spec_cost">成本效率</span><span class="spec-val" data-i18n="ds_cost">75% 折扣中</span></li>
           <li><span data-i18n="spec_oss">开源</span><span class="spec-val" data-i18n="yes">MIT</span></li>
           <li><span data-i18n="spec_reason">推理模式</span><span class="spec-val" data-i18n="ds_thinking">Thinking</span></li>
-          <li><span>SWE-Bench</span><span class="spec-val">80.6%</span></li>
+          <li><span>SWE-Bench</span><span class="spec-val">56.1%</span></li>
         </ul>
       </div>
     </div>
@@ -422,46 +422,52 @@ img,video{max-width:100%;display:block}
           <tr><td colspan="4" class="bench-category">综合知识 &amp; 推理</td></tr>
           <tr>
             <td>MMLU-Pro</td>
-            <td>89.0%</td>
-            <td>—</td>
-            <td><strong class="best-val">91.2%</strong> <span class="src-note">(Max)</span></td>
+            <td>89.0% <span class="src-note">(官方)</span></td>
+            <td>87.1% <span class="src-note">(Thinking)</span></td>
+            <td><strong class="best-val">89.2%</strong> <span class="src-note">(Max)</span></td>
           </tr>
           <tr>
             <td>GPQA Diamond</td>
-            <td>86.2%</td>
-            <td>75.1%</td>
-            <td><strong class="best-val">90.1%</strong></td>
+            <td>86.2% <span class="src-note">(官方)</span></td>
+            <td>75.3%</td>
+            <td><strong class="best-val">78.3%</strong></td>
           </tr>
           <tr>
-            <td>AIME 2025/26</td>
-            <td><strong class="best-val">93.3%</strong></td>
-            <td>43.3%</td>
-            <td>59.4% (V3.2)</td>
+            <td>AIME 2026</td>
+            <td><strong class="best-val">89.3%</strong></td>
+            <td>88.7%</td>
+            <td>90.0%</td>
           </tr>
           <tr>
-            <td>MATH</td>
-            <td><strong class="best-val">80.0%</strong></td>
+            <td>MATH-500</td>
             <td>—</td>
-            <td>—</td>
+            <td>96.2%</td>
+            <td><strong class="best-val">98.6%</strong></td>
+          </tr>
+          <tr>
+            <td>HLE</td>
+            <td>36.7</td>
+            <td>38.2</td>
+            <td><strong class="best-val">41.5</strong></td>
           </tr>
           <tr><td colspan="4" class="bench-category">编程 &amp; 工程</td></tr>
           <tr>
-            <td>HumanEval</td>
-            <td><strong class="best-val">95.3%</strong></td>
-            <td>89.1%</td>
-            <td>—</td>
+            <td>LiveCodeBench 2025</td>
+            <td>68.9</td>
+            <td>67.0</td>
+            <td><strong class="best-val">70.2</strong></td>
           </tr>
           <tr>
             <td>SWE-Bench Verified</td>
-            <td>58.4% (Pro)</td>
-            <td>65.8%</td>
-            <td><strong class="best-val">80.6%</strong></td>
+            <td>52.8%</td>
+            <td>53.4%</td>
+            <td><strong class="best-val">56.1%</strong></td>
           </tr>
           <tr>
-            <td>LiveCodeBench</td>
+            <td>SWE-Bench Pro</td>
+            <td><strong class="best-val">58.9%</strong></td>
             <td>—</td>
-            <td>53.7</td>
-            <td><strong class="best-val">93.5</strong> <span class="src-note">(Max)</span></td>
+            <td>—</td>
           </tr>
           <tr>
             <td>Codeforces</td>
@@ -477,22 +483,10 @@ img,video{max-width:100%;display:block}
             <td>—</td>
           </tr>
           <tr>
-            <td>Agentic Elo (GDPval)</td>
-            <td>—</td>
-            <td><strong class="best-val">1520</strong></td>
-            <td>—</td>
-          </tr>
-          <tr>
-            <td>BenchLM 总分</td>
-            <td>—</td>
-            <td>85 (#12/115)</td>
-            <td>70 (#32/115)</td>
-          </tr>
-          <tr>
-            <td>Artificial Analysis 指数</td>
-            <td>—</td>
-            <td><strong class="best-val">54</strong></td>
-            <td>52</td>
+            <td>BenchLM 编程排名</td>
+            <td>#15/115</td>
+            <td>#12/115</td>
+            <td>#8/115 <span class="src-note">(High)</span></td>
           </tr>
         </tbody>
       </table>
@@ -528,7 +522,7 @@ img,video{max-width:100%;display:block}
         <ul>
           <li data-i18n="kimi_a1">262K 超长上下文窗口，三款中最长</li>
           <li data-i18n="kimi_a2">Agent Swarm：最多 300 子 Agent、4000+ 协调步骤</li>
-          <li data-i18n="kimi_a3">SWE-Bench Verified 80.2%，代码修复能力强</li>
+          <li data-i18n="kimi_a3">SWE-Bench Verified 53.4%，代码修复能力强</li>
           <li data-i18n="kimi_a4">万亿参数 MoE，激活仅 32B，推理效率高</li>
           <li data-i18n="kimi_a5">训练成本仅 $4.6M，开源生态活跃</li>
         </ul>
@@ -539,7 +533,7 @@ img,video{max-width:100%;display:block}
         <p data-i18n="ds_adv_p">极致性价比 + 最新一代 1.6T MoE 架构</p>
         <ul>
           <li data-i18n="ds_a1">1M token 超长上下文窗口，业界最大</li>
-          <li data-i18n="ds_a2">SWE-Bench 80.6% + LiveCodeBench 93.5%，代码能力顶尖</li>
+          <li data-i18n="ds_a2">SWE-Bench 56.1% + LiveCodeBench 70.2，代码能力顶尖</li>
           <li data-i18n="ds_a3">mHC 新架构，1.6T MoE 参数，仅 49B 激活</li>
           <li data-i18n="ds_a4">当前 75% 折扣，Flash 版仅 $0.14/$0.28/M</li>
           <li data-i18n="ds_a5">配套 V4 Flash：$0.14/M input，极致低成本</li>
@@ -606,17 +600,17 @@ img,video{max-width:100%;display:block}
         </div>
       </div>
       <div class="demo-card">
-        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="https://www.youtube.com/embed/VbrJwXbJvxo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="//player.bilibili.com/player.html?bvid=BV1zZcYz1EMy&autoplay=0" frameborder="0" allowfullscreen loading="lazy"></iframe>
         <div class="demo-label">
-          <strong data-i18n="vid2_title">GLM-5V-Turbo Vision Demo</strong>
-          <span data-i18n="vid2_desc">GLM-5V-Turbo 多模态视觉理解——图像分析、OCR 文字识别、视觉推理。</span>
+          <strong>GLM-5 一战封神：全自动开发系统</strong>
+          <span>GLM-5 实战演示——构建全自动开发系统，从需求到交付全流程。</span>
         </div>
       </div>
       <div class="demo-card">
-        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="https://www.youtube.com/embed/wPp8vjMpIeE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        <iframe width="100%" style="aspect-ratio:16/9;display:block" src="//player.bilibili.com/player.html?bvid=BV1nbcEzMEzF&autoplay=0" frameborder="0" allowfullscreen loading="lazy"></iframe>
         <div class="demo-label">
-          <strong data-i18n="vid3_title">GLM-5-Turbo Coding Session</strong>
-          <span data-i18n="vid3_desc">社区实测 GLM-5.1 Coding 场景——接入 Claude Code 进行自主编程开发。</span>
+          <strong>GLM-5 实测：0中断手撸全栈应用</strong>
+          <span>2.5 小时不中断全栈应用开发实测，GLM-5.1 长程 Agent 实战。</span>
         </div>
       </div>
     </div>
@@ -679,7 +673,7 @@ img,video{max-width:100%;display:block}
         <div class="guide-emoji">&#x1F4B0;</div>
         <h4 data-i18n="g3_h">需要极致性价比 / 最新一代</h4>
         <div class="guide-model">DeepSeek V4 Pro</div>
-        <p data-i18n="g3_p">1M 超长上下文、SWE-Bench 80.6%、LiveCodeBench 93.5%。V4 Pro 是 2026 年 4 月最新发布，1.6T MoE mHC 架构。当前 75% 折扣，V4 Flash 仅 $0.14/$0.28/M，适合大规模部署和编程场景。</p>
+        <p data-i18n="g3_p">1M 超长上下文、SWE-Bench 56.1%、LiveCodeBench 70.2。V4 Pro 是 2026 年 4 月最新发布，1.6T MoE mHC 架构。当前 75% 折扣，V4 Flash 仅 $0.14/$0.28/M，适合大规模部署和编程场景。</p>
       </div>
     </div>
   </div>
@@ -701,14 +695,14 @@ function toggleTheme(){const t=document.documentElement.getAttribute('data-theme
 // Pricing data (language-linked)
 const pricingData={
 zh:[
-  {name:'GLM-5.1',color:'var(--glm-color)',input:'¥10',output:'¥31',ctx:'128K',total:'¥41',highlight:false},
-  {name:'Kimi K2.6',color:'var(--kimi-color)',input:'¥4',output:'¥18',ctx:'262K',total:'¥22',highlight:false},
-  {name:'DeepSeek V4 Flash',color:'var(--ds-color)',input:'¥1',output:'¥2',ctx:'1M',total:'¥3',highlight:false},
-  {name:'DeepSeek V4 Pro',color:'var(--ds-color)',input:'¥3',output:'¥6',ctx:'1M',total:'¥9',highlight:true,note:'75%折扣至5/31'},
+  {name:'GLM-5.1',color:'var(--glm-color)',input:'¥10',output:'¥50',ctx:'128K',total:'¥60',highlight:false},
+  {name:'Kimi K2.6',color:'var(--kimi-color)',input:'¥2',output:'¥29',ctx:'256K',total:'¥31',highlight:false},
+  {name:'DeepSeek V4 Flash',color:'var(--ds-color)',input:'¥1',output:'¥3',ctx:'1M',total:'¥4',highlight:false},
+  {name:'DeepSeek V4 Pro',color:'var(--ds-color)',input:'¥3',output:'¥14',ctx:'1M',total:'¥17',highlight:true,note:'75%折扣至5/31'},
 ],
 en:[
   {name:'GLM-5.1',color:'var(--glm-color)',input:'$1.40',output:'$4.40',ctx:'128K',total:'$5.80',highlight:false},
-  {name:'Kimi K2.6',color:'var(--kimi-color)',input:'$0.60',output:'$2.50',ctx:'262K',total:'$3.10',highlight:false},
+  {name:'Kimi K2.6',color:'var(--kimi-color)',input:'$0.60',output:'$2.50',ctx:'256K',total:'$3.10',highlight:false},
   {name:'DeepSeek V4 Flash',color:'var(--ds-color)',input:'$0.14',output:'$0.28',ctx:'1M',total:'$0.42',highlight:false},
   {name:'DeepSeek V4 Pro',color:'var(--ds-color)',input:'$0.435',output:'$0.87',ctx:'1M',total:'$1.31',highlight:true,note:'75% off till 5/31'},
 ]};
@@ -740,9 +734,9 @@ adv_title:'各模型核心优势',
 glm_adv_h:'GLM-5.1 优势',glm_adv_p:'综合能力最强，长程 Agent 独树一帜',
 glm_a1:'8 小时长程自主任务——自主规划、纠错、交付',glm_a2:'MMLU/GPQA/MATH/AIME 全面领先',glm_a3:'多模态家族：GLM-5V-Turbo 视觉、GLM-5-Turbo 高速版',glm_a4:'Chatbot Arena 开源第一，领先 K2.5 Thinking 15 分',glm_a5:'Coding Plan 订阅制，工具生态完善（Cursor/Claude Code/Trae）',
 kimi_adv_h:'Kimi K2.6 优势',kimi_adv_p:'超长上下文 + Agent Swarm，擅长复杂编排',
-kimi_a1:'262K 超长上下文窗口，三款中最长',kimi_a2:'Agent Swarm：最多 300 子 Agent、4000+ 协调步骤',kimi_a3:'SWE-Bench Verified 80.2%，代码修复能力强',kimi_a4:'万亿参数 MoE，激活仅 32B，推理效率高',kimi_a5:'训练成本仅 $4.6M，开源生态活跃',
+kimi_a1:'262K 超长上下文窗口，三款中最长',kimi_a2:'Agent Swarm：最多 300 子 Agent、4000+ 协调步骤',kimi_a3:'SWE-Bench Verified 53.4%，代码修复能力强',kimi_a4:'万亿参数 MoE，激活仅 32B，推理效率高',kimi_a5:'训练成本仅 $4.6M，开源生态活跃',
 ds_adv_h:'DeepSeek V4 Pro 优势',ds_adv_p:'极致性价比 + 最新一代 1.6T MoE 架构',
-ds_a1:'1M token 超长上下文窗口，业界最大',ds_a2:'SWE-Bench 80.6% + LiveCodeBench 93.5%，代码能力顶尖',ds_a3:'mHC 新架构，1.6T MoE 参数，仅 49B 激活',ds_a4:'当前 75% 折扣，Flash 版仅 $0.14/$0.28/M',ds_a5:'配套 V4 Flash：$0.14/M input，极致低成本',
+ds_a1:'1M token 超长上下文窗口，业界最大',ds_a2:'SWE-Bench 56.1% + LiveCodeBench 70.2，代码能力顶尖',ds_a3:'mHC 新架构，1.6T MoE 参数，仅 49B 激活',ds_a4:'当前 75% 折扣，Flash 版仅 $0.14/$0.28/M',ds_a5:'配套 V4 Flash：$0.14/M input，极致低成本',
 demo_title:'GLM 模型，<em>实际效果</em>',demo_desc:'GLM-5.1 及家族模型的实际使用演示——从长程 Coding 到视觉理解。',
 demo1_title:'GLM Coding Plan',demo1_desc:'GLM-5.1 通过 Coding Plan 接入编程工具——自主规划、编码、测试全流程。支持 Cursor / Claude Code / Trae 等主流 IDE 插件。',
 demo2_title:'Research Agent',demo2_desc:'GLM-5.1 研究论文理解——高亮任意段落即可提问，@其他论文快速对比、引用、获取 benchmark 上下文。',
@@ -757,7 +751,7 @@ price_note:'注：GLM-5.1 国内定价约 10/31 元每百万 tokens，还有 Cod
 guide_title:'怎么选？<em>看场景</em>',
 g1_h:'需要最强综合能力 + 多模态',g1_p:'长程 Agent、复杂工程任务、多模态需求、企业级 Coding 场景。Chatbot Arena 开源第一，家族模型覆盖视觉/高速版。适合追求最佳质量的场景。',
 g2_h:'需要超长上下文 & Agent 编排',g2_p:'262K 上下文处理超长文档、代码仓库级分析。Agent Swarm 支持最多 300 子 Agent 协作，适合多步骤复杂编排任务。训练成本仅 $4.6M。',
-g3_h:'需要极致性价比 / 最新一代',g3_p:'1M 超长上下文、SWE-Bench 80.6%、LiveCodeBench 93.5%。V4 Pro 是 2026 年 4 月最新发布，1.6T MoE mHC 架构。当前 75% 折扣，V4 Flash 仅 $0.14/$0.28/M，适合大规模部署和编程场景。',
+g3_h:'需要极致性价比 / 最新一代',g3_p:'1M 超长上下文、SWE-Bench 56.1%、LiveCodeBench 70.2。V4 Pro 是 2026 年 4 月最新发布，1.6T MoE mHC 架构。当前 75% 折扣，V4 Flash 仅 $0.14/$0.28/M，适合大规模部署和编程场景。',
 footer1:'数据更新于 2026-05-18 | 来源：各模型官方 Model Card、HuggingFace、Artificial Analysis、DeepInfra、NVIDIA NIM、BenchLM',
 footer2:'GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer'
 },
@@ -781,9 +775,9 @@ adv_title:'Core Strengths by Model',
 glm_adv_h:'GLM-5.1 Strengths',glm_adv_p:'Best overall, unique long-horizon Agent',
 glm_a1:'8-hour autonomous long-horizon tasks — self-planning, self-correction, delivery',glm_a2:'Leading across MMLU/GPQA/MATH/AIME',glm_a3:'Multimodal family: GLM-5V-Turbo vision, GLM-5-Turbo fast',glm_a4:'#1 open model on Chatbot Arena, +15 over K2.5 Thinking',glm_a5:'Coding Plan subscription, rich tool ecosystem (Cursor/Claude Code/Trae)',
 kimi_adv_h:'Kimi K2.6 Strengths',kimi_adv_p:'Ultra-long context + Agent Swarm for complex orchestration',
-kimi_a1:'262K context window — longest among the three',kimi_a2:'Agent Swarm: up to 300 sub-agents, 4000+ coordinated steps',kimi_a3:'SWE-Bench Verified 80.2%, strong code repair',kimi_a4:'1T MoE with only 32B active, efficient inference',kimi_a5:'Training cost only $4.6M, active open-source ecosystem',
+kimi_a1:'262K context window — longest among the three',kimi_a2:'Agent Swarm: up to 300 sub-agents, 4000+ coordinated steps',kimi_a3:'SWE-Bench Verified 53.4%, strong code repair',kimi_a4:'1T MoE with only 32B active, efficient inference',kimi_a5:'Training cost only $4.6M, active open-source ecosystem',
 ds_adv_h:'DeepSeek V4 Pro Strengths',ds_adv_p:'Best cost-efficiency + latest 1.6T MoE architecture',
-ds_a1:'1M token context window — largest in industry',ds_a2:'SWE-Bench 80.6% + LiveCodeBench 93.5%, top coding capability',ds_a3:'mHC new architecture, 1.6T MoE with only 49B active',ds_a4:'75% discount now, Flash at just $0.14/$0.28/M',ds_a5:'Companion V4 Flash: $0.14/M input, extreme low cost',
+ds_a1:'1M token context window — largest in industry',ds_a2:'SWE-Bench 56.1% + LiveCodeBench 70.2, top coding capability',ds_a3:'mHC new architecture, 1.6T MoE with only 49B active',ds_a4:'75% discount now, Flash at just $0.14/$0.28/M',ds_a5:'Companion V4 Flash: $0.14/M input, extreme low cost',
 demo_title:'GLM Models, <em>in action</em>',demo_desc:'Live demos of GLM-5.1 and family models — from long-horizon coding to vision understanding.',
 demo1_title:'GLM Coding Plan',demo1_desc:'GLM-5.1 via Coding Plan — autonomous planning, coding, and testing workflow. Supports Cursor / Claude Code / Trae IDE plugins.',
 demo2_title:'Research Agent',demo2_desc:'GLM-5.1 research paper understanding — highlight any section to ask questions, @ other papers for quick comparison and benchmark context.',
@@ -798,7 +792,7 @@ price_note:'Note: GLM-5.1 domestic pricing ~10/31 CNY per million tokens, also o
 guide_title:'Which one? <em>Depends on your use case</em>',
 g1_h:'Need best overall capability + multimodal',g1_p:'Long-horizon agents, complex engineering, multimodal, enterprise coding. #1 open model on Chatbot Arena, with vision/fast model variants. Best for quality-first scenarios.',
 g2_h:'Need ultra-long context & agent orchestration',g2_p:'262K context for long documents, repo-level code analysis. Agent Swarm supports up to 300 sub-agents. Training cost only $4.6M.',
-g3_h:'Need best cost-efficiency / latest generation',g3_p:'1M ultra-long context, SWE-Bench 80.6%, LiveCodeBench 93.5%. V4 Pro released April 2026, 1.6T MoE mHC architecture. 75% discount now, V4 Flash at just $0.14/$0.28/M. Best for large-scale deployment and coding.',
+g3_h:'Need best cost-efficiency / latest generation',g3_p:'1M ultra-long context, SWE-Bench 56.1%, LiveCodeBench 70.2. V4 Pro released April 2026, 1.6T MoE mHC architecture. 75% discount now, V4 Flash at just $0.14/$0.28/M. Best for large-scale deployment and coding.',
 footer1:'Data updated 2026-05-18 | Sources: Official Model Cards, HuggingFace, Artificial Analysis, DeepInfra, NVIDIA NIM, BenchLM',
 footer2:'GLM by Zhipu AI · Kimi by Moonshot AI · DeepSeek by High-Flyer'
 }
