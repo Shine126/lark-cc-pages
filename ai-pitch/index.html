@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Weekly Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050508;--bg-card:#0c0c10;--bg-nav:rgba(5,5,8,.88);--bg-hover:#111116;
+  --text:#ededef;--text2:rgba(237,237,239,.6);--text3:rgba(237,237,239,.32);
+  --accent:#7c6aff;--accent2:#a78bfa;--accent-glow:rgba(124,106,255,.08);
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
+  --anthropic:#d4a574;--openai:#74d4a5;--deepseek:#a574d4;--zhipu:#74a5d4;
+  --grad-hero:linear-gradient(180deg,#050508 0%,#0a0a12 50%,#050508 100%);
+  --shadow:0 8px 32px rgba(0,0,0,.4);--font-display:'Instrument Serif',Georgia,serif;
+  --font-body:'Geist','Noto Sans SC',system-ui,sans-serif;
+  --font-zh:'Noto Sans SC','Geist',system-ui,sans-serif;
+}
+[data-theme="light"]{
+  --bg:#fafaf9;--bg-card:#fff;--bg-nav:rgba(250,250,249,.9);--bg-hover:#f5f5f4;
+  --text:#1a1a1a;--text2:rgba(26,26,26,.6);--text3:rgba(26,26,26,.35);
+  --accent:#6c5ce7;--accent2:#a29bfe;--accent-glow:rgba(108,92,231,.06);
+  --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.15);
+  --grad-hero:linear-gradient(180deg,#fafaf9 0%,#f0f0ef 50%,#fafaf9 100%);
+  --shadow:0 8px 32px rgba(0,0,0,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:64px}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+[data-lang="zh"] body,[data-lang="zh"] .hero-title,[data-lang="zh"] .section-title,[data-lang="zh"] .sa-bubble,[data-lang="zh"] .timeline-title,[data-lang="zh"] .sa-perspective-text{font-family:var(--font-zh)}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;transition:all .4s}
+.nav-brand{font-family:var(--font-display);font-size:22px;letter-spacing:-.02em;color:var(--text)}
+.nav-brand span{font-family:var(--font-body);font-size:12px;color:var(--text3);margin-left:8px;font-weight:400;letter-spacing:.08em;text-transform:uppercase}
+.nav-actions{display:flex;gap:6px;align-items:center}
+.nav-btn{height:32px;padding:0 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;transition:all .25s;font-family:var(--font-body);display:flex;align-items:center;gap:5px}
+.nav-btn:hover{border-color:var(--border2);color:var(--text);background:var(--accent-glow)}
+.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:var(--grad-hero);padding:80px 40px 60px}
+.hero-inner{max-width:1100px;width:100%;display:flex;align-items:center;gap:60px}
+.hero-text{flex:1}
+.hero-date{font-size:13px;color:var(--accent2);font-weight:500;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+.hero-title{font-family:var(--font-display);font-size:clamp(48px,7vw,80px);line-height:1.05;letter-spacing:-.03em;margin-bottom:20px}
+.hero-title em{font-style:italic;color:var(--accent2)}
+.hero-sub{font-size:18px;color:var(--text2);max-width:480px;margin-bottom:32px;line-height:1.6}
+.hero-cta{display:flex;gap:12px;align-items:center}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:40px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .3s;font-family:var(--font-body)}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(124,106,255,.3)}
+
+/* SA CHARACTER */
+.sa-container{flex-shrink:0;position:relative;width:220px;height:280px}
+.sa-avatar{position:relative;width:100%;height:100%}
+.sa-body{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:160px;background:var(--accent);border-radius:20px 20px 0 0;opacity:.15}
+.sa-head{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:80px;height:90px;border-radius:50%;background:var(--text);opacity:.08}
+.sa-face{position:absolute;top:40px;left:50%;transform:translateX(-50%);width:60px;height:30px;display:flex;justify-content:center;gap:18px}
+.sa-eye{width:8px;height:8px;border-radius:50%;background:var(--accent2);animation:blink 4s infinite}
+.sa-mouth{position:absolute;top:72px;left:50%;transform:translateX(-50%);width:16px;height:3px;border-radius:2px;background:var(--accent2);opacity:.6;transition:all .15s}
+.sa-mouth.speaking{height:10px;width:14px;border-radius:50%;animation:mouthMove .3s infinite alternate}
+.sa-glasses{position:absolute;top:48px;left:50%;transform:translateX(-50%);width:56px;height:18px;border:2px solid var(--accent2);border-radius:4px;opacity:.3}
+.sa-glasses::after{content:'';position:absolute;top:50%;right:-6px;width:6px;height:2px;background:var(--accent2)}
+.sa-breath{animation:breathe 3.5s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.02)}}
+@keyframes blink{0%,45%,55%,100%{transform:scaleY(1)}50%{transform:scaleY(.1)}}
+@keyframes mouthMove{0%{height:6px;width:12px}100%{height:12px;width:16px}}
+
+/* SPEECH BUBBLE */
+.sa-bubble{position:absolute;top:-30px;right:-140px;width:280px;padding:16px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;font-size:13px;color:var(--text2);line-height:1.5;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:all .5s .5s}
+.sa-bubble::before{content:'';position:absolute;left:-8px;top:50%;transform:translateY(-50%) rotate(45deg);width:14px;height:14px;background:var(--bg-card);border-left:1px solid var(--border);border-bottom:1px solid var(--border)}
+.hero:hover .sa-bubble,.sa-bubble.visible{opacity:1;transform:translateY(0)}
+
+/* SECTIONS */
+.section{padding:80px 40px;max-width:1200px;margin:0 auto}
+.section-header{display:flex;align-items:baseline;gap:16px;margin-bottom:48px}
+.section-num{font-family:var(--font-display);font-size:64px;color:var(--accent);opacity:.2;line-height:1}
+.section-title{font-family:var(--font-display);font-size:36px;letter-spacing:-.02em}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.cards-grid{grid-template-columns:1fr}}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .35s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:var(--shadow)}
+.card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:16px 16px 0 0}
+.card-source{font-size:11px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;font-weight:600}
+.card-title{font-family:var(--font-display);font-size:22px;line-height:1.3;margin-bottom:14px;letter-spacing:-.01em}
+.card-text{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.03em;border:1px solid var(--border);color:var(--text2);transition:all .2s}
+.tag:hover{border-color:var(--accent);color:var(--accent)}
+.tag-anthropic{border-color:var(--anthropic);color:var(--anthropic)}
+.tag-openai{border-color:var(--openai);color:var(--openai)}
+.tag-deepseek{border-color:var(--deepseek);color:var(--deepseek)}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;padding-bottom:36px}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-dot{position:absolute;left:-33px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--zhipu);background:var(--bg);transition:background .3s}
+.timeline-item:hover .timeline-dot{background:var(--zhipu)}
+.timeline-date{font-size:12px;color:var(--accent2);font-weight:600;letter-spacing:.06em;margin-bottom:6px}
+.timeline-title{font-family:var(--font-display);font-size:20px;margin-bottom:6px}
+.timeline-text{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* VISION BLOCK */
+.vision-block{margin:48px 0 0;padding:32px;border-left:3px solid var(--zhipu);background:var(--accent-glow);border-radius:0 12px 12px 0}
+.vision-quote{font-family:var(--font-display);font-size:24px;font-style:italic;line-height:1.4;margin-bottom:12px}
+.vision-note{font-size:14px;color:var(--text2)}
+
+/* SA PERSPECTIVE */
+.perspective-section{position:relative}
+.sa-inline{display:flex;align-items:flex-start;gap:24px;margin-bottom:32px}
+.sa-mini{width:48px;height:48px;border-radius:50%;background:var(--accent-glow);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.perspective-points{list-style:none}
+.perspective-points li{padding:16px 0;border-bottom:1px solid var(--border);font-size:15px;color:var(--text2);line-height:1.7;padding-left:20px;position:relative}
+.perspective-points li::before{content:'';position:absolute;left:0;top:24px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.perspective-points li strong{color:var(--text);font-weight:600}
+.perspective-take{margin-top:24px;padding:24px;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;font-size:15px;line-height:1.7;color:var(--text2)}
+.perspective-take strong{color:var(--accent2);font-weight:600}
+
+/* FOOTER */
+.footer{padding:60px 40px;border-top:1px solid var(--border);text-align:center}
+.footer-sources{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:24px}
+.footer-source{font-size:12px;color:var(--text3);padding:4px 12px;border:1px solid var(--border);border-radius:16px;transition:all .2s}
+.footer-source:hover{color:var(--text2);border-color:var(--border2)}
+.footer-meta{font-size:12px;color:var(--text3);margin-top:16px}
+.footer-powered{font-size:11px;color:var(--text3);margin-top:8px;letter-spacing:.08em;text-transform:uppercase}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero{padding:100px 20px 40px}
+  .hero-inner{flex-direction:column;text-align:center;gap:32px}
+  .sa-container{width:160px;height:200px}
+  .sa-bubble{right:auto;left:50%;transform:translateX(-50%) translateY(10px);top:-20px;width:240px}
+  .sa-bubble.visible{transform:translateX(-50%) translateY(0)}
+  .sa-bubble::before{display:none}
+  .section{padding:48px 20px}
+  .nav{padding:0 16px}
+  .hero-sub{margin:0 auto 24px}
+  .hero-cta{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">AI Weekly Pitch<span>Insight Report</span></div>
+  <div class="nav-actions">
+    <button class="nav-btn" id="btnTTS" onclick="toggleNarration()">▶ <span data-i18n="narrate">Narrate</span></button>
+    <button class="nav-btn" id="btnLang" onclick="toggleLang()">EN</button>
+    <button class="nav-btn" id="btnTheme" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-date" data-i18n="dateRange">2026.05.13 — 2026.05.20</div>
+      <h1 class="hero-title" data-i18n="heroTitle">AI <em>Weekly</em><br>Pitch</h1>
+      <p class="hero-sub" data-i18n="heroSub">Your 5-minute briefing on industry trends, competitive dynamics, and strategic positioning.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="toggleNarration()">▶ <span data-i18n="startBtn">Start Briefing</span></button>
+      </div>
+    </div>
+    <div class="sa-container">
+      <div class="sa-avatar sa-breath">
+        <div class="sa-body"></div>
+        <div class="sa-head"></div>
+        <div class="sa-glasses"></div>
+        <div class="sa-face">
+          <div class="sa-eye"></div>
+          <div class="sa-eye"></div>
+        </div>
+        <div class="sa-mouth" id="saMouth"></div>
+      </div>
+      <div class="sa-bubble visible" data-i18n="saGreeting">Hi, I'm your Solution Architect. Let me walk you through this week in AI.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="part1">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <h2 class="section-title" data-i18n="part1Title">Industry Dynamics</h2>
+  </div>
+  <div class="cards-grid" id="cardsGrid"></div>
+</section>
+
+<section class="section" id="part2">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <h2 class="section-title" data-i18n="part2Title">Zhipu AI Weekly</h2>
+  </div>
+  <div class="timeline" id="timeline"></div>
+  <div class="vision-block" id="visionBlock"></div>
+</section>
+
+<section class="section" id="part3">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <h2 class="section-title" data-i18n="part3Title">SA Perspective</h2>
+  </div>
+  <div id="perspectiveContent"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-sources" id="footerSources"></div>
+  <button class="btn-primary" onclick="toggleNarration()" style="margin:0 auto 16px">🔊 <span data-i18n="replay">Replay</span></button>
+  <div class="footer-meta" id="footerMeta"></div>
+  <div class="footer-powered">Powered by Z.ai GLM</div>
+</footer>
+
+<script>
+// === DATA ===
+const TRENDS_DATA = [
+  {
+    id:'anthropic', color:'var(--anthropic)',
+    source:{en:'anthropic.com/glasswing',zh:'anthropic.com/glasswing'},
+    title:{en:'Claude Mythos: AI Cybersecurity Breakthrough',zh:'Claude Mythos：AI 网络安全突破'},
+    text:{en:'Anthropic released Claude Mythos Preview (Apr 7) — their most capable frontier model for coding & agentic tasks. Project Glasswing coalition (AWS, Apple, CrowdStrike) found 10,000+ high/critical severity vulnerabilities. Deliberately withholding public release for safety.',zh:'Anthropic 发布 Claude Mythos Preview（4月7日）— 编码和 Agent 任务能力最强的前沿模型。Project Glasswing 联盟（AWS、Apple、CrowdStrike）发现超过 10,000 个高危漏洞。出于安全考虑，刻意不公开发布。'},
+    tags:{en:['Frontier Model','Cybersecurity','Safety'],zh:['前沿模型','网络安全','安全']},
+    tagClass:'tag-anthropic'
+  },
+  {
+    id:'openai', color:'var(--openai)',
+    source:{en:'developers.openai.com',zh:'developers.openai.com'},
+    title:{en:'Codex Goal Mode: Autonomous Long-Horizon Coding',zh:'Codex Goal Mode：自主长程编程'},
+    text:{en:'OpenAI shipped Codex Goal Mode (May 21) — persistent agentic loop working autonomously for hours/days. Plan → Act → Test → Review. One tester reported 14/18 features shipped solo over 18 hours. Available across app, IDE, CLI.',zh:'OpenAI 发布 Codex Goal Mode（5月21日）— 可自主运行数小时甚至数天的持续 Agent 循环。计划→执行→测试→复盘。有测试者报告 18 小时内独立完成 14/18 个功能。支持 App、IDE、CLI。'},
+    tags:{en:['Agentic Coding','Autonomous','Dev Tool'],zh:['Agent 编程','自主','开发工具']},
+    tagClass:'tag-openai'
+  },
+  {
+    id:'deepseek', color:'var(--deepseek)',
+    source:{en:'api-docs.deepseek.com',zh:'api-docs.deepseek.com'},
+    title:{en:'DeepSeek V4 Pro: Discount Goes Permanent',zh:'DeepSeek V4 Pro：折扣永久化'},
+    text:{en:'DeepSeek V4 Pro (1.6T params, 49B active, 1M context) permanent discount announced May 23. Top open-source model in agentic coding benchmarks. Compatible with OpenAI & Anthropic APIs. Huawei Ascend 950 integration planned.',zh:'DeepSeek V4 Pro（1.6T 参数，49B 激活，1M 上下文）5月23日宣布折扣永久化。Agent 编程评测中开源模型最强。兼容 OpenAI 和 Anthropic API。计划集成华为昇腾 950。'},
+    tags:{en:['Open Source','Inference','Cost Leadership'],zh:['开源','推理','成本领先']},
+    tagClass:'tag-deepseek'
+  }
+];
+
+const ZHIPU_DATA = [
+  {date:{en:'May 22',zh:'5月22日'},title:{en:'GLM-5.1-highspeed: 400 tokens/sec',zh:'GLM-5.1-highspeed：400 tok/s'},text:{en:'Tang Jie announced on X: "Very expensive, but brings a new possibility."',zh:'唐杰在 X 上宣布："很贵，但带来了新的可能性。"'}},
+  {date:{en:'May 21',zh:'5月21日'},title:{en:'ZCube: Next-Gen LLM Inference Network',zh:'ZCube：下一代 LLM 推理网络'},text:{en:'Z.ai published on solving network bottlenecks in LLM inference clusters — long-context and Prefill-Decode disaggregation.',zh:'Z.ai 发布技术文章，解决 LLM 推理集群的网络瓶颈 — 长上下文和 Prefill-Decode 分离。'}},
+  {date:{en:'May 14',zh:'5月14日'},title:{en:'"This AI era in one word: Roll"',zh:'"这个 AI 时代浓缩为一个词：卷"'},text:{en:'Tang Jie on Weibo reflecting on the intensity of AI competition.',zh:'唐杰在微博上感慨 AI 竞争的激烈程度。'}},
+  {date:{en:'May 12',zh:'5月12日'},title:{en:'The Shift to Long-Horizon Tasks',zh:'长程任务转移'},text:{en:'Tang Jie on X: the most likely breakthrough this year is LLMs completing extended missions via Agent environments. "Coding is all you need."',zh:'唐杰在 X：今年最可能的突破是大模型通过 Agent 环境完成长期任务。"Coding is all you need."'}}
+];
+
+const VISION_DATA = {
+  quote:{en:'From Agentic Engineering to Autonomous Organization',zh:'从 Agent 工程到自主组织'},
+  note:{en:'GLM 5.1\'s direction aligns with the industry trend toward long-horizon autonomous tasks. Claude Code + GLM-5.1 scored 53 on Coding Agent Index, surpassing Claude Code + Sonnet 4.5.',zh:'GLM 5.1 的方向与行业趋势一致 — 长程自主任务。Claude Code + GLM-5.1 在 Coding Agent Index 上得分 53，超越 Claude Code + Sonnet 4.5。'}
+};
+
+const SA_PERSPECTIVE = {
+  signals:[
+    {en:'Anthropic chose <strong>safety over speed</strong> with Mythos — responsible deployment is becoming a competitive differentiator.',zh:'Anthropic 用 Mythos 选择了<strong>安全优先</strong> — 负责任部署正在成为竞争优势。'},
+    {en:'OpenAI\'s Goal Mode and DeepSeek\'s permanent discount both point to the same trend: <strong>AI is shifting from single-turn tools to persistent autonomous agents</strong>.',zh:'OpenAI 的 Goal Mode 和 DeepSeek 的永久折扣指向同一趋势：<strong>AI 正从单轮工具转向持续自主 Agent</strong>。'},
+    {en:'Zhipu\'s GLM-5.1-highspeed at 400 tok/s and ZCube position them on the <strong>infrastructure layer</strong>, while their coding agent benchmark shows competitive capability.',zh:'智谱的 GLM-5.1-highspeed 400 tok/s 和 ZCube 布局<strong>基础设施层</strong>，编程 Agent 评测显示竞争力。'}
+  ],
+  take:{en:'The industry is converging on <strong>long-horizon autonomous tasks</strong> as THE frontier. Zhipu\'s dual bet on inference speed + agentic capability is the right strategic direction. The open question: can they maintain pace against Anthropic\'s safety moat and DeepSeek\'s cost leadership?',zh:'行业正在向<strong>长程自主任务</strong>收敛。智谱在推理速度 + Agent 能力的双线押注是正确的战略方向。核心问题：能否在 Anthropic 的安全护城河和 DeepSeek 的成本优势面前保持节奏？'}
+};
+
+const SOURCES = [
+  'anthropic.com/glasswing','developers.openai.com','api-docs.deepseek.com',
+  'x.com/jietang','weibo.com/u/2126427211','x.com/Zai_org'
+];
+
+const I18N = {
+  narrate:{en:'Narrate',zh:'播报'},
+  heroTitle:{en:'AI <em>Weekly</em><br>Pitch',zh:'AI <em>周度</em><br>洞察'},
+  heroSub:{en:'Your 5-minute briefing on industry trends, competitive dynamics, and strategic positioning.',zh:'5 分钟速览行业趋势、竞争格局与战略定位。'},
+  startBtn:{en:'Start Briefing',zh:'开始播报'},
+  saGreeting:{en:"Hi, I'm your Solution Architect. Let me walk you through this week in AI.",zh:'你好，我是你的解决方案架构师。让我带你速览本周 AI 动态。'},
+  part1Title:{en:'Industry Dynamics',zh:'行业动态'},
+  part2Title:{en:'Zhipu AI Weekly',zh:'智谱本周'},
+  part3Title:{en:'SA Perspective',zh:'SA 观点'},
+  replay:{en:'Replay',zh:'重播'},
+  generated:{en:'Generated:',zh:'生成时间：'},
+  sources:{en:'Sources',zh:'数据来源'}
+};
+
+let lang = 'zh';
+let isSpeaking = false;
+
+// === RENDER ===
+function getLang(){return lang}
+function t(key){return I18N[key]?.[lang]||I18N[key]?.en||''}
+function d(obj){return obj?.[lang]||obj?.en||''}
+
+function renderCards(){
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = TRENDS_DATA.map(c=>`
+    <div class="card">
+      <div class="card-accent" style="background:${c.color}"></div>
+      <div class="card-source">${d(c.source)}</div>
+      <div class="card-title">${d(c.title)}</div>
+      <div class="card-text">${d(c.text)}</div>
+      <div class="card-tags">${d(c.tags).map((tag,i)=>`<span class="tag ${c.tagClass}">${tag}</span>`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+function renderTimeline(){
+  const tl = document.getElementById('timeline');
+  tl.innerHTML = ZHIPU_DATA.map(item=>`
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">${d(item.date)}</div>
+      <div class="timeline-title">${d(item.title)}</div>
+      <div class="timeline-text">${d(item.text)}</div>
+    </div>
+  `).join('');
+  const vb = document.getElementById('visionBlock');
+  vb.innerHTML = `<div class="vision-quote">${d(VISION_DATA.quote)}</div><div class="vision-note">${d(VISION_DATA.note)}</div>`;
+}
+
+function renderPerspective(){
+  const el = document.getElementById('perspectiveContent');
+  el.innerHTML = `
+    <div class="sa-inline">
+      <div class="sa-mini">SA</div>
+      <div style="font-weight:600;font-size:15px;color:var(--accent2)" data-i18n="signals">${lang==='zh'?'本周三大信号':'Three Signals This Week'}</div>
+    </div>
+    <ul class="perspective-points">
+      ${SA_PERSPECTIVE.signals.map(s=>`<li>${d(s)}</li>`).join('')}
+    </ul>
+    <div class="perspective-take">${d(SA_PERSPECTIVE.take)}</div>
+  `;
+}
+
+function renderFooter(){
+  document.getElementById('footerSources').innerHTML = SOURCES.map(s=>`<span class="footer-source">${s}</span>`).join('');
+  document.getElementById('footerMeta').textContent = `${t('generated')} ${new Date().toISOString().slice(0,19).replace('T',' ')}`;
+}
+
+function renderAll(){
+  renderCards();renderTimeline();renderPerspective();renderFooter();
+}
+
+// === TTS ===
+function getNarrationText(){
+  const l = lang;
+  const parts = [];
+  if(l==='zh'){
+    parts.push('大家好，我是你们的解决方案架构师。让我带你们快速回顾本周 AI 动态。');
+    parts.push('第一部分：行业动态。');
+    parts.push('Anthropic 发布了 Claude Mythos Preview，这是他们最强的前沿模型。Project Glasswing 联盟发现了一万多个高危漏洞。');
+    parts.push('OpenAI 发布了 Codex Goal Mode，可以自主运行数小时甚至数天。有测试者报告 18 小时内独立完成 14 个功能。');
+    parts.push('DeepSeek V4 Pro 宣布折扣永久化，1.6T 参数、100万上下文，性价比领先。');
+    parts.push('第二部分：智谱本周。');
+    parts.push('唐杰宣布 GLM-5.1-highspeed 达到每秒 400 token。Z.ai 发布 ZCube 推理网络优化方案。唐杰提出今年最可能的突破是长程任务。');
+    parts.push('第三部分：我的观点。');
+    parts.push('行业正在向长程自主任务收敛。智谱在推理速度和 Agent 能力的双线押注是正确的方向。核心问题是能否在 Anthropic 的安全优势和 DeepSeek 的成本优势面前保持节奏。');
+  } else {
+    parts.push("Hi, I'm your Solution Architect. Let me walk you through this week in AI.");
+    parts.push("Part 1: Industry Dynamics.");
+    parts.push("Anthropic released Claude Mythos Preview — their most capable frontier model. Project Glasswing found over 10,000 high-severity vulnerabilities.");
+    parts.push("OpenAI shipped Codex Goal Mode — a persistent agentic loop that works autonomously for hours or days.");
+    parts.push("DeepSeek V4 Pro's discount went permanent — 1.6T parameters, 1M context, leading cost-performance.");
+    parts.push("Part 2: Zhipu AI This Week.");
+    parts.push("Tang Jie announced GLM-5.1-highspeed at 400 tokens per second. Z.ai published ZCube inference network optimization. Tang highlighted long-horizon tasks as the key breakthrough.");
+    parts.push("Part 3: My Perspective.");
+    parts.push("The industry is converging on long-horizon autonomous tasks as the frontier. Zhipu's dual bet on speed plus agentic capability is strategically sound. The question is sustaining pace against Anthropic's safety moat and DeepSeek's cost leadership.");
+  }
+  return parts.join(' ');
+}
+
+function toggleNarration(){
+  const synth = window.speechSynthesis;
+  const mouth = document.getElementById('saMouth');
+  const btn = document.getElementById('btnTTS');
+  if(isSpeaking){
+    synth.cancel();isSpeaking=false;mouth.classList.remove('speaking');
+    btn.innerHTML='▶ <span>'+t('narrate')+'</span>';
+    return;
+  }
+  const text = getNarrationText();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = lang==='zh'?'zh-CN':'en-US';
+  utter.rate = 1.05;
+  utter.onstart=()=>{isSpeaking=true;mouth.classList.add('speaking');btn.innerHTML='⏹ <span>'+t('narrate')+'</span>'};
+  utter.onend=()=>{isSpeaking=false;mouth.classList.remove('speaking');btn.innerHTML='▶ <span>'+t('narrate')+'</span>'};
+  synth.speak(utter);
+}
+
+// === THEME ===
+function toggleTheme(){
+  const html=document.documentElement;
+  const dark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('btnTheme').textContent=dark?'🌙':'☀';
+}
+
+// === LANG ===
+function toggleLang(){
+  lang = lang==='zh'?'en':'zh';
+  document.documentElement.setAttribute('data-lang',lang);
+  document.getElementById('btnLang').textContent=lang==='zh'?'EN':'中文';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(I18N[key])el.innerHTML=t(key);
+  });
+  renderAll();
+}
+
+// === INIT ===
+renderAll();
+</script>
+</body>
+</html>
