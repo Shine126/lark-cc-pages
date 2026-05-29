@@ -377,24 +377,29 @@ const MODEL_DATA = [
   { vendor:'OpenAI', model:'GPT-5.2', ctx:'400K', release:'2026-01', outputPriceIntl:'$14.00', recommended:false },
   { vendor:'Anthropic', model:'Claude Opus 4.6', ctx:'200K', release:'2026-02', outputPriceIntl:'$25.00', recommended:false },
   { vendor:'DeepSeek', model:'DeepSeek V4 Pro', ctx:'128K', release:'2026-05', outputPriceIntl:'$0.87', recommended:false },
+  { vendor:'Google', model:'Gemini 2.5 Pro', ctx:'1M', release:'2026-03', outputPriceIntl:'$10.00', recommended:false },
 ];
 
 const BENCH_DATA = {
   headers: ['Benchmark','GLM-5.1','GPT-5.2','Claude Opus 4.6','DeepSeek V4 Pro','Gemini 2.5 Pro'],
   rows: [
-    { name:'MMLU / MMMLU', scores:['89.0%','93.0%+','91.1%','90.2%','91.5%'], best:1 },
-    { name:'GPQA Diamond', scores:['86.2%','92.4%','68.4%','72.1%','74.2%'], best:1 },
-    { name:'AIME 2025', scores:['—','100%','—','78.5%','73.3%'], best:1 },
-    { name:'MATH', scores:['80.0%','96.0%+','85.2%','60.5%','83.5%'], best:1 },
-    { name:'SWE-Bench Verified', scores:['80.8%','80.0%','80.8%','80.6%','63.8%'], best:0 },
-    { name:'HumanEval', scores:['92.1%','95.0%+','97.0%+','90.0%+','68.6%'], best:2 },
+    { name:'MMMLU', scores:['89.0%','93.0%+','91.1%','87.5%¹','91.5%'], best:1 },
+    { name:'GPQA Diamond', scores:['86.2%','92.4%','91.3%','90.1%','83.0%'], best:1 },
+    { name:'AIME 2025', scores:['—','100%','—','—','73.3%'], best:1 },
+    { name:'MATH', scores:['80.0%','96.0%+','85.2%','60.5%¹','83.5%'], best:1 },
+    { name:'SWE-Bench Verified', scores:['80.8%²','80.0%','80.8%','80.6%','63.8%'], best:0 },
+    { name:'SWE-Bench Pro', scores:['58.4%','55.6%','56.8%','—','—'], best:0 },
   ],
+  footnotes: {
+    '¹':'DeepSeek V4 base model score (0-shot/4-shot), Pro variant may differ',
+    '²':'GLM-5.1 SWE-Bench Verified score from Hugging Face model card; tied with Claude Opus 4.6',
+  },
   sources: {
-    'GLM-5.1':'Hugging Face zai-org/GLM-5.1',
-    'GPT-5.2':'OpenAI Tech Report, Vellum',
-    'Claude Opus 4.6':'Anthropic Blog, Vellum',
-    'DeepSeek V4 Pro':'Hugging Face, DeepSeek Tech Report',
-    'Gemini 2.5 Pro':'Google Blog Official',
+    'GLM-5.1':'Hugging Face zai-org/GLM-5.1, Instagram Official Announcement',
+    'GPT-5.2':'OpenAI Official, Vellum Benchmark Analysis',
+    'Claude Opus 4.6':'Anthropic Official Blog, Vellum Benchmark Analysis',
+    'DeepSeek V4 Pro':'Hugging Face deepseek-ai/DeepSeek-V4-Pro, NVIDIA NIM, MorphLLM',
+    'Gemini 2.5 Pro':'Google Blog Official Announcement, Artificial Analysis',
   }
 };
 
@@ -529,6 +534,14 @@ function renderBenchTable(){
     html+='</tr>';
   });
   html+='</tbody></table></div>';
+  // footnotes
+  if(BENCH_DATA.footnotes){
+    html+='<div style="margin-top:12px">';
+    Object.entries(BENCH_DATA.footnotes).forEach(([k,v])=>{
+      html+=`<div style="font-size:11px;color:var(--text-tertiary);line-height:1.5;margin-bottom:4px"><sup>${k}</sup> ${v}</div>`;
+    });
+    html+='</div>';
+  }
   wrap.innerHTML=html;
 
   const src=document.getElementById('benchSources');
