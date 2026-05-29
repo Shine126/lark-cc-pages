@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z.ai Startup Program</title>
+<style>
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.8);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #fff; --accent-glow: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --stat-bg: #000; --scenario-bg: #0c0c0e; --quote-bg: #0c0c0e;
+  --hero-gradient: linear-gradient(180deg, #000 0%, #08080a 50%, #000 100%);
+  --highlight-bg: #fff; --highlight-text: #000;
+  --logo-filter: brightness(1);
+  --shadow-hero: rgba(0,0,0,0.35); --shadow-card: rgba(0,0,0,0.15);
+  --startup-accent: #3b82f6; --startup-green: #22c55e; --startup-orange: #f59e0b;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.85);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #1d1d1f; --accent-glow: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --stat-bg: #fff; --scenario-bg: #f5f5f7; --quote-bg: #f5f5f7;
+  --hero-gradient: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #ffffff 100%);
+  --highlight-bg: #1d1d1f; --highlight-text: #fff;
+  --logo-filter: brightness(0);
+  --shadow-hero: rgba(0,0,0,0.08); --shadow-card: rgba(0,0,0,0.06);
+  --startup-accent: #2563eb;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.35s ease,color 0.35s ease}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:0.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background 0.4s,border-color 0.4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-secondary);transition:color 0.2s;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all 0.25s;font-size:14px;border:1px solid var(--border);cursor:pointer;background:none}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+.lang-btn{font-size:11px;font-weight:600;width:auto;padding:0 12px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:140px 48px;position:relative}
+.container{max-width:1000px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(36px,5.5vw,64px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--startup-accent);font-weight:600}
+.subtitle{font-size:clamp(16px,1.8vw,19px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:680px}
+.divider{width:32px;height:1px;background:var(--border-hover);margin:56px auto}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:900px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 48px;text-align:center}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:64px}
+.stat{background:var(--stat-bg);padding:40px 24px;text-align:center;transition:background 0.4s}
+.stat-num{font-size:clamp(32px,4.5vw,48px);font-weight:700;letter-spacing:-0.03em;color:var(--text)}
+.stat-desc{font-size:13px;color:var(--text-secondary);margin-top:8px;line-height:1.5}
+
+/* SCENARIO / VALUE CARDS */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;border-radius:16px;overflow:hidden;background:var(--border)}
+.card{background:var(--scenario-bg);padding:32px 24px;border:1px solid var(--border);transition:all 0.3s ease}
+.card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.card-icon{width:36px;height:36px;border-radius:10px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:16px}
+.card h4{font-size:15px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+.card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+/* MILESTONE TIMELINE */
+.timeline{margin-top:56px;position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:1px;background:var(--border)}
+.milestone{position:relative;margin-bottom:48px}
+.milestone:last-child{margin-bottom:0}
+.milestone::before{content:'';position:absolute;left:-33px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--startup-accent);border:2px solid var(--bg)}
+.milestone-time{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--startup-accent);margin-bottom:8px}
+.milestone h4{font-size:18px;font-weight:600;margin-bottom:10px}
+.milestone ul{list-style:none;padding:0}
+.milestone ul li{padding:6px 0;font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;line-height:1.6}
+.milestone ul li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--text-tertiary);flex-shrink:0;margin-top:9px}
+.milestone .metric{display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;background:var(--accent-glow);color:var(--text-secondary);margin-top:8px;margin-right:6px}
+
+/* BUDGET */
+.budget-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+.budget-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 28px;transition:all 0.3s ease}
+.budget-card:hover{border-color:var(--border-hover)}
+.budget-card .budget-label{font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:12px}
+.budget-card .budget-amount{font-size:clamp(28px,3.5vw,40px);font-weight:700;letter-spacing:-0.02em;margin-bottom:16px}
+.budget-card .budget-amount .currency{font-size:0.5em;color:var(--text-secondary);font-weight:500}
+.budget-card ul{list-style:none;padding:0}
+.budget-card ul li{padding:8px 0;font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px;border-bottom:1px solid var(--border)}
+.budget-card ul li:last-child{border-bottom:none}
+.budget-card ul li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--startup-accent);flex-shrink:0;margin-top:8px}
+
+/* FAQ */
+.faq-list{margin-top:48px}
+.faq-item{border-bottom:1px solid var(--border);padding:28px 0}
+.faq-item:first-child{border-top:1px solid var(--border)}
+.faq-q{font-size:16px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;transition:color 0.2s}
+.faq-q:hover{color:var(--startup-accent)}
+.faq-q .arrow{transition:transform 0.3s;font-size:12px;color:var(--text-tertiary);flex-shrink:0}
+.faq-q.open .arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s ease}
+.faq-a.open{max-height:600px;padding-top:16px}
+.faq-a p{font-size:14px;color:var(--text-secondary);line-height:1.7}
+.faq-a p strong{color:var(--text);font-weight:600}
+
+/* STRUCTURE / ROLES */
+.role-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:48px}
+.role-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:all 0.3s}
+.role-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.role-card h4{font-size:14px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.role-card h4 .role-tag{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.role-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+/* CTA */
+.cta{text-align:center;padding:160px 48px;background:var(--hero-gradient)}
+.cta .title{margin-bottom:20px}
+.cta .subtitle{margin:0 auto 48px;text-align:center}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:16px 40px;border-radius:100px;font-size:15px;font-weight:600;letter-spacing:-0.01em;border:1.5px solid var(--border-hover);color:var(--text);transition:all 0.3s ease;cursor:pointer;background:none}
+.cta-btn:hover{background:var(--text);color:var(--bg);border-color:var(--text);transform:scale(1.03)}
+
+/* FOOTER */
+.footer{padding:48px 48px 56px;text-align:center;border-top:0.5px solid var(--border);color:var(--text-tertiary);font-size:12px;letter-spacing:0.01em}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s cubic-bezier(0.22,1,0.36,1),transform 0.65s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:0.08s}.reveal-d2{transition-delay:0.16s}.reveal-d3{transition-delay:0.24s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav{padding:0 20px;height:48px}.nav-links{display:none}
+  .section{padding:96px 24px}.container{max-width:100%}
+  .stats,.card-grid{grid-template-columns:1fr}
+  .budget-grid,.role-grid{grid-template-columns:1fr}
+  .cta{padding:120px 24px}.footer{padding:40px 24px 48px}
+  .title{font-size:clamp(32px,8vw,48px)}
+}
+@media(max-width:480px){
+  .stat{padding:32px 20px}.card{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-text">Z.ai<span>Startup Program</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#overview" data-i18n="nav_overview">Overview</a>
+    <a href="#goals" data-i18n="nav_goals">Goals</a>
+    <a href="#execution" data-i18n="nav_execution">Execution</a>
+    <a href="#budget" data-i18n="nav_budget">Budget</a>
+    <a href="#value" data-i18n="nav_value">Value</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">中</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle theme"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="label reveal" data-i18n="hero_label">Z.ai Global Business</div>
+  <h1 class="title reveal" data-i18n="hero_title">Startup Program</h1>
+  <p class="subtitle reveal" data-i18n="hero_desc">An AI-native, autonomous engine that systematically converts startup leads into opportunities — targeting ¥15M incremental revenue by 2026 EOY.</p>
+  <div class="stats reveal" style="max-width:720px;margin-left:auto;margin-right:auto">
+    <div class="stat"><div class="stat-num" style="color:var(--startup-accent)">¥15M</div><div class="stat-desc" data-i18n="st_rev">Revenue Target EOY</div></div>
+    <div class="stat"><div class="stat-num">6K+</div><div class="stat-desc" data-i18n="st_leads">Startup Leads</div></div>
+    <div class="stat"><div class="stat-num">80</div><div class="stat-desc" data-i18n="st_opp">Qualified Opportunities</div></div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="ov_label">Program Introduction</div>
+      <h2 class="title" data-i18n="ov_title">AI-Native Engine for <em>Startup Growth</em></h2>
+      <p class="subtitle" data-i18n="ov_desc">Build an AI-native, autonomous and high-leverage venture ecosystem in Z.ai Global Business team. Drive startups' high-speed commercial growth and forge a unique path of AI-orchestrated startup incubation.</p>
+    </div>
+    <div class="divider"></div>
+    <div class="reveal">
+      <h3 style="font-size:22px;font-weight:600;margin-bottom:32px;letter-spacing:-0.02em" data-i18n="ov_tenet">Program Tenets</h3>
+    </div>
+    <div class="card-grid reveal">
+      <div class="card"><div class="card-icon">🚀</div><h4 data-i18n="t1_h">AI Native Mindset</h4><p data-i18n="t1_p">Work like an AI-native startup — move fast, iterate, and automate everything.</p></div>
+      <div class="card"><div class="card-icon">🎯</div><h4 data-i18n="t2_h">Top Lead Acceleration</h4><p data-i18n="t2_p">Find top startup leads and accelerate their journey from discovery to activation.</p></div>
+      <div class="card"><div class="card-icon">📈</div><h4 data-i18n="t3_h">BD Pipeline Scaling</h4><p data-i18n="t3_p">Drive opportunities for BD teams to scale conversion and revenue.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section class="section" id="goals" style="background:var(--bg-card)">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="gl_label">Program Goals</div>
+      <h2 class="title" data-i18n="gl_title">From <em>Leads</em> to <em>Revenue</em></h2>
+    </div>
+    <div class="stats reveal" style="grid-template-columns:repeat(4,1fr)">
+      <div class="stat"><div class="stat-num">6K+</div><div class="stat-desc" data-i18n="g1">Leads by EOY</div></div>
+      <div class="stat"><div class="stat-num">400</div><div class="stat-desc" data-i18n="g2">MQLs by EOY</div></div>
+      <div class="stat"><div class="stat-num">80</div><div class="stat-desc" data-i18n="g3">Opportunities (activated accounts)</div></div>
+      <div class="stat"><div class="stat-num" style="color:var(--startup-accent)">¥15M</div><div class="stat-desc" data-i18n="g4">Revenue Pipeline by EOY</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXECUTION -->
+<section class="section" id="execution">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="ex_label">Execution Plan</div>
+      <h2 class="title" data-i18n="ex_title">Milestones & <em>Timeline</em></h2>
+    </div>
+    <div class="timeline reveal">
+      <div class="milestone">
+        <div class="milestone-time" data-i18n="m1_time">Milestone 1 — May 2026</div>
+        <h4 data-i18n="m1_h">Program Kick-off</h4>
+        <ul>
+          <li data-i18n="m1_a">Program proposal ready and approved by 05/22</li>
+          <li data-i18n="m1_b">Budget approved and assigned by 05/29</li>
+          <li data-i18n="m1_c">Kick-off meeting to the team by 05/29</li>
+        </ul>
+      </div>
+      <div class="milestone">
+        <div class="milestone-time" data-i18n="m2_time">Milestone 2 — June 2026</div>
+        <h4 data-i18n="m2_h">Lead Acquisition at Scale</h4>
+        <ul>
+          <li data-i18n="m2_a">Acquire 600 leads (20 MQLs) from social media — X, LinkedIn, Discord, Z.ai website</li>
+          <li data-i18n="m2_b">Acquire 200 leads (15 MQLs) from VCs & accelerators — Plug & Play, 模塑空间</li>
+          <li data-i18n="m2_c">Acquire 200 leads (15 MQLs) from community events — 观猹, AdventureX, Google Cloud Rapid Agent Hackathon</li>
+        </ul>
+        <div>
+          <span class="metric" data-i18n="m2_k1">1,000 leads by 06/30</span>
+          <span class="metric" data-i18n="m2_k2">50 MQLs by 06/30</span>
+          <span class="metric" data-i18n="m2_k3">10 opp by 06/30</span>
+          <span class="metric" data-i18n="m2_k4">¥100W rev pipeline by 06/30</span>
+        </div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-time" data-i18n="m3_time">Milestone 3 — Q4 2026</div>
+        <h4 data-i18n="m3_h">Scale to Annual Targets</h4>
+        <ul>
+          <li data-i18n="m3_a">Reach quarterly KRs and yearly KRs</li>
+        </ul>
+        <div>
+          <span class="metric" data-i18n="m3_k1">6K+ leads by 12/31</span>
+          <span class="metric" data-i18n="m3_k2">400 MQLs by 12/31</span>
+          <span class="metric" data-i18n="m3_k3">80 opp by 12/31</span>
+          <span class="metric" data-i18n="m3_k4">¥15M rev pipeline by 12/31</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUDGET -->
+<section class="section" id="budget" style="background:var(--bg-card)">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="bu_label">Budget Allocation</div>
+      <h2 class="title" data-i18n="bu_title">Investing in <em>Growth</em></h2>
+      <p class="subtitle" data-i18n="bu_desc">Total budget: ¥160W ($230K) — covering marketing outreach, API credits for startups, and operational support.</p>
+    </div>
+    <div class="budget-grid reveal">
+      <div class="budget-card">
+        <div class="budget-label" data-i18n="bu_mkt_label">Marketing Budget</div>
+        <div class="budget-amount"><span class="currency">¥</span>55W<span class="currency"> / $80K</span></div>
+        <ul>
+          <li data-i18n="bu_mkt_1">VCs & Accelerators: Plug & Play, 模塑空间</li>
+          <li data-i18n="bu_mkt_2">Community & Events: 观猹, AdventureX, Google Cloud Rapid Agent Hackathon</li>
+        </ul>
+      </div>
+      <div class="budget-card">
+        <div class="budget-label" data-i18n="bu_cr_label">API Credits</div>
+        <div class="budget-amount"><span class="currency">¥</span>105W<span class="currency"> / $150K</span></div>
+        <ul>
+          <li data-i18n="bu_cr_1"><strong>Tier 1 — Star Startups:</strong> ¥8,000 ($1,000) each, 80 opportunities</li>
+          <li data-i18n="bu_cr_2"><strong>Tier 2 — New Startups:</strong> ¥800–1,500 ($100–200) each, 400 MQLs</li>
+        </ul>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:24px;text-align:center">
+      <p style="font-size:13px;color:var(--text-tertiary)" data-i18n="bu_note">+ 1 Intern for program operations</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section class="section" id="value">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="vp_label">Value Propositions</div>
+      <h2 class="title" data-i18n="vp_title">Why Startups <em>Choose Z.ai</em></h2>
+    </div>
+    <div class="card-grid reveal" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><div class="card-icon">💳</div><h4 data-i18n="vp1_h">Credits & Perks</h4><p data-i18n="vp1_p">Access to Z.ai's advanced GLM model family. API credits to accelerate product development and experimentation. Build guides + launch kits for agents.</p></div>
+      <div class="card"><div class="card-icon">🛠</div><h4 data-i18n="vp2_h">Office Hours & Enablement</h4><p data-i18n="vp2_p">Technical guidance for production deployment. Enablement sessions and office hours with Z.ai engineering teams.</p></div>
+      <div class="card"><div class="card-icon">🌐</div><h4 data-i18n="vp3_h">Alumni & Community</h4><p data-i18n="vp3_p">Direct connection to a growing global community of AI founders, VCs and accelerators. Exclusive events with founder stories and insights.</p></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="reveal">
+      <h3 style="font-size:22px;font-weight:600;margin-bottom:32px;letter-spacing:-0.02em" data-i18n="vp_team_label">Team Structure</h3>
+    </div>
+    <div class="role-grid reveal">
+      <div class="role-card">
+        <h4><span class="role-tag" style="background:color-mix(in srgb, var(--startup-accent) 15%, transparent);color:var(--startup-accent)">MKT</span> <span data-i18n="r1_h">Marketing</span></h4>
+        <p data-i18n="r1_p">Leads outreach through social media. Event support with VCs, accelerators, and communities.</p>
+      </div>
+      <div class="role-card">
+        <h4><span class="role-tag" style="background:color-mix(in srgb, var(--startup-green) 15%, transparent);color:var(--startup-green)">SA</span> <span data-i18n="r2_h">Solution Architecture</span></h4>
+        <p data-i18n="r2_p">Pivot program dashboard, build program agent, participate in office hours & workshops.</p>
+      </div>
+      <div class="role-card">
+        <h4><span class="role-tag" style="background:color-mix(in srgb, var(--startup-orange) 15%, transparent);color:var(--startup-orange)">BD</span> <span data-i18n="r3_h">Business Development</span></h4>
+        <p data-i18n="r3_p">Customer scale & conversion after opportunity. Startup customer reference nomination. Co-build solid channels to feed startup leads pool.</p>
+      </div>
+      <div class="role-card">
+        <h4><span class="role-tag" style="background:var(--accent-glow);color:var(--text-secondary)">FIN</span> <span data-i18n="r4_h">Finance</span></h4>
+        <p data-i18n="r4_p">Budget approval and check-in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARGET CUSTOMER -->
+<section class="section" style="background:var(--bg-card)">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="tc_label">Target Customer</div>
+      <h2 class="title" data-i18n="tc_title">Who We <em>Serve</em></h2>
+    </div>
+    <div class="card-grid reveal" style="grid-template-columns:repeat(2,1fr)">
+      <div class="card"><div class="card-icon">🏢</div><h4 data-i18n="tc1_h">AI-Native Startups Scaling in the US</h4><p data-i18n="tc1_p">Coding, RolePlay, IDE, Gaming, Short/Micro Drama, CN startups going global. Preferred segments building real AI products — from AI agents and copilots to vertical AI applications and multimodal systems.</p></div>
+      <div class="card"><div class="card-icon">💡</div><h4 data-i18n="tc2_h">Early-Stage (Angel → Series A)</h4><p data-i18n="tc2_p">Small and medium size startups at angel-funded, pre-seed, seed, pre-Series A or Series A stage. Supporting founders from prototype to production and scale.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="faq_label">Frequently Asked Questions</div>
+      <h2 class="title" data-i18n="faq_title">FAQ</h2>
+    </div>
+    <div class="faq-list reveal" id="faqList">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="reveal">
+    <h2 class="title" data-i18n="cta_title">Ready to Build?</h2>
+    <p class="subtitle" data-i18n="cta_desc">Startups are building nonstop and the best founders are choosing their partners today. Let the engine start learning.</p>
+    <a href="https://z.ai" class="cta-btn" data-i18n="cta_btn">Get Started →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Z.ai Startup Program &copy; 2026 &nbsp;·&nbsp; Global Business Team</p>
+</div>
+
+<script>
+/* ===== FAQ DATA ===== */
+const FAQ_DATA = [
+  { q:{en:"Who is your customer?",zh:"目标客户是谁？"}, a:{en:"<p><strong>A:</strong> AI native startups scaling in the US. Preferred segments: coding, roleplay, IDE, gaming, short/micro drama, CN startups going global. Small and medium size (angel-funded, pre-seed, seed, pre-Series A or Series A).</p>",zh:"<p><strong>A:</strong> 在美国扩张的 AI 原生创业公司，重点领域：Coding、RolePlay、IDE、游戏、短剧/微短剧、出海企业。规模：天使轮、种子轮、Pre-A、A轮。</p>"} },
+  { q:{en:"How will you reach your target?",zh:"如何触达目标客户？"}, a:{en:"<p><strong>A:</strong> Proactively engage via Z.ai website & social media, online campaigns and offline events — mainly through cowork with third parties in the US (VCs, accelerators, communities).</p>",zh:"<p><strong>A:</strong> 通过 Z.ai 官网和社媒主动触达，结合线上营销和线下活动（主要与美国第三方合作：VC、加速器、社区）。</p>"} },
+  { q:{en:"What's the program's value to customers?",zh:"对客户的价值是什么？"}, a:{en:"<p><strong>A:</strong> Credits & perks: Access to Z.ai's GLM family, API credits, build guides + launch kits. Office hours & enablement: Technical guidance for production deployment, sessions with Z.ai engineering. Alumni & community: Connection to AI founders, VCs, accelerators.</p>",zh:"<p><strong>A:</strong> 额度与权益：GLM 模型家族访问、API 额度、构建指南和启动套件。办公时间：生产部署技术指导、Z.ai 工程团队交流。校友社区：连接全球 AI 创始人、VC 和加速器。</p>"} },
+  { q:{en:"How to evaluate program success?",zh:"如何评估项目成功？"}, a:{en:"<p><strong>A:</strong> Ultimate goal: ¥15M incremental revenue by 2026 EOY (80+ opp, 400+ MQLs, 6K+ leads).</p>",zh:"<p><strong>A:</strong> 终极目标：2026 年底前 ¥1500 万增量收入（80+ 商机、400+ MQL、6000+ 线索）。</p>"} },
+  { q:{en:"Why should Z.ai start this program immediately?",zh:"为什么现在就要启动？"}, a:{en:"<p><strong>A:</strong> Startups are building nonstop and the best founders are choosing their partners today. We must launch immediately to let the engine start learning, capture the first-mover advantage, and give our portfolio the 6 months they need to hit our ¥15M goal.</p>",zh:"<p><strong>A:</strong> 创业者在不停地构建产品，最优秀的创始人正在选择合作伙伴。必须立即启动让引擎开始学习，抢占先发优势，给我们的 portfolio 6 个月时间来达成 ¥1500 万目标。</p>"} }
+];
+
+/* ===== I18N ===== */
+let lang = 'en';
+const I18N = {
+  nav_overview:{en:"Overview",zh:"概览"},
+  nav_goals:{en:"Goals",zh:"目标"},
+  nav_execution:{en:"Execution",zh:"执行"},
+  nav_budget:{en:"Budget",zh:"预算"},
+  nav_value:{en:"Value",zh:"价值"},
+  nav_faq:{en:"FAQ",zh:"常见问题"},
+  hero_label:{en:"Z.ai Global Business",zh:"Z.ai 国际业务"},
+  hero_title:{en:"Startup Program",zh:"创业公司计划"},
+  hero_desc:{en:"An AI-native, autonomous engine that systematically converts startup leads into opportunities — targeting ¥15M incremental revenue by 2026 EOY.",zh:"一个 AI 原生的自主引擎，系统地将创业公司线索转化为商机 —— 目标 2026 年底前实现 ¥1500 万增量收入。"},
+  st_rev:{en:"Revenue Target EOY",zh:"年底收入目标"},
+  st_leads:{en:"Startup Leads",zh:"创业公司线索"},
+  st_opp:{en:"Qualified Opportunities",zh:"合格商机"},
+  ov_label:{en:"Program Introduction",zh:"项目介绍"},
+  ov_title:{en:"AI-Native Engine for <em>Startup Growth</em>",zh:"面向 <em>创业增长</em> 的 AI 原生引擎"},
+  ov_desc:{en:"Build an AI-native, autonomous and high-leverage venture ecosystem in Z.ai Global Business team. Drive startups' high-speed commercial growth and forge a unique path of AI-orchestrated startup incubation.",zh:"在 Z.ai 国际业务团队构建 AI 原生、自主、高杠杆的创业生态系统。驱动创业公司高速商业增长，走出一条独特的 AI 编排创业孵化之路。"},
+  ov_tenet:{en:"Program Tenets",zh:"项目原则"},
+  t1_h:{en:"AI Native Mindset",zh:"AI 原生思维"},
+  t1_p:{en:"Work like an AI-native startup — move fast, iterate, and automate everything.",zh:"像 AI 原生创业公司一样工作 —— 快速行动、持续迭代、全面自动化。"},
+  t2_h:{en:"Top Lead Acceleration",zh:"头部线索加速"},
+  t2_p:{en:"Find top startup leads and accelerate their journey from discovery to activation.",zh:"找到头部创业公司线索，加速从发现到激活的全过程。"},
+  t3_h:{en:"BD Pipeline Scaling",zh:"BD 管道扩展"},
+  t3_p:{en:"Drive opportunities for BD teams to scale conversion and revenue.",zh:"驱动 BD 团队的商机转化和收入规模化。"},
+  gl_label:{en:"Program Goals",zh:"项目目标"},
+  gl_title:{en:"From <em>Leads</em> to <em>Revenue</em>",zh:"从 <em>线索</em> 到 <em>收入</em>"},
+  g1:{en:"Leads by EOY",zh:"年底前线索"},
+  g2:{en:"MQLs by EOY",zh:"年底前 MQL"},
+  g3:{en:"Opportunities (activated accounts)",zh:"商机（已激活账户）"},
+  g4:{en:"Revenue Pipeline by EOY",zh:"年底前收入管道"},
+  ex_label:{en:"Execution Plan",zh:"执行计划"},
+  ex_title:{en:"Milestones & <em>Timeline</em>",zh:"里程碑与 <em>时间线</em>"},
+  m1_time:{en:"Milestone 1 — May 2026",zh:"里程碑 1 — 2026 年 5 月"},
+  m1_h:{en:"Program Kick-off",zh:"项目启动"},
+  m1_a:{en:"Program proposal ready and approved by 05/22",zh:"项目方案 05/22 前就绪并获批"},
+  m1_b:{en:"Budget approved and assigned by 05/29",zh:"预算 05/29 前获批并分配"},
+  m1_c:{en:"Kick-off meeting to the team by 05/29",zh:"05/29 前召开团队启动会"},
+  m2_time:{en:"Milestone 2 — June 2026",zh:"里程碑 2 — 2026 年 6 月"},
+  m2_h:{en:"Lead Acquisition at Scale",zh:"大规模线索获取"},
+  m2_a:{en:"Acquire 600 leads (20 MQLs) from social media — X, LinkedIn, Discord, Z.ai website",zh:"从社交媒体获取 600 线索（20 MQL）— X、LinkedIn、Discord、Z.ai 官网"},
+  m2_b:{en:"Acquire 200 leads (15 MQLs) from VCs & accelerators — Plug & Play, 模塑空间",zh:"从 VC 和加速器获取 200 线索（15 MQL）— Plug & Play、模塑空间"},
+  m2_c:{en:"Acquire 200 leads (15 MQLs) from community events — 观猹, AdventureX, Google Cloud Rapid Agent Hackathon",zh:"从社区活动获取 200 线索（15 MQL）— 观猹、AdventureX、Google Cloud Rapid Agent Hackathon"},
+  m2_k1:{en:"1,000 leads by 06/30",zh:"06/30 前 1,000 线索"},
+  m2_k2:{en:"50 MQLs by 06/30",zh:"06/30 前 50 MQL"},
+  m2_k3:{en:"10 opp by 06/30",zh:"06/30 前 10 商机"},
+  m2_k4:{en:"¥100W rev pipeline by 06/30",zh:"06/30 前 ¥100 万收入管道"},
+  m3_time:{en:"Milestone 3 — Q4 2026",zh:"里程碑 3 — 2026 年 Q4"},
+  m3_h:{en:"Scale to Annual Targets",zh:"冲刺年度目标"},
+  m3_a:{en:"Reach quarterly KRs and yearly KRs",zh:"达成季度和年度关键结果"},
+  m3_k1:{en:"6K+ leads by 12/31",zh:"12/31 前 6000+ 线索"},
+  m3_k2:{en:"400 MQLs by 12/31",zh:"12/31 前 400 MQL"},
+  m3_k3:{en:"80 opp by 12/31",zh:"12/31 前 80 商机"},
+  m3_k4:{en:"¥15M rev pipeline by 12/31",zh:"12/31 前 ¥1500 万收入管道"},
+  bu_label:{en:"Budget Allocation",zh:"预算分配"},
+  bu_title:{en:"Investing in <em>Growth</em>",zh:"投资 <em>增长</em>"},
+  bu_desc:{en:"Total budget: ¥160W ($230K) — covering marketing outreach, API credits for startups, and operational support.",zh:"总预算：¥160 万（$230K）—— 覆盖市场推广、创业公司 API 额度和运营支持。"},
+  bu_mkt_label:{en:"Marketing Budget",zh:"市场预算"},
+  bu_mkt_1:{en:"VCs & Accelerators: Plug & Play, 模塑空间",zh:"VC 与加速器：Plug & Play、模塑空间"},
+  bu_mkt_2:{en:"Community & Events: 观猹, AdventureX, Google Cloud Rapid Agent Hackathon",zh:"社区与活动：观猹、AdventureX、Google Cloud Rapid Agent Hackathon"},
+  bu_cr_label:{en:"API Credits",zh:"API 额度"},
+  bu_cr_1:{en:"<strong>Tier 1 — Star Startups:</strong> ¥8,000 ($1,000) each, 80 opportunities",zh:"<strong>Tier 1 — 明星创业公司：</strong>每家 ¥8,000（$1,000），80 个商机"},
+  bu_cr_2:{en:"<strong>Tier 2 — New Startups:</strong> ¥800–1,500 ($100–200) each, 400 MQLs",zh:"<strong>Tier 2 — 新入驻创业公司：</strong>每家 ¥800–1,500（$100–200），400 MQL"},
+  bu_note:{en:"+ 1 Intern for program operations",zh:"+ 1 名实习生支持项目运营"},
+  vp_label:{en:"Value Propositions",zh:"价值主张"},
+  vp_title:{en:"Why Startups <em>Choose Z.ai</em>",zh:"为什么创业公司 <em>选择 Z.ai</em>"},
+  vp1_h:{en:"Credits & Perks",zh:"额度与权益"},
+  vp1_p:{en:"Access to Z.ai's advanced GLM model family. API credits to accelerate product development and experimentation. Build guides + launch kits for agents.",zh:"访问 Z.ai 先进的 GLM 模型家族。API 额度加速产品开发和实验。Agent 构建指南和启动套件。"},
+  vp2_h:{en:"Office Hours & Enablement",zh:"办公时间与赋能"},
+  vp2_p:{en:"Technical guidance for production deployment. Enablement sessions and office hours with Z.ai engineering teams.",zh:"生产部署技术指导。Z.ai 工程团队赋能课程和办公时间。"},
+  vp3_h:{en:"Alumni & Community",zh:"校友与社区"},
+  vp3_p:{en:"Direct connection to a growing global community of AI founders, VCs and accelerators. Exclusive events with founder stories and insights.",zh:"直接连接不断增长的全球 AI 创始人、VC 和加速器社区。独家活动分享创始人故事和洞察。"},
+  vp_team_label:{en:"Team Structure",zh:"团队结构"},
+  r1_h:{en:"Marketing",zh:"市场营销"},
+  r1_p:{en:"Leads outreach through social media. Event support with VCs, accelerators, and communities.",zh:"通过社媒进行线索触达。VC、加速器和社区活动支持。"},
+  r2_h:{en:"Solution Architecture",zh:"解决方案架构"},
+  r2_p:{en:"Pivot program dashboard, build program agent, participate in office hours & workshops.",zh:"搭建项目看板、构建项目 Agent、参与办公时间和研讨会。"},
+  r3_h:{en:"Business Development",zh:"商务拓展"},
+  r3_p:{en:"Customer scale & conversion after opportunity. Startup customer reference nomination. Co-build solid channels to feed startup leads pool.",zh:"商机后的客户规模化和转化。创业公司客户案例推荐。共建稳定渠道输送创业线索池。"},
+  r4_h:{en:"Finance",zh:"财务"},
+  r4_p:{en:"Budget approval and check-in.",zh:"预算审批和检查。"},
+  tc_label:{en:"Target Customer",zh:"目标客户"},
+  tc_title:{en:"Who We <em>Serve</em>",zh:"我们 <em>服务谁</em>"},
+  tc1_h:{en:"AI-Native Startups Scaling in the US",zh:"在美国扩张的 AI 原生创业公司"},
+  tc1_p:{en:"Coding, RolePlay, IDE, Gaming, Short/Micro Drama, CN startups going global. Preferred segments building real AI products — from AI agents and copilots to vertical AI applications and multimodal systems.",zh:"Coding、RolePlay、IDE、游戏、短剧/微短剧、出海企业。重点服务真正构建 AI 产品的团队 —— 从 AI Agent 和 Copilot 到垂直 AI 应用和多模态系统。"},
+  tc2_h:{en:"Early-Stage (Angel → Series A)",zh:"早期阶段（天使轮 → A轮）"},
+  tc2_p:{en:"Small and medium size startups at angel-funded, pre-seed, seed, pre-Series A or Series A stage. Supporting founders from prototype to production and scale.",zh:"天使轮、种子轮、Pre-A、A轮的中小型创业公司。支持创始人从原型到生产和规模化。"},
+  faq_label:{en:"Frequently Asked Questions",zh:"常见问题"},
+  faq_title:{en:"FAQ",zh:"常见问题"},
+  cta_title:{en:"Ready to Build?",zh:"准备好开始了吗？"},
+  cta_desc:{en:"Startups are building nonstop and the best founders are choosing their partners today. Let the engine start learning.",zh:"创业者在不停地构建产品，最优秀的创始人正在选择合作伙伴。让引擎开始学习。"},
+  cta_btn:{en:"Get Started →",zh:"立即开始 →"}
+};
+
+function toggleLang(){
+  lang = lang==='en'?'zh':'en';
+  document.getElementById('langBtn').textContent = lang==='en'?'中':'EN';
+  document.documentElement.lang = lang==='en'?'en':'zh';
+  applyI18N();
+  renderFAQ();
+}
+
+function applyI18N(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(I18N[k] && I18N[k][lang]) el.innerHTML = I18N[k][lang];
+  });
+}
+
+function renderFAQ(){
+  const list = document.getElementById('faqList');
+  list.innerHTML = FAQ_DATA.map((item,i)=>`
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)" data-i18n-faq="${i}">${item.q[lang]} <span class="arrow">▼</span></div>
+      <div class="faq-a">${item.a[lang]}</div>
+    </div>
+  `).join('');
+}
+
+function toggleFaq(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+/* ===== THEME ===== */
+function toggleTheme(){
+  const html = document.documentElement;
+  const next = html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('theme',next);
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  if(saved) document.documentElement.setAttribute('data-theme',saved);
+})();
+
+/* ===== REVEAL ON SCROLL ===== */
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* ===== INIT ===== */
+renderFAQ();
+</script>
+</body>
+</html>
