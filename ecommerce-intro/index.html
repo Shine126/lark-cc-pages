@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z.AI MaaS Platform — AI APIs for E-Commerce</title>
+<style>
+
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.8);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #fff; --accent-glow: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --stat-bg: #000; --scenario-bg: #0c0c0e; --quote-bg: #0c0c0e;
+  --hero-gradient: linear-gradient(180deg, #000 0%, #08080a 50%, #000 100%);
+  --highlight-bg: #fff; --highlight-text: #000;
+  --logo-filter: brightness(1); --accent-color: #4f8cff;
+  --shadow-hero: rgba(0,0,0,0.35); --shadow-card: rgba(0,0,0,0.15);
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.85);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #1d1d1f; --accent-glow: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --stat-bg: #fff; --scenario-bg: #f5f5f7; --quote-bg: #f5f5f7;
+  --hero-gradient: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #ffffff 100%);
+  --highlight-bg: #1d1d1f; --highlight-text: #fff;
+  --logo-filter: brightness(0); --accent-color: #2563eb;
+  --shadow-hero: rgba(0,0,0,0.08); --shadow-card: rgba(0,0,0,0.06);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.35s ease,color 0.35s ease}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:0.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background 0.4s,border-color 0.4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo svg{width:28px;height:28px}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-secondary);transition:color 0.2s;letter-spacing:0.01em;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all 0.25s ease;font-size:14px;border:1px solid var(--border);cursor:pointer;background:none}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+.lang-btn{font-size:11px;font-weight:600;width:auto;padding:0 12px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:120px 48px;position:relative}
+.container{max-width:1000px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(36px,5.5vw,64px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--text-tertiary);font-weight:500}
+.subtitle{font-size:clamp(16px,1.8vw,19px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:680px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;position:relative;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:880px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 48px;text-align:center;max-width:640px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;border:1px solid var(--border);font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:24px;background:var(--accent-glow)}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#34d399;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.hero-cta{display:flex;gap:12px;margin-top:32px}
+.cta-btn{padding:14px 32px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.25s ease;border:none}
+.cta-primary{background:var(--highlight-bg);color:var(--highlight-text)}
+.cta-primary:hover{transform:scale(1.02);box-shadow:0 8px 30px rgba(79,140,255,0.25)}
+.cta-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+.cta-secondary:hover{border-color:var(--border-hover);background:var(--accent-glow)}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:64px}
+.stat{background:var(--stat-bg);padding:40px 20px;text-align:center;transition:background 0.4s}
+.stat-num{font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-0.03em;color:var(--text)}
+.stat-desc{font-size:12px;color:var(--text-secondary);margin-top:8px;line-height:1.5}
+
+/* MODEL CARDS */
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.model-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:32px 24px;transition:all 0.3s ease;position:relative;overflow:hidden}
+.model-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 12px 40px var(--shadow-card)}
+.model-card .model-badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px}
+.model-card .model-badge.flagship{background:rgba(79,140,255,0.12);color:#4f8cff}
+.model-card .model-badge.vision{background:rgba(168,85,247,0.12);color:#a855f7}
+.model-card .model-badge.fast{background:rgba(52,211,153,0.12);color:#34d399}
+.model-card h3{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:4px}
+.model-card .model-sub{font-size:13px;color:var(--text-tertiary);margin-bottom:16px}
+.model-card .model-specs{list-style:none;padding:0;margin:0}
+.model-card .model-specs li{padding:8px 0;font-size:13px;color:var(--text-secondary);display:flex;justify-content:space-between;border-bottom:1px solid var(--border)}
+.model-card .model-specs li:last-child{border-bottom:none}
+.model-card .model-specs .spec-val{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* USE CASES */
+.usecase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:48px}
+.usecase{background:var(--scenario-bg);border:1px solid var(--border);border-radius:16px;padding:32px 24px;transition:all 0.3s ease}
+.usecase:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.usecase-icon{width:44px;height:44px;border-radius:12px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:22px}
+.usecase h4{font-size:17px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+.usecase p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+.usecase .usecase-tag{display:inline-block;margin-top:12px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:var(--accent-glow);color:var(--text-tertiary)}
+
+/* PRICING */
+.pricing-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:14px}
+.pricing-table th{text-align:left;padding:14px 16px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.pricing-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.pricing-table tr:last-child td{border-bottom:none}
+.pricing-table .model-name{color:var(--text);font-weight:600}
+.pricing-table .highlight-row td{background:var(--accent-glow)}
+.pricing-note{font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.5}
+
+/* BENCHMARK */
+.bench-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.bench-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 20px;text-align:center;transition:all 0.3s}
+.bench-card:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.bench-card .bench-score{font-size:36px;font-weight:800;letter-spacing:-0.03em;color:var(--accent-color)}
+.bench-card .bench-label{font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.4}
+.bench-card .bench-source{font-size:10px;color:var(--text-tertiary);margin-top:8px}
+
+/* CTA SECTION */
+.cta-section{text-align:center;padding:140px 48px;background:var(--hero-gradient)}
+.cta-section .title{max-width:700px;margin:0 auto 20px}
+.cta-section .subtitle{margin:0 auto 40px;text-align:center}
+
+/* ARCHITECTURE */
+.arch-flow{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:48px;flex-wrap:wrap}
+.arch-node{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px 28px;text-align:center;min-width:140px;transition:all 0.3s}
+.arch-node:hover{border-color:var(--border-hover);transform:scale(1.03)}
+.arch-node .arch-icon{font-size:28px;margin-bottom:8px}
+.arch-node .arch-label{font-size:13px;font-weight:600;color:var(--text)}
+.arch-node .arch-desc{font-size:11px;color:var(--text-tertiary);margin-top:4px}
+.arch-arrow{font-size:20px;color:var(--text-tertiary)}
+
+/* FOOTER */
+.footer{padding:60px 48px 40px;border-top:1px solid var(--border)}
+.footer-inner{max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-text{font-size:12px;color:var(--text-tertiary)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:12px;color:var(--text-secondary);transition:color 0.2s}
+.footer-links a:hover{color:var(--text)}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeIn 0.6s ease both}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .section{padding:80px 20px}
+  .nav{padding:0 20px}
+  .nav-links{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .model-grid{grid-template-columns:1fr}
+  .usecase-grid{grid-template-columns:1fr}
+  .bench-grid{grid-template-columns:1fr}
+  .hero-cta{flex-direction:column;align-items:center}
+  .arch-flow{flex-direction:column}
+  .footer-inner{flex-direction:column;gap:20px;text-align:center}
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="28" height="28" rx="7" fill="var(--accent-color)"/>
+      <path d="M8 9h12M8 14h8M8 19h10" stroke="var(--bg)" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-logo-text">Z.AI <span>MaaS Platform</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#models">Models</a>
+    <a href="#usecases">E-Commerce</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#benchmark">Benchmarks</a>
+    <a href="#start">Get Started</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()">中</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <span id="themeIcon">&#9790;</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-badge">
+    <span class="dot"></span>
+    <span data-i18n="hero_badge">API Available Worldwide</span>
+  </div>
+  <h1 class="title" data-i18n="hero_title">Enterprise AI APIs<br><em>for E-Commerce</em></h1>
+  <p class="subtitle" data-i18n="hero_subtitle">From product descriptions to customer service, from image understanding to multilingual translation — one API platform, powered by GLM, the #1 Chinese LLM.</p>
+  <div class="hero-cta">
+    <a href="https://docs.z.ai" target="_blank" class="cta-btn cta-primary" data-i18n="hero_cta_primary">Start Building Free</a>
+    <a href="#models" class="cta-btn cta-secondary" data-i18n="hero_cta_secondary">Explore Models</a>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">94.6%</div>
+      <div class="stat-desc" data-i18n="stat_coding">of Claude Opus 4.6<br>coding performance</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">400</div>
+      <div class="stat-desc" data-i18n="stat_speed">tokens/sec<br>GLM-5.1 High-Speed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">203K</div>
+      <div class="stat-desc" data-i18n="stat_context">token context<br>window</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">50+</div>
+      <div class="stat-desc" data-i18n="stat_models">models available<br>via unified API</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELS -->
+<section class="section" id="models">
+  <div class="container">
+    <span class="label" data-i18n="models_label">Model Portfolio</span>
+    <h2 class="title" data-i18n="models_title">The Right Model<br><em>for Every Task</em></h2>
+    <p class="subtitle" data-i18n="models_subtitle">From flagship reasoning to blazing-fast inference, choose the model that fits your e-commerce workload and budget.</p>
+
+    <div class="model-grid">
+      <!-- GLM-5.1 -->
+      <div class="model-card">
+        <span class="model-badge flagship" data-i18n="badge_flagship">FLAGSHIP</span>
+        <h3>GLM-5.1</h3>
+        <div class="model-sub" data-i18n="glm51_sub">Advanced Reasoning & Coding</div>
+        <ul class="model-specs">
+          <li><span>Context</span><span class="spec-val">203K</span></li>
+          <li><span>Architecture</span><span class="spec-val">744B MoE</span></li>
+          <li><span data-i18n="spec_speed">Speed</span><span class="spec-val">400 tok/s</span></li>
+          <li><span data-i18n="spec_cache">Prompt Cache</span><span class="spec-val">5 min TTL</span></li>
+          <li><span data-i18n="spec_bestfor">Best For</span><span class="spec-val" data-i18n="glm51_best">Complex Tasks</span></li>
+        </ul>
+      </div>
+      <!-- GLM-5V-Turbo -->
+      <div class="model-card">
+        <span class="model-badge vision" data-i18n="badge_vision">VISION</span>
+        <h3>GLM-5V-Turbo</h3>
+        <div class="model-sub" data-i18n="glm5v_sub">Multimodal Vision + Coding</div>
+        <ul class="model-specs">
+          <li><span>Context</span><span class="spec-val">203K</span></li>
+          <li><span data-i18n="spec_type">Type</span><span class="spec-val" data-i18n="glm5v_type">Multimodal</span></li>
+          <li><span>Design2Code</span><span class="spec-val">94.8</span></li>
+          <li><span data-i18n="spec_benchmark">Key Benchmark</span><span class="spec-val">#5 BridgeBench</span></li>
+          <li><span data-i18n="spec_bestfor">Best For</span><span class="spec-val" data-i18n="glm5v_best">Image → Code</span></li>
+        </ul>
+      </div>
+      <!-- GLM-4.5 -->
+      <div class="model-card">
+        <span class="model-badge fast" data-i18n="badge_efficient">EFFICIENT</span>
+        <h3>GLM-4.5</h3>
+        <div class="model-sub" data-i18n="glm45_sub">Cost-Effective General Purpose</div>
+        <ul class="model-specs">
+          <li><span>Context</span><span class="spec-val">131K</span></li>
+          <li><span data-i18n="spec_price">Price</span><span class="spec-val">$0.60/$2.20</span></li>
+          <li><span data-i18n="spec_bestfor">Best For</span><span class="spec-val" data-i18n="glm45_best">High Volume</span></li>
+          <li><span data-i18n="spec_latency">Latency</span><span class="spec-val" data-i18n="glm45_latency">Ultra-Low</span></li>
+          <li><span data-i18n="spec_scalability">Scalability</span><span class="spec-val" data-i18n="glm45_scale">Unlimited</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- E-COMMERCE USE CASES -->
+<section class="section" id="usecases" style="background:var(--bg-card)">
+  <div class="container">
+    <span class="label" data-i18n="usecases_label">E-Commerce Solutions</span>
+    <h2 class="title" data-i18n="usecases_title">Built for<br><em>Online Retail</em></h2>
+    <p class="subtitle" data-i18n="usecases_subtitle">Real-world AI workflows that drive conversion, reduce costs, and scale across languages and markets.</p>
+
+    <div class="usecase-grid">
+      <div class="usecase">
+        <div class="usecase-icon">📝</div>
+        <h4 data-i18n="uc1_title">Product Description Generation</h4>
+        <p data-i18n="uc1_desc">Generate SEO-optimized, brand-consistent product descriptions in bulk. Support for 50+ languages. Reduce content creation cost by 90%.</p>
+        <span class="usecase-tag" data-i18n="uc1_tag">GLM-5.1 / GLM-4.5</span>
+      </div>
+      <div class="usecase">
+        <div class="usecase-icon">🖼️</div>
+        <h4 data-i18n="uc2_title">Visual Product Understanding</h4>
+        <p data-i18n="uc2_desc">Upload product images → auto-generate titles, descriptions, tags, and category suggestions. Extract attributes from photos instantly.</p>
+        <span class="usecase-tag">GLM-5V-Turbo</span>
+      </div>
+      <div class="usecase">
+        <div class="usecase-icon">💬</div>
+        <h4 data-i18n="uc3_title">AI Customer Service</h4>
+        <p data-i18n="uc3_desc">Intelligent chatbots that handle order inquiries, returns, refunds, and product recommendations 24/7. Reduce support tickets by 60%.</p>
+        <span class="usecase-tag" data-i18n="uc3_tag">GLM-5.1 / GLM-4.5</span>
+      </div>
+      <div class="usecase">
+        <div class="usecase-icon">🌍</div>
+        <h4 data-i18n="uc4_title">Multilingual Localization</h4>
+        <p data-i18n="uc4_desc">Translate and localize product listings, marketing copy, and UI text while preserving brand voice. Expand to new markets in hours, not weeks.</p>
+        <span class="usecase-tag" data-i18n="uc4_tag">GLM-5.1</span>
+      </div>
+      <div class="usecase">
+        <div class="usecase-icon">🔍</div>
+        <h4 data-i18n="uc5_title">Smart Search & Recommendation</h4>
+        <p data-i18n="uc5_desc">Power semantic search and personalized recommendations. Understand user intent beyond keywords. Increase AOV and conversion rates.</p>
+        <span class="usecase-tag" data-i18n="uc5_tag">GLM-4.5 + Embeddings</span>
+      </div>
+      <div class="usecase">
+        <div class="usecase-icon">📊</div>
+        <h4 data-i18n="uc6_title">Review & Sentiment Analysis</h4>
+        <p data-i18n="uc6_desc">Analyze thousands of customer reviews in real time. Extract product improvement insights, detect trends, and flag quality issues automatically.</p>
+        <span class="usecase-tag" data-i18n="uc6_tag">GLM-5.1</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" id="architecture">
+  <div class="container" style="text-align:center">
+    <span class="label" data-i18n="arch_label">Integration</span>
+    <h2 class="title" data-i18n="arch_title">One API.<br><em>Every Model.</em></h2>
+    <p class="subtitle" style="margin:0 auto" data-i18n="arch_subtitle">OpenAI-compatible REST API. Drop-in replacement. No vendor lock-in.</p>
+
+    <div class="arch-flow">
+      <div class="arch-node">
+        <div class="arch-icon">🛒</div>
+        <div class="arch-label" data-i18n="arch_app">Your E-Commerce App</div>
+        <div class="arch-desc" data-i18n="arch_app_desc">Shopify / WooCommerce / Custom</div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node" style="border-color:var(--accent-color)">
+        <div class="arch-icon">⚡</div>
+        <div class="arch-label">Z.AI API</div>
+        <div class="arch-desc" data-i18n="arch_api_desc">OpenAI-Compatible</div>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node">
+        <div class="arch-icon">🧠</div>
+        <div class="arch-label">GLM Models</div>
+        <div class="arch-desc">5.1 / 5V / 4.5 / ...</div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 32px;text-align:left;font-family:'SF Mono',Monaco,monospace;font-size:13px;overflow-x:auto">
+      <div style="color:var(--text-tertiary);margin-bottom:12px;font-family:var(--font);font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase" data-i18n="code_title">Quick Start — 3 Lines of Code</div>
+<pre style="color:var(--text-secondary);line-height:1.8;white-space:pre-wrap"><span style="color:var(--accent-color)">from</span> openai <span style="color:var(--accent-color)">import</span> OpenAI
+
+client = OpenAI(base_url=<span style="color:#34d399">"https://open.z.ai/api/paas/v4"</span>, api_key=<span style="color:#34d399">"your-key"</span>)
+response = client.chat.completions.create(
+    model=<span style="color:#34d399">"glm-5.1"</span>,
+    messages=[{<span style="color:#34d399">"role"</span>:<span style="color:#34d399">"user"</span>,<span style="color:#34d399">"content"</span>:<span style="color:#34d399">"Generate a product description for..."</span>}]
+)</pre>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing" style="background:var(--bg-card)">
+  <div class="container">
+    <span class="label" data-i18n="pricing_label">Pricing</span>
+    <h2 class="title" data-i18n="pricing_title">Transparent Pricing,<br><em>No Hidden Fees</em></h2>
+    <p class="subtitle" data-i18n="pricing_subtitle">Pay only for what you use. Cached input at a fraction of the cost. Volume discounts available.</p>
+
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th data-i18n="th_model">Model</th>
+          <th data-i18n="th_input">Input ($/M tokens)</th>
+          <th data-i18n="th_cached">Cached Input</th>
+          <th data-i18n="th_output">Output ($/M tokens)</th>
+          <th data-i18n="th_context">Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight-row">
+          <td class="model-name">GLM-5.1</td>
+          <td class="price-tag">$1.40</td>
+          <td class="price-tag">$0.26</td>
+          <td class="price-tag">$4.40</td>
+          <td>203K</td>
+        </tr>
+        <tr>
+          <td class="model-name">GLM-5</td>
+          <td class="price-tag">$1.00</td>
+          <td class="price-tag">$0.20</td>
+          <td class="price-tag">$3.20</td>
+          <td>203K</td>
+        </tr>
+        <tr class="highlight-row">
+          <td class="model-name">GLM-5V-Turbo</td>
+          <td class="price-tag">$1.20</td>
+          <td class="price-tag">—</td>
+          <td class="price-tag">$4.00</td>
+          <td>203K</td>
+        </tr>
+        <tr>
+          <td class="model-name">GLM-4.5</td>
+          <td class="price-tag">$0.60</td>
+          <td class="price-tag">—</td>
+          <td class="price-tag">$2.20</td>
+          <td>131K</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="pricing-note" data-i18n="pricing_note">Cached Input Storage is currently limited-time free. Enterprise pricing with committed use discounts available. Contact sales for volume deals.</p>
+  </div>
+</section>
+
+<!-- BENCHMARKS -->
+<section class="section" id="benchmark">
+  <div class="container">
+    <span class="label" data-i18n="bench_label">Performance</span>
+    <h2 class="title" data-i18n="bench_title">Proven Performance,<br><em>Open Benchmarks</em></h2>
+    <p class="subtitle" data-i18n="bench_subtitle">GLM models are evaluated on public, reproducible benchmarks. No cherry-picked numbers.</p>
+
+    <div class="bench-grid">
+      <div class="bench-card">
+        <div class="bench-score">58.4%</div>
+        <div class="bench-label">SWE-Bench Pro</div>
+        <div class="bench-source">GLM-5.1 · April 2026</div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-score">94.8</div>
+        <div class="bench-label">Design2Code<br><span style="font-size:11px;color:var(--text-tertiary)">(vs Opus 4.6: 77.3)</span></div>
+        <div class="bench-source">GLM-5V-Turbo</div>
+      </div>
+      <div class="bench-card">
+        <div class="bench-score">#5</div>
+        <div class="bench-label">BridgeBench<br><span style="font-size:11px;color:var(--text-tertiary)">Global Ranking</span></div>
+        <div class="bench-source">GLM-5V-Turbo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="start">
+  <div class="container" style="text-align:center">
+    <span class="label" data-i18n="cta_label">Get Started</span>
+    <h2 class="title" data-i18n="cta_title">Start Building<br><em>Today</em></h2>
+    <p class="subtitle" style="margin:0 auto 40px;text-align:center" data-i18n="cta_subtitle">1,000 free API requests/day. No credit card required. Production-ready in minutes.</p>
+    <div class="hero-cta" style="justify-content:center">
+      <a href="https://docs.z.ai" target="_blank" class="cta-btn cta-primary" data-i18n="cta_docs">Read Documentation</a>
+      <a href="https://open.z.ai" target="_blank" class="cta-btn cta-secondary" data-i18n="cta_console">Open Console</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">© 2026 Zhipu AI (Z.AI). All rights reserved.</div>
+    <div class="footer-links">
+      <a href="https://docs.z.ai" target="_blank">Docs</a>
+      <a href="https://docs.z.ai/guides/overview/pricing" target="_blank">Pricing</a>
+      <a href="https://bigmodel.cn" target="_blank">bigmodel.cn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// I18N
+const I18N = {
+  en: {
+    hero_badge: "API Available Worldwide",
+    hero_title: 'Enterprise AI APIs<br><em>for E-Commerce</em>',
+    hero_subtitle: "From product descriptions to customer service, from image understanding to multilingual translation — one API platform, powered by GLM, the #1 Chinese LLM.",
+    hero_cta_primary: "Start Building Free",
+    hero_cta_secondary: "Explore Models",
+    stat_coding: "of Claude Opus 4.6<br>coding performance",
+    stat_speed: "tokens/sec<br>GLM-5.1 High-Speed",
+    stat_context: "token context<br>window",
+    stat_models: "models available<br>via unified API",
+    models_label: "Model Portfolio",
+    models_title: 'The Right Model<br><em>for Every Task</em>',
+    models_subtitle: "From flagship reasoning to blazing-fast inference, choose the model that fits your e-commerce workload and budget.",
+    badge_flagship: "FLAGSHIP",
+    badge_vision: "VISION",
+    badge_efficient: "EFFICIENT",
+    glm51_sub: "Advanced Reasoning & Coding",
+    spec_speed: "Speed",
+    spec_cache: "Prompt Cache",
+    spec_bestfor: "Best For",
+    glm51_best: "Complex Tasks",
+    glm5v_sub: "Multimodal Vision + Coding",
+    spec_type: "Type",
+    glm5v_type: "Multimodal",
+    spec_benchmark: "Key Benchmark",
+    glm5v_best: "Image → Code",
+    glm45_sub: "Cost-Effective General Purpose",
+    spec_price: "Price",
+    glm45_best: "High Volume",
+    spec_latency: "Latency",
+    glm45_latency: "Ultra-Low",
+    spec_scalability: "Scalability",
+    glm45_scale: "Unlimited",
+    usecases_label: "E-Commerce Solutions",
+    usecases_title: 'Built for<br><em>Online Retail</em>',
+    usecases_subtitle: "Real-world AI workflows that drive conversion, reduce costs, and scale across languages and markets.",
+    uc1_title: "Product Description Generation",
+    uc1_desc: "Generate SEO-optimized, brand-consistent product descriptions in bulk. Support for 50+ languages. Reduce content creation cost by 90%.",
+    uc1_tag: "GLM-5.1 / GLM-4.5",
+    uc2_title: "Visual Product Understanding",
+    uc2_desc: "Upload product images → auto-generate titles, descriptions, tags, and category suggestions. Extract attributes from photos instantly.",
+    uc3_title: "AI Customer Service",
+    uc3_desc: "Intelligent chatbots that handle order inquiries, returns, refunds, and product recommendations 24/7. Reduce support tickets by 60%.",
+    uc3_tag: "GLM-5.1 / GLM-4.5",
+    uc4_title: "Multilingual Localization",
+    uc4_desc: "Translate and localize product listings, marketing copy, and UI text while preserving brand voice. Expand to new markets in hours, not weeks.",
+    uc4_tag: "GLM-5.1",
+    uc5_title: "Smart Search & Recommendation",
+    uc5_desc: "Power semantic search and personalized recommendations. Understand user intent beyond keywords. Increase AOV and conversion rates.",
+    uc5_tag: "GLM-4.5 + Embeddings",
+    uc6_title: "Review & Sentiment Analysis",
+    uc6_desc: "Analyze thousands of customer reviews in real time. Extract product improvement insights, detect trends, and flag quality issues automatically.",
+    uc6_tag: "GLM-5.1",
+    arch_label: "Integration",
+    arch_title: 'One API.<br><em>Every Model.</em>',
+    arch_subtitle: "OpenAI-compatible REST API. Drop-in replacement. No vendor lock-in.",
+    arch_app: "Your E-Commerce App",
+    arch_app_desc: "Shopify / WooCommerce / Custom",
+    arch_api_desc: "OpenAI-Compatible",
+    code_title: "Quick Start — 3 Lines of Code",
+    pricing_label: "Pricing",
+    pricing_title: 'Transparent Pricing,<br><em>No Hidden Fees</em>',
+    pricing_subtitle: "Pay only for what you use. Cached input at a fraction of the cost. Volume discounts available.",
+    th_model: "Model",
+    th_input: "Input ($/M tokens)",
+    th_cached: "Cached Input",
+    th_output: "Output ($/M tokens)",
+    th_context: "Context",
+    pricing_note: "Cached Input Storage is currently limited-time free. Enterprise pricing with committed use discounts available. Contact sales for volume deals.",
+    bench_label: "Performance",
+    bench_title: 'Proven Performance,<br><em>Open Benchmarks</em>',
+    bench_subtitle: "GLM models are evaluated on public, reproducible benchmarks. No cherry-picked numbers.",
+    cta_label: "Get Started",
+    cta_title: 'Start Building<br><em>Today</em>',
+    cta_subtitle: "1,000 free API requests/day. No credit card required. Production-ready in minutes.",
+    cta_docs: "Read Documentation",
+    cta_console: "Open Console"
+  },
+  zh: {
+    hero_badge: "全球 API 可用",
+    hero_title: '企业级 AI API<br><em>赋能电商</em>',
+    hero_subtitle: "从商品描述到客服对话，从图像理解到多语言翻译 — 一个 API 平台，由 GLM 驱动，中国领先大模型。",
+    hero_cta_primary: "免费开始",
+    hero_cta_secondary: "浏览模型",
+    stat_coding: "达到 Claude Opus 4.6<br>编码性能的 94.6%",
+    stat_speed: "tokens/秒<br>GLM-5.1 高速版",
+    stat_context: "token 上下文<br>窗口",
+    stat_models: "模型可用<br>统一 API 接入",
+    models_label: "模型矩阵",
+    models_title: '每个任务<br><em>都有合适的模型</em>',
+    models_subtitle: "从旗舰推理到极速推理，选择适合您电商工作负载和预算的模型。",
+    badge_flagship: "旗舰",
+    badge_vision: "视觉",
+    badge_efficient: "高效",
+    glm51_sub: "高级推理与编程",
+    spec_speed: "速度",
+    spec_cache: "提示缓存",
+    spec_bestfor: "最佳场景",
+    glm51_best: "复杂任务",
+    glm5v_sub: "多模态视觉 + 编程",
+    spec_type: "类型",
+    glm5v_type: "多模态",
+    spec_benchmark: "关键评测",
+    glm5v_best: "图像 → 代码",
+    glm45_sub: "高性价比通用模型",
+    spec_price: "价格",
+    glm45_best: "大批量调用",
+    spec_latency: "延迟",
+    glm45_latency: "超低延迟",
+    spec_scalability: "扩展性",
+    glm45_scale: "无限扩展",
+    usecases_label: "电商解决方案",
+    usecases_title: '为<br><em>在线零售</em>而生',
+    usecases_subtitle: "真实的 AI 工作流，提升转化、降低成本，跨语言跨市场扩展。",
+    uc1_title: "商品描述生成",
+    uc1_desc: "批量生成 SEO 优化、品牌风格一致的描述。支持 50+ 语言。内容创建成本降低 90%。",
+    uc1_tag: "GLM-5.1 / GLM-4.5",
+    uc2_title: "商品图像理解",
+    uc2_desc: "上传商品图片 → 自动生成标题、描述、标签和类目建议。即时提取商品属性。",
+    uc3_title: "AI 智能客服",
+    uc3_desc: "智能聊天机器人处理订单查询、退货、退款和商品推荐，7×24 在线。减少 60% 人工工单。",
+    uc3_tag: "GLM-5.1 / GLM-4.5",
+    uc4_title: "多语言本地化",
+    uc4_desc: "翻译和本地化商品列表、营销文案和 UI 文案，同时保持品牌调性。数小时内开拓新市场。",
+    uc4_tag: "GLM-5.1",
+    uc5_title: "智能搜索与推荐",
+    uc5_desc: "驱动语义搜索和个性化推荐。超越关键词理解用户意图。提升客单价和转化率。",
+    uc5_tag: "GLM-4.5 + Embeddings",
+    uc6_title: "评论与情感分析",
+    uc6_desc: "实时分析数千条用户评论。提取产品改进洞察、检测趋势、自动标记质量问题。",
+    uc6_tag: "GLM-5.1",
+    arch_label: "接入方式",
+    arch_title: '一个 API。<br><em>所有模型。</em>',
+    arch_subtitle: "兼容 OpenAI 的 REST API。即插即用。无厂商锁定。",
+    arch_app: "您的电商应用",
+    arch_app_desc: "Shopify / WooCommerce / 自定义",
+    arch_api_desc: "兼容 OpenAI",
+    code_title: "快速开始 — 3 行代码",
+    pricing_label: "定价",
+    pricing_title: '透明定价，<br><em>无隐藏费用</em>',
+    pricing_subtitle: "按量付费。缓存输入成本更低。大量使用享折扣。",
+    th_model: "模型",
+    th_input: "输入 ($/百万 tokens)",
+    th_cached: "缓存输入",
+    th_output: "输出 ($/百万 tokens)",
+    th_context: "上下文",
+    pricing_note: "缓存输入存储限时免费。企业级承诺用量折扣可联系销售。大量使用可谈优惠。",
+    bench_label: "性能表现",
+    bench_title: '经得起验证，<br><em>公开评测</em>',
+    bench_subtitle: "GLM 模型在公开可复现的 benchmark 上评测。不挑数据。",
+    cta_label: "开始使用",
+    cta_title: '立即开始<br><em>构建</em>',
+    cta_subtitle: "每天 1,000 次免费 API 调用。无需信用卡。分钟级上线。",
+    cta_docs: "阅读文档",
+    cta_console: "打开控制台"
+  }
+};
+
+let currentLang = 'en';
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.querySelector('.lang-btn').textContent = currentLang === 'en' ? '中' : 'EN';
+  document.documentElement.lang = currentLang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[currentLang][key]) el.innerHTML = I18N[currentLang][key];
+  });
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  document.getElementById('themeIcon').innerHTML = next === 'dark' ? '&#9790;' : '&#9728;';
+}
+
+// Scroll animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('animate-in');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.model-card, .usecase, .bench-card, .arch-node').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
