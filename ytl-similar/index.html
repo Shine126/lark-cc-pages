@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>类似 YTL 集团的有 AI 战略的企业 — BD 简报</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --highlight: #E8E5DA;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { font-family: var(--sans-cn); }
+  body {
+    margin: 0;
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1120px;
+    background: var(--bg);
+    padding: 44px 56px 36px;
+    border: 1px solid var(--rule);
+  }
+  /* Header */
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+  }
+  .hd-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .hd-title {
+    font-size: 32px;
+    font-weight: 700;
+    font-family: var(--serif-cn);
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+  .hd-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.5;
+  }
+  .hd-date strong { color: var(--ink); }
+
+  /* Reference card */
+  .ref-card {
+    background: #F3F1EA;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .ref-name {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--serif-cn);
+    color: var(--accent);
+  }
+  .ref-tag {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .ref-detail { font-size: 12px; line-height: 1.5; }
+  .ref-detail strong { color: var(--accent); }
+
+  /* Section title */
+  .sec-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Company grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .card {
+    border: 1px solid var(--rule);
+    padding: 16px 18px;
+    page-break-inside: avoid;
+  }
+  .card-full {
+    grid-column: 1 / -1;
+  }
+  .card-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 6px;
+  }
+  .card-name {
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--serif-cn);
+    color: var(--ink);
+  }
+  .card-country {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dotted var(--rule);
+    padding-bottom: 8px;
+  }
+  .card-stat-label {
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1px;
+  }
+  .card-stat-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1.1;
+  }
+  .card-body { font-size: 12px; line-height: 1.5; }
+  .card-body p { margin: 0 0 6px; }
+  .tag {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: #E8E5DA;
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 2px;
+  }
+  .card-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+  }
+  .card-body ul li {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 3px;
+    font-size: 11.5px;
+    line-height: 1.45;
+  }
+  .card-body ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+  .collab-row {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dotted var(--rule);
+  }
+  .collab-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .collab-text {
+    font-size: 11.5px;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+
+  /* Sources */
+  .sources {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-bottom: 4px;
+    break-inside: avoid;
+    padding-left: 20px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  sup.cite {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-left: 1px;
+  }
+  sup.cite a { color: inherit; text-decoration: none; }
+  sup.cite a:hover { text-decoration: underline; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { border: none; width: 100%; padding: 20px 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">BD 情报简报 · 类似企业扫描</div>
+      <h1 class="hd-title">类似 YTL 集团的有 AI 战略的企业</h1>
+      <p class="hd-sub">聚焦亚太区多元化集团，以 AI 基础设施 + 主权 AI + 电信/能源跨界为筛选维度</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong>2026-05-30</strong>
+    </div>
+  </header>
+
+  <!-- Reference: YTL Group -->
+  <div class="ref-card">
+    <div>
+      <div class="ref-name">YTL 集团</div>
+      <div class="ref-tag">参照标的 · 马来西亚</div>
+    </div>
+    <div class="ref-detail">
+      <strong>AI 投资：RM100 亿</strong>（~$22 亿）<sup class="cite"><a href="#s1">[1]</a></sup><br>
+      NVIDIA 合作建 Johor AI 数据中心<br>
+      YTL AI Labs 发布马来西亚首个多模态大模型 <strong>ILMU</strong>
+    </div>
+    <div class="ref-detail">
+      <strong>主权 AI 路线</strong>：本地语言 LLM + 本地数据中心<br>
+      <strong>电信+能源跨界</strong>：Yes 5G + YTL Power<br>
+      MWC 2025 获得 5G-A×AI 创新奖
+    </div>
+    <div class="ref-detail">
+      <strong>关键画像</strong>：新兴市场多元化集团、电信/能源主业、NVIDIA 深度绑定、国家主权 AI 战略载体、本地化 LLM
+    </div>
+  </div>
+
+  <!-- Section: Similar Companies -->
+  <div class="sec-title">同类企业（按 AI 投资规模排序）</div>
+
+  <div class="grid">
+
+    <!-- 1. Reliance Industries -->
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-name">Reliance Industries / Jio</span>
+        <span class="card-country">印度 · Mumbai</span>
+      </div>
+      <div class="card-meta">
+        <div><div class="card-stat-label">AI 投资</div><div class="card-stat-value">$110B</div></div>
+        <div><div class="card-stat-label">数据中心</div><div class="card-stat-value">120+ MW</div></div>
+        <div><div class="card-stat-label">市值</div><div class="card-stat-value">$211B</div></div>
+        <div><div class="card-stat-label">成立</div><div class="card-stat-value">1966</div></div>
+      </div>
+      <div class="card-body">
+        <p>
+          <span class="tag">电信</span><span class="tag">能源</span><span class="tag">零售</span><span class="tag">数字基建</span>
+        </p>
+        <p>Mukesh Ambani 在 India AI Summit 2026 宣布 7 年内投资 ₹10 万亿卢比（~$1100 亿）建设主权 AI 基础设施，Jamnagar 多 GW 级 AI 数据中心 2026 H2 投产<sup class="cite"><a href="#s2">[2]</a></sup>。</p>
+        <ul>
+          <li>Jio 主导"全栈主权 AI 生态"，定位印度 AI 基建核心</li>
+          <li>数据中心配套绿电，与 Adani 形成"双雄"格局</li>
+        </ul>
+        <div class="collab-row">
+          <div class="collab-label">Z.ai 合作切入点</div>
+          <div class="collab-text">Jio 需要多语言 LLM（印地语 + 22 种方言），GLM 多语言能力 + 私有化部署可匹配；但 Reliance 有自建模型倾向，建议从行业 POC（客服/农业 AI）切入</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Adani Group -->
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-name">Adani Group</span>
+        <span class="card-country">印度 · Ahmedabad</span>
+      </div>
+      <div class="card-meta">
+        <div><div class="card-stat-label">AI 投资</div><div class="card-stat-value">$100B</div></div>
+        <div><div class="card-stat-label">目标容量</div><div class="card-stat-value">5 GW</div></div>
+        <div><div class="card-stat-label">绿电配套</div><div class="card-stat-value">30 GW</div></div>
+        <div><div class="card-stat-label">成立</div><div class="card-stat-value">1988</div></div>
+      </div>
+      <div class="card-body">
+        <p>
+          <span class="tag">能源</span><span class="tag">港口</span><span class="tag">数据中心</span><span class="tag">绿电</span>
+        </p>
+        <p>2026 年 2 月宣布 $1000 亿投资 AI 数据中心（至 2035），配套 Khavda 30GW 可再生能源项目，目标 5GW AI 算力容量<sup class="cite"><a href="#s3">[3]</a></sup>。</p>
+        <ul>
+          <li>绿电 + 数据中心的垂直整合是核心壁垒</li>
+          <li>与 Reliance 合计 $2100 亿投入，主导印度 AI 基建</li>
+        </ul>
+        <div class="collab-row">
+          <div class="collab-label">Z.ai 合作切入点</div>
+          <div class="collab-text">Adani 专注硬件基建设施，模型层仍需外部合作；GLM 私有化授权 + 昇腾适配适合其国产化需求；通过数据中心 POC 合作切入</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Singtel -->
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-name">Singtel</span>
+        <span class="card-country">新加坡</span>
+      </div>
+      <div class="card-meta">
+        <div><div class="card-stat-label">AI/DC 投资</div><div class="card-stat-value">S$1.2B</div></div>
+        <div><div class="card-stat-label">营收 FY26</div><div class="card-stat-value">S$14.3B</div></div>
+        <div><div class="card-stat-label">DC Tuas</div><div class="card-stat-value">58 MW</div></div>
+        <div><div class="card-stat-label">成立</div><div class="card-stat-value">1879</div></div>
+      </div>
+      <div class="card-body">
+        <p>
+          <span class="tag">电信</span><span class="tag">数据中心</span><span class="tag">主权 AI</span><span class="tag">网络安全</span>
+        </p>
+        <p>Nxera 数据中心业务增长 16%，与 NVIDIA/Hitachi 合作部署 GPU 云；58MW DC Tuas 已投产，直连液冷支持 AI 工作负载<sup class="cite"><a href="#s4">[4]</a></sup>。</p>
+        <ul>
+          <li>定位东南亚"主权 AI 即服务"平台，服务多国政府和企业</li>
+          <li>FY26 净利润 S$56.1 亿（+40%），有充足资本投入 AI</li>
+        </ul>
+        <div class="collab-row">
+          <div class="collab-label">Z.ai 合作切入点</div>
+          <div class="collab-text">Singtel 需要 LLM 能力完善"AI 即服务"栈；GLM-5 Turbo + GLM-5v 多模态可嵌入 Nxera GPU 云；新加坡合规要求高，需数据本地化部署</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Gulf Energy Development -->
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-name">Gulf Energy Development</span>
+        <span class="card-country">泰国 · 曼谷</span>
+      </div>
+      <div class="card-meta">
+        <div><div class="card-stat-label">GSA DC</div><div class="card-stat-value">50 MW</div></div>
+        <div><div class="card-stat-label">Siam AI</div><div class="card-stat-value">100 MW</div></div>
+        <div><div class="card-stat-label">投资</div><div class="card-stat-value">$4B+</div></div>
+        <div><div class="card-stat-label">成立</div><div class="card-stat-value">2007</div></div>
+      </div>
+      <div class="card-body">
+        <p>
+          <span class="tag">能源</span><span class="tag">数据中心</span><span class="tag">电信</span><span class="tag">主权云</span>
+        </p>
+        <p>与 Singtel、AIS 合资 GSA 数据中心，泰国首个部署 NVIDIA GB200；Siam AI（$40 亿投资）建泰国首个主权云；Gulf Edge 与 Google Cloud 合作推进泰国 AI<sup class="cite"><a href="#s5">[5]</a></sup>。</p>
+        <ul>
+          <li>能源 + 数据中心 + 电信三方跨界，类似 YTL 模式</li>
+          <li>NVIDIA $10 亿泰国基建计划的核心受益方</li>
+        </ul>
+        <div class="collab-row">
+          <div class="collab-label">Z.ai 合作切入点</div>
+          <div class="collab-text">泰国主权云需要非美中立的 LLM 供应商；GLM 昇腾适配 + MIT 开源授权有差异化；建议通过 Gulf Edge 的 Google Cloud 渠道联合推广</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. CP Group (full width, smaller) -->
+    <div class="card card-full" style="padding: 14px 18px;">
+      <div class="card-hd">
+        <span class="card-name">Charoen Pokphand Group（正大集团）</span>
+        <span class="card-country">泰国 · 曼谷（跨国）</span>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="card-body">
+          <p>
+            <span class="tag">农业食品</span><span class="tag">电信 (True)</span><span class="tag">零售</span><span class="tag">金融</span>
+          </p>
+          <p>CEO 谢镕仁（Suphachai Chearavanont）将 AI 置于集团数字化核心；与 Microsoft 合作云/AI 转型，与 FPT 合作 AI 农业食品供应链<sup class="cite"><a href="#s6">[6]</a></sup>。设立数字化委员会统筹跨业务 AI 落地。</p>
+        </div>
+        <div class="card-body">
+          <p style="color:var(--muted);font-size:11px;margin-bottom:4px;">与 YTL 的异同</p>
+          <p style="font-size:11.5px;">CP 的 AI 策略偏<strong>应用层</strong>（农业/零售/金融场景），而非基建层（不建 GPU 数据中心）。更像是 AI 应用型客户而非基础设施竞争对手。CEO 同时担任泰国数字委员会主席，政策影响力大。</p>
+          <div class="collab-row" style="margin-top:6px;padding-top:6px;">
+            <div class="collab-label">Z.ai 切入点</div>
+            <div class="collab-text" style="font-size:11px;">正大在中国的业务（正大中国区）可直接对接 Z.ai 国内 API；泰国 True 电信 + Microsoft Azure 可作为海外私有化部署场景</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Summary -->
+  <div style="background:#F3F1EA; border-top:3px solid var(--accent); border-bottom:1px solid var(--rule); padding:14px 20px; margin-bottom:16px;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">横向对比 & 优先级建议</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;font-size:12px;line-height:1.5;">
+      <div>
+        <strong style="color:var(--accent);">Tier 1（基建级合作）</strong><br>
+        Singtel — 已有 GPU 云平台，需要 LLM 补齐"AI 即服务"全栈<br>
+        Gulf Energy — 泰国主权云，非美中性需求明确
+      </div>
+      <div>
+        <strong style="color:var(--accent);">Tier 2（场景级合作）</strong><br>
+        Reliance/Jio — 规模最大但自建倾向强，从行业 POC 切入<br>
+        Adani — 专注硬件基建，模型层需外部合作
+      </div>
+      <div>
+        <strong style="color:var(--accent);">Tier 3（应用层客户）</strong><br>
+        CP Group — AI 应用客户，中国区直接 API 合作机会明确<br>
+        泰国数字委员会（CEO 任职）带来政策杠杆
+      </div>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">The Star — "YTL Power Calls for Domestic Firms to Leverage on AI" — 2025-07 — <a href="https://www.thestar.com.my/business/business-news/2025/07/09/ytl-power-calls-for-domestic-firms-to-leverage-on-ai">link</a></li>
+      <li id="s2">WSJ / TechCrunch — "Reliance Industries to Invest $110 Billion in AI" — 2026-02 — <a href="https://techcrunch.com/2026/02/17/adani-pledges-100b-for-ai-data-centers-as-india-seeks-bigger-role-in-global-ai/">link</a></li>
+      <li id="s3">Reuters — "India's Adani to Invest $100 Billion in AI Data Centers by 2035" — 2026-02 — <a href="https://www.reuters.com/business/energy/indias-adani-invest-100-billion-ai-data-centers-by-2035-2026-02-17/">link</a></li>
+      <li id="s4">Singtel IR — "Singtel Posts FY26 Net Profit of S$5.61 Billion" — 2026-05 — <a href="https://www.singtel.com/about-us/media-centre/news-releases/singtel-posts-fy26-net-profit">link</a></li>
+      <li id="s5">Nikkei Asia — "Nvidia Partner Siam AI Chases Digital Sovereignty with 100MW Data Center" — 2025 — <a href="https://asia.nikkei.com/business/technology/artificial-intelligence/nvidia-partner-siam-ai-chases-digital-sovereignty-with-100mw-data-center">link</a></li>
+      <li id="s6">BusinessWire — "FPT and CP Partner to Advance AI-Led Agri-Food Value Chains" — 2026-05 — <a href="https://www.businesswire.com/news/home/20260529529814/en/FPT-and-CP-Partner-to-Advance-AI-Led-Agri-Food-Value-Chains">link</a></li>
+      <li id="s7">Fortune — "Singtel-NVIDIA AI Data Sovereignty" — 2026-02 — <a href="https://fortune.com/2026/02/24/singtel-nvidia-ai-data-sovereignty/">link</a></li>
+      <li id="s8">YTL AI Labs — "ILMU — 100% Malaysian AI" — 2025 — <a href="https://www.ytlpowerinternational.com/press-releases/ytl-ai-labs-launches-ilmu-100-malaysian-ai-built-by-malaysians-for-malaysians/">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
