@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>2026 AI 游戏高增长公司图谱 — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1080px;
+    background: var(--bg);
+    padding: 40px 52px 36px;
+    border: 1px solid var(--rule);
+  }
+  /* Header */
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .hd-eyebrow {
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .hd-title {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 6px;
+  }
+  .hd-tagline {
+    font-size: 13px;
+    color: var(--ink);
+    max-width: 700px;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 16px;
+  }
+  .stat {
+    padding: 10px 14px 12px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* Scenario section */
+  .scenario {
+    margin-bottom: 14px;
+  }
+  .scenario-title {
+    font-family: var(--serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .scenario-title .tag {
+    font-family: var(--sans);
+    font-size: 8.5px;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background: var(--accent);
+    padding: 1px 6px;
+    border-radius: 1px;
+  }
+  .tag-hot { background: #C0392B !important; }
+  .tag-watch { background: #E67E22 !important; }
+  /* Company cards grid */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cards-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .card {
+    border: 1px solid var(--rule);
+    padding: 10px 12px;
+    position: relative;
+  }
+  .card-name {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .card-name-en {
+    font-weight: 400;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .card-desc {
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 4px 0;
+    color: var(--ink);
+  }
+  .card-metrics {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .metric {
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .metric strong {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .card-action {
+    margin-top: 6px;
+    font-size: 10px;
+    color: var(--accent);
+    font-style: italic;
+  }
+  /* Collab band */
+  .collab {
+    margin-top: 14px;
+    padding: 16px 20px 14px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .collab h2 {
+    font-family: var(--serif);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .collab-block .ck-label {
+    font-size: 8.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 3px;
+    display: block;
+  }
+  .collab-block p {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  /* Sources */
+  .sources {
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    columns: 2;
+    column-gap: 28px;
+    padding: 0;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 9.5px;
+    color: var(--muted);
+    line-height: 1.35;
+    margin-bottom: 3px;
+    break-inside: avoid;
+    padding-left: 20px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+  }
+  sup.cite { font-size: 8px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- HEADER -->
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">AI + 互动娱乐 · 高增长公司图谱</div>
+      <h1 class="hd-title">2026 AI 游戏高增长公司图谱</h1>
+      <p class="hd-tagline">基于「十字路口」x「405游局」四层图景框架，从 NPC 交互、AI 创作、世界模型、陪伴社交四个场景维度筛选高增长标的，锚定 Z.ai 模型能力切入机会。</p>
+    </div>
+    <div class="hd-date">
+      调研日期<br>
+      <strong style="color:var(--ink)">2026-05-31</strong>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">$3.4B</div>
+      <div class="stat-label">AI in Games 市场 (2026)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">18.6%</div>
+      <div class="stat-label">CAGR (2026-2030)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">$47B</div>
+      <div class="stat-label">2034 预测规模</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">8</div>
+      <div class="stat-label">重点跟踪公司</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">4</div>
+      <div class="stat-label">潜力场景赛道</div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 1: AI NPC -->
+  <div class="scenario">
+    <div class="scenario-title">
+      <span>场景 A — AI NPC & 社交基建</span>
+      <span class="tag tag-hot">共识最强</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-name">米哈游 (miHoYo)<span class="card-name-en"> — 上海 · 2012</span></div>
+        <div class="card-desc">《星布谷地》AI NPC「娜洛」断层领先——跨版本记忆、情感共情、多人场景社交分寸感。从 yoyo 鹿鸣到帕姆帮帮，AI 布局最深<sup class="cite"><a href="#s1">[1]</a></sup>。</div>
+        <div class="card-metrics">
+          <div class="metric">估值 <strong>未公开</strong></div>
+          <div class="metric">创始人 <strong>蔡浩宇</strong></div>
+        </div>
+        <div class="card-action">Z.ai 切入：NPC 多模态交互模型（语音+情感）、多智能体编排</div>
+      </div>
+      <div class="card">
+        <div class="card-name">Inworld AI<span class="card-name-en"> — 旧金山 · 2021</span></div>
+        <div class="card-desc">AI NPC 引擎标杆，Xbox、Ubisoft 合作伙伴。Runtime 基础设施支持大规模角色部署<sup class="cite"><a href="#s2">[2]</a></sup>。2026 行业反思 AI NPC 为何未规模化——技术瓶颈正是机会。</div>
+        <div class="card-metrics">
+          <div class="metric">融资 <strong>$120M+</strong></div>
+          <div class="metric">估值 <strong>$500M</strong></div>
+        </div>
+        <div class="card-action">Z.ai 切入：替代/补充 Inworld 的 LLM 底座，国产芯片推理方案</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 2: AI CREATION -->
+  <div class="scenario">
+    <div class="scenario-title">
+      <span>场景 B — AI 游戏创作平台</span>
+      <span class="tag tag-hot">被严重低估</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-name">心动公司 (XD Inc.)<span class="card-name-en"> — 上海 · 2009 · HKEX 02400</span></div>
+        <div class="card-desc">TapTap Maker（TapTap 制造）2026.1 发布，对话即创作，输出完整代码工程。有策划经验者评价"上限极高"。日产出 10~20 款新游戏<sup class="cite"><a href="#s3">[3]</a></sup>。</div>
+        <div class="card-metrics">
+          <div class="metric">利润增长 <strong>+89.2%</strong></div>
+          <div class="metric">创作者 <strong>~数百</strong></div>
+        </div>
+        <div class="card-action">Z.ai 切入：GLM-Coding 能力嵌入创作管线、游戏资产生成模型</div>
+      </div>
+      <div class="card">
+        <div class="card-name">Loopit 涌跃智能<span class="card-name-en"> — 中国 · 2025</span></div>
+        <div class="card-desc">"可玩抖音"——AI 生成交互内容 Feed。上线 2 个月 200 万全球注册用户，Musk 转发引爆。3 轮融资共 $100M<sup class="cite"><a href="#s4">[4]</a></sup>。</div>
+        <div class="card-metrics">
+          <div class="metric">融资 <strong>$100M</strong></div>
+          <div class="metric">用户 <strong>~2M</strong></div>
+        </div>
+        <div class="card-action">Z.ai 切入：内容生成模型 API、实时多模态推理</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 3: WORLD MODEL -->
+  <div class="scenario">
+    <div class="scenario-title">
+      <span>场景 C — AI 世界模型 & 游戏生成</span>
+      <span class="tag tag-watch">远景 · 资本热</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-name">Decart AI<span class="card-name-en"> — 以色列 · 2024</span></div>
+        <div class="card-desc">实时 AI 世界模型，代表作 Oasis（Minecraft-like）。2026.5 完成 $300M Series B，估值从 $500M 飙至 ~$4B<sup class="cite"><a href="#s5">[5]</a></sup>。Nvidia、Adobe Ventures 跟投。</div>
+        <div class="card-metrics">
+          <div class="metric">总融资 <strong>$453M</strong></div>
+          <div class="metric">估值 <strong>~$4B</strong></div>
+        </div>
+        <div class="card-action">Z.ai 切入：世界模型训练算力合作、实时推理优化</div>
+      </div>
+      <div class="card">
+        <div class="card-name">Yoroll<span class="card-name-en"> — 中国</span></div>
+        <div class="card-desc">AI 互动影游平台——文本+图片+短片自动生成分支互动影视游戏，零代码。类似短剧逻辑颠覆影视工业，成本降低百倍<sup class="cite"><a href="#s6">[6]</a></sup>。</div>
+        <div class="card-metrics">
+          <div class="metric">融资 <strong>未披露</strong></div>
+          <div class="metric">阶段 <strong>早期</strong></div>
+        </div>
+        <div class="card-action">Z.ai 切入：GLM-5v 多模态生成、分支叙事推理能力</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 4: COMPANIONSHIP -->
+  <div class="scenario">
+    <div class="scenario-title">
+      <span>场景 D — AI 陪伴 & 沉浸社交</span>
+      <span class="tag tag-hot">唯一行业共识</span>
+    </div>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-name">MiniMax 稀宇科技<span class="card-name-en"> — 上海 · 2021</span></div>
+        <div class="card-desc">星野 App（AI 陪伴社区），自研 abab 模型（万亿参数）。国内陪伴赛道头部，乙女游戏用户核心。阿里领投超 $600M<sup class="cite"><a href="#s7">[7]</a></sup>。</div>
+        <div class="card-metrics">
+          <div class="metric">估值 <strong>>$25亿</strong></div>
+          <div class="metric">融资 <strong>>$600M</strong></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-name">网易 NetEase<span class="card-name-en"> — 广州 · 1997 · HKEX 09999</span></div>
+        <div class="card-desc">2026 年 AI 态度 180 度转变——从消极到积极拥抱。内部有模型底座，公开信息显示大幅增加 AI 投入<sup class="cite"><a href="#s8">[8]</a></sup>。</div>
+        <div class="card-metrics">
+          <div class="metric">市值 <strong>~$50B</strong></div>
+          <div class="metric">变化 <strong>最大</strong></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-name">字节跳动 ByteDance<span class="card-name-en"> — 北京 · 2012</span></div>
+        <div class="card-desc">内部有模型底座（豆包/扣子），AI 游戏反应最快。游戏业务调整后重新聚焦 AI 互动内容。</div>
+        <div class="card-metrics">
+          <div class="metric">反应 <strong>最快</strong></div>
+          <div class="metric">模型 <strong>自研</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLAB -->
+  <section class="collab">
+    <h2>Z.ai 合作切入点总览</h2>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">核心需求共性</span>
+        <p>所有标的均需要高质量 LLM 底座（NPC 对话、内容生成、多模态推理）。国产化、低成本推理是游戏公司共同痛点。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合</span>
+        <p>GLM-5.1 API → NPC 对话/陪伴；GLM-5v → 多模态游戏资产生成；GLM-Coding → 创作工具嵌入式 Coding；国产芯片推理 → 大规模部署降本。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步</span>
+        <p>1) 米哈游/网易：NPC 多模态 POC（语音+情感推理）。2) 心动/Loopit：GLM-Coding 嵌入创作管线。3) MiniMax/Decart：推理优化合作。4) Yoroll：分支叙事 API 定制。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">17173 — "米哈游的逆天AI，《星布谷地》又进化了" — 2026-04 — <a href="http://news.17173.com/content/04262026/164742841.shtml">link</a></li>
+      <li id="s2">Intel Capital — "Inworld AI's AI-Driven NPCs" — 2026 — <a href="https://www.intelcapital.com/the-future-of-gaming-inworld-ais-ai-driven-npcs-and-immersive-experiences/">link</a></li>
+      <li id="s3">36Kr / 高盛 — "TapTap 制造发布" — 2026-01 — <a href="https://m.c114.com.cn/w241-1304893.html">link</a></li>
+      <li id="s4">36Kr — "Loopit Raises Another $50M" — 2026-03 — <a href="https://eu.36kr.com/en/p/3778135439709446">link</a></li>
+      <li id="s5">WSJ — "Decart Raises $300M" — 2026-05 — <a href="https://www.wsj.com/tech/ai/startup-makes-switching-ai-chips-easierand-nvidia-is-a-new-investor-c78e3a54">link</a></li>
+      <li id="s6">知乎 — "全程0代码！一句话生成完整互动影游" — 2026 — <a href="https://zhuanlan.zhihu.com/p/2025256254986011575">link</a></li>
+      <li id="s7">品玩 — "制造星野：MiniMax 的另类 AI 世界" — 2026 — <a href="https://www.pingwest.com/a/294725">link</a></li>
+      <li id="s8">十字路口 x 405游局 — "2026 AI 游戏全景扫描" — 2026-05 — <a href="https://mp.weixin.qq.com/s/yff1vkDyTrkG3rchCLySJw">link</a></li>
+      <li id="s9">Research & Markets — "AI in Games Market Report 2026" — 2026 — <a href="https://www.researchandmarkets.com/reports/6226222/ai-in-games-market-report">link</a></li>
+      <li id="s10">InvestGame — "Inworld AI valued at $500M" — 2023 — <a href="https://investgame.net/news/inworld-ai-raises-new-funding-round-led-by-lightspeed-bringing-valuation-to-over-500-million/">link</a></li>
+    </ol>
+  </div>
+</div>
+</body>
+</html>
