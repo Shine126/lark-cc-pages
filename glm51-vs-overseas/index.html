@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM-5.1 vs 海外旗舰大模型 — 价格与性能对比</title>
+<style>
+
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.8);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #fff; --accent-glow: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --stat-bg: #000; --scenario-bg: #0c0c0e; --quote-bg: #0c0c0e;
+  --hero-gradient: linear-gradient(180deg, #000 0%, #08080a 50%, #000 100%);
+  --highlight-bg: #fff; --highlight-text: #000;
+  --highlight-row: rgba(59,130,246,0.08);
+  --best-badge-bg: rgba(59,130,246,0.15); --best-badge-text: #60a5fa;
+  --shadow-card: rgba(0,0,0,0.15);
+  --glm-accent: #4f8ff7;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.85);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #1d1d1f; --accent-glow: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --stat-bg: #fff; --scenario-bg: #f5f5f7; --quote-bg: #f5f5f7;
+  --hero-gradient: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #ffffff 100%);
+  --highlight-bg: #1d1d1f; --highlight-text: #fff;
+  --highlight-row: rgba(59,130,246,0.06);
+  --best-badge-bg: rgba(59,130,246,0.1); --best-badge-text: #2563eb;
+  --shadow-card: rgba(0,0,0,0.06);
+  --glm-accent: #2563eb;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .35s ease,color .35s ease}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background .4s,border-color .4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-icon{width:24px;height:24px;border-radius:6px;background:var(--glm-accent);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-secondary);transition:color .2s;letter-spacing:.01em;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .25s ease;font-size:14px;border:1px solid var(--border);cursor:pointer;background:none}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+.lang-btn{font-size:11px;font-weight:600;width:auto;padding:0 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:140px 48px;position:relative}
+.container{max-width:1120px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(36px,5.5vw,64px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--text-tertiary);font-weight:500}
+.subtitle{font-size:clamp(16px,1.8vw,19px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:680px}
+.divider{width:32px;height:1px;background:var(--border-hover);margin:56px auto}
+
+/* HERO */
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;position:relative;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:840px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 48px;text-align:center;max-width:640px}
+.hero-stats{display:flex;gap:48px;margin-top:16px}
+.hero-stat{text-align:center}
+.hero-stat-num{font-size:36px;font-weight:700;letter-spacing:-.03em;color:var(--glm-accent)}
+.hero-stat-desc{font-size:12px;color:var(--text-secondary);margin-top:4px;font-weight:500}
+
+/* MODEL CARDS */
+.model-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:56px}
+.model-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;transition:all .3s ease;position:relative;overflow:hidden}
+.model-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 20px 60px var(--shadow-card)}
+.model-card.recommended{border-color:var(--glm-accent);border-width:1.5px}
+.model-card.recommended::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--glm-accent),#a78bfa,var(--glm-accent))}
+.card-badge{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:6px;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.card-badge.pick{background:var(--best-badge-bg);color:var(--glm-accent)}
+.card-vendor{font-size:12px;color:var(--text-tertiary);font-weight:500;letter-spacing:.02em;margin-bottom:4px}
+.card-model{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:20px}
+.card-meta{display:flex;flex-direction:column;gap:8px}
+.card-meta-row{display:flex;justify-content:space-between;font-size:13px}
+.card-meta-label{color:var(--text-tertiary)}
+.card-meta-value{color:var(--text-secondary);font-weight:500;font-variant-numeric:tabular-nums}
+.card-price-tag{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);text-align:center}
+.card-price-label{font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.card-price-value{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.card-price-value.glm{color:var(--glm-accent)}
+
+/* BENCHMARK TABLE */
+.bench-table-wrap{overflow-x:auto;margin-top:48px;border-radius:14px;border:1px solid var(--border)}
+.bench-table{width:100%;border-collapse:collapse;font-size:14px}
+.bench-table th{text-align:center;padding:16px 12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border);background:var(--bg-card);white-space:nowrap}
+.bench-table th:first-child{text-align:left;padding-left:20px}
+.bench-table td{text-align:center;padding:14px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary);white-space:nowrap;transition:background .2s}
+.bench-table td:first-child{text-align:left;padding-left:20px;color:var(--text);font-weight:600;font-size:13px}
+.bench-table tr:last-child td{border-bottom:none}
+.bench-table tr:hover td{background:var(--accent-glow)}
+.bench-table .best-score{color:var(--glm-accent);font-weight:700;position:relative}
+.bench-table .glm-col{background:var(--highlight-row)}
+.bench-table .glm-header{color:var(--glm-accent)}
+.bench-note{font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.6}
+.bench-sources{margin-top:24px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+.bench-source{font-size:11px;color:var(--text-tertiary);padding:8px 12px;background:var(--accent-glow);border-radius:8px}
+.bench-source strong{color:var(--text-secondary);font-weight:600}
+
+/* ADVANTAGES */
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:56px}
+.adv-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:32px 24px;transition:all .3s ease}
+.adv-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.adv-icon{width:40px;height:40px;border-radius:10px;background:var(--best-badge-bg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:16px;color:var(--glm-accent)}
+.adv-card h4{font-size:15px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
+.adv-card p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+.adv-card.featured{border-color:var(--glm-accent);border-width:1.5px;grid-column:span 2}
+.adv-card.featured .adv-icon{background:rgba(79,143,247,0.2)}
+
+/* PRICING */
+.pricing-tabs{display:flex;gap:4px;background:var(--bg-card);border-radius:10px;padding:4px;margin:0 auto 32px;max-width:fit-content}
+.pricing-tab{padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;background:none;border:none;transition:all .2s;white-space:nowrap}
+.pricing-tab.active{background:var(--text);color:var(--bg)}
+.pricing-tab:hover:not(.active){color:var(--text);background:var(--border)}
+.pricing-panel{display:none;animation:fadeIn .3s ease}
+.pricing-panel.active{display:block}
+.pricing-table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--border)}
+.pricing-table{width:100%;border-collapse:collapse;font-size:14px}
+.pricing-table th{text-align:left;padding:14px 16px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.pricing-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.pricing-table tr:last-child td{border-bottom:none}
+.pricing-table .model-name{color:var(--text);font-weight:600}
+.pricing-table .highlight-row td{background:var(--highlight-row)}
+.pricing-table .price-tag{font-variant-numeric:tabular-nums;letter-spacing:-.01em;font-family:var(--font-mono),monospace;font-size:13px}
+.pricing-table .savings{font-size:11px;color:var(--glm-accent);font-weight:600;margin-left:6px}
+.pricing-note{font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.5}
+
+/* GUIDE */
+.guide-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:56px}
+.guide-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 20px;transition:all .3s ease;text-align:center}
+.guide-card:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.guide-card.featured{border-color:var(--glm-accent);border-width:1.5px}
+.guide-card h4{font-size:15px;font-weight:600;margin-bottom:6px}
+.guide-card .guide-model{font-size:12px;color:var(--text-tertiary);margin-bottom:12px;font-weight:500}
+.guide-card p{font-size:13px;color:var(--text-secondary);line-height:1.55}
+.guide-check{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--best-badge-bg);color:var(--glm-accent);font-size:14px;margin-bottom:12px;font-weight:700}
+
+/* CTA */
+.cta{text-align:center;padding:160px 48px;background:var(--hero-gradient)}
+.cta .title{margin-bottom:20px}
+.cta .subtitle{margin:0 auto 48px;text-align:center}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:16px 40px;border-radius:100px;font-size:15px;font-weight:600;letter-spacing:-.01em;border:1.5px solid var(--border-hover);color:var(--text);transition:all .3s ease;cursor:pointer}
+.cta-btn:hover{background:var(--text);color:var(--bg);border-color:var(--text);transform:scale(1.03)}
+.cta-btn.primary{background:var(--glm-accent);color:#fff;border-color:var(--glm-accent)}
+.cta-btn.primary:hover{background:#3b7ae0;border-color:#3b7ae0;color:#fff;transform:scale(1.03)}
+
+/* FOOTER */
+.footer{padding:48px 48px 56px;text-align:center;border-top:.5px solid var(--border);color:var(--text-tertiary);font-size:12px;letter-spacing:.01em}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.16s}.reveal-d3{transition-delay:.24s}.reveal-d4{transition-delay:.32s}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .model-grid{grid-template-columns:repeat(2,1fr)}
+  .guide-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:768px){
+  .nav{padding:0 20px;height:48px}
+  .nav-links{display:none}
+  .section{padding:96px 24px}
+  .container{max-width:100%}
+  .model-grid,.adv-grid,.guide-grid{grid-template-columns:1fr}
+  .adv-card.featured{grid-column:span 1}
+  .hero-stats{flex-direction:column;gap:24px}
+  .bench-table,.pricing-table{font-size:12px}
+  .bench-table th,.bench-table td,.pricing-table th,.pricing-table td{padding:10px 6px}
+  .cta{padding:120px 24px}
+  .cta-btns{flex-direction:column;align-items:center}
+  .footer{padding:40px 24px 48px}
+  .guide-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .model-grid{gap:8px}
+  .model-card{padding:20px 16px}
+  .card-model{font-size:17px}
+  .title{font-size:clamp(28px,8vw,42px)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">G</div>
+    <div class="nav-logo-text">GLM-5.1<span data-i18n="nav_span">对比</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#models" data-i18n="nav_models">模型对比</a>
+    <a href="#benchmarks" data-i18n="nav_bench">评测基准</a>
+    <a href="#advantages" data-i18n="nav_advantages">核心优势</a>
+    <a href="#pricing" data-i18n="nav_pricing">价格对比</a>
+    <a href="#guide" data-i18n="nav_guide">选型建议</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle theme"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="label reveal" data-i18n="hero_label">价格与性能对比</div>
+  <h1 class="title reveal" data-i18n="hero_title">GLM-5.1 vs 海外旗舰大模型</h1>
+  <p class="subtitle reveal" data-i18n="hero_desc">全面对比智谱 GLM-5.1 与 OpenAI GPT-5.2、Anthropic Claude Opus 4.6、DeepSeek V4 Pro、Google Gemini 2.5 Pro 的性能与价格。<br>同级别性能，价格仅为竞品的 1/3 至 1/5。</p>
+  <div class="hero-stats reveal">
+    <div class="hero-stat"><div class="hero-stat-num" data-i18n="stat_1">性价比之王</div><div class="hero-stat-desc">Output $4.40/MTok</div></div>
+    <div class="hero-stat"><div class="hero-stat-num" data-i18n="stat_2">国产代码第一</div><div class="hero-stat-desc">SWE-Bench Verified 80.8%</div></div>
+    <div class="hero-stat"><div class="hero-stat-num" data-i18n="stat_3">开源 SOTA</div><div class="hero-stat-desc">Text Arena #1</div></div>
+  </div>
+</section>
+
+<!-- MODEL CARDS -->
+<section class="section" id="models">
+  <div class="container">
+    <div class="reveal">
+      <div class="label">Model Comparison</div>
+      <h2 class="title" data-i18n="models_title">模型概览</h2>
+    </div>
+    <div id="modelCards" class="model-grid reveal"></div>
+  </div>
+</section>
+
+<!-- BENCHMARKS -->
+<section class="section" id="benchmarks">
+  <div class="container">
+    <div class="reveal center-section" style="text-align:center">
+      <div class="label">Benchmarks</div>
+      <h2 class="title" data-i18n="bench_title">评测基准对比</h2>
+      <p class="subtitle" style="margin:0 auto" data-i18n="bench_sub">主流 Benchmark 综合对比，数据来源见下方标注</p>
+    </div>
+    <div id="benchTable" class="reveal"></div>
+    <p class="bench-note reveal" data-i18n="data_note">⚠️ 数据更新于 2026-05-29，部分数值为估算值标注"+"</p>
+    <div id="benchSources" class="bench-sources reveal"></div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section class="section" id="advantages">
+  <div class="container">
+    <div class="reveal center-section" style="text-align:center">
+      <div class="label">Why GLM-5.1</div>
+      <h2 class="title" data-i18n="adv_title">GLM-5.1 核心优势</h2>
+    </div>
+    <div class="adv-grid reveal">
+      <div class="adv-card featured">
+        <div class="adv-icon">⏱</div>
+        <h4 data-i18n="adv1_h">8小时长程任务</h4>
+        <p data-i18n="adv1_p">单次任务可持续自主工作 8 小时，自主规划、执行、测试、纠错，完整交付工程级成果</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">&lt;/&gt;</div>
+        <h4 data-i18n="adv2_h">代码能力全球第三</h4>
+        <p data-i18n="adv2_p">SWE-Bench Pro、Terminal-Bench 2.0、NL2Repo 综合全球第三，国产第一，开源第一</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">💰</div>
+        <h4 data-i18n="adv3_h">极高性价比</h4>
+        <p data-i18n="adv3_p">输出价格仅为 Claude Opus 4.6 的 1/5，GPT-5.2 的 1/3，同级别性能远低于竞品</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">🏆</div>
+        <h4 data-i18n="adv4_h">Text Arena 开源第一</h4>
+        <p data-i18n="adv4_p">超越 GLM-5 +11分，超越 Kimi K2.5 Thinking +15分，登顶开源模型榜首</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">✓</div>
+        <h4 data-i18n="adv5_h">完整工程交付</h4>
+        <p data-i18n="adv5_p">自主规划 → 执行 → 测试 → 纠错 → 交付，端到端工程级成果</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="reveal center-section" style="text-align:center">
+      <div class="label">Pricing</div>
+      <h2 class="title" data-i18n="price_title">价格对比</h2>
+      <p class="subtitle" style="margin:0 auto" data-i18n="price_sub">国内国际双币种定价，灵活弹性</p>
+    </div>
+    <div class="reveal" style="margin-top:24px">
+      <div class="pricing-tabs">
+        <button class="pricing-tab active" onclick="switchPricing('cn')" data-i18n="tab_cn">国内版 (元)</button>
+        <button class="pricing-tab" onclick="switchPricing('intl')" data-i18n="tab_intl">国际版 (USD)</button>
+      </div>
+      <div id="pricingContent"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SELECTION GUIDE -->
+<section class="section" id="guide">
+  <div class="container">
+    <div class="reveal center-section" style="text-align:center">
+      <div class="label">Selection Guide</div>
+      <h2 class="title" data-i18n="guide_title">选型建议</h2>
+    </div>
+    <div class="guide-grid reveal">
+      <div class="guide-card featured">
+        <div class="guide-check">✓</div>
+        <h4 data-i18n="guide_glh">选择 GLM-5.1</h4>
+        <div class="guide-model">Zhipu GLM-5.1</div>
+        <p data-i18n="guide_gl_p">追求性价比、需要长程任务能力、代码开发场景</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-check">○</div>
+        <h4 data-i18n="guide_gpt">选择 GPT-5.2</h4>
+        <div class="guide-model">OpenAI GPT-5.2</div>
+        <p data-i18n="guide_gpt_p">极致推理能力、数学竞赛场景、预算充裕</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-check">○</div>
+        <h4 data-i18n="guide_claude">选择 Claude Opus 4.6</h4>
+        <div class="guide-model">Anthropic Claude Opus 4.6</div>
+        <p data-i18n="guide_claude_p">复杂编程任务、多语言开发、需要最高代码生成准确率</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-check">○</div>
+        <h4 data-i18n="guide_ds">选择 DeepSeek V4 Pro</h4>
+        <div class="guide-model">DeepSeek V4 Pro</div>
+        <p data-i18n="guide_ds_p">成本敏感场景、开源部署需求</p>
+      </div>
+      <div class="guide-card">
+        <div class="guide-check">○</div>
+        <h4 data-i18n="guide_gem">选择 Gemini 2.5 Pro</h4>
+        <div class="guide-model">Google Gemini 2.5 Pro</div>
+        <p data-i18n="guide_gem_p">Google 生态集成、多模态需求</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="reveal">
+      <h2 class="title" data-i18n="cta_title">体验 GLM-5.1</h2>
+      <p class="subtitle" data-i18n="cta_sub">同级别性能，更高性价比</p>
+    </div>
+    <div class="cta-btns reveal">
+      <a href="https://bigmodel.cn" target="_blank" class="cta-btn primary" data-i18n="cta_btn_cn">国内接入 →</a>
+      <a href="https://z.ai" target="_blank" class="cta-btn" data-i18n="cta_btn_intl">国际接入 →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 北京智谱华章科技股份有限公司. All rights reserved.</p>
+  <p style="margin-top:8px" data-i18n="data_note">⚠️ 数据更新于 2026-05-29，部分数值为估算值标注"+"</p>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+const MODEL_DATA = [
+  { vendor:'Zhipu AI', model:'GLM-5.1', ctx:'128K', release:'2026-04', outputPriceIntl:'$4.40', recommended:true },
+  { vendor:'OpenAI', model:'GPT-5.2', ctx:'400K', release:'2026-01', outputPriceIntl:'$14.00', recommended:false },
+  { vendor:'Anthropic', model:'Claude Opus 4.6', ctx:'200K', release:'2026-02', outputPriceIntl:'$25.00', recommended:false },
+  { vendor:'DeepSeek', model:'DeepSeek V4 Pro', ctx:'128K', release:'2026-05', outputPriceIntl:'$0.87', recommended:false },
+  { vendor:'Google', model:'Gemini 2.5 Pro', ctx:'1M', release:'2026-03', outputPriceIntl:'$10.00', recommended:false },
+];
+
+const BENCH_DATA = {
+  headers: ['Benchmark','GLM-5.1','GPT-5.2','Claude Opus 4.6','DeepSeek V4 Pro','Gemini 2.5 Pro'],
+  rows: [
+    { name:'MMMLU', scores:['89.0%','93.0%+','91.1%','87.5%¹','91.5%'], best:1 },
+    { name:'GPQA Diamond', scores:['86.2%','92.4%','91.3%','90.1%','83.0%'], best:1 },
+    { name:'AIME 2025', scores:['—','100%','—','—','73.3%'], best:1 },
+    { name:'MATH', scores:['80.0%','96.0%+','85.2%','60.5%¹','83.5%'], best:1 },
+    { name:'SWE-Bench Verified', scores:['80.8%²','80.0%','80.8%','80.6%','63.8%'], best:0 },
+    { name:'SWE-Bench Pro', scores:['58.4%','55.6%','56.8%','—','—'], best:0 },
+  ],
+  footnotes: {
+    '¹':'DeepSeek V4 base model score (0-shot/4-shot), Pro variant may differ',
+    '²':'GLM-5.1 SWE-Bench Verified score from Hugging Face model card; tied with Claude Opus 4.6',
+  },
+  sources: {
+    'GLM-5.1':'Hugging Face zai-org/GLM-5.1, Instagram Official Announcement',
+    'GPT-5.2':'OpenAI Official, Vellum Benchmark Analysis',
+    'Claude Opus 4.6':'Anthropic Official Blog, Vellum Benchmark Analysis',
+    'DeepSeek V4 Pro':'Hugging Face deepseek-ai/DeepSeek-V4-Pro, NVIDIA NIM, MorphLLM',
+    'Gemini 2.5 Pro':'Google Blog Official Announcement, Artificial Analysis',
+  }
+};
+
+const PRICING_DATA = {
+  cn: {
+    unit:'元 / 1M Tokens',
+    headers:['模型','输入','缓存输入','输出'],
+    rows:[
+      { name:'GLM-5.1', input:'¥6', cached:'¥1.3', output:'¥24', highlight:true },
+      { name:'GPT-5.2', input:'¥12.60', cached:'¥6.30', output:'¥100.80' },
+      { name:'Claude Opus 4.6', input:'¥36.00', cached:'¥3.60', output:'¥180.00' },
+      { name:'DeepSeek V4 Pro', input:'¥3.13', cached:'¥0.78', output:'¥6.26' },
+      { name:'Gemini 2.5 Pro', input:'¥9.00', cached:'¥2.25', output:'¥36.00' },
+    ]
+  },
+  intl: {
+    unit:'USD / 1M Tokens',
+    headers:['Model','Input','Cached Input','Output'],
+    rows:[
+      { name:'GLM-5.1', input:'$1.40', cached:'$0.26', output:'$4.40', highlight:true },
+      { name:'GPT-5.2', input:'$1.75', cached:'$0.88', output:'$14.00' },
+      { name:'Claude Opus 4.6', input:'$5.00', cached:'$0.50', output:'$25.00' },
+      { name:'DeepSeek V4 Pro', input:'$0.435', cached:'$0.11', output:'$0.87' },
+      { name:'Gemini 2.5 Pro', input:'$1.25', cached:'$0.31', output:'$10.00' },
+    ]
+  }
+};
+
+const i18n = {
+  zh: {
+    nav_span:'对比', nav_models:'模型对比', nav_bench:'评测基准', nav_advantages:'核心优势', nav_pricing:'价格对比', nav_guide:'选型建议',
+    hero_label:'价格与性能对比', hero_title:'GLM-5.1 vs 海外旗舰大模型',
+    hero_desc:'全面对比智谱 GLM-5.1 与 OpenAI GPT-5.2、Anthropic Claude Opus 4.6、DeepSeek V4 Pro 的性能与价格。<br>同级别性能，价格仅为竞品的 1/3 至 1/5。',
+    stat_1:'性价比之王', stat_2:'国产代码第一', stat_3:'开源 SOTA',
+    models_title:'模型概览',
+    bench_title:'评测基准对比', bench_sub:'主流 Benchmark 综合对比，数据来源见下方标注',
+    adv_title:'GLM-5.1 核心优势',
+    adv1_h:'8小时长程任务', adv1_p:'单次任务可持续自主工作 8 小时，自主规划、执行、测试、纠错，完整交付工程级成果',
+    adv2_h:'代码能力全球第三', adv2_p:'SWE-Bench Pro、Terminal-Bench 2.0、NL2Repo 综合全球第三，国产第一，开源第一',
+    adv3_h:'极高性价比', adv3_p:'输出价格仅为 Claude Opus 4.6 的 1/5，GPT-5.2 的 1/3，同级别性能远低于竞品',
+    adv4_h:'Text Arena 开源第一', adv4_p:'超越 GLM-5 +11分，超越 Kimi K2.5 Thinking +15分，登顶开源模型榜首',
+    adv5_h:'完整工程交付', adv5_p:'自主规划 → 执行 → 测试 → 纠错 → 交付，端到端工程级成果',
+    price_title:'价格对比', price_sub:'国内国际双币种定价，灵活弹性',
+    tab_cn:'国内版 (元)', tab_intl:'国际版 (USD)',
+    guide_title:'选型建议',
+    guide_glh:'选择 GLM-5.1', guide_gl_p:'追求性价比、需要长程任务能力、代码开发场景',
+    guide_gpt:'选择 GPT-5.2', guide_gpt_p:'极致推理能力、数学竞赛场景、预算充裕',
+    guide_claude:'选择 Claude Opus 4.6', guide_claude_p:'复杂编程任务、多语言开发、需要最高代码生成准确率',
+    guide_ds:'选择 DeepSeek V4 Pro', guide_ds_p:'成本敏感场景、开源部署需求',
+    guide_gem:'选择 Gemini 2.5 Pro', guide_gem_p:'Google 生态集成、多模态需求',
+    cta_title:'体验 GLM-5.1', cta_sub:'同级别性能，更高性价比',
+    cta_btn_cn:'国内接入 →', cta_btn_intl:'国际接入 →',
+    data_note:'⚠️ 数据更新于 2026-05-29，部分数值为估算值标注"+"',
+    bench_th:'评测项', ctx_label:'上下文窗口', release_label:'发布时间',
+    price_unit_cn:'价格单位：元 / 1M Tokens', price_unit_intl:'Prices in USD per 1M Tokens',
+    source_label:'数据来源',
+    card_output:'输出价格',
+    card_ctx:'上下文', card_release:'发布',
+    recommended_tag:'推荐',
+  },
+  en: {
+    nav_span:'Compare', nav_models:'Models', nav_bench:'Benchmarks', nav_advantages:'Advantages', nav_pricing:'Pricing', nav_guide:'Selection Guide',
+    hero_label:'Price & Performance Comparison', hero_title:'GLM-5.1 vs Overseas Flagship LLMs',
+    hero_desc:'Comprehensive comparison of Zhipu GLM-5.1 against OpenAI GPT-5.2, Anthropic Claude Opus 4.6, DeepSeek V4 Pro.<br>Same-tier performance at 1/3 to 1/5 of the price.',
+    stat_1:'Best Value', stat_2:'Chinese Coding #1', stat_3:'Open-source SOTA',
+    models_title:'Model Overview',
+    bench_title:'Benchmark Comparison', bench_sub:'Mainstream benchmark scores — sources annotated below',
+    adv_title:'GLM-5.1 Key Advantages',
+    adv1_h:'8-Hour Long-Horizon Tasks', adv1_p:'Autonomously work for up to 8 hours per task — self-planning, execution, testing, error-correction, delivering engineering-grade results',
+    adv2_h:'Coding: Global #3', adv2_p:'Average of SWE-Bench Pro, Terminal-Bench 2.0, NL2Repo — Global #3, Chinese #1, Open-source #1',
+    adv3_h:'Exceptional Value', adv3_p:'Output price at only 1/5 of Claude Opus 4.6 and 1/3 of GPT-5.2 — same-tier performance at a fraction of the cost',
+    adv4_h:'Text Arena: #1 Open Model', adv4_p:'Outperforms GLM-5 by +11pts, Kimi K2.5 Thinking by +15pts, claiming #1 open model spot',
+    adv5_h:'Complete Engineering Delivery', adv5_p:'Self-planning → Execution → Testing → Error-correction → Delivery, end-to-end engineering-grade results',
+    price_title:'Price Comparison', price_sub:'Domestic and international dual-currency pricing',
+    tab_cn:'Domestic (RMB)', tab_intl:'International (USD)',
+    guide_title:'Selection Guide',
+    guide_glh:'Choose GLM-5.1', guide_gl_p:'Best value, long-horizon tasks, coding scenarios',
+    guide_gpt:'Choose GPT-5.2', guide_gpt_p:'Maximum reasoning power, math competitions, generous budget',
+    guide_claude:'Choose Claude Opus 4.6', guide_claude_p:'Complex coding tasks, multi-language dev, highest codegen accuracy',
+    guide_ds:'Choose DeepSeek V4 Pro', guide_ds_p:'Cost-sensitive scenarios, open-source deployment',
+    guide_gem:'Choose Gemini 2.5 Pro', guide_gem_p:'Google ecosystem integration, multimodal needs',
+    cta_title:'Experience GLM-5.1', cta_sub:'Same-tier performance, better value',
+    cta_btn_cn:'China API →', cta_btn_intl:'International API →',
+    data_note:'⚠️ Data updated 2026-05-29. Values marked "+" are estimates.',
+    bench_th:'Benchmark', ctx_label:'Context Window', release_label:'Release Date',
+    price_unit_cn:'Prices in RMB (¥) per 1M Tokens', price_unit_intl:'Prices in USD per 1M Tokens',
+    source_label:'Data Sources',
+    card_output:'Output Price',
+    card_ctx:'Context', card_release:'Release',
+    recommended_tag:'Recommended',
+  }
+};
+let lang='zh';
+
+/* ============ RENDER FUNCTIONS ============ */
+function renderModelCards(){
+  const el=document.getElementById('modelCards');
+  el.innerHTML=MODEL_DATA.map(m=>`
+    <div class="model-card${m.recommended?' recommended':''}">
+      ${m.recommended?'<div class="card-badge pick" data-i18n="recommended_tag">'+i18n[lang].recommended_tag+'</div>':''}
+      <div class="card-vendor">${m.vendor}</div>
+      <div class="card-model">${m.model}</div>
+      <div class="card-meta">
+        <div class="card-meta-row"><span class="card-meta-label" data-i18n="card_ctx">${i18n[lang].card_ctx}</span><span class="card-meta-value">${m.ctx}</span></div>
+        <div class="card-meta-row"><span class="card-meta-label" data-i18n="card_release">${i18n[lang].card_release}</span><span class="card-meta-value">${m.release}</span></div>
+      </div>
+      <div class="card-price-tag">
+        <div class="card-price-label" data-i18n="card_output">${i18n[lang].card_output}</div>
+        <div class="card-price-value${m.recommended?' glm':''}">${m.outputPriceIntl}<span style="font-size:12px;font-weight:400;color:var(--text-tertiary)">/MTok</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBenchTable(){
+  const wrap=document.getElementById('benchTable');
+  let html='<div class="bench-table-wrap"><table class="bench-table"><thead><tr>';
+  html+='<th data-i18n="bench_th">'+i18n[lang].bench_th+'</th>';
+  BENCH_DATA.headers.slice(1).forEach((h,i)=>{
+    const cls=i===0?' class="glm-header"':'';
+    html+=`<th${cls}>${h}</th>`;
+  });
+  html+='</tr></thead><tbody>';
+  BENCH_DATA.rows.forEach(row=>{
+    html+='<tr>';
+    html+=`<td>${row.name}</td>`;
+    row.scores.forEach((s,i)=>{
+      const isBest=i===row.best;
+      const isGlm=i===0;
+      html+=`<td${isGlm?' class="glm-col"':''}><span${isBest?' class="best-score"':''}>${s}${isBest?' ★':''}</span></td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  // footnotes
+  if(BENCH_DATA.footnotes){
+    html+='<div style="margin-top:12px">';
+    Object.entries(BENCH_DATA.footnotes).forEach(([k,v])=>{
+      html+=`<div style="font-size:11px;color:var(--text-tertiary);line-height:1.5;margin-bottom:4px"><sup>${k}</sup> ${v}</div>`;
+    });
+    html+='</div>';
+  }
+  wrap.innerHTML=html;
+
+  const src=document.getElementById('benchSources');
+  src.innerHTML='<div style="font-size:11px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;grid-column:1/-1" data-i18n="source_label">'+i18n[lang].source_label+'</div>';
+  Object.entries(BENCH_DATA.sources).forEach(([k,v])=>{
+    src.innerHTML+=`<div class="bench-source"><strong>${k}:</strong> ${v}</div>`;
+  });
+}
+
+function renderPricing(region){
+  const d=PRICING_DATA[region];
+  const glmOutput=d.rows.find(r=>r.highlight).output;
+  let html=`<div class="pricing-panel active"><div class="pricing-table-wrap"><table class="pricing-table"><thead><tr>`;
+  d.headers.forEach(h=>html+=`<th>${h}</th>`);
+  html+='</tr></thead><tbody>';
+  d.rows.forEach(r=>{
+    const cls=r.highlight?' class="highlight-row"':'';
+    html+=`<tr${cls}>`;
+    html+=`<td class="model-name">${r.name}</td>`;
+    html+=`<td class="price-tag">${r.input}</td>`;
+    html+=`<td class="price-tag">${r.cached}</td>`;
+    if(r.highlight){
+      html+=`<td class="price-tag" style="color:var(--glm-accent);font-weight:700">${r.output}</td>`;
+    } else {
+      const savings=calcSavings(glmOutput,r.output,region);
+      html+=`<td class="price-tag">${r.output}${savings?`<span class="savings">▼${savings}</span>`:''}</td>`;
+    }
+    html+='</tr>';
+  });
+  html+='</tbody></table></div>';
+  const noteKey=region==='cn'?'price_unit_cn':'price_unit_intl';
+  html+=`<p class="pricing-note" data-i18n="${noteKey}">${i18n[lang][noteKey]}</p></div>`;
+  document.getElementById('pricingContent').innerHTML=html;
+}
+
+function calcSavings(glm,comp,region){
+  const g=parseFloat(glm.replace(/[^0-9.]/g,''));
+  const c=parseFloat(comp.replace(/[^0-9.]/g,''));
+  if(!g||!c||c<=g) return '';
+  const pct=Math.round((1-g/c)*100);
+  return pct>0?pct+'%':'';
+}
+
+/* ============ INTERACTIONS ============ */
+function toggleTheme(){
+  const h=document.documentElement,t=h.getAttribute('data-theme');
+  h.setAttribute('data-theme',t==='dark'?'light':'dark');
+  document.getElementById('themeBtn').innerHTML=t==='dark'?
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>':
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+}
+
+function toggleLang(){
+  lang=lang==='zh'?'en':'zh';
+  document.getElementById('langBtn').textContent=lang==='zh'?'EN':'中文';
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(i18n[lang][k]) el.innerHTML=i18n[lang][k];
+  });
+  renderModelCards();
+  renderBenchTable();
+  const active=document.querySelector('.pricing-tab.active');
+  renderPricing(active&&active.textContent.includes('USD')?'intl':'cn');
+}
+
+function switchPricing(region){
+  document.querySelectorAll('.pricing-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderPricing(region);
+}
+
+/* ============ INIT ============ */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}});
+},{threshold:.1,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+renderModelCards();
+renderBenchTable();
+renderPricing('cn');
+</script>
+</body>
+</html>

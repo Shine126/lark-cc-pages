@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM Coding Plan — Enterprise</title>
+<link rel="icon" href="https://cdn.bigmodel.cn/static/logo/dark.svg" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="https://cdn.bigmodel.cn/static/logo/light.svg" media="(prefers-color-scheme: light)">
+<style>
+:root{
+  --bg:#000;--bg-card:#0c0c0e;--bg-nav:rgba(0,0,0,.82);
+  --text:#f5f5f7;--text2:rgba(255,255,255,.6);--text3:rgba(255,255,255,.32);
+  --accent:#4f8cff;--accent2:#7c5cfc;--accent-glow:rgba(79,140,255,.08);
+  --border:rgba(255,255,255,.09);--border-h:rgba(255,255,255,.2);
+  --hero-grad:linear-gradient(180deg,#000 0%,#08080a 50%,#000 100%);
+  --shadow:rgba(0,0,0,.35);--shadow-h:rgba(0,0,0,.45);
+  --green:#34d399;--red:#f87171;--gold:#fbbf24;
+  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter','Noto Sans SC',system-ui,sans-serif;
+  --radius:16px;
+}
+[data-theme="light"]{
+  --bg:#fff;--bg-card:#f5f5f7;--bg-nav:rgba(255,255,255,.85);
+  --text:#1d1d1f;--text2:rgba(0,0,0,.6);--text3:rgba(0,0,0,.35);
+  --accent:#3366d6;--accent2:#6b46e5;--accent-glow:rgba(51,102,214,.06);
+  --border:rgba(0,0,0,.1);--border-h:rgba(0,0,0,.22);
+  --hero-grad:linear-gradient(180deg,#fff 0%,#f5f5f7 50%,#fff 100%);
+  --shadow:rgba(0,0,0,.08);--shadow-h:rgba(0,0,0,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:56px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .35s,color .35s}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background .4s,border-color .4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo svg{height:24px;width:auto}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-.02em}
+.nav-logo-text span{font-weight:400;color:var(--text3);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text2);transition:color .2s;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{height:34px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:all .25s;font-size:13px;font-weight:600;border:1px solid var(--border);cursor:pointer;background:none;padding:0 14px;letter-spacing:.02em}
+.nav-btn:hover{border-color:var(--border-h);color:var(--text);background:var(--accent-glow)}
+.lang-btn{text-transform:uppercase;font-size:11px;padding:0 12px;width:auto;height:34px;border-radius:20px}
+
+/* SECTION */
+.section{padding:120px 48px;position:relative}
+.container{max-width:1080px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:block}
+.title{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--text3);font-weight:500}
+.subtitle{font-size:clamp(15px,1.7vw,18px);color:var(--text2);font-weight:400;line-height:1.65;max-width:680px}
+.divider{width:32px;height:1px;background:var(--border-h);margin:56px auto}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:56px;background:var(--hero-grad)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:840px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 48px;text-align:center;max-width:720px}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;background:var(--accent);color:#fff;font-weight:600;font-size:15px;transition:transform .2s,box-shadow .2s;border:none;cursor:pointer}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(79,140,255,.3)}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;background:var(--accent-glow);color:var(--text);font-weight:600;font-size:15px;border:1px solid var(--border);cursor:pointer;transition:all .25s}
+.btn-secondary:hover{border-color:var(--border-h);background:var(--accent-glow)}
+
+/* STAT CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:var(--radius);overflow:hidden;margin-top:64px}
+.stat{background:var(--bg);padding:40px 28px;text-align:center;transition:background .4s}
+.stat-num{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-desc{font-size:13px;color:var(--text2);margin-top:8px;line-height:1.5}
+
+/* PRICING TABLE */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.pricing-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:36px 28px;position:relative;transition:all .3s}
+.pricing-card:hover{border-color:var(--border-h);transform:translateY(-4px);box-shadow:0 20px 60px var(--shadow)}
+.pricing-card.featured{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 20px 60px var(--shadow)}
+.pricing-card.featured::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:60%;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:0 0 4px 4px}
+.pricing-tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.pricing-name{font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:-.02em}
+.pricing-price{font-size:36px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
+.pricing-price span{font-size:14px;font-weight:400;color:var(--text2)}
+.pricing-annual{font-size:13px;color:var(--green);margin-bottom:24px}
+.pricing-features{list-style:none;padding:0}
+.pricing-features li{padding:10px 0;font-size:14px;color:var(--text2);display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border)}
+.pricing-features li:last-child{border-bottom:none}
+.pricing-features li .icon{flex-shrink:0;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:2px}
+.icon-check{background:rgba(52,211,153,.15);color:var(--green)}
+.icon-dot{background:var(--accent-glow);color:var(--text3)}
+.recommended-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:11px;font-weight:600;padding:5px 16px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+
+/* COMPARISON TABLE */
+.compare-section{margin-top:64px}
+.compare-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);margin-top:32px}
+.compare-table{width:100%;border-collapse:collapse;font-size:14px}
+.compare-table th,.compare-table td{padding:16px 20px;text-align:left;border-bottom:1px solid var(--border)}
+.compare-table th{background:var(--bg-card);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);position:sticky;top:0}
+.compare-table tr:hover td{background:var(--accent-glow)}
+.compare-table .highlight{color:var(--green);font-weight:600}
+.compare-table .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.tag-green{background:rgba(52,211,153,.12);color:var(--green)}
+.tag-blue{background:rgba(79,140,255,.12);color:var(--accent)}
+.tag-gold{background:rgba(251,191,36,.12);color:var(--gold)}
+
+/* SAVINGS CALC */
+.savings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:48px}
+.savings-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:36px 28px;text-align:center;transition:all .3s}
+.savings-card:hover{border-color:var(--border-h)}
+.savings-ratio{font-size:clamp(40px,6vw,64px);font-weight:700;letter-spacing:-.04em;background:linear-gradient(135deg,var(--green),#059669);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.savings-label{font-size:14px;color:var(--text2);margin-top:8px}
+.savings-detail{font-size:12px;color:var(--text3);margin-top:12px;line-height:1.6}
+.savings-formula{margin-top:16px;padding:12px 16px;background:var(--accent-glow);border-radius:8px;font-size:12px;color:var(--text2);text-align:left;line-height:1.7;font-family:'SF Mono',SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace}
+
+/* FEATURES */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:var(--radius);overflow:hidden;margin-top:48px}
+.feature{background:var(--bg);padding:32px 24px;border:1px solid var(--border);transition:all .3s}
+.feature:hover{border-color:var(--border-h);transform:translateY(-2px)}
+.feature-icon{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:18px}
+.feature h4{font-size:15px;font-weight:600;margin-bottom:8px}
+.feature p{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* VOLUME */
+.volume-section{margin-top:48px}
+.volume-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+.volume-table{width:100%;border-collapse:collapse;font-size:14px}
+.volume-table th,.volume-table td{padding:14px 20px;text-align:center;border-bottom:1px solid var(--border)}
+.volume-table th{background:var(--bg-card);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3)}
+.volume-table td:first-child{text-align:left}
+.volume-table .discount{font-weight:700;color:var(--green)}
+
+/* FOOTER */
+.footer{padding:80px 48px 40px;text-align:center;border-top:1px solid var(--border)}
+.footer p{font-size:13px;color:var(--text3);line-height:1.8}
+.footer a{color:var(--accent);transition:opacity .2s}
+.footer a:hover{opacity:.7}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .section{padding:80px 20px}
+  .nav{padding:0 20px}
+  .nav-links{display:none}
+  .pricing-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr}
+  .feature-grid{grid-template-columns:1fr}
+  .savings-grid{grid-template-columns:1fr}
+  .hero{padding-top:56px;padding-bottom:60px}
+}
+@media(min-width:769px) and (max-width:1024px){
+  .pricing-grid{grid-template-columns:repeat(2,1fr)}
+  .feature-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp .6s ease both}
+.delay-1{animation-delay:.1s}.delay-2{animation-delay:.2s}.delay-3{animation-delay:.3s}
+
+/* NOTE */
+.note-box{margin-top:20px;padding:16px 20px;background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:10px;font-size:13px;color:var(--text2);line-height:1.7}
+.note-box strong{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 100 28" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><text x="0" y="22" font-family="var(--font)" font-size="20" font-weight="700" letter-spacing="-0.03em">GLM</text><text x="56" y="22" font-family="var(--font)" font-size="20" font-weight="400" fill="var(--text3)" letter-spacing="-0.02em">Coding</text></svg>
+    <span class="nav-logo-text" data-i18n="nav_title">Coding Plan <span>Enterprise</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#pricing" data-i18n="nav_pricing">定价</a>
+    <a href="#compare" data-i18n="nav_compare">对比</a>
+    <a href="#savings" data-i18n="nav_savings">节省</a>
+    <a href="#features" data-i18n="nav_features">权益</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <span class="label animate" data-i18n="hero_label">企业版 AI 编程方案</span>
+  <h1 class="title animate delay-1" data-i18n="hero_title">为团队打造的<br><em>AI 编程基础设施</em></h1>
+  <p class="subtitle animate delay-2" data-i18n="hero_subtitle">GLM Coding Plan 团队版 — 统一管理、数据安全、按席位订阅。相较 API 按量付费至高节省 90%+，让企业以确定性成本规模化使用 AI 编程。</p>
+  <div class="hero-cta animate delay-3">
+    <a href="#pricing" class="btn-primary" data-i18n="hero_cta">查看套餐 →</a>
+    <a href="#compare" class="btn-secondary" data-i18n="hero_cta2">API 对比分析</a>
+  </div>
+</section>
+
+<!-- KEY STATS -->
+<section class="section" id="stats">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" data-i18n="stat1_num">90%+</div>
+        <div class="stat-desc" data-i18n="stat1_desc">相较 API 按量付费<br>最高成本节省比例</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-i18n="stat2_num">32 亿</div>
+        <div class="stat-desc" data-i18n="stat2_desc">高级版每月可用 tokens<br>（每周 8 亿 × 4 周）</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-i18n="stat3_num">10+</div>
+        <div class="stat-desc" data-i18n="stat3_desc">兼容主流编码工具<br>Claude Code / Cline / Kilo Code 等</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <span class="label" data-i18n="pricing_label">团队套餐</span>
+    <h2 class="title" data-i18n="pricing_title">选择适合团队的方案</h2>
+    <p class="subtitle" data-i18n="pricing_subtitle">按席位订阅，2 席位起购。支持超额按量付费，关键项目不中断。</p>
+
+    <div class="pricing-grid" id="pricingGrid">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="note-box">
+      <strong data-i18n="pricing_note_title">⚠️ 模型消耗系数说明</strong><br>
+      <span data-i18n="pricing_note">GLM-4.7 / GLM-4.5-Air：1 倍系数消耗额度。GLM-5.1 / GLM-5-Turbo：高峰期（14:00-18:00 UTC+8）3 倍、非高峰期 2 倍。限时福利：截至 6 月底，非高峰期仅按 1 倍抵扣。</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- API COMPARISON -->
+<section class="section" id="compare">
+  <div class="container">
+    <span class="label" data-i18n="compare_label">API 对比分析</span>
+    <h2 class="title" data-i18n="compare_title">Coding Plan vs API 按量付费</h2>
+    <p class="subtitle" data-i18n="compare_subtitle">同样的模型、同样的质量，订阅制让成本更可控、更可预期。</p>
+
+    <div class="compare-section">
+      <div class="compare-table-wrap">
+        <table class="compare-table" id="compareTable">
+          <!-- Rendered by JS -->
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SAVINGS -->
+<section class="section" id="savings">
+  <div class="container">
+    <span class="label" data-i18n="savings_label">成本节省</span>
+    <h2 class="title" data-i18n="savings_title">花更少，用更多</h2>
+    <p class="subtitle" data-i18n="savings_subtitle">以 GLM-4.7 API 标准价格为基准，计算团队版的实际节省比例。</p>
+
+    <div class="savings-grid" id="savingsGrid">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="note-box" style="margin-top:32px">
+      <strong data-i18n="savings_note_title">💡 计算说明</strong><br>
+      <span data-i18n="savings_note">API 等价成本 = 月 tokens 总量 × GLM-4.7 加权均价（约 ¥5/百万 tokens）。实际使用 GLM-5.1 等高阶模型时，API 等价成本更高（GLM-5.1 加权均价约 ¥15/百万 tokens），节省比例可达 95%+。高峰期 GLM-5.1 按 3 倍消耗额度，但 API 价格本身也更高，整体节省依然显著。</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <span class="label" data-i18n="features_label">企业级能力</span>
+    <h2 class="title" data-i18n="features_title">不止于模型调用</h2>
+    <p class="subtitle" data-i18n="features_subtitle">团队版在个人版基础上，提供企业管理、数据安全、监控分析等专属能力。</p>
+
+    <div class="feature-grid" id="featureGrid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VOLUME DISCOUNT -->
+<section class="section" id="volume">
+  <div class="container">
+    <span class="label" data-i18n="volume_label">批量折扣</span>
+    <h2 class="title" data-i18n="volume_title">规模越大，成本越优</h2>
+    <p class="subtitle" data-i18n="volume_subtitle">根据团队总席位数，享受阶梯折扣。</p>
+
+    <div class="volume-section">
+      <div class="volume-table-wrap">
+        <table class="volume-table">
+          <thead>
+            <tr>
+              <th data-i18n="vol_col_seats">总席位数</th>
+              <th data-i18n="vol_col_discount">折扣</th>
+              <th data-i18n="vol_col_standard">标准版实付/月</th>
+              <th data-i18n="vol_col_advanced">高级版实付/月</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2 – 49</td><td data-i18n="vol_full">原价</td><td>¥598</td><td>¥1,198</td></tr>
+            <tr><td>50 – 99</td><td class="discount">9 折</td><td>¥538.2</td><td>¥1,078.2</td></tr>
+            <tr><td>100 – 500</td><td class="discount">8 折</td><td>¥478.4</td><td>¥958.4</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MCP -->
+<section class="section" id="mcp">
+  <div class="container">
+    <span class="label" data-i18n="mcp_label">MCP 工具</span>
+    <h2 class="title" data-i18n="mcp_title">内置 MCP 能力</h2>
+    <p class="subtitle" data-i18n="mcp_subtitle">订阅即享四大 MCP 工具，无需额外付费或 API 配置。</p>
+
+    <div class="compare-table-wrap" style="margin-top:32px">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th data-i18n="mcp_col_name">MCP 工具</th>
+            <th data-i18n="mcp_col_standard">标准版/月</th>
+            <th data-i18n="mcp_col_advanced">高级版/月</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td data-i18n="mcp_web">联网搜索</td><td rowspan="3" class="highlight">1,000 次<br><span style="font-size:11px;color:var(--text3)" data-i18n="mcp_shared">（3 项共享额度）</span></td><td rowspan="3" class="highlight">4,000 次<br><span style="font-size:11px;color:var(--text3)" data-i18n="mcp_shared2">（3 项共享额度）</span></td></tr>
+          <tr><td data-i18n="mcp_reader">网页读取</td></tr>
+          <tr><td data-i18n="mcp_repo">开源仓库</td></tr>
+          <tr><td data-i18n="mcp_vision">视觉理解</td><td colspan="2" class="highlight" data-i18n="mcp_vision_desc">与模型 tokens 额度共享</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p data-i18n="footer_text">
+    GLM Coding Plan 团队版 · 智谱 AI<br>
+    数据来源：<a href="https://docs.bigmodel.cn/cn/coding-plan/overview" target="_blank">docs.bigmodel.cn</a> ·
+    定价页：<a href="https://bigmodel.cn/pricing" target="_blank">bigmodel.cn/pricing</a><br>
+    ⚠️ 数据更新于 2026 年 6 月，实际以官网最新信息为准
+  </p>
+</footer>
+
+<script>
+// ==================== DATA ====================
+const PRICING_DATA = [
+  {
+    id: 'lite',
+    tag_zh: '入门', tag_en: 'STARTER',
+    name_zh: '团队标准版', name_en: 'Team Standard',
+    price: '¥598', price_unit_zh: '/月/席位', price_unit_en: '/mo/seat',
+    annual_zh: '年付 9 折 ¥538.2/月', annual_en: 'Annual: ¥538.2/mo (10% off)',
+    limit_5h_zh: '0.6 亿 tokens', limit_5h_en: '60M tokens',
+    limit_week_zh: '3 亿 tokens', limit_week_en: '300M tokens',
+    mcp_zh: '1,000 次/月', mcp_en: '1,000/mo',
+    speed: false, priority: false, early_access: false,
+    featured: false
+  },
+  {
+    id: 'pro',
+    tag_zh: '推荐', tag_en: 'RECOMMENDED',
+    name_zh: '团队高级版', name_en: 'Team Advanced',
+    price: '¥1,198', price_unit_zh: '/月/席位', price_unit_en: '/mo/seat',
+    annual_zh: '年付 9 折 ¥1,078.2/月', annual_en: 'Annual: ¥1,078.2/mo (10% off)',
+    limit_5h_zh: '1.6 亿 tokens', limit_5h_en: '160M tokens',
+    limit_week_zh: '8 亿 tokens', limit_week_en: '800M tokens',
+    mcp_zh: '4,000 次/月', mcp_en: '4,000/mo',
+    speed: true, priority: true, early_access: true,
+    featured: true
+  }
+];
+
+const COMPARE_DATA = {
+  headers_zh: ['维度', 'API 按量付费', '团队标准版', '团队高级版'],
+  headers_en: ['Dimension', 'API Pay-as-you-go', 'Team Standard', 'Team Advanced'],
+  rows: [
+    { col_zh:'计费方式', col_en:'Billing', api_zh:'按 tokens 用量', api_en:'Per token usage', s_zh:'按席位月订阅', s_en:'Per seat monthly', a_zh:'按席位月订阅', a_en:'Per seat monthly' },
+    { col_zh:'月费用（5人团队）', col_en:'Monthly Cost (5 seats)', api_zh:'不确定，可能 ¥3,000–30,000+', api_en:'Variable, ¥3,000–30,000+', s_zh:'¥2,990（固定）', s_en:'¥2,990 (fixed)', a_zh:'¥5,990（固定）', a_en:'¥5,990 (fixed)' },
+    { col_zh:'成本可预期性', col_en:'Cost Predictability', api_zh:'❌ 不可控', api_en:'❌ Unpredictable', s_zh:'✅ 完全确定', s_en:'✅ Fully predictable', a_zh:'✅ 完全确定', a_en:'✅ Fully predictable' },
+    { col_zh:'GLM-4.7 可用量', col_en:'GLM-4.7 Volume', api_zh:'无限（按量计费）', api_en:'Unlimited (billed)', s_zh:'12 亿 tokens/月', s_en:'1.2B tokens/mo', a_zh:'32 亿 tokens/月', a_en:'3.2B tokens/mo' },
+    { col_zh:'GLM-5.1 可用量', col_en:'GLM-5.1 Volume', api_zh:'无限（高价）', api_en:'Unlimited (premium)', s_zh:'4–12 亿 tokens/月', s_en:'400M–1.2B/mo', a_zh:'10.7–32 亿 tokens/月', a_en:'1.07–3.2B/mo' },
+    { col_zh:'MCP 工具', col_en:'MCP Tools', api_zh:'需自行开发/集成', api_en:'Self-build required', s_zh:'✅ 内置 4 项', s_en:'✅ Built-in (4)', a_zh:'✅ 内置 4 项', a_en:'✅ Built-in (4)' },
+    { col_zh:'数据安全', col_en:'Data Security', api_zh:'标准 API 协议', api_en:'Standard API', s_zh:'🔒 企业级加密', s_en:'🔒 Enterprise encryption', a_zh:'🔒 企业级加密', a_en:'🔒 Enterprise encryption' },
+    { col_zh:'数据训练', col_en:'Data Training', api_zh:'可能用于训练', api_en:'May be used for training', s_zh:'🚫 不用于训练', s_en:'🚫 Not for training', a_zh:'🚫 不用于训练', a_en:'🚫 Not for training' },
+    { col_zh:'用量监控', col_en:'Usage Monitoring', api_zh:'API 日志', api_en:'API logs', s_zh:'📊 团队看板', s_en:'📊 Team dashboard', a_zh:'📊 团队看板', a_en:'📊 Team dashboard' },
+    { col_zh:'高峰优先保障', col_en:'Peak Priority', api_zh:'无', api_en:'No', s_zh:'无', s_en:'No', a_zh:'⚡ 优先调度', a_en:'⚡ Priority scheduling' },
+    { col_zh:'新功能抢先', col_en:'Early Access', api_zh:'无', api_en:'No', s_zh:'无', s_en:'No', a_zh:'🚀 抢先体验', a_en:'🚀 Early access' }
+  ]
+};
+
+const SAVINGS_DATA = [
+  {
+    ratio: '10x',
+    ratio_en: '10x',
+    label_zh: '团队标准版 vs API', label_en: 'Standard vs API',
+    detail_zh: '月费 ¥598，获得 12 亿 tokens\n等价 API 费用约 ¥6,000/月',
+    detail_en: '¥598/mo for 1.2B tokens\nAPI equivalent ~¥6,000/mo',
+    formula_zh: '¥598 ÷ ¥6,000 = 节省 90%',
+    formula_en: '¥598 ÷ ¥6,000 = 90% savings'
+  },
+  {
+    ratio: '13x',
+    ratio_en: '13x',
+    label_zh: '团队高级版 vs API', label_en: 'Advanced vs API',
+    detail_zh: '月费 ¥1,198，获得 32 亿 tokens\n等价 API 费用约 ¥16,000/月',
+    detail_en: '¥1,198/mo for 3.2B tokens\nAPI equivalent ~¥16,000/mo',
+    formula_zh: '¥1,198 ÷ ¥16,000 = 节省 92.5%',
+    formula_en: '¥1,198 ÷ ¥16,000 = 92.5% savings'
+  }
+];
+
+const FEATURES_DATA = [
+  { icon:'🔐', title_zh:'企业数据安全', title_en:'Enterprise Data Security', desc_zh:'数据默认不用于模型训练，采用更高加密标准，保护核心研发资产。', desc_en:'Data excluded from model training by default. Higher encryption standards to protect core R&D assets.' },
+  { icon:'👥', title_zh:'席位统一管理', title_en:'Unified Seat Management', desc_zh:'批量管理成员席位，支持入离职场景下的灵活调整与角色权限分配。', desc_en:'Batch manage member seats. Flexible adjustment for onboarding/offboarding with role-based permissions.' },
+  { icon:'📊', title_zh:'用量监控看板', title_en:'Usage Monitoring Dashboard', desc_zh:'按成员、时间周期追踪使用量与消耗趋势，AI 投入产出清晰可见。', desc_en:'Track usage by member and time period. Make AI ROI visible and measurable.' },
+  { icon:'💰', title_zh:'超额按量付费', title_en:'Pay-as-you-go Overage', desc_zh:'额度用尽后可继续使用并按量计费，支持按成员设置消耗上限。', desc_en:'Continue service after quota with pay-per-use. Set per-member spending caps.' },
+  { icon:'📋', title_zh:'统一账单发票', title_en:'Unified Billing & Invoices', desc_zh:'企业账单统一归集、集中开票与对账，降低财务核算成本。', desc_en:'Consolidated billing, centralized invoicing, and streamlined reconciliation.' },
+  { icon:'🔌', title_zh:'兼容主流工具', title_en:'Tool Compatibility', desc_zh:'支持 Claude Code、Cline、Kilo Code、OpenClaw、TRAE 等 10+ 编程工具。', desc_en:'Supports Claude Code, Cline, Kilo Code, OpenClaw, TRAE and 10+ coding tools.' },
+  { icon:'⚡', title_zh:'高峰优先保障', title_en:'Peak Priority', desc_zh:'高级版在高并发时段享有更稳定的资源调度与响应保障。', desc_en:'Advanced tier gets priority resource scheduling during peak hours.' },
+  { icon:'🚀', title_zh:'新功能抢先体验', title_en:'Early Access', desc_zh:'高级版优先接入最新旗舰模型和功能，持续提升 AI 编程体验。', desc_en:'Advanced tier gets early access to latest flagship models and features.' },
+  { icon:'🛠', title_zh:'专线售后对接', title_en:'Dedicated Support', desc_zh:'通过专线对接群持续售后保障，企业内高效编程。', desc_en:'Dedicated support channel for enterprise customers with continuous service guarantee.' }
+];
+
+// ==================== i18n ====================
+let lang = 'zh';
+const I18N = {
+  nav_title: { zh:'Coding Plan <span>Enterprise</span>', en:'Coding Plan <span>Enterprise</span>' },
+  nav_pricing: { zh:'定价', en:'Pricing' },
+  nav_compare: { zh:'对比', en:'Compare' },
+  nav_savings: { zh:'节省', en:'Savings' },
+  nav_features: { zh:'权益', en:'Features' },
+  hero_label: { zh:'企业版 AI 编程方案', en:'Enterprise AI Coding Solution' },
+  hero_title: { zh:'为团队打造的<br><em>AI 编程基础设施</em>', en:'AI Coding Infrastructure<br><em>Built for Teams</em>' },
+  hero_subtitle: { zh:'GLM Coding Plan 团队版 — 统一管理、数据安全、按席位订阅。相较 API 按量付费至高节省 90%+，让企业以确定性成本规模化使用 AI 编程。', en:'GLM Coding Plan Team Edition — unified management, data security, per-seat subscription. Save up to 90%+ vs API pay-as-you-go, enabling deterministic-cost AI coding at scale.' },
+  hero_cta: { zh:'查看套餐 →', en:'View Plans →' },
+  hero_cta2: { zh:'API 对比分析', en:'API Comparison' },
+  stat1_num: { zh:'90%+', en:'90%+' },
+  stat1_desc: { zh:'相较 API 按量付费<br>最高成本节省比例', en:'Maximum cost savings<br>vs API pay-as-you-go' },
+  stat2_num: { zh:'32 亿', en:'3.2B' },
+  stat2_desc: { zh:'高级版每月可用 tokens<br>（每周 8 亿 × 4 周）', en:'Advanced monthly tokens<br>(800M/week × 4)' },
+  stat3_num: { zh:'10+', en:'10+' },
+  stat3_desc: { zh:'兼容主流编码工具<br>Claude Code / Cline / Kilo Code 等', en:'Compatible coding tools<br>Claude Code / Cline / Kilo Code etc.' },
+  pricing_label: { zh:'团队套餐', en:'Team Plans' },
+  pricing_title: { zh:'选择适合团队的方案', en:'Choose the Right Plan' },
+  pricing_subtitle: { zh:'按席位订阅，2 席位起购。支持超额按量付费，关键项目不中断。', en:'Per-seat subscription, minimum 2 seats. Pay-as-you-go overage keeps projects running.' },
+  pricing_note_title: { zh:'⚠️ 模型消耗系数说明', en:'⚠️ Model Consumption Coefficient' },
+  pricing_note: { zh:'GLM-4.7 / GLM-4.5-Air：1 倍系数消耗额度。GLM-5.1 / GLM-5-Turbo：高峰期（14:00-18:00 UTC+8）3 倍、非高峰期 2 倍。限时福利：截至 6 月底，非高峰期仅按 1 倍抵扣。', en:'GLM-4.7 / GLM-4.5-Air: 1x coefficient. GLM-5.1 / GLM-5-Turbo: 3x during peak (14:00-18:00 UTC+8), 2x off-peak. Limited offer: 1x off-peak through June.' },
+  compare_label: { zh:'API 对比分析', en:'API Comparison' },
+  compare_title: { zh:'Coding Plan vs API 按量付费', en:'Coding Plan vs API Pay-as-you-go' },
+  compare_subtitle: { zh:'同样的模型、同样的质量，订阅制让成本更可控、更可预期。', en:'Same models, same quality. Subscription makes costs predictable.' },
+  savings_label: { zh:'成本节省', en:'Cost Savings' },
+  savings_title: { zh:'花更少，用更多', en:'Spend Less, Get More' },
+  savings_subtitle: { zh:'以 GLM-4.7 API 标准价格为基准，计算团队版的实际节省比例。', en:'Calculated against GLM-4.7 API standard pricing.' },
+  savings_note_title: { zh:'💡 计算说明', en:'💡 Calculation Note' },
+  savings_note: { zh:'API 等价成本 = 月 tokens 总量 × GLM-4.7 加权均价（约 ¥5/百万 tokens）。实际使用 GLM-5.1 等高阶模型时，API 等价成本更高（GLM-5.1 加权均价约 ¥15/百万 tokens），节省比例可达 95%+。高峰期 GLM-5.1 按 3 倍消耗额度，但 API 价格本身也更高，整体节省依然显著。', en:'API equivalent = monthly tokens × GLM-4.7 weighted avg (~¥5/M tokens). Using GLM-5.1 increases savings to 95%+ (weighted avg ~¥15/M tokens). Peak-hour 3x coefficient is offset by higher API pricing.' },
+  features_label: { zh:'企业级能力', en:'Enterprise Capabilities' },
+  features_title: { zh:'不止于模型调用', en:'Beyond Model Calls' },
+  features_subtitle: { zh:'团队版在个人版基础上，提供企业管理、数据安全、监控分析等专属能力。', en:'Team edition adds enterprise management, data security, monitoring, and more.' },
+  volume_label: { zh:'批量折扣', en:'Volume Discount' },
+  volume_title: { zh:'规模越大，成本越优', en:'Scale Up, Save More' },
+  volume_subtitle: { zh:'根据团队总席位数，享受阶梯折扣。', en:'Tiered discounts based on total seat count.' },
+  vol_col_seats: { zh:'总席位数', en:'Total Seats' },
+  vol_col_discount: { zh:'折扣', en:'Discount' },
+  vol_col_standard: { zh:'标准版实付/月', en:'Standard Paid/mo' },
+  vol_col_advanced: { zh:'高级版实付/月', en:'Advanced Paid/mo' },
+  vol_full: { zh:'原价', en:'Full Price' },
+  mcp_label: { zh:'MCP 工具', en:'MCP Tools' },
+  mcp_title: { zh:'内置 MCP 能力', en:'Built-in MCP Capabilities' },
+  mcp_subtitle: { zh:'订阅即享四大 MCP 工具，无需额外付费或 API 配置。', en:'4 MCP tools included with your subscription. No extra cost or API setup.' },
+  mcp_col_name: { zh:'MCP 工具', en:'MCP Tool' },
+  mcp_col_standard: { zh:'标准版/月', en:'Standard/mo' },
+  mcp_col_advanced: { zh:'高级版/月', en:'Advanced/mo' },
+  mcp_web: { zh:'联网搜索', en:'Web Search' },
+  mcp_reader: { zh:'网页读取', en:'Web Reader' },
+  mcp_repo: { zh:'开源仓库', en:'Open Source Repo' },
+  mcp_vision: { zh:'视觉理解', en:'Vision Understanding' },
+  mcp_shared: { zh:'（3 项共享额度）', en:'(shared quota)' },
+  mcp_shared2: { zh:'（3 项共享额度）', en:'(shared quota)' },
+  mcp_vision_desc: { zh:'与模型 tokens 额度共享', en:'Shared with model token quota' },
+  footer_text: { zh:'GLM Coding Plan 团队版 · 智谱 AI<br>数据来源：<a href="https://docs.bigmodel.cn/cn/coding-plan/overview" target="_blank">docs.bigmodel.cn</a> · 定价页：<a href="https://bigmodel.cn/pricing" target="_blank">bigmodel.cn/pricing</a><br>⚠️ 数据更新于 2026 年 6 月，实际以官网最新信息为准', en:'GLM Coding Plan Team Edition · Zhipu AI<br>Source: <a href="https://docs.bigmodel.cn/cn/coding-plan/overview" target="_blank">docs.bigmodel.cn</a> · Pricing: <a href="https://bigmodel.cn/pricing" target="_blank">bigmodel.cn/pricing</a><br>⚠️ Data updated June 2026. Refer to official site for latest info.' },
+  feat_5h: { zh:'每 5 小时', en:'Every 5 hrs' },
+  feat_week: { zh:'每周', en:'Weekly' },
+  feat_mcp: { zh:'MCP 调用', en:'MCP Calls' },
+  feat_speed: { zh:'生成速度比标准版快 40-60%', en:'40-60% faster generation' },
+  feat_priority: { zh:'高峰期优先资源保障', en:'Peak-hour priority scheduling' },
+  feat_early: { zh:'新功能抢先体验', en:'Early access to new features' },
+  feat_model: { zh:'GLM-5.1 / 5-Turbo / 4.7 / 4.5-Air', en:'GLM-5.1 / 5-Turbo / 4.7 / 4.5-Air' },
+  feat_model_label: { zh:'可用模型', en:'Available Models' },
+};
+
+function t(key) { return I18N[key]?.[lang] || key; }
+
+function toggleLang() {
+  lang = lang === 'zh' ? 'en' : 'zh';
+  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+  renderAll();
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.theme-toggle').textContent = isDark ? '☀' : '🌙';
+}
+
+function renderAll() {
+  // i18n text
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[key]) el.innerHTML = I18N[key][lang];
+  });
+  renderPricing();
+  renderCompare();
+  renderSavings();
+  renderFeatures();
+}
+
+function renderPricing() {
+  const grid = document.getElementById('pricingGrid');
+  grid.innerHTML = PRICING_DATA.map(p => `
+    <div class="pricing-card ${p.featured ? 'featured' : ''}">
+      ${p.featured ? '<div class="recommended-badge">' + (lang==='zh'?'推荐':'RECOMMENDED') + '</div>' : ''}
+      <div class="pricing-tag">${p['tag_'+lang]}</div>
+      <div class="pricing-name">${p['name_'+lang]}</div>
+      <div class="pricing-price">${p.price}<span>${p['price_unit_'+lang]}</span></div>
+      <div class="pricing-annual">${p['annual_'+lang]}</div>
+      <ul class="pricing-features">
+        <li><span class="icon icon-dot">●</span><strong>${t('feat_model_label')}:</strong>&nbsp;${t('feat_model')}</li>
+        <li><span class="icon icon-check">✓</span>${t('feat_5h')}: <strong>${p['limit_5h_'+lang]}</strong></li>
+        <li><span class="icon icon-check">✓</span>${t('feat_week')}: <strong>${p['limit_week_'+lang]}</strong></li>
+        <li><span class="icon icon-check">✓</span>${t('feat_mcp')}: <strong>${p['mcp_'+lang]}</strong></li>
+        ${p.speed ? `<li><span class="icon icon-check">✓</span>${t('feat_speed')}</li>` : ''}
+        ${p.priority ? `<li><span class="icon icon-check">✓</span>${t('feat_priority')}</li>` : ''}
+        ${p.early_access ? `<li><span class="icon icon-check">✓</span>${t('feat_early')}</li>` : ''}
+      </ul>
+    </div>
+  `).join('');
+}
+
+function renderCompare() {
+  const d = COMPARE_DATA;
+  const table = document.getElementById('compareTable');
+  const h = d['headers_'+lang];
+  let html = `<thead><tr>${h.map((x,i) => `<th>${x}</th>`).join('')}</tr></thead><tbody>`;
+  d.rows.forEach(r => {
+    html += `<tr><td><strong>${r['col_'+lang]}</strong></td><td>${r['api_'+lang]}</td><td>${r['s_'+lang]}</td><td>${r['a_'+lang]}</td></tr>`;
+  });
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+function renderSavings() {
+  const grid = document.getElementById('savingsGrid');
+  grid.innerHTML = SAVINGS_DATA.map(s => `
+    <div class="savings-card">
+      <div class="savings-ratio">${s['ratio']}</div>
+      <div class="savings-label">${s['label_'+lang]}</div>
+      <div class="savings-detail">${s['detail_'+lang].replace(/\n/g,'<br>')}</div>
+      <div class="savings-formula">${s['formula_'+lang]}</div>
+    </div>
+  `).join('');
+}
+
+function renderFeatures() {
+  const grid = document.getElementById('featureGrid');
+  grid.innerHTML = FEATURES_DATA.map(f => `
+    <div class="feature">
+      <div class="feature-icon">${f.icon}</div>
+      <h4>${f['title_'+lang]}</h4>
+      <p>${f['desc_'+lang]}</p>
+    </div>
+  `).join('');
+}
+
+// INIT
+renderAll();
+</script>
+</body>
+</html>

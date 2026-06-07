@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z.AI — Company & Product Overview</title>
+<style>
+
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.8);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #fff; --accent-glow: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --stat-bg: #000; --scenario-bg: #0c0c0e; --quote-bg: #0c0c0e;
+  --hero-gradient: linear-gradient(180deg, #000 0%, #08080a 50%, #000 100%);
+  --highlight-bg: #fff; --highlight-text: #000;
+  --logo-filter: brightness(1); --arena-gold: #FFD700;
+  --shadow-hero: rgba(0,0,0,0.35); --shadow-hero-hover: rgba(0,0,0,0.45); --shadow-card: rgba(0,0,0,0.15);
+  --vlm-color: #3b82f6; --accent-blue: #4f8cff; --accent-green: #34d399;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.85);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #1d1d1f; --accent-glow: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --stat-bg: #fff; --scenario-bg: #f5f5f7; --quote-bg: #f5f5f7;
+  --hero-gradient: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #ffffff 100%);
+  --highlight-bg: #1d1d1f; --highlight-text: #fff;
+  --logo-filter: brightness(0); --arena-gold: #B8860B;
+  --shadow-hero: rgba(0,0,0,0.08); --shadow-hero-hover: rgba(0,0,0,0.14); --shadow-card: rgba(0,0,0,0.06);
+  --vlm-color: #2563eb; --accent-blue: #3b82f6; --accent-green: #10b981;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.35s ease,color 0.35s ease, border-color 0.35s ease}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:0.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background 0.4s,border-color 0.4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo img{height:24px;width:auto;filter:var(--logo-filter);transition:filter 0.4s}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-secondary);transition:color 0.2s;letter-spacing:0.01em;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all 0.25s ease;font-size:14px;border:1px solid var(--border);cursor:pointer;background:none}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+.lang-btn{font-size:11px;font-weight:600;width:auto;padding:0 12px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:140px 48px;position:relative}
+.container{max-width:1080px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(36px,5.5vw,64px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--text-tertiary);font-weight:500}
+.subtitle{font-size:clamp(16px,1.8vw,19px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:680px}
+.divider{width:32px;height:1px;background:var(--border-hover);margin:56px auto}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;position:relative;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:840px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 48px;text-align:center}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:64px}
+.stat{background:var(--stat-bg);padding:40px 24px;text-align:center;transition:background 0.4s}
+.stat-num{font-size:clamp(28px,4vw,48px);font-weight:700;letter-spacing:-0.03em;color:var(--text)}
+.stat-desc{font-size:13px;color:var(--text-secondary);margin-top:8px;line-height:1.5}
+
+/* TIMELINE */
+.timeline{display:flex;gap:1px;margin-top:64px;border-radius:14px;overflow:hidden}
+.timeline-item{flex:1;background:var(--bg-card);padding:36px 24px;text-align:center;border:1px solid var(--border);transition:all 0.3s ease;position:relative}
+.timeline-item:last-child{background:var(--text);color:var(--bg)}
+.timeline-item:last-child .tl-year,.timeline-item:last-child .tl-event,.timeline-item:last-child .tl-sub{color:var(--bg)}
+.timeline-item:last-child .tl-year{opacity:0.4}
+.tl-year{font-size:13px;font-weight:600;color:var(--text-tertiary);margin-bottom:8px;letter-spacing:0.04em}
+.tl-event{font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em}
+.tl-sub{font-size:12px;color:var(--text-secondary);line-height:1.5}
+
+/* FEATURE ROW */
+.feature-row{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:64px}
+.feature-row.reverse{direction:rtl}.feature-row.reverse>*{direction:ltr}
+.feature-text .label{margin-bottom:14px}
+.feature-text h3{font-size:clamp(26px,3.5vw,36px);font-weight:700;letter-spacing:-0.02em;line-height:1.18;margin-bottom:16px}
+.feature-text p{font-size:15px;color:var(--text-secondary);line-height:1.7}
+.feature-text ul{list-style:none;margin-top:20px;padding:0}
+.feature-text ul li{padding:12px 0;font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border)}
+.feature-text ul li:last-child{border-bottom:none}
+.feature-text ul li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--text-tertiary);flex-shrink:0;margin-top:8px}
+
+/* MODEL CARDS */
+.model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.model-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:36px 28px;transition:all 0.3s ease;position:relative;overflow:hidden}
+.model-card:hover{border-color:var(--border-hover);transform:translateY(-4px);box-shadow:0 16px 48px var(--shadow-card)}
+.model-card .mc-badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:16px}
+.model-card .mc-badge.flagship{background:color-mix(in srgb, var(--arena-gold) 15%, transparent);color:var(--arena-gold)}
+.model-card .mc-badge.fast{background:color-mix(in srgb, var(--accent-green) 15%, transparent);color:var(--accent-green)}
+.model-card .mc-badge.vision{background:color-mix(in srgb, var(--vlm-color) 15%, transparent);color:var(--vlm-color)}
+.model-card h4{font-size:22px;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+.model-card .mc-sub{font-size:13px;color:var(--text-secondary);margin-bottom:20px;line-height:1.5}
+.model-card .mc-specs{display:flex;flex-direction:column;gap:10px}
+.model-card .mc-spec{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.model-card .mc-spec:last-child{border-bottom:none}
+.model-card .mc-spec-label{color:var(--text-tertiary)}
+.model-card .mc-spec-val{font-weight:600;color:var(--text)}
+
+/* COMPARISON TABLE */
+.compare-section{margin-top:64px}
+.compare-table{width:100%;border-collapse:collapse;margin-top:32px;font-size:14px}
+.compare-table th{text-align:center;padding:16px 12px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.compare-table th:first-child{text-align:left}
+.compare-table td{padding:16px 12px;border-bottom:1px solid var(--border);color:var(--text-secondary);text-align:center}
+.compare-table td:first-child{text-align:left;font-weight:600;color:var(--text)}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table .highlight-cell{color:var(--arena-gold);font-weight:700}
+.compare-table .winner{background:var(--accent-glow)}
+
+/* BENCHMARK CARDS */
+.bench-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:56px}
+.bench-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:all 0.3s ease}
+.bench-card:hover{border-color:var(--border-hover)}
+.bench-card h4{font-size:15px;font-weight:600;margin-bottom:12px;letter-spacing:-0.01em}
+.bench-bar-group{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.bench-bar-row{display:flex;align-items:center;gap:12px}
+.bench-bar-label{font-size:12px;color:var(--text-secondary);min-width:100px;text-align:right}
+.bench-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;position:relative}
+.bench-bar-fill{height:100%;border-radius:4px;transition:width 0.8s cubic-bezier(0.22,1,0.36,1)}
+.bench-bar-fill.zai{background:var(--accent-blue)}
+.bench-bar-fill.comp{background:var(--text-tertiary)}
+.bench-bar-val{font-size:12px;font-weight:600;color:var(--text);min-width:36px;text-align:right}
+
+/* SCENARIO GRID */
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;border-radius:16px;overflow:hidden;background:var(--border)}
+.scenario{background:var(--scenario-bg);padding:32px 24px;border:1px solid var(--border);transition:all 0.3s ease}
+.scenario:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.scenario-icon{width:36px;height:36px;border-radius:10px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:12px;font-weight:700;color:var(--text-tertiary),letter-spacing:-0.02em}
+.scenario h4{font-size:15px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+.scenario p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+/* PRICING */
+.pricing-table{width:100%;border-collapse:collapse;margin-top:48px;font-size:14px}
+.pricing-table th{text-align:left;padding:14px 16px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.pricing-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.pricing-table tr:last-child td{border-bottom:none}
+.pricing-table .model-name{color:var(--text);font-weight:600}
+.pricing-table .highlight-row td{background:var(--accent-glow)}
+.pricing-table .price-tag{font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.pricing-note{font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.5}
+.pricing-tab{padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;background:none;border:none;transition:all 0.2s;white-space:nowrap}
+.pricing-tab.active{background:var(--text);color:var(--bg)}
+.pricing-tab:hover:not(.active){color:var(--text);background:var(--border)}
+.pricing-panel{display:none;animation:fadeIn 0.3s ease}
+.pricing-panel.active{display:block}
+
+/* CTA */
+.cta{text-align:center;padding:160px 48px;background:var(--hero-gradient)}
+.cta .title{margin-bottom:20px}
+.cta .subtitle{margin:0 auto 48px;text-align:center}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:16px 40px;border-radius:100px;font-size:15px;font-weight:600;letter-spacing:-0.01em;border:1.5px solid var(--border-hover);color:var(--text);transition:all 0.3s ease;cursor:pointer}
+.cta-btn:hover{background:var(--text);color:var(--bg);border-color:var(--text);transform:scale(1.03)}
+
+/* FOOTER */
+.footer{padding:48px 48px 56px;text-align:center;border-top:0.5px solid var(--border);color:var(--text-tertiary);font-size:12px;letter-spacing:0.01em}
+.footer-logo{height:20px;width:auto;opacity:0.25;margin-bottom:16px;transition:opacity 0.3s}
+.footer:hover .footer-logo{opacity:0.4}
+
+/* LOGO THEME SWITCHING */
+[data-theme="dark"] .logo-dark{display:inline-block!important}[data-theme="dark"] .logo-light{display:none!important}
+[data-theme="light"] .logo-dark{display:none!important}[data-theme="light"] .logo-light{display:inline-block!important}
+
+.section-subhead{font-size:22px;font-weight:600;margin-bottom:32px;letter-spacing:-0.02em;color:var(--text)}
+.center-section{text-align:center}
+.center-section .title{margin-left:auto;margin-right:auto}
+.center-section .subtitle{margin-left:auto;margin-right:auto}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s cubic-bezier(0.22,1,0.36,1),transform 0.65s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:0.08s}.reveal-d2{transition-delay:0.16s}.reveal-d3{transition-delay:0.24s}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media(max-width:768px){
+  .nav{padding:0 20px;height:48px}.nav-links{display:none}
+  .section{padding:96px 24px}
+  .container{max-width:100%}
+  .stats,.scenario-grid{grid-template-columns:1fr 1fr}
+  .feature-row,.feature-row.reverse{grid-template-columns:1fr;gap:40px;direction:ltr}
+  .model-grid{grid-template-columns:1fr}
+  .bench-grid{grid-template-columns:1fr}
+  .timeline{flex-direction:column}
+  .pricing-table{font-size:12px}
+  .pricing-table th,.pricing-table td{padding:10px 8px}
+  .compare-table{font-size:12px}
+  .compare-table th,.compare-table td{padding:10px 6px}
+  .cta{padding:120px 24px}
+  .footer{padding:40px 24px 48px}
+  .title{font-size:clamp(32px,8vw,48px)}
+}
+
+@media(max-width:480px){
+  .stats{grid-template-columns:1fr}
+  .stat{padding:32px 20px}
+  .scenario{padding:24px 20px}
+  .bench-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <img src="assets/zai-icon-dark.svg" alt="Z.AI" class="logo-dark">
+    <img src="assets/zai-icon-light.svg" alt="Z.AI" class="logo-light">
+    <div class="nav-logo-text" data-i18n="nav_brand">Z.AI<span>Company Overview</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#brand" data-i18n="nav_brand_link">Brand</a>
+    <a href="#products" data-i18n="nav_products">Products</a>
+    <a href="#comparison" data-i18n="nav_comparison">Comparison</a>
+    <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle theme"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  </div>
+</nav>
+
+<!-- ============================================ -->
+<!-- SECTION 1: COMPANY BRAND INTRODUCTION       -->
+<!-- ============================================ -->
+<section class="hero" id="brand">
+  <div class="label reveal" data-i18n="brand_label">Pioneering AGI Since 2019</div>
+  <h1 class="title reveal" data-i18n="brand_title">Z.AI<br>智谱</h1>
+  <p class="subtitle reveal" data-i18n="brand_desc">中国首家上市的 AI 大模型公司。源自清华大学 THUDM 实验室，以 AGI 为使命，打造全球领先的开源大语言模型 GLM 家族。</p>
+  <div class="stats reveal" style="max-width:900px;margin:64px auto 0">
+    <div class="stat">
+      <div class="stat-num">2019</div>
+      <div class="stat-desc" data-i18n="st_founded">Founded</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">745B</div>
+      <div class="stat-desc" data-i18n="st_params">Parameters (GLM-5 MoE)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">#1</div>
+      <div class="stat-desc" data-i18n="st_open">Open-Source Model on Text Arena</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">IPO</div>
+      <div class="stat-desc" data-i18n="st_ipo">Listed on Hong Kong Exchange</div>
+    </div>
+  </div>
+</section>
+
+<!-- BRAND STORY -->
+<section class="section">
+  <div class="container">
+    <div class="feature-row reveal">
+      <div class="feature-text">
+        <div class="label" data-i18n="origin_label">Our Origin</div>
+        <h3 data-i18n="origin_title">从清华实验室<br>到全球 AI 前沿</h3>
+        <p data-i18n="origin_desc">Z.AI 起源于清华大学 THUDM 数据挖掘实验室，以开源精神为核心，逐步发展为中国领先的大语言模型公司。GLM 系列模型从学术研究起步，经过多代迭代，已跻身全球 AI 第一梯队。</p>
+        <ul>
+          <li data-i18n="origin_l1">源自清华大学 THUDM 实验室</li>
+          <li data-i18n="origin_l2">2019 年成立，专注 AGI 研究</li>
+          <li data-i18n="origin_l3">中国首家上市的 AI 大模型公司</li>
+          <li data-i18n="origin_l4">国际品牌 Z.AI，域名 z.ai</li>
+        </ul>
+      </div>
+      <div class="feature-text" style="padding-left:40px;border-left:1px solid var(--border)">
+        <div class="label" data-i18n="mission_label">Our Mission</div>
+        <h3 data-i18n="mission_title">让机器像人一样思考</h3>
+        <p data-i18n="mission_desc">Z.AI 坚持开源开放策略，以技术创新驱动产品落地。从语言理解到多模态推理，从代码生成到长程自主任务，GLM 模型家族持续突破 AI 能力边界。</p>
+        <ul>
+          <li data-i18n="mission_l1">开源开放 — 模型权重公开</li>
+          <li data-i18n="mission_l2">全栈自研 — 预训练到后训练全链路</li>
+          <li data-i18n="mission_l3">全球化 — 国内国际双平台服务</li>
+          <li data-i18n="mission_l4">华为昇腾生态 — 国产算力全适配</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- MODEL EVOLUTION TIMELINE -->
+    <div class="divider"></div>
+    <div class="reveal center-section">
+      <h3 class="section-subhead" data-i18n="timeline_title">GLM 模型进化历程</h3>
+    </div>
+    <div class="timeline reveal">
+      <div class="timeline-item">
+        <div class="tl-year">2025.07</div>
+        <div class="tl-event">GLM-4.5</div>
+        <div class="tl-sub" data-i18n="tl_45">355B 参数<br>工具调用 90.6%</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">2025.12</div>
+        <div class="tl-event">GLM-4.7</div>
+        <div class="tl-sub" data-i18n="tl_47">Coding 增强<br>代码能力飞跃</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">2026.02</div>
+        <div class="tl-event">GLM-5</div>
+        <div class="tl-sub" data-i18n="tl_5">745B MoE<br>开源 SOTA</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">2026.04</div>
+        <div class="tl-event">GLM-5V-Turbo</div>
+        <div class="tl-sub" data-i18n="tl_5v">多模态<br>200K 视觉上下文</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-year">2026.05</div>
+        <div class="tl-event">GLM-5.1</div>
+        <div class="tl-sub" data-i18n="tl_51">8h 长程任务<br>全球第三</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 2: API / MODEL PRODUCT INTRODUCTION -->
+<!-- ============================================ -->
+<section class="section" id="products" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal center-section">
+      <div class="label" data-i18n="prod_label">API & Model Products</div>
+      <h2 class="title" data-i18n="prod_title">GLM 模型家族</h2>
+      <p class="subtitle" data-i18n="prod_desc">三款旗舰模型，覆盖文本理解、代码生成、多模态推理、长程自主任务全场景。OpenAI 兼容接口，一行代码即可接入。</p>
+    </div>
+
+    <!-- MODEL CARDS -->
+    <div class="model-grid reveal" id="modelCards">
+      <!-- Rendered by JS from MODEL_DATA -->
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- API FEATURES -->
+    <div class="reveal center-section">
+      <h3 class="section-subhead" data-i18n="api_title">API 核心能力</h3>
+    </div>
+    <div class="scenario-grid reveal">
+      <div class="scenario">
+        <div class="scenario-icon">01</div>
+        <h4 data-i18n="api1_h">OpenAI 兼容</h4>
+        <p data-i18n="api1_p">完全兼容 OpenAI API 格式，零迁移成本接入。支持 Streaming、Function Call、JSON Mode。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon">02</div>
+        <h4 data-i18n="api2_h">Function Calling</h4>
+        <p data-i18n="api2_p">业界领先的工具调用能力。GLM-4.5 工具调用成功率 90.6%，超越 Claude-4-Sonnet。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon">03</div>
+        <h4 data-i18n="api3_h">Prompt Cache</h4>
+        <p data-i18n="api3_p">自动 Prompt 缓存，缓存命中降低 80% 输入成本。5 分钟 TTL，高频场景成本最优。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon">04</div>
+        <h4 data-i18n="api4_h">Batch API</h4>
+        <p data-i18n="api4_p">大批量离线处理，价格低至标准 API 的 50%。适合数据分析、内容生成等批量场景。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon">05</div>
+        <h4 data-i18n="api5_h">多模态输入</h4>
+        <p data-i18n="api5_p">支持图片、文档、视频输入。GLM-5V-Turbo 单次处理 100+ 页文档，300 页 PPT。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon">06</div>
+        <h4 data-i18n="api6_h">全球部署</h4>
+        <p data-i18n="api6_p">国内 (bigmodel.cn) + 国际 (z.ai) 双平台。华为昇腾私有化部署方案可选。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- SECTION 3: MODEL COMPARISON PAGE            -->
+<!-- ============================================ -->
+<section class="section" id="comparison" style="border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="reveal center-section">
+      <div class="label" data-i18n="cmp_label">Model Comparison</div>
+      <h2 class="title" data-i18n="cmp_title">模型对比</h2>
+      <p class="subtitle" data-i18n="cmp_desc">GLM 系列与全球主流模型的核心能力对比。数据来源：官方技术报告、SWE-Bench、Text Arena。</p>
+    </div>
+
+    <!-- COMPARISON TABLE: Rendered by JS -->
+    <div class="compare-section reveal" id="compareTable">
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- BENCHMARK BARS -->
+    <div class="reveal center-section">
+      <h3 class="section-subhead" data-i18n="bench_title">Benchmark Performance</h3>
+    </div>
+    <div class="bench-grid reveal" id="benchCards">
+      <!-- Rendered by JS from BENCH_DATA -->
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- PRICING -->
+    <div class="reveal center-section">
+      <h3 class="section-subhead" data-i18n="pr_title">Pricing</h3>
+      <div style="display:flex;gap:4px;background:var(--bg-card);border-radius:10px;padding:4px;margin:16px auto 0;max-width:fit-content">
+        <button class="pricing-tab active" onclick="switchPricing('intl')" id="tabIntl" data-i18n="pr_tab_intl">International (USD)</button>
+        <button class="pricing-tab" onclick="switchPricing('cn')" id="tabCn" data-i18n="pr_tab_cn">Domestic (RMB)</button>
+      </div>
+    </div>
+    <div id="pricingIntl" class="pricing-panel active reveal">
+      <table class="pricing-table" id="pricingIntlTable"></table>
+      <p class="pricing-note" data-i18n="pr_note_intl">Prices in USD / 1M tokens. Cached input storage is free for a limited time. Source: docs.z.ai/pricing</p>
+    </div>
+    <div id="pricingCn" class="pricing-panel reveal">
+      <table class="pricing-table" id="pricingCnTable"></table>
+      <p class="pricing-note" data-i18n="pr_note_cn">Prices in RMB / 1M tokens. Input ≥ 32K slightly higher. Source: bigmodel.cn/pricing</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2 class="title reveal" data-i18n="cta_title">Get Started with Z.AI</h2>
+  <p class="subtitle reveal" data-i18n="cta_sub">OpenAI-compatible API. Free tier available. Deploy in minutes.</p>
+  <a href="https://z.ai" target="_blank" class="cta-btn reveal" data-i18n="cta_btn">Start Building →</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <img src="assets/zai-icon-dark.svg" alt="Z.AI" class="footer-logo logo-dark">
+  <img src="assets/zai-icon-light.svg" alt="Z.AI" class="footer-logo logo-light">
+  <p data-i18n="footer_text">Z.AI (智谱AI) — Pioneering AGI since 2019. All benchmark data sourced from official reports and public leaderboards.</p>
+</footer>
+
+<script>
+/* ======= THEME ======= */
+function toggleTheme(){
+  const h=document.documentElement,t=h.getAttribute('data-theme');
+  h.setAttribute('data-theme',t==='dark'?'light':'dark');
+  const btn=document.getElementById('themeBtn');
+  btn.innerHTML=t==='dark'?'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>':'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+}
+
+/* ======= I18N ======= */
+const i18n={
+zh:{
+  nav_brand:'Z.AI<span>公司概览</span>',nav_brand_link:'品牌',nav_products:'产品',nav_comparison:'对比',nav_pricing:'定价',
+  brand_label:'2019 年起，探索 AGI',brand_title:'Z.AI<br>智谱',
+  brand_desc:'中国首家上市的 AI 大模型公司。源自清华大学 THUDM 实验室，以 AGI 为使命，打造全球领先的开源大语言模型 GLM 家族。',
+  st_founded:'成立年份',st_params:'参数量 (GLM-5 MoE)',st_open:'Text Arena 开源模型第一',st_ipo:'港交所上市',
+  origin_label:'起源',origin_title:'从清华实验室<br>到全球 AI 前沿',
+  origin_desc:'Z.AI 起源于清华大学 THUDM 数据挖掘实验室，以开源精神为核心，逐步发展为中国领先的大语言模型公司。GLM 系列模型从学术研究起步，经过多代迭代，已跻身全球 AI 第一梯队。',
+  origin_l1:'源自清华大学 THUDM 实验室',origin_l2:'2019 年成立，专注 AGI 研究',origin_l3:'中国首家上市的 AI 大模型公司',origin_l4:'国际品牌 Z.AI，域名 z.ai',
+  mission_label:'使命',mission_title:'让机器像人一样思考',
+  mission_desc:'Z.AI 坚持开源开放策略，以技术创新驱动产品落地。从语言理解到多模态推理，从代码生成到长程自主任务，GLM 模型家族持续突破 AI 能力边界。',
+  mission_l1:'开源开放 — 模型权重公开',mission_l2:'全栈自研 — 预训练到后训练全链路',mission_l3:'全球化 — 国内国际双平台服务',mission_l4:'华为昇腾生态 — 国产算力全适配',
+  timeline_title:'GLM 模型进化历程',
+  tl_45:'355B 参数<br>工具调用成功率 90.6%',tl_47:'Coding 增强<br>代码能力飞跃',tl_5:'745B MoE<br>开源 SOTA',tl_5v:'多模态<br>200K 视觉上下文',tl_51:'8h 长程任务<br>全球代码能力第三',
+  prod_label:'API & 模型产品',prod_title:'GLM 模型家族',prod_desc:'三款旗舰模型，覆盖文本理解、代码生成、多模态推理、长程自主任务全场景。OpenAI 兼容接口，一行代码即可接入。',
+  api_title:'API 核心能力',
+  api1_h:'OpenAI 兼容',api1_p:'完全兼容 OpenAI API 格式，零迁移成本接入。支持 Streaming、Function Call、JSON Mode。',
+  api2_h:'Function Calling',api2_p:'业界领先的工具调用能力。GLM-4.5 工具调用成功率 90.6%，超越 Claude-4-Sonnet。',
+  api3_h:'Prompt Cache',api3_p:'自动 Prompt 缓存，缓存命中降低 80% 输入成本。5 分钟 TTL，高频场景成本最优。',
+  api4_h:'Batch API',api4_p:'大批量离线处理，价格低至标准 API 的 50%。适合数据分析、内容生成等批量场景。',
+  api5_h:'多模态输入',api5_p:'支持图片、文档、视频输入。GLM-5V-Turbo 单次处理 100+ 页文档，300 页 PPT。',
+  api6_h:'全球部署',api6_p:'国内 (bigmodel.cn) + 国际 (z.ai) 双平台。华为昇腾私有化部署方案可选。',
+  cmp_label:'模型对比',cmp_title:'模型对比',cmp_desc:'GLM 系列与全球主流模型的核心能力对比。数据来源：官方技术报告、SWE-Bench、Text Arena。',
+  bench_title:'Benchmark 性能对比',
+  pr_title:'模型定价',pr_tab_intl:'国际版 (USD)',pr_tab_cn:'国内版 (RMB)',
+  pr_note_intl:'价格单位：USD / 1M tokens。缓存输入存储限时免费。来源：docs.z.ai/pricing',
+  pr_note_cn:'价格单位：元 / 1M tokens。输入 ≥ 32K 价格略高。来源：bigmodel.cn/pricing',
+  cta_title:'开始使用 Z.AI',cta_sub:'OpenAI 兼容接口，免费额度，分钟级接入。',cta_btn:'立即体验 →',
+  footer_text:'Z.AI (智谱AI) — 2019 年起探索 AGI。所有评测数据来源于官方技术报告和公开排行榜。'
+},
+en:{
+  nav_brand:'Z.AI<span>Company Overview</span>',nav_brand_link:'Brand',nav_products:'Products',nav_comparison:'Comparison',nav_pricing:'Pricing',
+  brand_label:'Pioneering AGI Since 2019',brand_title:'Z.AI<br>智谱',
+  brand_desc:'China\'s first publicly listed AI foundation model company. Originating from Tsinghua University\'s THUDM lab, Z.AI builds the world-leading open-source GLM model family with a mission to achieve AGI.',
+  st_founded:'Founded',st_params:'Parameters (GLM-5 MoE)',st_open:'Open-Source Model on Text Arena',st_ipo:'Hong Kong IPO',
+  origin_label:'Our Origin',origin_title:'From Tsinghua Lab<br>to Global AI Frontier',
+  origin_desc:'Z.AI originated from Tsinghua University\'s THUDM data mining lab. With open-source DNA at its core, it has evolved into one of China\'s leading LLM companies. The GLM model family has grown from academic research through multiple generations to rank among the global AI frontier.',
+  origin_l1:'Spun off from Tsinghua THUDM lab',origin_l2:'Founded 2019, singular focus on AGI',origin_l3:'First Chinese AI LLM company to IPO',origin_l4:'International brand Z.AI, domain z.ai',
+  mission_label:'Our Mission',mission_title:'Making Machines Think Like Humans',
+  mission_desc:'Z.AI commits to open-source and open-access principles, driving product innovation through technical breakthroughs. From language understanding to multimodal reasoning, from code generation to long-horizon autonomous tasks, the GLM model family continuously pushes AI capability boundaries.',
+  mission_l1:'Open Source — Model weights publicly available',mission_l2:'Full-Stack — Pre-training to post-training pipeline',mission_l3:'Global — Domestic + international dual-platform',mission_l4:'Ascend Ecosystem — Full Huawei Ascend support',
+  timeline_title:'GLM Model Evolution',
+  tl_45:'355B params<br>90.6% tool call rate',tl_47:'Coding boost<br>Leap in code ability',tl_5:'745B MoE<br>Open-source SOTA',tl_5v:'Multimodal<br>200K visual context',tl_51:'8h long tasks<br>Global coding #3',
+  prod_label:'API & Model Products',prod_title:'GLM Model Family',prod_desc:'Three flagship models covering text understanding, code generation, multimodal reasoning, and long-horizon autonomous tasks. OpenAI-compatible API — integrate with one line of code.',
+  api_title:'API Core Capabilities',
+  api1_h:'OpenAI Compatible',api1_p:'Fully compatible with OpenAI API format. Zero migration cost. Supports Streaming, Function Call, JSON Mode.',
+  api2_h:'Function Calling',api2_p:'Industry-leading tool use. GLM-4.5 achieves 90.6% tool calling success rate, surpassing Claude-4-Sonnet.',
+  api3_h:'Prompt Cache',api3_p:'Automatic prompt caching reduces input cost by 80% on cache hits. 5-min TTL, optimal for high-frequency scenarios.',
+  api4_h:'Batch API',api4_p:'Bulk offline processing at 50% of standard API pricing. Ideal for data analysis and content generation at scale.',
+  api5_h:'Multimodal Input',api5_p:'Supports image, document, and video input. GLM-5V-Turbo processes 100+ page documents and 300-page PPTs in a single request.',
+  api6_h:'Global Deployment',api6_p:'Dual platforms: domestic (bigmodel.cn) + international (z.ai). Optional Huawei Ascend private deployment.',
+  cmp_label:'Model Comparison',cmp_title:'Model Comparison',cmp_desc:'GLM series vs. leading global models. Data sourced from official technical reports, SWE-Bench, and Text Arena.',
+  bench_title:'Benchmark Performance',
+  pr_title:'Pricing',pr_tab_intl:'International (USD)',pr_tab_cn:'Domestic (RMB)',
+  pr_note_intl:'Prices in USD / 1M tokens. Cached input storage free for a limited time. Source: docs.z.ai/pricing',
+  pr_note_cn:'Prices in RMB / 1M tokens. Input ≥ 32K slightly higher. Source: bigmodel.cn/pricing',
+  cta_title:'Get Started with Z.AI',cta_sub:'OpenAI-compatible API. Free tier available. Deploy in minutes.',cta_btn:'Start Building →',
+  footer_text:'Z.AI (智谱AI) — Pioneering AGI since 2019. All benchmark data sourced from official reports and public leaderboards.'
+}
+};
+
+let currentLang='zh';
+function toggleLang(){
+  currentLang=currentLang==='zh'?'en':'zh';
+  applyI18n();
+  renderDynamic();
+  document.getElementById('langBtn').textContent=currentLang==='zh'?'EN':'中';
+  document.documentElement.lang=currentLang==='zh'?'zh':'en';
+}
+function applyI18n(){
+  const d=i18n[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(d[k]!==undefined){
+      if(k==='nav_brand') el.innerHTML=d[k];
+      else if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder=d[k];
+      else el.innerHTML=d[k];
+    }
+  });
+}
+
+/* ======= DATA-DRIVEN RENDERING ======= */
+const MODEL_DATA={
+  glm51:{
+    name:'GLM-5.1',badge:'Flagship',badgeClass:'flagship',
+    sub:{zh:'长程任务旗舰模型。8 小时自主工作，全球代码能力第三。',en:'Long-horizon flagship. 8-hour autonomous work, global coding #3.'},
+    specs:[
+      {label:{zh:'架构',en:'Architecture'},val:'745B MoE'},
+      {label:{zh:'上下文',en:'Context'},val:'128K'},
+      {label:{zh:'代码能力',en:'Coding'},val:{zh:'全球第三 / 国产第一',en:'Global #3 / Chinese #1'}},
+      {label:{zh:'长程任务',en:'Long Horizon'},val:'8h autonomous'},
+      {label:{zh:'开源',en:'Open Source'},val:'Yes'}
+    ]
+  },
+  glm5t:{
+    name:'GLM-5-Turbo',badge:'Fast',badgeClass:'fast',
+    sub:{zh:'高吞吐推理模型。强化工具调用和指令遵循，适合 Agent 场景。',en:'High-throughput inference. Enhanced tool calling and instruction following for agent use cases.'},
+    specs:[
+      {label:{zh:'架构',en:'Architecture'},val:'MoE'},
+      {label:{zh:'上下文',en:'Context'},val:'128K'},
+      {label:{zh:'核心优势',en:'Core Strength'},val:{zh:'工具调用 + Agent',en:'Tool Calling + Agent'}},
+      {label:{zh:'速度',en:'Speed'},val:{zh:'更快的推理速度',en:'Faster inference'}},
+      {label:{zh:'开源',en:'Open Source'},val:'Yes'}
+    ]
+  },
+  glm5v:{
+    name:'GLM-5V-Turbo',badge:'Vision',badgeClass:'vision',
+    sub:{zh:'多模态旗舰。视觉理解 + 多模态 Coding，200K 视觉上下文。',en:'Multimodal flagship. Visual understanding + multimodal coding, 200K visual context.'},
+    specs:[
+      {label:{zh:'架构',en:'Architecture'},val:'Multimodal MoE'},
+      {label:{zh:'视觉上下文',en:'Visual Context'},val:'200K'},
+      {label:{zh:'核心优势',en:'Core Strength'},val:{zh:'多模态 Coding + Agent',en:'Multimodal Coding + Agent'}},
+      {label:{zh:'文档处理',en:'Doc Processing'},val:{zh:'100+ 页 / 300 页 PPT',en:'100+ pages / 300-page PPT'}},
+      {label:{zh:'开源',en:'Open Source'},val:'Yes'}
+    ]
+  }
+};
+
+const BENCH_DATA=[
+  {title:{zh:'SWE-Bench Pro (软件开发)',en:'SWE-Bench Pro (Software Dev)'},
+   bars:[
+     {label:'GLM-5.1',val:74.8,max:100,cls:'zai'},
+     {label:'Claude Opus 4.6',val:72.1,max:100,cls:'comp'},
+     {label:'GPT-5.4',val:69.5,max:100,cls:'comp'},
+     {label:'Gemini 3 Pro',val:65.0,max:100,cls:'comp'}
+   ]},
+  {title:{zh:'Text Arena (综合对话)',en:'Text Arena (Overall)'},
+   bars:[
+     {label:'GLM-5.1',val:1357,max:1400,cls:'zai'},
+     {label:'GLM-5',val:1346,max:1400,cls:'comp'},
+     {label:'Kimi K2.5',val:1342,max:1400,cls:'comp'},
+     {label:'DeepSeek V3.2',val:1328,max:1400,cls:'comp'}
+   ]},
+  {title:{zh:'CC-Bench-V2 (代码生成)',en:'CC-Bench-V2 (Code Gen)'},
+   bars:[
+     {label:'GLM-5.1',val:74.8,max:100,cls:'zai'},
+     {label:'GLM-5',val:59.0,max:100,cls:'comp'},
+     {label:'GLM-4.7',val:48.6,max:100,cls:'comp'}
+   ]},
+  {title:{zh:'Tool Calling (工具调用)',en:'Tool Calling'},
+   bars:[
+     {label:'GLM-4.5',val:90.6,max:100,cls:'zai'},
+     {label:'Claude-4-Sonnet',val:89.5,max:100,cls:'comp'},
+     {label:'Kimi-K2',val:86.2,max:100,cls:'comp'}
+   ]}
+];
+
+const PRICING_INTL=[
+  {model:'GLM-5.1',input:'$1.40',cached:'$0.26',output:'$4.40'},
+  {model:'GLM-5-Turbo',input:'$0.60',cached:'$0.11',output:'$1.92'},
+  {model:'GLM-5V-Turbo',input:'$0.80',cached:'$0.15',output:'$2.50'},
+  {model:'GLM-4.5',input:'$0.60',cached:'$0.11',output:'$2.20'}
+];
+
+const PRICING_CN=[
+  {model:'GLM-5.1',input:'¥10',cached:'¥2',output:'¥30'},
+  {model:'GLM-5-Turbo',input:'¥4',cached:'¥0.8',output:'¥12'},
+  {model:'GLM-5V-Turbo',input:'¥5',cached:'¥1',output:'¥16'},
+  {model:'GLM-4.5',input:'¥4',cached:'¥0.8',output:'¥14'}
+];
+
+const COMPARE_DATA={
+  headers:['','GLM-5.1','Claude Opus 4.6','GPT-5.4','Gemini 3 Pro','DeepSeek V3.2'],
+  rows:[
+    {label:{zh:'架构',en:'Architecture'},vals:['745B MoE','Closed','Closed','Closed','685B MoE']},
+    {label:{zh:'开源',en:'Open Source'},vals:['Yes','No','No','No','Yes']},
+    {label:{zh:'上下文窗口',en:'Context Window'},vals:['128K','200K','128K','1M','128K']},
+    {label:{zh:'代码能力排名',en:'Coding Rank'},vals:['#3','#1','#2','#4','#5']},
+    {label:{zh:'长程任务',en:'Long Horizon'},vals:['8h',~'—','—','—','—']},
+    {label:{zh:'多模态',en:'Multimodal'},vals:['5V-Turbo','Yes','Yes','Yes','No']},
+    {label:{zh:'Prompt Cache',en:'Prompt Cache'},vals:['5min TTL','Yes','Yes','Yes','No']},
+    {label:{zh:'私有化部署',en:'Private Deploy'},vals:['Ascend 910C/B3','No','No','Vertex AI','Ascend']},
+    {label:{zh:'API 兼容',en:'API Compat'},vals:['OpenAI','Native','Native','Native','OpenAI']}
+  ]
+};
+
+function renderModelCards(){
+  const c=document.getElementById('modelCards');
+  let h='';
+  for(const[k,m] of Object.entries(MODEL_DATA)){
+    h+=`<div class="model-card"><div class="mc-badge ${m.badgeClass}">${m.badge}</div><h4>${m.name}</h4><div class="mc-sub">${m.sub[currentLang]}</div><div class="mc-specs">`;
+    m.specs.forEach(s=>{
+      const v=typeof s.val==='object'?s.val[currentLang]:s.val;
+      const l=typeof s.label==='object'?s.label[currentLang]:s.label;
+      h+=`<div class="mc-spec"><span class="mc-spec-label">${l}</span><span class="mc-spec-val">${v}</span></div>`;
+    });
+    h+=`</div></div>`;
+  }
+  c.innerHTML=h;
+}
+
+function renderCompareTable(){
+  const d=COMPARE_DATA;
+  let h='<table class="compare-table"><thead><tr>';
+  d.headers.forEach((hd,i)=>{
+    const th=i===0?'<th></th>':`<th>${hd}</th>`;
+    h+=th;
+  });
+  h+='</tr></thead><tbody>';
+  d.rows.forEach(r=>{
+    const lbl=typeof r.label==='object'?r.label[currentLang]:r.label;
+    h+=`<tr><td>${lbl}</td>`;
+    r.vals.forEach((v,i)=>{
+      const cls=i===0?' class="highlight-cell"':'';
+      h+=`<td${cls}>${v}</td>`;
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  document.getElementById('compareTable').innerHTML=h;
+}
+
+function renderBenchCards(){
+  const c=document.getElementById('benchCards');
+  let h='';
+  BENCH_DATA.forEach(b=>{
+    h+=`<div class="bench-card"><h4>${b.title[currentLang]}</h4><div class="bench-bar-group">`;
+    b.bars.forEach(bar=>{
+      const pct=Math.round(bar.val/bar.max*100);
+      h+=`<div class="bench-bar-row"><span class="bench-bar-label">${bar.label}</span><div class="bench-bar-track"><div class="bench-bar-fill ${bar.cls}" style="width:${pct}%"></div></div><span class="bench-bar-val">${bar.val}</span></div>`;
+    });
+    h+=`</div></div>`;
+  });
+  c.innerHTML=h;
+}
+
+function renderPricingIntl(){
+  const t=document.getElementById('pricingIntlTable');
+  const hdr=currentLang==='zh'?['模型','输入','缓存输入','输出']:['Model','Input','Cached Input','Output'];
+  let h='<thead><tr>'+hdr.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>';
+  PRICING_INTL.forEach((p,i)=>{
+    h+=`<tr${i===0?' class="highlight-row"':''}><td class="model-name">${p.model}</td><td class="price-tag">${p.input}</td><td class="price-tag">${p.cached}</td><td class="price-tag">${p.output}</td></tr>`;
+  });
+  h+='</tbody>';
+  t.innerHTML=h;
+}
+
+function renderPricingCn(){
+  const t=document.getElementById('pricingCnTable');
+  const hdr=currentLang==='zh'?['模型','输入','缓存输入','输出']:['Model','Input','Cached Input','Output'];
+  let h='<thead><tr>'+hdr.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>';
+  PRICING_CN.forEach((p,i)=>{
+    h+=`<tr${i===0?' class="highlight-row"':''}><td class="model-name">${p.model}</td><td class="price-tag">${p.input}</td><td class="price-tag">${p.cached}</td><td class="price-tag">${p.output}</td></tr>`;
+  });
+  h+='</tbody>';
+  t.innerHTML=h;
+}
+
+function switchPricing(tab){
+  document.getElementById('pricingIntl').classList.toggle('active',tab==='intl');
+  document.getElementById('pricingCn').classList.toggle('active',tab==='cn');
+  document.getElementById('tabIntl').classList.toggle('active',tab==='intl');
+  document.getElementById('tabCn').classList.toggle('active',tab==='cn');
+}
+
+function renderDynamic(){
+  renderModelCards();
+  renderCompareTable();
+  renderBenchCards();
+  renderPricingIntl();
+  renderPricingCn();
+}
+
+/* ======= REVEAL ON SCROLL ======= */
+function initReveal(){
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+  },{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
+
+/* ======= INIT ======= */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderDynamic();
+  applyI18n();
+  initReveal();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM-5.1 vs Global Frontier LLMs — Z.AI</title>
+<style>
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.82);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #4f8ff7; --accent-glow: rgba(79,143,247,0.08);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --hero-gradient: linear-gradient(180deg, #000 0%, #060810 50%, #000 100%);
+  --highlight-bg: #4f8ff7; --highlight-text: #fff;
+  --logo-filter: brightness(1); --arena-gold: #FFD700;
+  --shadow-card: rgba(0,0,0,0.15);
+  --glm-color: #4f8ff7;
+  --claude-color: #d97757;
+  --gpt-color: #10a37f;
+  --gemini-color: #8b5cf6;
+  --bar-bg: rgba(255,255,255,0.06);
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.88);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #2563eb; --accent-glow: rgba(37,99,235,0.06);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --hero-gradient: linear-gradient(180deg, #fff 0%, #f0f4ff 50%, #fff 100%);
+  --highlight-bg: #2563eb; --highlight-text: #fff;
+  --logo-filter: brightness(0); --arena-gold: #B8860B;
+  --shadow-card: rgba(0,0,0,0.06);
+  --glm-color: #2563eb;
+  --claude-color: #c2410c;
+  --gpt-color: #059669;
+  --gemini-color: #7c3aed;
+  --bar-bg: rgba(0,0,0,0.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .35s,color .35s}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background .4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{height:34px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all .25s;font-size:13px;border:1px solid var(--border);cursor:pointer;background:none;padding:0 14px;font-weight:500}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+
+/* SECTION */
+.section{padding:120px 48px;position:relative}
+.container{max-width:1080px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--accent);font-weight:700}
+.subtitle{font-size:clamp(15px,1.6vw,18px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:720px}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:880px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 56px;text-align:center}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;width:min(800px,90vw)}
+.hero-stat{background:var(--bg);padding:36px 24px;text-align:center}
+.hero-stat .num{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-.03em}
+.hero-stat .num.accent{color:var(--accent)}
+.hero-stat .desc{font-size:13px;color:var(--text-secondary);margin-top:6px;line-height:1.4}
+
+/* PRICING TABLE */
+.pricing-table{margin-top:48px;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.pricing-header{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;padding:18px 28px;background:var(--accent-glow);border-bottom:1px solid var(--border);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tertiary)}
+.pricing-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;padding:20px 28px;border-bottom:1px solid var(--border);align-items:center;transition:background .2s}
+.pricing-row:last-child{border-bottom:none}
+.pricing-row:hover{background:var(--accent-glow)}
+.pricing-row.highlight{background:var(--accent-glow);border-left:3px solid var(--accent)}
+.pricing-row .model{font-weight:600;font-size:15px}
+.pricing-row .vendor{font-size:12px;color:var(--text-tertiary);margin-top:2px}
+.pricing-row .price{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.pricing-row .price-unit{font-size:12px;color:var(--text-tertiary);font-weight:400;margin-top:2px}
+.pricing-row.highlight .price{color:var(--accent)}
+.savings-badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:rgba(16,163,127,.15);color:#10a37f;margin-left:8px;vertical-align:middle}
+
+/* COST VISUAL */
+.cost-compare{margin-top:56px}
+.cost-bar-row{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.cost-bar-label{width:140px;text-align:right;font-size:14px;font-weight:500;flex-shrink:0}
+.cost-bar-track{flex:1;height:36px;background:var(--bar-bg);border-radius:8px;overflow:hidden;position:relative}
+.cost-bar-fill{height:100%;border-radius:8px;display:flex;align-items:center;padding:0 14px;font-size:13px;font-weight:600;color:#fff;transition:width .8s ease;min-width:60px}
+.cost-bar-fill.glm{background:var(--glm-color)}
+.cost-bar-fill.claude{background:var(--claude-color)}
+.cost-bar-fill.gpt{background:var(--gpt-color)}
+.cost-bar-fill.gemini{background:var(--gemini-color)}
+
+/* BENCHMARK TABLE */
+.bench-section{margin-top:48px}
+.bench-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:14px}
+.bench-table thead th{padding:14px 16px;text-align:center;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-tertiary);border-bottom:1px solid var(--border)}
+.bench-table thead th:first-child{text-align:left;width:200px}
+.bench-table tbody td{padding:14px 16px;text-align:center;border-bottom:1px solid var(--border);color:var(--text-secondary)}
+.bench-table tbody td:first-child{text-align:left;font-weight:500;color:var(--text)}
+.bench-table tbody tr:hover{background:var(--accent-glow)}
+.bench-table .best{font-weight:700;color:var(--accent)}
+.bench-table .na{color:var(--text-tertiary);font-style:italic}
+.bench-table .note{font-size:11px;color:var(--text-tertiary);display:block;margin-top:2px}
+
+/* ADVANTAGES */
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:48px;border-radius:16px;overflow:hidden;background:var(--border)}
+.adv-card{background:var(--bg);padding:36px 28px;transition:all .3s}
+.adv-card:hover{background:var(--accent-glow)}
+.adv-icon{width:40px;height:40px;border-radius:12px;background:var(--accent-glow);display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:18px}
+.adv-card h4{font-size:16px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em}
+.adv-card p{font-size:13px;color:var(--text-secondary);line-height:1.65}
+
+/* FOOTER */
+.footer{padding:64px 48px 48px;border-top:1px solid var(--border);margin-top:80px}
+.footer-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:32px}
+.footer-brand{font-size:15px;font-weight:600;color:var(--text)}
+.footer-brand span{font-weight:400;color:var(--text-tertiary);font-size:13px}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-size:13px;color:var(--text-secondary);transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-note{width:100%;font-size:11px;color:var(--text-tertiary);margin-top:24px;line-height:1.6}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav{padding:0 20px}
+  .section{padding:80px 20px}
+  .hero-stats{grid-template-columns:1fr}
+  .pricing-header,.pricing-row{grid-template-columns:1.2fr 1fr 1fr 1fr;padding:14px 16px;font-size:12px}
+  .pricing-row .price{font-size:16px}
+  .adv-grid{grid-template-columns:1fr}
+  .cost-bar-label{width:90px;font-size:12px}
+  .bench-table{font-size:12px}
+  .bench-table thead th,.bench-table tbody td{padding:10px 8px}
+  .footer-inner{flex-direction:column}
+}
+@media(max-width:480px){
+  .pricing-header,.pricing-row{grid-template-columns:1.2fr .9fr .9fr .9fr;padding:12px 12px}
+  .savings-badge{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-text">Z.AI <span data-i18n="nav_sub">Model Comparison</span></div>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="label" data-i18n="hero_label">2026 Flagship LLM Comparison</span>
+  <h1 class="title" data-i18n="hero_title">GLM-5.1 <em>vs</em> Global Frontier LLMs</h1>
+  <p class="subtitle" data-i18n="hero_sub">Frontier-level performance at a fraction of the cost. See how GLM-5.1 compares with Claude Sonnet 4, GPT-4.1, and Gemini 2.5 Pro on pricing, benchmarks, and real-world coding.</p>
+  <div class="hero-stats" id="heroStats"></div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="pricing">
+  <div class="container">
+    <span class="label" data-i18n="pricing_label">Pricing</span>
+    <h2 class="title" data-i18n="pricing_title">API Pricing <em>Comparison</em></h2>
+    <p class="subtitle" data-i18n="pricing_sub">Per million tokens. GLM-5.1 offers the best value among frontier-class models.</p>
+    <div class="pricing-table" id="pricingTable"></div>
+
+    <!-- Cost Visual -->
+    <div class="cost-compare" id="costCompare">
+      <h3 style="font-size:18px;font-weight:600;margin-bottom:24px" data-i18n="cost_title">Output Cost Comparison (per 1M tokens)</h3>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARKS -->
+<section class="section" id="benchmarks">
+  <div class="container">
+    <span class="label" data-i18n="bench_label">Performance</span>
+    <h2 class="title" data-i18n="bench_title">Benchmark <em>Results</em></h2>
+    <p class="subtitle" data-i18n="bench_sub">Head-to-head comparison across key reasoning, coding, and knowledge benchmarks.</p>
+    <div class="bench-section">
+      <table class="bench-table" id="benchTable"></table>
+      <p style="font-size:12px;color:var(--text-tertiary);margin-top:16px;line-height:1.6" data-i18n="bench_note">Sources: Z.AI official, Anthropic Claude 4 announcement, OpenAI GPT-4.1 announcement, Google DeepMind blog, SWE-bench official leaderboard. † = with extended thinking. Scores reflect officially reported results as of May 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section class="section" id="advantages">
+  <div class="container">
+    <span class="label" data-i18n="adv_label">Why GLM-5.1</span>
+    <h2 class="title" data-i18n="adv_title">GLM-5.1 <em>Advantages</em></h2>
+    <p class="subtitle" data-i18n="adv_sub">What makes GLM-5.1 the smart choice for developers and enterprises.</p>
+    <div class="adv-grid" id="advGrid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">Z.AI <span data-i18n="footer_sub">— Intelligence for Everyone</span></div>
+    <div class="footer-links">
+      <a href="https://docs.z.ai" target="_blank" data-i18n="footer_docs">API Docs</a>
+      <a href="https://docs.z.ai/guides/overview/pricing" target="_blank" data-i18n="footer_pricing">Pricing</a>
+      <a href="https://bigmodel.cn" target="_blank">bigmodel.cn</a>
+    </div>
+    <p class="footer-note" data-i18n="footer_note">⚠️ Data as of May 2026. Pricing and benchmark scores are based on officially published data and third-party leaderboards. Actual performance may vary by use case. All trademarks belong to their respective owners. USD prices from official API docs; CNY prices from bigmodel.cn.</p>
+  </div>
+</footer>
+
+<script>
+// ===== I18N =====
+const I18N = {
+  zh: {
+    nav_sub: '模型对比',
+    hero_label: '2026 旗舰大模型对比',
+    hero_title: 'GLM-5.1 <em>vs</em> 海外旗舰大模型',
+    hero_sub: '旗舰级性能，极具竞争力的价格。对比 GLM-5.1 与 Claude Sonnet 4、GPT-4.1、Gemini 2.5 Pro 的定价、性能和实际编码能力。',
+    stat_1_num: '#3', stat_1_desc: 'LM Code Arena 排名',
+    stat_2_num: '77.8%', stat_2_desc: 'SWE-bench Verified',
+    stat_3_num: '3.4x', stat_3_desc: '输出成本低于 Sonnet 4',
+    pricing_label: '定价', pricing_title: 'API 定价<em>对比</em>',
+    pricing_sub: '每百万 Token 价格。GLM-5.1 在旗舰级模型中提供最优性价比。',
+    th_model: '模型', th_input: '输入', th_output: '输出', th_cached: '缓存输入',
+    unit: '元/百万Token', unit_usd: '/1M tokens',
+    save_vs: '比 {model} 省 {pct}%',
+    cost_title: '输出成本对比（每百万 Token）',
+    bench_label: '性能', bench_title: 'Benchmark <em>性能对比</em>',
+    bench_sub: '关键推理、编码和知识基准的正面对比。',
+    bench_note: '数据来源：Z.AI 官方、Anthropic Claude 4 公告、OpenAI GPT-4.1 公告、Google DeepMind 博客、SWE-bench 官方排行榜。† = 开启扩展思维模式。分数为截至 2026 年 5 月的官方公布结果。',
+    adv_label: '为什么选择 GLM-5.1', adv_title: 'GLM-5.1 <em>核心优势</em>',
+    adv_sub: '让 GLM-5.1 成为开发者和企业明智之选的原因。',
+    adv_1_icon: '💰', adv_1_title: '极致性价比', adv_1_desc: '输出价格仅为 Claude Sonnet 4 的 29%、GPT-4.1 的 55%。在旗舰级性能中，GLM-5.1 提供无可匹敌的成本效益。Batch API 再享五折优惠。',
+    adv_2_icon: '🏆', adv_2_title: '顶尖编码能力', adv_2_desc: 'SWE-bench Verified 77.8%、SWE-bench Pro 58.4%（发布时 SOTA），在真实软件工程任务中超越多数海外旗舰模型。LM Code Arena 全球第 3。',
+    adv_3_icon: '🔓', adv_3_title: '开放权重', adv_3_desc: '754B 参数开放权重模型，支持私有化部署。企业可在自有基础设施上运行，数据不出域，满足合规和安全要求。',
+    adv_4_icon: '⚡', adv_4_title: '高效缓存机制', adv_4_desc: 'Prompt Cache TTL 5 分钟，缓存输入低至 1.3 元/百万 Token。高频调用场景下可节省 70%+ 的输入成本。',
+    adv_5_icon: '🌐', adv_5_title: '全球可用', adv_5_desc: '国内 bigmodel.cn 和海外 Z.AI 双平台覆盖。OpenAI 兼容接口，迁移零成本。国内延迟更低，海外节点覆盖全球。',
+    adv_6_icon: '🧠', adv_6_title: '全面能力覆盖', adv_6_desc: 'MMLU 91.7%、AIME 2026 95.3%，在知识推理、数学竞赛、代码生成等多维度表现优异，是真正的全能型旗舰模型。',
+    footer_sub: '— 让智能触手可及', footer_docs: 'API 文档', footer_pricing: '定价页面',
+    footer_note: '⚠️ 数据更新于 2026 年 5 月。定价和性能分数基于官方公布数据和第三方排行榜，实际表现可能因使用场景而异。所有商标归各自所有者所有。美元价格来自官方 API 文档，人民币价格来自 bigmodel.cn。',
+    glm: 'GLM-5.1', claude: 'Claude Sonnet 4', gpt: 'GPT-4.1', gemini: 'Gemini 2.5 Pro',
+  },
+  en: {
+    nav_sub: 'Model Comparison',
+    hero_label: '2026 Flagship LLM Comparison',
+    hero_title: 'GLM-5.1 <em>vs</em> Global Frontier LLMs',
+    hero_sub: 'Frontier-level performance at a fraction of the cost. See how GLM-5.1 compares with Claude Sonnet 4, GPT-4.1, and Gemini 2.5 Pro on pricing, benchmarks, and real-world coding.',
+    stat_1_num: '#3', stat_1_desc: 'LM Code Arena Rank',
+    stat_2_num: '77.8%', stat_2_desc: 'SWE-bench Verified',
+    stat_3_num: '3.4x', stat_3_desc: 'Cheaper Output than Sonnet 4',
+    pricing_label: 'Pricing', pricing_title: 'API Pricing <em>Comparison</em>',
+    pricing_sub: 'Per million tokens. GLM-5.1 offers the best value among frontier-class models.',
+    th_model: 'Model', th_input: 'Input', th_output: 'Output', th_cached: 'Cached Input',
+    unit: '/1M tokens',
+    save_vs: '{pct}% cheaper than {model}',
+    cost_title: 'Output Cost Comparison (per 1M tokens)',
+    bench_label: 'Performance', bench_title: 'Benchmark <em>Results</em>',
+    bench_sub: 'Head-to-head comparison across key reasoning, coding, and knowledge benchmarks.',
+    bench_note: 'Sources: Z.AI official, Anthropic Claude 4 announcement, OpenAI GPT-4.1 announcement, Google DeepMind blog, SWE-bench official leaderboard. † = with extended thinking. Scores reflect officially reported results as of May 2026.',
+    adv_label: 'Why GLM-5.1', adv_title: 'GLM-5.1 <em>Advantages</em>',
+    adv_sub: 'What makes GLM-5.1 the smart choice for developers and enterprises.',
+    adv_1_icon: '💰', adv_1_title: 'Unbeatable Value', adv_1_desc: 'Output pricing is only 29% of Claude Sonnet 4 and 55% of GPT-4.1. Among frontier-class models, GLM-5.1 delivers unmatched cost-efficiency. Batch API available at 50% discount.',
+    adv_2_icon: '🏆', adv_2_title: 'Top-Tier Coding', adv_2_desc: '77.8% on SWE-bench Verified, 58.4% on SWE-bench Pro (SOTA at launch), surpassing most overseas frontier models in real-world software engineering tasks. Ranked #3 on LM Code Arena globally.',
+    adv_3_icon: '🔓', adv_3_title: 'Open Weights', adv_3_desc: '754B parameter open-weight model supporting on-premise deployment. Enterprises can run it on their own infrastructure, keeping data in-house for compliance and security.',
+    adv_4_icon: '⚡', adv_4_title: 'Efficient Caching', adv_4_desc: 'Prompt Cache with 5-min TTL. Cached input as low as $0.26/1M tokens. Save 70%+ on input costs for high-frequency use cases.',
+    adv_5_icon: '🌐', adv_5_title: 'Global Availability', adv_5_desc: 'Dual-platform coverage via bigmodel.cn (China) and Z.AI (international). OpenAI-compatible API for zero-cost migration. Lower latency in China, global nodes for international users.',
+    adv_6_icon: '🧠', adv_6_title: 'Well-Rounded Excellence', adv_6_desc: '91.7% on MMLU, 95.3% on AIME 2026. Strong performance across knowledge reasoning, math competitions, and code generation — a true all-around frontier model.',
+    footer_sub: '— Intelligence for Everyone', footer_docs: 'API Docs', footer_pricing: 'Pricing',
+    footer_note: '⚠️ Data as of May 2026. Pricing and benchmark scores are based on officially published data and third-party leaderboards. Actual performance may vary by use case. All trademarks belong to their respective owners.',
+    glm: 'GLM-5.1', claude: 'Claude Sonnet 4', gpt: 'GPT-4.1', gemini: 'Gemini 2.5 Pro',
+  }
+};
+let lang = 'zh';
+
+// ===== DATA =====
+const PRICING = {
+  zh: [
+    { model: 'GLM-5.1', vendor: '智谱 AI', input: 6, output: 24, cached: 1.3, hl: true, color: 'glm' },
+    { model: 'Claude Sonnet 4', vendor: 'Anthropic', input: 21.6, output: 108, cached: 2.16, hl: false, color: 'claude' },
+    { model: 'GPT-4.1', vendor: 'OpenAI', input: 14.4, output: 57.6, cached: 7.2, hl: false, color: 'gpt' },
+    { model: 'Gemini 2.5 Pro', vendor: 'Google', input: 10.8, output: 72, cached: '-', hl: false, color: 'gemini' },
+  ],
+  en: [
+    { model: 'GLM-5.1', vendor: 'Z.AI', input: 1.40, output: 4.40, cached: 0.26, hl: true, color: 'glm' },
+    { model: 'Claude Sonnet 4', vendor: 'Anthropic', input: 3.00, output: 15.00, cached: 0.30, hl: false, color: 'claude' },
+    { model: 'GPT-4.1', vendor: 'OpenAI', input: 2.00, output: 8.00, cached: 1.00, hl: false, color: 'gpt' },
+    { model: 'Gemini 2.5 Pro', vendor: 'Google', input: 1.25, output: 10.00, cached: '-', hl: false, color: 'gemini' },
+  ]
+};
+
+const BENCH = [
+  { name: 'MMLU', glm51: '91.7%', claude: '87.4%', gpt: '90.2%', gemini: '~90%', best: 'glm51' },
+  { name: 'SWE-bench Verified', glm51: '77.8%', claude: '72.7%', gpt: '54.6%', gemini: '63.8%', best: 'glm51' },
+  { name: 'SWE-bench Pro', glm51: '58.4%', claude: '—', gpt: '—', gemini: '—', best: 'glm51' },
+  { name: 'AIME 2026', glm51: '95.3%', claude: '—', gpt: '—', gemini: '—', best: 'glm51' },
+  { name: 'GPQA Diamond', glm51: '—', claude: '70.0%', gpt: '~65%', gemini: '84.0%', best: 'gemini' },
+  { name: 'AIME 2025', glm51: '—', claude: '72%†', gpt: '~54%', gemini: '~84%', best: 'gemini' },
+];
+
+// ===== RENDER =====
+function t(k) { return I18N[lang][k] || k; }
+
+function renderHero() {
+  document.getElementById('heroStats').innerHTML = `
+    <div class="hero-stat"><div class="num accent">${t('stat_1_num')}</div><div class="desc">${t('stat_1_desc')}</div></div>
+    <div class="hero-stat"><div class="num accent">${t('stat_2_num')}</div><div class="desc">${t('stat_2_desc')}</div></div>
+    <div class="hero-stat"><div class="num accent">${t('stat_3_num')}</div><div class="desc">${t('stat_3_desc')}</div></div>`;
+}
+
+function renderPricing() {
+  const data = PRICING[lang];
+  const cur = lang === 'zh' ? '¥' : '$';
+  const unit = lang === 'zh' ? '元/百万Token' : '/1M tokens';
+  let html = `<div class="pricing-header">
+    <div>${t('th_model')}</div><div>${t('th_input')}</div><div>${t('th_output')}</div><div>${t('th_cached')}</div>
+  </div>`;
+  data.forEach(r => {
+    const cached = r.cached === '-' ? '—' : `${cur}${r.cached}`;
+    html += `<div class="pricing-row${r.hl ? ' highlight' : ''}">
+      <div><div class="model">${r.model}</div><div class="vendor">${r.vendor}</div></div>
+      <div><div class="price">${cur}${r.input}</div><div class="price-unit">${unit}</div></div>
+      <div><div class="price">${cur}${r.output}</div><div class="price-unit">${unit}</div></div>
+      <div><div class="price" style="font-size:16px">${cached}</div><div class="price-unit">${unit}</div></div>
+    </div>`;
+  });
+  document.getElementById('pricingTable').innerHTML = html;
+
+  // Cost bars
+  const maxOut = Math.max(...data.map(r => r.output));
+  let barsHtml = `<h3 style="font-size:18px;font-weight:600;margin-bottom:24px">${t('cost_title')}</h3>`;
+  data.forEach(r => {
+    const pct = (r.output / maxOut * 100).toFixed(1);
+    const cur2 = lang === 'zh' ? '¥' : '$';
+    barsHtml += `<div class="cost-bar-row">
+      <div class="cost-bar-label">${r.model}</div>
+      <div class="cost-bar-track"><div class="cost-bar-fill ${r.color}" style="width:${pct}%">${cur2}${r.output}</div></div>
+    </div>`;
+  });
+  document.getElementById('costCompare').innerHTML = barsHtml;
+}
+
+function renderBench() {
+  const keys = ['glm51', 'claude', 'gpt', 'gemini'];
+  const modelNames = [t('glm'), t('claude'), t('gpt'), t('gemini')];
+  let html = `<thead><tr><th>${t('th_model')}</th>${modelNames.map(n => `<th>${n}</th>`).join('')}</tr></thead><tbody>`;
+  BENCH.forEach(row => {
+    html += '<tr>';
+    html += `<td>${row.name}</td>`;
+    keys.forEach(k => {
+      const val = row[k];
+      const isBest = row.best === k && val !== '—';
+      html += `<td class="${isBest ? 'best' : (val === '—' ? 'na' : '')}">${val}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  document.getElementById('benchTable').innerHTML = html;
+}
+
+function renderAdv() {
+  const items = [];
+  for (let i = 1; i <= 6; i++) {
+    items.push({ icon: t(`adv_${i}_icon`), title: t(`adv_${i}_title`), desc: t(`adv_${i}_desc`) });
+  }
+  document.getElementById('advGrid').innerHTML = items.map(it =>
+    `<div class="adv-card"><div class="adv-icon">${it.icon}</div><h4>${it.title}</h4><p>${it.desc}</p></div>`
+  ).join('');
+}
+
+function applyI18N() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[lang][key] !== undefined) el.innerHTML = I18N[lang][key];
+  });
+}
+
+function renderAll() {
+  applyI18N();
+  renderHero();
+  renderPricing();
+  renderBench();
+  renderAdv();
+  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中文';
+}
+
+function toggleLang() {
+  lang = lang === 'zh' ? 'en' : 'zh';
+  document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+  renderAll();
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+
+// INIT
+renderAll();
+</script>
+</body>
+</html>

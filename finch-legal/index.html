@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Finch (Finch Legal) — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+    --serif-en: "Source Serif 4", "Georgia", "Times New Roman", serif;
+    --sans-en: "Inter", -apple-system, "Helvetica Neue", sans-serif;
+  }
+
+  html { font-family: var(--sans-cn); }
+  html[lang="en"] { font-family: var(--sans-en); }
+  html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] .hd-title { font-family: var(--serif-en); }
+  html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    width: 1080px;
+    min-height: 1400px;
+    background: var(--bg);
+    padding: 56px 64px 48px;
+    border: 1px solid var(--rule);
+  }
+
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  .hd-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .hd-title {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .hd-tagline {
+    font-size: 14px;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+  .stat {
+    padding: 14px 16px 16px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .col { display: flex; flex-direction: column; gap: 22px; }
+
+  section h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  section h2 .num {
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  section p {
+    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 4px;
+  }
+  section ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  section ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+
+  .lede {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .sub-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+
+  sup.cite {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-left: 1px;
+  }
+  sup.cite a {
+    color: inherit;
+    text-decoration: none;
+  }
+  sup.cite a:hover { text-decoration: underline; }
+
+  .person { margin-bottom: 8px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 12px; color: var(--ink); }
+
+  .comp { margin-bottom: 6px; font-size: 12.5px; }
+  .comp-name { font-weight: 600; }
+
+  .collab {
+    margin-top: 26px;
+    padding: 22px 24px 20px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .collab h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13.5px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 32px;
+  }
+  .collab-block .ck-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .collab-block p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .sources {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 5px;
+    break-inside: avoid;
+    padding-left: 22px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览</div>
+      <h1 class="hd-title">Finch (Finch Legal)</h1>
+      <p class="hd-tagline">AI + 人工律师助理混合模式，为美国人身伤害律所提供从 intake 到 demand 的 pre-litigation 全流程自动化服务。</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink)">2026-06-01</strong>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">美国</div>
+      <div class="stat-label">总部</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2025</div>
+      <div class="stat-label">成立年份</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">~30人</div>
+      <div class="stat-label">团队规模（估计）</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">$23.75M</div>
+      <div class="stat-label">累计融资</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式</h2>
+        <p class="lede">以 per-case flat fee 模式向 PI 律所销售 pre-litigation 服务包，核心卖点是"AI Agent + 真人律师助理"混合交付。</p>
+        <ul>
+          <li>服务覆盖完整 pre-litigation 链路：24/7 双语 intake → 案件建档 → 治疗跟踪 → 医疗时间线整理 → Demand letter 生成 → 诉讼准备<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>集成主流 PI 案管系统（Filevine、Smokeball、Litify），以嵌入工作流而非替代软件的方式切入</li>
+          <li>2025 年 4 月出 stealth，6 个月内实现 <strong>10x 增长</strong>，客户为美国头部 PI 律所<sup class="cite"><a href="#s2">[2]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态</h2>
+        <p class="lede">从 stealth 到 Series A 仅 6 个月，融资节奏极快，反映出市场对 PI 自动化的迫切需求。</p>
+        <ul>
+          <li><strong>2025.04</strong> — 出 stealth，完成 $3.75M Seed（Sequoia Capital 领投）<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li><strong>2025.10</strong> — 完成 $20M Series A（Redpoint Ventures 领投，Sequoia、Liquid 2 Ventures 跟投），登上 Forbes<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>核心团队来自 Morgan & Morgan、Brandon J. Broderick、Torticity 等美国头部 PI 律所和法律外包机构</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI 布局</h2>
+        <p class="lede">产品本身即为 AI-native：LLM 驱动的 demand letter 生成、病历摘要、案件时间线梳理、intake 对话等。</p>
+        <ul>
+          <li>AI Agent 处理标准化文书工作，真人律师助理处理需要判断力的环节，形成"AI 80% + 人工 20%"的交付模型</li>
+          <li>24/7 双语律师助理（英语/西班牙语），覆盖美国西语客户群——PI 领域的高价值客群</li>
+          <li>PI 赛道 2025 年吸引超 <strong>$250M 投资</strong>，Finch 所在赛道正经历爆发期<sup class="cite"><a href="#s5">[5]</a></sup></li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队</h2>
+        <div class="person">
+          <div><span class="person-name">Ben Weems</span> <span class="person-role">· Co-founder & CEO</span></div>
+          <div class="person-bio">宣布 Series A 的联合创始人，深谙 PI 法律运营。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">Viraj Bindra</span> <span class="person-role">· Co-founder</span></div>
+          <div class="person-bio">Stanford 校友，此前 8 年食品配送行业（DoorDash/Uber Eats）运营经验。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">Bennett Northcutt</span> <span class="person-role">· Strategy & Operations</span></div>
+          <div class="person-bio">UNC Chapel Hill 校友，常驻纽约，负责战略与运营。</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局</h2>
+        <p class="lede">PI pre-litigation 赛道 2025 年融资密集，头部玩家已跑出。</p>
+        <div class="comp"><span class="comp-name">EvenUp</span> — $385M 融资，$2B+ 估值，从 demand letter 转向全流程，最直接竞品</div>
+        <div class="comp"><span class="comp-name">Eve Legal</span> — $164M 融资，覆盖原告律所全周期，泛 PI 而非垂直 pre-lit</div>
+        <div class="comp"><span class="comp-name">Supio</span> — $60M Series B，专注医疗记录审核 + MedChron，西雅图团队</div>
+        <div class="comp"><span class="comp-name">Tavrn</span> — $21.6M 融资，纯 AI 无人工模式，Left Lane Capital 领投</div>
+        <div class="sub-label">差异化</div>
+        <p style="font-size:12px;margin:0;">Finch 是唯一采用"AI + 真人律师助理"混合交付的玩家。EvenUp 和 Tavrn 走纯 AI 路线，而 Finch 认为法律服务质量需要人工兜底——这个定位在 PI 大所中有市场（大所愿意为确定性付溢价）。</p>
+      </section>
+
+    </div>
+
+  </div>
+
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai）</h2>
+    <p class="lede">Finch 是典型的高频 LLM 调用场景——每案需生成多份法律文书、处理大量非结构化医疗文本，模型质量和成本直接影响毛利率。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机</span>
+        <p>Finch 每处理一个案件需多次调用 LLM（demand letter、病历摘要、时间线、intake 对话）。随着客户增长，模型 API 成本将成为核心 OpEx。降低推理成本、提高 demand letter 质量是刚需。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合</span>
+        <p><strong>GLM-5.1</strong> 的长上下文能力可用于医疗记录批量分析；<strong>GLM-5-Turbo</strong> 适合 agentic 工作流（intake → 文书 → demand 全链路）；中英双语能力可扩展到西语市场需求。可提供私有化部署满足 SOC 2/HIPAA 合规要求。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点</span>
+        <p>现有投资者（Sequoia、Redpoint）与 OpenAI/Anthropic 有深度合作，可能存在供应商偏好。法律行业对模型幻觉零容忍，POC 阶段需证明 GLM 在 PI 场景的准确率。美国数据本地化要求可能需考虑。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步</span>
+        <p>以 <strong>demand letter 质量对比测试</strong>切入：提供 50-100 份脱敏 PI 案例资料，让 Finch 团队盲评 GLM-5.1 vs 当前模型的输出质量。90 天 POC，目标：同等质量下成本降低 30%+。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">Finch Blog — "Series A: Expanding Access to Legal Counsel" — 2025.10 — <a href="https://www.finchlegal.com/blog-post/series-a">link</a></li>
+      <li id="s2">Yahoo Finance — "Finch Secures $20 Million to Rebuild Consumer Law" — 2025.10 — <a href="https://finance.yahoo.com/news/finch-secures-20-million-rebuild-173800417.html">link</a></li>
+      <li id="s3">Law.com / LegalTech News — "Pre-Litigation Startup Finch Legal Comes Out of Stealth" — 2025.04 — <a href="https://www.law.com/legaltechnews/2025/04/16/pre-litigation-startup-finch-legal-comes-out-of-stealth-announces-375-million-in-funding/">link</a></li>
+      <li id="s4">Redpoint Ventures — "From Courtrooms to Code: How Finch is Reshaping Consumer Law" — 2025.10 — <a href="https://www.redpoint.com/content-hub/written/finch-raises-usd20m-series-a-to-transform-legal-operations/">link</a></li>
+      <li id="s5">Reuters — "Investors Pour $250M+ Into AI Startups for Plaintiffs' Lawyers" — 2025.10 — <a href="https://www.reuters.com/legal/legalindustry/investors-pour-cash-into-ai-startups-plaintiffs-lawyers-2025-10-07/">link</a></li>
+      <li id="s6">Forbes — "A Paralegal's AI Best Friend" — 2025.10 — <a href="https://www.forbes.com/sites/the-prompt/2025/10/14/a-paralegals-ai-best-friend/">link</a></li>
+      <li id="s7">Law360 Pulse — "Prelitigation Ops Startup Finch Raises $20M Series A" — 2025.10 — <a href="https://www.law360.com/pulse/articles/2391560/prelitigation-ops-startup-finch-raises-20m-series-a">link</a></li>
+      <li id="s8">LinkedIn — Viraj Bindra (Co-founder) — <a href="https://www.linkedin.com/in/vrjbndr">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# 大文件禁止提交
+*.mp4
+*.gif
+*.mov
+*.avi
+*.zip
+*.tar.gz

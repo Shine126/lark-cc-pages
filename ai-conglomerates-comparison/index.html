@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>YTL 及类似 AI 战略企业集团对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --accent-light: #E8EBF0;
+    --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, "Inter", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: 24px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1080px;
+    background: var(--bg);
+    padding: 48px 56px 40px;
+    border: 1px solid var(--rule);
+  }
+
+  /* Header */
+  .hd { border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .hd-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .hd-title { font-family: var(--serif); font-size: 32px; font-weight: 700; line-height: 1.15; margin-bottom: 4px; }
+  .hd-tagline { font-size: 13px; color: var(--muted); max-width: 700px; }
+  .hd-date { font-size: 11px; color: var(--muted); text-align: right; white-space: nowrap; }
+
+  /* Comparison Table */
+  .comparison { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-bottom: 22px; }
+  .comparison thead th {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    text-align: left;
+    padding: 8px 8px 8px 0;
+    border-bottom: 2px solid var(--accent);
+    white-space: nowrap;
+  }
+  .comparison thead th:first-child { width: 120px; }
+  .comparison tbody td {
+    padding: 10px 8px 10px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  .comparison tbody td:first-child { font-weight: 600; white-space: nowrap; }
+  .comparison tbody tr:hover { background: var(--accent-light); }
+  .comparison .tag { display: inline-block; font-size: 9.5px; padding: 1px 6px; border-radius: 2px; background: var(--accent); color: #fff; font-weight: 500; margin-right: 3px; letter-spacing: 0.05em; }
+  .comparison .tag.green { background: #2D6A4F; }
+  .comparison .tag.blue { background: #1B4F8A; }
+  .comparison .tag.amber { background: #8B6914; }
+
+  /* Company Cards */
+  .cards-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 0 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+  .card {
+    border: 1px solid var(--rule);
+    padding: 16px 18px 14px;
+    page-break-inside: avoid;
+  }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .card-name { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--accent); }
+  .card-country { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .card-tagline { font-size: 11.5px; color: var(--muted); margin-bottom: 10px; }
+  .card-section { margin-bottom: 8px; }
+  .card-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 3px; }
+  .card p, .card li { font-size: 12px; line-height: 1.5; }
+  .card ul { list-style: none; padding: 0; }
+  .card ul li { position: relative; padding-left: 12px; margin-bottom: 3px; }
+  .card ul li::before { content: "—"; position: absolute; left: 0; color: var(--muted); font-size: 11px; }
+
+  /* Stats row inside cards */
+  .card-stats { display: flex; gap: 16px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+  .card-stat-val { font-size: 18px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .card-stat-lbl { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+  /* Collab Section */
+  .collab {
+    padding: 18px 22px 16px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 20px;
+  }
+  .collab h2 {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .collab-block .ck-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 3px; display: block; }
+  .collab-block p { font-size: 11.5px; line-height: 1.5; }
+
+  /* Sources */
+  .sources { padding-top: 14px; border-top: 1px solid var(--rule); }
+  .sources h2 { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .sources ol { list-style: none; counter-reset: src; columns: 2; column-gap: 32px; padding: 0; }
+  .sources ol li { counter-increment: src; font-size: 10px; color: var(--muted); line-height: 1.4; margin-bottom: 4px; break-inside: avoid; padding-left: 22px; position: relative; }
+  .sources ol li::before { content: "[" counter(src) "]"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  .sources a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--rule); }
+  .sources a:hover { color: var(--accent); }
+
+  sup.cite { font-size: 8.5px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
+
+  @media print { body { background: white; padding: 0; } .page { border: none; width: 100%; padding: 20px 28px; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">亚洲企业集团 AI 战略对比</div>
+      <h1 class="hd-title">YTL 及类似 AI 战略企业集团</h1>
+      <p class="hd-tagline">以马来西亚 YTL 为标杆，筛选亚太地区有大规模 AI 基础设施投入、主权 AI 布局、或 AI 产业转型的综合性企业集团</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink);font-size:14px;">2026-05-30</strong>
+    </div>
+  </header>
+
+  <!-- COMPARISON TABLE -->
+  <table class="comparison">
+    <thead>
+      <tr>
+        <th>公司</th>
+        <th>地区</th>
+        <th>AI 投入</th>
+        <th>核心路径</th>
+        <th>关键伙伴</th>
+        <th>自研模型</th>
+        <th>营收规模</th>
+        <th>特点</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>YTL Corporation</td>
+        <td>马来西亚</td>
+        <td>~$24 亿</td>
+        <td><span class="tag">超算</span><span class="tag green">主权AI</span><span class="tag blue">LLM</span></td>
+        <td>NVIDIA, Sea, WEKA</td>
+        <td><strong>ILMU</strong></td>
+        <td>~RM300 亿/年</td>
+        <td>全栈主权 AI，含超算、LLM、数字银行</td>
+      </tr>
+      <tr>
+        <td>CP Group</td>
+        <td>泰国</td>
+        <td>$10 亿+</td>
+        <td><span class="tag">数据中心</span><span class="tag blue">云</span><span class="tag green">全行业</span></td>
+        <td>Microsoft, Intel</td>
+        <td>无</td>
+        <td>~$820 亿/年</td>
+        <td>全球最大私企，AI-First 全集团转型</td>
+      </tr>
+      <tr>
+        <td>SK Group</td>
+        <td>韩国</td>
+        <td>$579 亿+</td>
+        <td><span class="tag">AI Factory</span><span class="tag">芯片</span><span class="tag green">主权AI</span></td>
+        <td>NVIDIA, SK hynix</td>
+        <td>无(赋能型)</td>
+        <td>~$2000 亿/年</td>
+        <td>芯片→基建→应用全栈，50k+ GPU</td>
+      </tr>
+      <tr>
+        <td>Foxconn</td>
+        <td>台湾</td>
+        <td>$14 亿</td>
+        <td><span class="tag">超算</span><span class="tag blue">AI制造</span></td>
+        <td>NVIDIA, TSMC</td>
+        <td>无</td>
+        <td>~$2000 亿/年</td>
+        <td>代工→AI 基建转型，NCP 身份</td>
+      </tr>
+      <tr>
+        <td>Ayala Corporation</td>
+        <td>菲律宾</td>
+        <td>数亿级</td>
+        <td><span class="tag">数据中心</span><span class="tag green">智慧城市</span></td>
+        <td>Flow, STT GDC, Mitsubishi</td>
+        <td>无</td>
+        <td>~$50 亿/年</td>
+        <td>菲律宾最大集团，数据中心+智慧城市</td>
+      </tr>
+      <tr>
+        <td>Jardine Matheson</td>
+        <td>香港/东南亚</td>
+        <td>$24 亿</td>
+        <td><span class="tag green">AI医疗</span><span class="tag">数据中心</span></td>
+        <td>Harrison.ai, Equinix</td>
+        <td>无</td>
+        <td>~$400 亿/年</td>
+        <td>传统财团多元化切入 AI 医疗诊断</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- COMPANY CARDS -->
+  <h2 class="cards-title">公司速览</h2>
+  <div class="cards">
+
+    <!-- YTL -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-name">YTL Corporation</div>
+        <div class="card-country">马来西亚 · 成立 1955</div>
+      </div>
+      <div class="card-tagline">电力/电信/基建/酒店综合集团，以 $24 亿 NVIDIA 超算打造马来西亚主权 AI 生态</div>
+      <div class="card-stats">
+        <div><div class="card-stat-val">~RM300亿</div><div class="card-stat-lbl">年营收</div></div>
+        <div><div class="card-stat-val">$24亿</div><div class="card-stat-lbl">AI 投入</div></div>
+        <div><div class="card-stat-val">300+ EF</div><div class="card-stat-lbl">算力</div></div>
+      </div>
+      <div class="card-section">
+        <div class="card-label">AI 布局</div>
+        <ul>
+          <li>NVIDIA Grace Blackwell 超算，Johor 数据中心，2025 Q3 上线<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>自研 ILMU 多模态 LLM，100% 数据驻留马来西亚<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>ILMU-Nemo-30B agentic 模型 + ILMU Claw Agent 平台<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>与 Sea Limited 合资 Ryt Bank（AI 数字银行）<sup class="cite"><a href="#s3">[3]</a></sup></li>
+        </ul>
+      </div>
+      <div class="card-section">
+        <div class="card-label">核心团队</div>
+        <ul>
+          <li><strong>Francis Yeoh</strong> — 执行董事长，掌控 YTL 集团 30+ 年</li>
+          <li><strong>Wan Zulkiflee</strong> — YTL Power CEO，主导 NVIDIA 合作</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- CP Group -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-name">CP Group（正大集团）</div>
+        <div class="card-country">泰国 · 成立 1921</div>
+      </div>
+      <div class="card-tagline">全球最大私企，横跨农业/零售/电信，CEO 定调 AI-First 全集团转型</div>
+      <div class="card-stats">
+        <div><div class="card-stat-val">$820亿+</div><div class="card-stat-lbl">年营收</div></div>
+        <div><div class="card-stat-val">$10亿</div><div class="card-stat-lbl">Microsoft 合作</div></div>
+        <div><div class="card-stat-val">$530亿</div><div class="card-stat-lbl">家族财富</div></div>
+      </div>
+      <div class="card-section">
+        <div class="card-label">AI 布局</div>
+        <ul>
+          <li>2025.10 与 Microsoft 签约，共建泰国云区域<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>True IDC 为泰国最大本土数据中心运营商</li>
+          <li>第 4 代 Korawad 创立 Amity Group（AI 公司，$1 亿营收）<sup class="cite"><a href="#s5">[5]</a></sup></li>
+          <li>AI 覆盖农业/零售/物流/电信全链条</li>
+        </ul>
+      </div>
+      <div class="card-section">
+        <div class="card-label">核心团队</div>
+        <ul>
+          <li><strong>Suphachai Chearavanont</strong> — CEO，2025 CEO of the Year，定位泰国为 ASEAN 数字枢纽</li>
+          <li><strong>Korawad Chearavanont</strong> — 第 4 代，Amity Group 创始人</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SK Group -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-name">SK Group</div>
+        <div class="card-country">韩国 · 成立 1953</div>
+      </div>
+      <div class="card-tagline">韩国第二大财阀，以 SK hynix HBM 芯片 + NVIDIA AI Factory 构建半导体→AI 全栈</div>
+      <div class="card-stats">
+        <div><div class="card-stat-val">$2000亿+</div><div class="card-stat-lbl">年营收</div></div>
+        <div><div class="card-stat-val">50,000+</div><div class="card-stat-lbl">GPU</div></div>
+        <div><div class="card-stat-val">$1万亿</div><div class="card-stat-lbl">hynix 市值</div></div>
+      </div>
+      <div class="card-section">
+        <div class="card-label">AI 布局</div>
+        <ul>
+          <li>NVIDIA AI Factory，50,000+ GPU，韩国最大<sup class="cite"><a href="#s6">[6]</a></sup></li>
+          <li>"Haein" 集群：1,000+ B200 GPU，SK Telecom 运营</li>
+          <li>SK hynix HBM 芯片全球领先，Q1 营收 ₩52.58 万亿<sup class="cite"><a href="#s7">[7]</a></sup></li>
+          <li>全国 250,000–260,000 GPU 部署计划<sup class="cite"><a href="#s8">[8]</a></sup></li>
+        </ul>
+      </div>
+      <div class="card-section">
+        <div class="card-label">核心团队</div>
+        <ul>
+          <li><strong>Chey Tae-won</strong> — 董事长，1998 年上任，主导 AI 转型</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Foxconn -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-name">Foxconn（鸿海）</div>
+        <div class="card-country">台湾 · 成立 1974</div>
+      </div>
+      <div class="card-tagline">全球最大电子代工厂，从 iPhone 制造转向 NVIDIA AI 超算 + 服务器</div>
+      <div class="card-stats">
+        <div><div class="card-stat-val">$2000亿+</div><div class="card-stat-lbl">年营收</div></div>
+        <div><div class="card-stat-val">$14亿</div><div class="card-stat-lbl">超算投入</div></div>
+        <div><div class="card-stat-val">170%</div><div class="card-stat-lbl">AI 服务器增长</div></div>
+      </div>
+      <div class="card-section">
+        <div class="card-label">AI 布局</div>
+        <ul>
+          <li>与 NVIDIA + TSMC 合建台湾首座 AI 超算<sup class="cite"><a href="#s9">[9]</a></sup></li>
+          <li>NVIDIA Cloud Partner（NCP），GB300 NVL72 部署</li>
+          <li>AI 服务器营收预计增长 170%，每周产出 1,000 rack</li>
+          <li>资本开支增长 30%，全力转向 AI 制造<sup class="cite"><a href="#s10">[10]</a></sup></li>
+        </ul>
+      </div>
+      <div class="card-section">
+        <div class="card-label">核心团队</div>
+        <ul>
+          <li><strong>Young Liu（刘扬伟）</strong> — 董事长兼 CEO，2021 年接任郭台铭</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Ayala -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-name">Ayala Corporation</div>
+        <div class="card-country">菲律宾 · 成立 1834</div>
+      </div>
+      <div class="card-tagline">菲律宾最古老最大企业集团，以数据中心+智慧城市切入 AI 基建</div>
+      <div class="card-stats">
+        <div><div class="card-stat-val">~$50亿</div><div class="card-stat-lbl">年营收</div></div>
+        <div><div class="card-stat-val">36 MW</div><div class="card-stat-lbl">A-FLOW 数据中心</div></div>
+        <div><div class="card-stat-val">1834</div><div class="card-stat-lbl">成立年份</div></div>
+      </div>
+      <div class="card-section">
+        <div class="card-label">AI 布局</div>
+        <ul>
+          <li>A-FLOW（与 Flow Digital JV）36MW 数据中心，Laguna</li>
+          <li>STT GDC + Globe Telecom JV，菲律宾最大 AI-ready 园区</li>
+          <li>2026.5 与三菱/KDDI 签署智慧城市 MOU<sup class="cite"><a href="#s11">[11]</a></sup></li>
+        </ul>
+      </div>
+      <div class="card-section">
+        <div class="card-label">核心团队</div>
+        <ul>
+          <li><strong>Jaime Augusto Zobel de Ayala</strong> — 董事长</li>
+          <li><strong>Cezar Consing</strong> — CEO，推动数字化转型</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Jardines -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-name">Jardine Matheson</div>
+        <div class="card-country">香港/东南亚 · 成立 1832</div>
+      </div>
+      <div class="card-tagline">历史最悠久的亚洲财团之一，以 $24 亿收购 I-MED 切入 AI 医疗诊断</div>
+      <div class="card-stats">
+        <div><div class="card-stat-val">~$400亿</div><div class="card-stat-lbl">年营收</div></div>
+        <div><div class="card-stat-val">$24亿</div><div class="card-stat-lbl">I-MED 收购</div></div>
+        <div><div class="card-stat-val">215+</div><div class="card-stat-lbl">影像中心</div></div>
+      </div>
+      <div class="card-section">
+        <div class="card-label">AI 布局</div>
+        <ul>
+          <li>$24 亿收购澳洲 I-MED，获 Harrison.ai（AI 放射诊断）股权<sup class="cite"><a href="#s12">[12]</a></sup></li>
+          <li>Astra International + Equinix 合资，印尼 JK1 数据中心<sup class="cite"><a href="#s13">[13]</a></sup></li>
+          <li>预期 2026 年内完成交割</li>
+        </ul>
+      </div>
+      <div class="card-section">
+        <div class="card-label">核心团队</div>
+        <ul>
+          <li><strong>Ben Keswick</strong> — 执行董事长</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COLLAB ANGLE -->
+  <section class="collab">
+    <h2>合作切入点（与 Z.ai / 智谱）</h2>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">最高优先：YTL</span>
+        <p>YTL 正构建主权 AI 全栈——但 ILMU 模型能力尚在早期。GLM-5.1 可作为 ILMU 的能力补充（推理/coding/multimodal），尤其适合 YTL AI Cloud 面向企业客户的 API 转售场景。首步建议：以 GLM-5.1 API 为 ILMU Claw Agent 平台提供推理/coding 能力补充的 90 天 POC。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">高优先：CP Group</span>
+        <p>CP 的 AI 覆盖农业/零售/物流，无自研模型，依赖 Microsoft。GLM 可在非美生态场景（东南亚本地化、RolePlay、Function Call）形成差异化。Amity Group 是天然入口。建议通过 Amity 先建立技术对话。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">中优先：SK / Foxconn / Ayala</span>
+        <p>SK/Foxconn 偏基础设施层，短期合作空间有限。Ayala 数据中心建成后需填充 AI 能力，可跟进。Jardines 通过 AI 医疗切入，可探索 GLM-5v 多模态在放射诊断场景的辅助能力。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">YTL Official — "YTL Creates One of the World's Most Advanced Supercomputers" — 2025 — <a href="https://www.ytlaicloud.com/press-releases/ytl-creates-one-of-the-worlds-most-advanced-supercomputers-powered-by-nvidia-grace-blackwell-based-dgx-cloud/">link</a></li>
+      <li id="s2">YTL AI Labs — "ILMU: Malaysia's AI" — 2025 — <a href="https://www.ytlailabs.com/">link</a></li>
+      <li id="s3">Tech in Asia — "YTL & Sea Officially Debut Malaysia's AI-Powered Digital Bank" — 2025 — <a href="https://www.techinasia.com/news/ytl-sea-officially-debut-malaysias-ai-powered-digital-bank">link</a></li>
+      <li id="s4">Microsoft News — "CP Group Collaborate with Microsoft to Accelerate Thailand's AI and Cloud Future" — 2025.10 — <a href="https://news.microsoft.com/source/asia/2025/10/28/cp-group-true-true-idc-collaborate-with-microsoft-to-forge-strategic-partnership-to-accelerate-thailands-ai-and-cloud-future-strengthening-thailands-digital-infr/">link</a></li>
+      <li id="s5">Forbes — "Thailand's Chearavanont Brothers Lead Their CP Group Into A Digital Future" — 2025.07 — <a href="https://www.forbes.com/sites/phisanuphromchanya/2025/07/02/thailands-chearavanont-brothers-lead-their-cp-group-into-a-digital-future/">link</a></li>
+      <li id="s6">NVIDIA News — "NVIDIA and SK Group Build AI Factory" — 2025 — <a href="https://nvidianews.nvidia.com/news/sk-group-ai-factory">link</a></li>
+      <li id="s7">CNBC — "SK Hynix Posts Record Q1 Profit" — 2026.04 — <a href="https://www.cnbc.com/2026/04/23/sk-hynix-earnings-ai-memory-shortage-hbm-demand.html">link</a></li>
+      <li id="s8">Yahoo Finance — "Nvidia Steps Up South Korea AI Push with 260,000-Chip Rollout" — 2025 — <a href="https://finance.yahoo.com/news/nvidia-steps-up-south-korea-ai-push-with-260000-chip-rollout-060026207.html">link</a></li>
+      <li id="s9">NVIDIA News — "Foxconn Builds AI Factory in Partnership with Taiwan and NVIDIA" — 2025 — <a href="https://nvidianews.nvidia.com/news/foxconn-builds-ai-factory-in-partnership-with-taiwan-and-nvidia">link</a></li>
+      <li id="s10">Economic Times — "Foxconn Has Immense Confidence in Growth Momentum Due to AI" — 2025 — <a href="https://m.economictimes.com/news/international/business/foxconn-has-immense-confidence-growth-momentum-due-to-ai-chairman-says/articleshow/131379913.cms">link</a></li>
+      <li id="s11">PhilStar — "Ayala Group Inks MOUs for Smart City, Digital Infrastructure" — 2026.05 — <a href="https://www.philstar.com/business/2026/05/29/2531193/ayala-group-inks-mous-smart-city-digital-infrastructure">link</a></li>
+      <li id="s12">Reuters — "Jardine Matheson to Buy Australia's I-MED at $2.4 Billion" — 2026.05 — <a href="https://www.reuters.com/legal/transactional/jardine-matheson-acquire-australias-i-med-radiology-24-billion-deal-2026-05-25/">link</a></li>
+      <li id="s13">Jardines — "Equinix and Astra Form Joint Venture" — 2023 — <a href="https://www.jardines.com/newsroom/latest-news/strategy-and-our-portfolio/2023/equinix-and-astra-form-joint-venture-support-indonesias-growing-digital-needs">link</a></li>
+      <li id="s14">YTL Official — "3Q FY2026 Revenue Increases 3% to RM7.6 Billion" — 2026 — <a href="https://www.ytl.com/press-releases/ytl-corps-3rd-quarter-revenue-increases-3-to-rm7-6-billion-us1-9-billion-with-profit-after-tax-of-rm629-2-million-us158-5-million/">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>

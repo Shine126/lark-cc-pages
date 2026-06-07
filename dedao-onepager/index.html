@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>得到 — 公司速览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  html { font-family: var(--sans-cn); }
+  html h1, html h2, html .hd-title { font-family: var(--serif-cn); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1080px;
+    min-height: 1400px;
+    background: var(--bg);
+    padding: 56px 64px 48px;
+    border: 1px solid var(--rule);
+  }
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  .hd-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .hd-title {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .hd-tagline {
+    font-size: 14px;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+  .stat {
+    padding: 14px 16px 16px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .col { display: flex; flex-direction: column; gap: 22px; }
+  section h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  section h2 .num {
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  section p { margin: 0 0 8px; font-size: 13px; line-height: 1.55; }
+  section ul { list-style: none; padding: 0; margin: 0 0 4px; }
+  section ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  section ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+  .lede { font-size: 13.5px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .sub-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+  sup.cite { font-size: 9px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
+  sup.cite a:hover { text-decoration: underline; }
+  .person { margin-bottom: 8px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 12px; color: var(--ink); }
+  .comp { margin-bottom: 6px; font-size: 12.5px; }
+  .comp-name { font-weight: 600; }
+  .collab {
+    margin-top: 26px;
+    padding: 22px 24px 20px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .collab h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13.5px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 32px; }
+  .collab-block .ck-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .collab-block p { font-size: 12px; line-height: 1.5; margin: 0; }
+  .sources {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 5px;
+    break-inside: avoid;
+    padding-left: 22px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--rule); }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览</div>
+      <h1 class="hd-title">得到（思维造物）</h1>
+      <p class="hd-tagline">罗振宇创办的知识付费平台，以音频课程、电子书和知识服务为核心，正在向AI驱动的学习工具转型</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink)">2026-05-28</strong>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">北京</div>
+      <div class="stat-label">总部</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2014</div>
+      <div class="stat-label">成立年份</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">~500</div>
+      <div class="stat-label">员工（估算）</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">5.23亿</div>
+      <div class="stat-label">2024年营收（RMB）</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式</h2>
+        <p class="lede">以得到App为核心载体，通过付费课程、电子书、听书、训练营等产品变现。</p>
+        <ul>
+          <li>收入模型：付费内容订阅（课程/听书/电子书）+ 硬件周边（AI录音卡GetSeed 699元/张）+ 跨年演讲门票及广告赞助<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>2024年营收5.23亿元，同比下滑10.9%；净利润2406.85万元，同比下滑39.5%<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>IPO历程：2020年申报创业板，历经7次更新招股书，2021年审核终止，至今未上市</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态</h2>
+        <p class="lede">全面转向AI叙事，从"传递知识"升级为"AI陪伴成长"。</p>
+        <ul>
+          <li>2025年12月三亚跨年演讲主题定为"AI"——"1000天后的世界"，标志公司战略锚点转移<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>跨年演讲期间发布AI录音卡GetSeed，1万份699元套餐迅速售罄；同期卖出超10万本书，验证"内容+硬件+电商"模式</li>
+          <li>文化产业基金三度挂牌出售7.5%股权未果，公司当前估值约12亿元，较IPO前（30-40亿）大幅缩水<sup class="cite"><a href="#s2">[2]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI布局</h2>
+        <p class="lede">尚未自研大模型，以"AI+知识服务"为切入点，在产品和内容层面落地。</p>
+        <ul>
+          <li>产品侧：推出AI录音卡GetSeed（硬件）、AI笔记等工具，将AI嵌入学习场景<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>内容侧：罗振宇跨年演讲核心命题变为"AI时代个人如何保持竞争力"，内容全面AI化</li>
+          <li>组织侧：据演讲透露，已有员工从内容岗转向AI调教岗，参与公司级AI转型推进<sup class="cite"><a href="#s3">[3]</a></sup></li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队</h2>
+        <div class="person">
+          <div><span class="person-name">罗振宇</span> <span class="person-role">· 创始人</span></div>
+          <div class="person-bio">前央视制片人，2012年创办《罗辑思维》脱口秀，2015年推出得到App。以"时间的朋友"跨年演讲闻名，2025年减重100斤。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">脱不花（李天田）</span> <span class="person-role">· CEO</span></div>
+          <div class="person-bio">17岁创业，曾任北京仁慧特管理咨询公司董事长，擅长沟通与组织管理，负责公司日常经营。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">快刀青衣（邓鑫鑫）</span> <span class="person-role">· 联合创始人 / CTO</span></div>
+          <div class="person-bio">产品经理出身，从零搭建得到App产品技术团队（2019年达187人）。推行弹性薪酬体系（13-18薪）。</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局</h2>
+        <p class="lede">知识付费赛道整体承压，各玩家分化明显。</p>
+        <div class="comp"><span class="comp-name">樊登读书</span> — 注册用户超4500万，线上线下结合，三年营收约50亿，体量远超得到</div>
+        <div class="comp"><span class="comp-name">喜马拉雅FM</span> — 音频平台巨头，用户基数庞大，覆盖知识付费+娱乐音频全场景</div>
+        <div class="comp"><span class="comp-name">混沌学园</span> — 定位高端创业教育，面向企业高管，客单价更高</div>
+        <div class="comp"><span class="comp-name">知乎</span> — UGC社区+知识付费，长期困于商业化，但AI搜索(知乎直答)已上线</div>
+        <div class="sub-label">差异化</div>
+        <p style="font-size:12px;margin:0;">得到以"精品内容+个人IP"为核心壁垒，内容品控严格，但用户规模和变现能力已被樊登拉开差距。AI转型是突破存量瓶颈的关键赌注。</p>
+      </section>
+
+    </div>
+  </div>
+
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai）</h2>
+    <p class="lede">得到正在将AI嵌入学习场景，但尚未自研大模型，对外部AI能力有真实需求。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机</span>
+        <p>得到需要AI能力升级GetSeed等硬件产品，同时提升App内的AI学习助手体验（AI摘要、AI问答、个性化学习路径），避免在AI时代被边缘化。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合</span>
+        <p>GLM-5.1 API可用于课程内容的智能摘要与问答；GLM-5V多模态能力可用于文档/书籍OCR与理解；私有化部署方案符合知识版权敏感场景。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点</span>
+        <p>得到体量较小（年营收5亿），技术团队规模有限，对接和集成成本需足够低；知识版权敏感，对数据安全有顾虑；可能倾向大厂方案（百度/阿里）。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步</span>
+        <p>以"AI学习助手"为切入点，提供90天POC：用GLM-5.1为得到App内Top 100门课程生成AI摘要和互动问答能力，验证效果后谈深度合作。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">澎湃新闻 — "跨年演讲卖出超10万本书、1万张录音卡，罗振宇瘦了、广告肥了" — 2026-01 — <a href="https://m.thepaper.cn/newsDetail_forward_32303171">link</a></li>
+      <li id="s2">证券时报 — "罗振宇旗下思维造物估值约12亿元，部分股权拟出售" — 2025-12 — <a href="https://stcn.com/article/detail/3543182.html">link</a></li>
+      <li id="s3">知乎 — "罗振宇2026跨年演讲深度复盘：当AI祛魅，我们该往何处去？" — 2026-01 — <a href="https://zhuanlan.zhihu.com/p/1999134044932289767">link</a></li>
+      <li id="s4">36氪 — "思维造物上市折戟，知识付费赛道凉了？" — 2022-01 — <a href="https://m.36kr.com/p/1856863398368903">link</a></li>
+      <li id="s5">21财经 — "跨年演讲对比分析" — 2026-01 — <a href="https://www.21jingji.com/article/20260103/herald/4b846e755fb75dec4e851b6129271589.html">link</a></li>
+      <li id="s6">百度百科 — "快刀青衣" — — <a href="https://baike.baidu.com/item/%E5%BF%AB%E5%88%80%E9%9D%92%E8%A1%A3/23698378">link</a></li>
+      <li id="s7">潮新闻 — "罗振宇2026跨年演讲谈AI时代不可救药的乐观派" — 2026-01 — <a href="https://tidenews.com.cn/tmh_news.html?id=695663b80d72680001d96d1a">link</a></li>
+      <li id="s8">深交所 — "思维造物IPO申报材料" — 2022-03 — <a href="https://reportdocs.static.szse.cn/UpFiles/rasinfodisc1/202203/RAS_202203_00017FC1A779063FD963CC5CF3B7863F.pdf">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>

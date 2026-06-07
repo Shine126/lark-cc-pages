@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM 游戏行业解决方案 — Z.AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<style>
+
+:root {
+  --bg: #000000; --bg-card: #0c0c0e; --bg-nav: rgba(0,0,0,0.8);
+  --text: #f5f5f7; --text-secondary: rgba(255,255,255,0.6); --text-tertiary: rgba(255,255,255,0.32);
+  --accent: #fff; --accent-glow: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.09); --border-hover: rgba(255,255,255,0.2);
+  --stat-bg: #000; --scenario-bg: #0c0c0e; --quote-bg: #0c0c0e;
+  --hero-gradient: linear-gradient(180deg, #000 0%, #08080a 50%, #000 100%);
+  --highlight-bg: #fff; --highlight-text: #000;
+  --shadow-hero: rgba(0,0,0,0.35); --shadow-hero-hover: rgba(0,0,0,0.45); --shadow-card: rgba(0,0,0,0.15);
+  --game-primary: #7c3aed; --game-primary-glow: rgba(124,58,237,0.15);
+  --game-secondary: #06b6d4; --game-secondary-glow: rgba(6,182,212,0.12);
+  --game-warm: #f59e0b;
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+}
+[data-theme="light"] {
+  --bg: #ffffff; --bg-card: #f5f5f7; --bg-nav: rgba(255,255,255,0.85);
+  --text: #1d1d1f; --text-secondary: rgba(0,0,0,0.6); --text-tertiary: rgba(0,0,0,0.35);
+  --accent: #1d1d1f; --accent-glow: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.22);
+  --stat-bg: #fff; --scenario-bg: #f5f5f7; --quote-bg: #f5f5f7;
+  --hero-gradient: linear-gradient(180deg, #ffffff 0%, #f5f5f7 50%, #ffffff 100%);
+  --highlight-bg: #1d1d1f; --highlight-text: #fff;
+  --shadow-hero: rgba(0,0,0,0.08); --shadow-hero-hover: rgba(0,0,0,0.14); --shadow-card: rgba(0,0,0,0.06);
+  --game-primary: #6d28d9; --game-primary-glow: rgba(109,40,217,0.08);
+  --game-secondary: #0891b2; --game-secondary-glow: rgba(8,145,178,0.06);
+  --game-warm: #d97706;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:52px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.35s ease,color 0.35s ease}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%;display:block}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);border-bottom:0.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background 0.4s,border-color 0.4s}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.nav-logo-icon{font-size:20px}
+.nav-logo-text{font-size:15px;font-weight:600;letter-spacing:-0.02em;color:var(--text)}
+.nav-logo-text span{font-weight:400;color:var(--text-tertiary);margin-left:6px;font-size:13px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:13px;color:var(--text-secondary);transition:color 0.2s;letter-spacing:0.01em;font-weight:500}
+.nav-links a:hover{color:var(--text)}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.nav-btn{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);transition:all 0.25s ease;font-size:14px;border:1px solid var(--border);cursor:pointer;background:none}
+.nav-btn:hover{border-color:var(--border-hover);color:var(--text);background:var(--accent-glow)}
+.lang-btn{font-size:11px;font-weight:600;width:auto;padding:0 12px;border-radius:20px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* SECTION */
+.section{padding:140px 48px;position:relative}
+.container{max-width:1000px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:16px;display:block}
+.title{font-size:clamp(36px,5.5vw,64px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:24px}
+.title em{font-style:normal;color:var(--game-primary);font-weight:500}
+.subtitle{font-size:clamp(16px,1.8vw,19px);color:var(--text-secondary);font-weight:400;line-height:1.65;max-width:680px}
+.divider{width:32px;height:1px;background:var(--border-hover);margin:56px auto}
+.section-subhead{font-size:22px;font-weight:600;margin-bottom:32px;letter-spacing:-0.02em;color:var(--text)}
+.center-section{text-align:center}
+.center-section .title{margin-left:auto;margin-right:auto}
+.center-section .subtitle{margin-left:auto;margin-right:auto}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;position:relative;background:var(--hero-gradient)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:900px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 48px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;font-size:13px;font-weight:600;border:1px solid var(--border);color:var(--text-secondary);margin-bottom:32px;background:var(--accent-glow)}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--game-primary);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:64px}
+.stat{background:var(--stat-bg);padding:40px 24px;text-align:center;transition:background 0.4s}
+.stat-num{font-size:clamp(32px,4.5vw,48px);font-weight:700;letter-spacing:-0.03em;color:var(--text)}
+.stat-num.purple{color:var(--game-primary)}
+.stat-num.cyan{color:var(--game-secondary)}
+.stat-num.warm{color:var(--game-warm)}
+.stat-desc{font-size:13px;color:var(--text-secondary);margin-top:8px;line-height:1.5}
+
+/* FEATURE ROW */
+.feature-row{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:64px}
+.feature-row.reverse{direction:rtl}.feature-row.reverse>*{direction:ltr}
+.feature-text .label{margin-bottom:14px}
+.feature-text h3{font-size:clamp(26px,3.5vw,36px);font-weight:700;letter-spacing:-0.02em;line-height:1.18;margin-bottom:16px}
+.feature-text p{font-size:15px;color:var(--text-secondary);line-height:1.7}
+.feature-text ul{list-style:none;margin-top:20px;padding:0}
+.feature-text ul li{padding:12px 0;font-size:14px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--border)}
+.feature-text ul li:last-child{border-bottom:none}
+.feature-text ul li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--game-primary);flex-shrink:0;margin-top:8px}
+.feature-media{border-radius:12px;overflow:hidden;border:1px solid var(--border);transition:transform 0.35s ease, border-color 0.3s;background:var(--bg-card)}
+.feature-media:hover{border-color:var(--border-hover);transform:scale(1.01)}
+
+/* SCENARIOS */
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;border-radius:16px;overflow:hidden;background:var(--border)}
+.scenario{background:var(--scenario-bg);padding:32px 24px;border:1px solid var(--border);transition:all 0.3s ease}
+.scenario:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.scenario-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:18px}
+.scenario-icon.npc{background:var(--game-primary-glow)}
+.scenario-icon.asset{background:var(--game-secondary-glow)}
+.scenario-icon.code{background:var(--accent-glow)}
+.scenario h4{font-size:15px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+.scenario p{font-size:13px;color:var(--text-secondary);line-height:1.6}
+
+/* ARCHITECTURE */
+.arch-flow{display:flex;gap:2px;align-items:stretch;margin-top:48px;flex-wrap:wrap;justify-content:center}
+.arch-block{flex:1;min-width:140px;max-width:200px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px 20px;text-align:center;transition:all 0.3s ease;position:relative}
+.arch-block:hover{border-color:var(--border-hover);transform:translateY(-3px)}
+.arch-block .arch-icon{font-size:28px;margin-bottom:12px}
+.arch-block h5{font-size:13px;font-weight:600;margin-bottom:6px}
+.arch-block p{font-size:11px;color:var(--text-tertiary);line-height:1.5}
+.arch-arrow{display:flex;align-items:center;color:var(--text-tertiary);font-size:18px;padding:0 4px;flex-shrink:0}
+
+/* VIDEO GRID */
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.video-card{border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card);transition:all 0.35s ease}
+.video-card:hover{border-color:var(--border-hover);transform:translateY(-3px);box-shadow:0 12px 40px var(--shadow-card)}
+.video-card iframe{width:100%;aspect-ratio:16/9;display:block;border:none}
+.video-card .video-label{padding:18px 20px;font-size:13px;color:var(--text-secondary);line-height:1.55;border-top:1px solid var(--border)}
+.video-card .video-label strong{color:var(--text);font-weight:600;display:block;margin-bottom:4px}
+
+/* USE CASES */
+.usecase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+.usecase{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:32px 28px;transition:all 0.3s ease}
+.usecase:hover{border-color:var(--border-hover);transform:translateY(-2px)}
+.usecase-tag{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:14px}
+.usecase-tag.npc{background:var(--game-primary-glow);color:var(--game-primary)}
+.usecase-tag.asset{background:var(--game-secondary-glow);color:var(--game-secondary)}
+.usecase-tag.ops{background:var(--accent-glow);color:var(--text-secondary)}
+.usecase-tag.code{background:rgba(245,158,11,0.12);color:var(--game-warm)}
+.usecase h4{font-size:17px;font-weight:600;margin-bottom:10px;letter-spacing:-0.01em}
+.usecase p{font-size:14px;color:var(--text-secondary);line-height:1.65}
+.usecase ul{list-style:none;margin-top:14px;padding:0}
+.usecase ul li{padding:6px 0;font-size:13px;color:var(--text-secondary);display:flex;align-items:flex-start;gap:8px}
+.usecase ul li::before{content:'→';color:var(--game-primary);flex-shrink:0;font-size:12px;margin-top:1px}
+
+/* QUOTES */
+.quotes{margin-top:64px}
+.quote-card{background:var(--quote-bg);border:1px solid var(--border);border-radius:14px;padding:32px;margin-bottom:12px;transition:background 0.4s,border-color 0.3s}
+.quote-card:hover{border-color:var(--border-hover)}
+.quote-card p{font-size:15px;color:var(--text-secondary);line-height:1.7;font-style:italic}
+.quote-card .source{font-size:12px;color:var(--text-tertiary);margin-top:14px;font-style:normal;letter-spacing:0.02em}
+
+/* CTA */
+.cta{text-align:center;padding:160px 48px;background:var(--hero-gradient)}
+.cta .title{margin-bottom:20px}
+.cta .subtitle{margin:0 auto 48px;text-align:center}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:16px 40px;border-radius:100px;font-size:15px;font-weight:600;letter-spacing:-0.01em;border:1.5px solid var(--border-hover);color:var(--text);transition:all 0.3s ease;cursor:pointer}
+.cta-btn:hover{background:var(--text);color:var(--bg);border-color:var(--text);transform:scale(1.03)}
+.cta-btn.secondary{margin-left:12px;background:none;border:1px solid var(--border)}
+.cta-btn.secondary:hover{border-color:var(--border-hover);background:var(--accent-glow);color:var(--text)}
+
+/* FOOTER */
+.footer{padding:48px 48px 56px;text-align:center;border-top:0.5px solid var(--border);color:var(--text-tertiary);font-size:12px;letter-spacing:0.01em}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.65s cubic-bezier(0.22,1,0.36,1),transform 0.65s cubic-bezier(0.22,1,0.36,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:0.08s}.reveal-d2{transition-delay:0.16s}.reveal-d3{transition-delay:0.24s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media(max-width:768px){
+  .nav{padding:0 20px;height:48px}.nav-links{display:none}
+  .section{padding:96px 24px}
+  .container{max-width:100%}
+  .stats,.scenario-grid{grid-template-columns:1fr}
+  .feature-row,.feature-row.reverse{grid-template-columns:1fr;gap:40px;direction:ltr}
+  .video-grid,.usecase-grid{grid-template-columns:1fr}
+  .hero-badge{font-size:12px}
+  .cta{padding:120px 24px}
+  .footer{padding:40px 24px 48px}
+  .title{font-size:clamp(32px,8vw,48px)}
+  .arch-flow{flex-direction:column;align-items:center}
+  .arch-arrow{transform:rotate(90deg)}
+  .arch-block{max-width:100%}
+}
+@media(max-width:480px){
+  .stat{padding:32px 20px}
+  .scenario{padding:24px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">🎮</div>
+    <div class="nav-logo-text">GLM Gaming<span>by Z.AI</span></div>
+  </div>
+  <div class="nav-links">
+    <a href="#overview" data-i18n="nav_overview">概览</a>
+    <a href="#npc" data-i18n="nav_npc">智能NPC</a>
+    <a href="#pipeline" data-i18n="nav_pipeline">研发提效</a>
+    <a href="#ops" data-i18n="nav_ops">发行运营</a>
+    <a href="#architecture" data-i18n="nav_arch">技术架构</a>
+    <a href="#videos" data-i18n="nav_videos">视频演示</a>
+    <a href="#cases" data-i18n="nav_cases">应用场景</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle theme"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge reveal"><span class="dot"></span><span data-i18n="hero_badge">Gaming Industry Solution</span></div>
+  <h1 class="title reveal" data-i18n="hero_title">GLM 赋能游戏行业<br><em>全面革新</em></h1>
+  <p class="subtitle reveal" data-i18n="hero_desc">从智能 NPC 对话到研发管线提效，从资产生成到发行运营，GLM 大模型为游戏全生命周期提供 AI 驱动的一站式解决方案。</p>
+  <div class="stats reveal">
+    <div class="stat"><div class="stat-num purple">1000+</div><div class="stat-desc" data-i18n="st_enterprises">领先企业正在使用</div></div>
+    <div class="stat"><div class="stat-num cyan">70%</div><div class="stat-desc" data-i18n="st_devtime">研发效率提升</div></div>
+    <div class="stat"><div class="stat-num warm">$6.8B</div><div class="stat-desc" data-i18n="st_market">2025 AI 游戏市场规模</div></div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="ov_label">Industry Empowerment</div>
+      <h2 class="title" data-i18n="ov_title">三大核心方向<br>助力游戏<em>全链路升级</em></h2>
+      <p class="subtitle" data-i18n="ov_desc">智谱 GLM 大模型深耕游戏行业，在智能 NPC 对话、研发管线提效、发行运营三大方向提供成熟的 AI 解决方案。</p>
+    </div>
+    <div class="scenario-grid reveal">
+      <div class="scenario">
+        <div class="scenario-icon npc">🎭</div>
+        <h4 data-i18n="sc1_h">智能 NPC 对话</h4>
+        <p data-i18n="sc1_p">超拟人大模型海量扩充 NPC 台词与事件，显著提升 NPC 的行为自然度和复杂性，增强玩家沉浸感。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon asset">🛠️</div>
+        <h4 data-i18n="sc2_h">研发管线提效</h4>
+        <p data-i18n="sc2_p">大模型辅助游戏代码生成和资产生成，并升级项目资产的全流程管理和组织方式。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon code">🚀</div>
+        <h4 data-i18n="sc3_h">助力发行运营</h4>
+        <p data-i18n="sc3_p">应用于买量创意、营销策划、舆情分析、智能客服、社交安全、黑产与外挂打击等多个场景。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NPC -->
+<section class="section" id="npc">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-text reveal">
+        <div class="label" data-i18n="npc_label">Intelligent NPC</div>
+        <h3 data-i18n="npc_h">让游戏 NPC 更具<br>真实感和互动性</h3>
+        <p data-i18n="npc_desc">借助 CharacterGLM 超拟人大模型强大的语言理解能力和生成能力，游戏内的 NPC 将展现出更自然的对话及行为。</p>
+        <ul>
+          <li data-i18n="npc_f1">配置角色身份背景、性格特质、语言表达风格，快速构建立体化人格 NPC</li>
+          <li data-i18n="npc_f2">海量扩充 NPC 台词与事件，打破传统预设对话的局限</li>
+          <li data-i18n="npc_f3">支持多轮深度对话，NPC 根据上下文动态调整回复策略</li>
+          <li data-i18n="npc_f4">已应用于多家头部游戏公司项目，经过大规模验证</li>
+        </ul>
+      </div>
+      <div class="feature-media reveal">
+        <!-- NPC 示意图区域 -->
+        <div style="aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;background:linear-gradient(135deg,var(--game-primary-glow),var(--game-secondary-glow));gap:20px">
+          <div style="font-size:64px">🎭</div>
+          <div style="font-size:14px;color:var(--text-secondary);text-align:center;line-height:1.6" data-i18n="npc_media_desc">
+            CharacterGLM 角色大模型<br>赋能 NPC 立体化人格构建
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--game-primary-glow);color:var(--game-primary);font-weight:600">CharacterGLM</span>
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--game-secondary-glow);color:var(--game-secondary);font-weight:600">GLM-5.1</span>
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--accent-glow);color:var(--text-secondary);font-weight:600">安全可控</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- R&D PIPELINE -->
+<section class="section" id="pipeline">
+  <div class="container">
+    <div class="feature-row reverse">
+      <div class="feature-text reveal">
+        <div class="label" data-i18n="pipe_label">Development Pipeline</div>
+        <h3 data-i18n="pipe_h">研发管线全流程<br>AI 提效</h3>
+        <p data-i18n="pipe_desc">GLM 大模型深入游戏研发各环节，从代码生成到资产创建，全面加速开发迭代效率。</p>
+        <ul>
+          <li data-i18n="pipe_f1">AI 辅助游戏代码生成 — GLM-5.1 开源代码能力全球领先</li>
+          <li data-i18n="pipe_f2">资产生成与管理 — 多模态能力支持 2D/3D 资源描述、关卡设计文档自动生成</li>
+          <li data-i18n="pipe_f3">自动化测试 — Agent 能力驱动自动化 QA，覆盖回归测试和性能测试</li>
+          <li data-i18n="pipe_f4">知识库检索 — 团队协作知识统一管理，开发文档智能检索</li>
+        </ul>
+      </div>
+      <div class="feature-media reveal">
+        <div style="aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;background:linear-gradient(135deg,var(--game-secondary-glow),var(--accent-glow));gap:20px">
+          <div style="font-size:64px">⚡</div>
+          <div style="font-size:14px;color:var(--text-secondary);text-align:center;line-height:1.6" data-i18n="pipe_media_desc">
+            GLM-5.1 Coding + Agent<br>端到端研发提效
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:rgba(245,158,11,0.12);color:var(--game-warm);font-weight:600">Coding #1</span>
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--game-secondary-glow);color:var(--game-secondary);font-weight:600">Agent 8h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPERATIONS -->
+<section class="section" id="ops">
+  <div class="container">
+    <div class="feature-row">
+      <div class="feature-text reveal">
+        <div class="label" data-i18n="ops_label">Publishing & Operations</div>
+        <h3 data-i18n="ops_h">发行运营<br>AI 全程护航</h3>
+        <p data-i18n="ops_desc">从买量创意到舆情分析，从智能客服到安全监测，大模型为游戏上线后的全生命周期运营提供支持。</p>
+        <ul>
+          <li data-i18n="ops_f1">买量创意与营销策划 — AI 生成广告素材、A/B 测试文案、投放策略建议</li>
+          <li data-i18n="ops_f2">舆情分析与智能客服 — 实时监控玩家反馈，7×24 智能响应</li>
+          <li data-i18n="ops_f3">社交安全 — 内容审核、违规检测，保障游戏社区健康发展</li>
+          <li data-i18n="ops_f4">黑产与外挂打击 — AI 识别异常行为模式，精准封禁</li>
+        </ul>
+      </div>
+      <div class="feature-media reveal">
+        <div style="aspect-ratio:4/3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;background:linear-gradient(135deg,var(--accent-glow),var(--game-primary-glow));gap:20px">
+          <div style="font-size:64px">📊</div>
+          <div style="font-size:14px;color:var(--text-secondary);text-align:center;line-height:1.6" data-i18n="ops_media_desc">
+            全链路运营 AI<br>从买量到安全一网打尽
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;justify-content:center">
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--accent-glow);color:var(--text-secondary);font-weight:600">买量</span>
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--accent-glow);color:var(--text-secondary);font-weight:600">客服</span>
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--accent-glow);color:var(--text-secondary);font-weight:600">安全</span>
+            <span style="padding:4px 12px;border-radius:6px;font-size:11px;background:var(--accent-glow);color:var(--text-secondary);font-weight:600">舆情</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" id="architecture">
+  <div class="container center-section">
+    <div class="reveal">
+      <div class="label" data-i18n="arch_label">Technical Architecture</div>
+      <h2 class="title" data-i18n="arch_title">技术架构全景</h2>
+      <p class="subtitle" data-i18n="arch_desc">基于 GLM 模型家族，构建覆盖游戏全链路的 AI 技术架构。自主研发、安全可控。</p>
+    </div>
+    <div class="arch-flow reveal">
+      <div class="arch-block">
+        <div class="arch-icon">🎮</div>
+        <h5 data-i18n="arch_b1_h">游戏客户端</h5>
+        <p data-i18n="arch_b1_p">Unity / Unreal / 自研引擎</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block">
+        <div class="arch-icon">🔗</div>
+        <h5 data-i18n="arch_b2_h">API 网关</h5>
+        <p data-i18n="arch_b2_p">统一接入 · 负载均衡 · 安全过滤</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block" style="border-color:var(--game-primary);box-shadow:0 0 20px var(--game-primary-glow)">
+        <div class="arch-icon">🧠</div>
+        <h5 data-i18n="arch_b3_h">GLM 模型层</h5>
+        <p data-i18n="arch_b3_p">GLM-5.1 · CharacterGLM · GLM-5V</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block">
+        <div class="arch-icon">💾</div>
+        <h5 data-i18n="arch_b4_h">数据 & 知识库</h5>
+        <p data-i18n="arch_b4_p">游戏世界观 · 角色设定 · 对话历史</p>
+      </div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-block">
+        <div class="arch-icon">🛡️</div>
+        <h5 data-i18n="arch_b5_h">安全 & 合规</h5>
+        <p data-i18n="arch_b5_p">内容审核 · 加密传输 · 私有化部署</p>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="scenario-grid reveal" style="max-width:800px;margin:0 auto">
+      <div class="scenario">
+        <div class="scenario-icon npc">🔐</div>
+        <h4 data-i18n="adv1_h">自主研发 安全可控</h4>
+        <p data-i18n="adv1_p">模型输入输出均经过严格安全过滤，并可根据需求加密传输，支持私有化部署。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon asset">🎭</div>
+        <h4 data-i18n="adv2_h">超拟人大模型</h4>
+        <p data-i18n="adv2_p">CharacterGLM 角色大模型已应用于多家头部游戏公司项目，经过规模化验证。</p>
+      </div>
+      <div class="scenario">
+        <div class="scenario-icon code">🌐</div>
+        <h4 data-i18n="adv3_h">全模态覆盖</h4>
+        <p data-i18n="adv3_p">文本、图像、视频多模态统一支持，覆盖游戏开发全场景需求。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section class="section" id="videos">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="vid_label">Video Demos</div>
+      <h2 class="title" data-i18n="vid_title">视频演示</h2>
+      <p class="subtitle" data-i18n="vid_desc">了解 GLM 模型在代码生成、Agent 能力、应用开发等方面的实际表现。</p>
+    </div>
+    <div class="video-grid reveal">
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/D_QjBkr-DC8" loading="lazy" allowfullscreen title="GLM 4.7 Game Development"></iframe>
+        <div class="video-label">
+          <strong data-i18n="v1_title">GLM 4.7 Review: 10 Real Coding Tests</strong>
+          <span data-i18n="v1_desc">包含浏览器游戏开发和 Three.js 3D 图形实现演示</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/wGmpWEBm4b0" loading="lazy" allowfullscreen title="Build Anything with GLM 5.1"></iframe>
+        <div class="video-label">
+          <strong data-i18n="v2_title">Build Anything with GLM 5.1</strong>
+          <span data-i18n="v2_desc">展示 GLM 5.1 在应用开发中的全能表现，包括游戏和网站</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/T-eBZIMc_sY" loading="lazy" allowfullscreen title="GLM 5.1 Coding & Apps"></iframe>
+        <div class="video-label">
+          <strong data-i18n="v3_title">GLM 5.1 — Coding, Quants, Apps & Maths TESTED</strong>
+          <span data-i18n="v3_desc">全面测试 GLM 5.1 编码、量化推理和应用构建能力</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/3OsSUej2yhw" loading="lazy" allowfullscreen title="GLM 4.7 AI Super Agent"></iframe>
+        <div class="video-label">
+          <strong data-i18n="v4_title">GLM 4.7: New FREE Chinese AI Super Agent</strong>
+          <span data-i18n="v4_desc">展示 GLM Agent 自动构建应用、游戏和网站的强大能力</span>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="video-grid reveal">
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/Y0QihNwwz50" loading="lazy" allowfullscreen title="GLM-5 Agent Capabilities"></iframe>
+        <div class="video-label">
+          <strong data-i18n="v5_title">GLM-5 Deep Review: World's #1 Agent Capabilities</strong>
+          <span data-i18n="v5_desc">深度评测 GLM-5 在 Agent 场景下的领先表现</span>
+        </div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/GuyZspG3-Po" loading="lazy" allowfullscreen title="GLM 4.6 Agent Mode"></iframe>
+        <div class="video-label">
+          <strong data-i18n="v6_title">GLM-4.6 Agent Mode: AI App Builder</strong>
+          <span data-i18n="v6_desc">GLM Agent 模式如何自动构建应用和自动化工作流</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section" id="cases">
+  <div class="container">
+    <div class="reveal">
+      <div class="label" data-i18n="case_label">Application Scenarios</div>
+      <h2 class="title" data-i18n="case_title">典型应用场景</h2>
+      <p class="subtitle" data-i18n="case_desc">覆盖游戏制作管线、发行、运营等多维场景，提供端到端的 AI 赋能方案。</p>
+    </div>
+    <div class="usecase-grid reveal">
+      <div class="usecase">
+        <span class="usecase-tag npc" data-i18n="uc1_tag">NPC</span>
+        <h4 data-i18n="uc1_h">RPG/MMO 智能NPC</h4>
+        <p data-i18n="uc1_p">为角色扮演和大型多人在线游戏打造具有个性化人格、记忆和情感反应的 NPC，实现真正沉浸式的游戏体验。</p>
+        <ul>
+          <li data-i18n="uc1_f1">角色性格、背景故事自动生成</li>
+          <li data-i18n="uc1_f2">基于玩家行为的动态对话</li>
+          <li data-i18n="uc1_f3">NPC 间自主社交互动</li>
+        </ul>
+      </div>
+      <div class="usecase">
+        <span class="usecase-tag asset" data-i18n="uc2_tag">ASSET</span>
+        <h4 data-i18n="uc2_h">资产生成与管理</h4>
+        <p data-i18n="uc2_p">利用多模态能力辅助游戏资产描述生成、关卡设计文档自动编写，提升美术和策划团队的产出效率。</p>
+        <ul>
+          <li data-i18n="uc2_f1">2D/3D 资产描述自动生成</li>
+          <li data-i18n="uc2_f2">关卡设计文档智能编写</li>
+          <li data-i18n="uc2_f3">项目资产全流程管理</li>
+        </ul>
+      </div>
+      <div class="usecase">
+        <span class="usecase-tag ops" data-i18n="uc3_tag">OPERATIONS</span>
+        <h4 data-i18n="uc3_h">安全监测与风控</h4>
+        <p data-i18n="uc3_p">AI 驱动的实时安全监测系统，精准识别外挂、黑产和异常行为，保障游戏经济和社区生态健康。</p>
+        <ul>
+          <li data-i18n="uc3_f1">异常行为模式智能识别</li>
+          <li data-i18n="uc3_f2">黑产账号批量检测</li>
+          <li data-i18n="uc3_f3">外挂作弊实时拦截</li>
+        </ul>
+      </div>
+      <div class="usecase">
+        <span class="usecase-tag code" data-i18n="uc4_tag">DEV</span>
+        <h4 data-i18n="uc4_h">代码生成与自动化测试</h4>
+        <p data-i18n="uc4_p">GLM-5.1 开源代码能力全球领先，支持游戏逻辑代码自动生成、自动化回归测试和性能优化建议。</p>
+        <ul>
+          <li data-i18n="uc4_f1">游戏逻辑代码辅助生成</li>
+          <li data-i18n="uc4_f2">自动化回归测试套件</li>
+          <li data-i18n="uc4_f3">性能瓶颈分析建议</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2 class="title reveal" data-i18n="cta_title">开始探索 GLM 游戏方案</h2>
+    <p class="subtitle reveal" data-i18n="cta_desc">无论是智能 NPC、研发提效还是发行运营，智谱 AI 都能为您提供定制化的 AI 解决方案。联系我们，开启游戏 AI 新时代。</p>
+    <div class="reveal">
+      <a href="https://open.bigmodel.cn/solutions/gameindustry" target="_blank" class="cta-btn" data-i18n="cta_btn1">了解详情 →</a>
+      <a href="https://bigmodel.cn/" target="_blank" class="cta-btn secondary" data-i18n="cta_btn2">开始使用 GLM</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div style="font-size:16px;margin-bottom:8px">🎮</div>
+  <p data-i18n="footer_text">© 2026 Z.AI — 智谱 AI 游戏行业解决方案 | 基于 GLM 大模型家族</p>
+  <p style="margin-top:6px"><a href="https://open.bigmodel.cn/solutions/gameindustry" target="_blank" style="color:var(--text-secondary)">open.bigmodel.cn/solutions/gameindustry</a></p>
+</footer>
+
+<script>
+// I18N
+const I18N = {
+  zh: {
+    nav_overview:'概览',nav_npc:'智能NPC',nav_pipeline:'研发提效',nav_ops:'发行运营',nav_arch:'技术架构',nav_videos:'视频演示',nav_cases:'应用场景',
+    hero_badge:'游戏行业解决方案',hero_title:'GLM 赋能游戏行业<br><em>全面革新</em>',hero_desc:'从智能 NPC 对话到研发管线提效，从资产生成到发行运营，GLM 大模型为游戏全生命周期提供 AI 驱动的一站式解决方案。',
+    st_enterprises:'领先企业正在使用',st_devtime:'研发效率提升',st_market:'2025 AI 游戏市场规模',
+    ov_label:'行业赋能',ov_title:'三大核心方向<br>助力游戏<em>全链路升级</em>',ov_desc:'智谱 GLM 大模型深耕游戏行业，在智能 NPC 对话、研发管线提效、发行运营三大方向提供成熟的 AI 解决方案。',
+    sc1_h:'智能 NPC 对话',sc1_p:'超拟人大模型海量扩充 NPC 台词与事件，显著提升 NPC 的行为自然度和复杂性，增强玩家沉浸感。',
+    sc2_h:'研发管线提效',sc2_p:'大模型辅助游戏代码生成和资产生成，并升级项目资产的全流程管理和组织方式。',
+    sc3_h:'助力发行运营',sc3_p:'应用于买量创意、营销策划、舆情分析、智能客服、社交安全、黑产与外挂打击等多个场景。',
+    npc_label:'智能 NPC',npc_h:'让游戏 NPC 更具<br>真实感和互动性',npc_desc:'借助 CharacterGLM 超拟人大模型强大的语言理解能力和生成能力，游戏内的 NPC 将展现出更自然的对话及行为。',
+    npc_f1:'配置角色身份背景、性格特质、语言表达风格，快速构建立体化人格 NPC',npc_f2:'海量扩充 NPC 台词与事件，打破传统预设对话的局限',npc_f3:'支持多轮深度对话，NPC 根据上下文动态调整回复策略',npc_f4:'已应用于多家头部游戏公司项目，经过大规模验证',
+    npc_media_desc:'CharacterGLM 角色大模型<br>赋能 NPC 立体化人格构建',
+    pipe_label:'研发管线',pipe_h:'研发管线全流程<br>AI 提效',pipe_desc:'GLM 大模型深入游戏研发各环节，从代码生成到资产创建，全面加速开发迭代效率。',
+    pipe_f1:'AI 辅助游戏代码生成 — GLM-5.1 开源代码能力全球领先',pipe_f2:'资产生成与管理 — 多模态能力支持 2D/3D 资源描述、关卡设计文档自动生成',pipe_f3:'自动化测试 — Agent 能力驱动自动化 QA，覆盖回归测试和性能测试',pipe_f4:'知识库检索 — 团队协作知识统一管理，开发文档智能检索',
+    pipe_media_desc:'GLM-5.1 Coding + Agent<br>端到端研发提效',
+    ops_label:'发行运营',ops_h:'发行运营<br>AI 全程护航',ops_desc:'从买量创意到舆情分析，从智能客服到安全监测，大模型为游戏上线后的全生命周期运营提供支持。',
+    ops_f1:'买量创意与营销策划 — AI 生成广告素材、A/B 测试文案、投放策略建议',ops_f2:'舆情分析与智能客服 — 实时监控玩家反馈，7×24 智能响应',ops_f3:'社交安全 — 内容审核、违规检测，保障游戏社区健康发展',ops_f4:'黑产与外挂打击 — AI 识别异常行为模式，精准封禁',
+    ops_media_desc:'全链路运营 AI<br>从买量到安全一网打尽',
+    arch_label:'技术架构',arch_title:'技术架构全景',arch_desc:'基于 GLM 模型家族，构建覆盖游戏全链路的 AI 技术架构。自主研发、安全可控。',
+    arch_b1_h:'游戏客户端',arch_b1_p:'Unity / Unreal / 自研引擎',arch_b2_h:'API 网关',arch_b2_p:'统一接入 · 负载均衡 · 安全过滤',arch_b3_h:'GLM 模型层',arch_b3_p:'GLM-5.1 · CharacterGLM · GLM-5V',arch_b4_h:'数据 & 知识库',arch_b4_p:'游戏世界观 · 角色设定 · 对话历史',arch_b5_h:'安全 & 合规',arch_b5_p:'内容审核 · 加密传输 · 私有化部署',
+    adv1_h:'自主研发 安全可控',adv1_p:'模型输入输出均经过严格安全过滤，并可根据需求加密传输，支持私有化部署。',adv2_h:'超拟人大模型',adv2_p:'CharacterGLM 角色大模型已应用于多家头部游戏公司项目，经过规模化验证。',adv3_h:'全模态覆盖',adv3_p:'文本、图像、视频多模态统一支持，覆盖游戏开发全场景需求。',
+    vid_label:'视频演示',vid_title:'视频演示',vid_desc:'了解 GLM 模型在代码生成、Agent 能力、应用开发等方面的实际表现。',
+    v1_title:'GLM 4.7 评测：10 项编程实战测试',v1_desc:'包含浏览器游戏开发和 Three.js 3D 图形实现演示',
+    v2_title:'用 GLM 5.1 构建一切',v2_desc:'展示 GLM 5.1 在应用开发中的全能表现，包括游戏和网站',
+    v3_title:'GLM 5.1 — 编码、量化推理与应用构建全面测试',v3_desc:'全面测试 GLM 5.1 编码、量化推理和应用构建能力',
+    v4_title:'GLM 4.7：免费开源 AI 超级智能体',v4_desc:'展示 GLM Agent 自动构建应用、游戏和网站的强大能力',
+    v5_title:'GLM-5 深度评测：全球 #1 Agent 能力',v5_desc:'深度评测 GLM-5 在 Agent 场景下的领先表现',
+    v6_title:'GLM-4.6 Agent 模式：AI 应用构建器',v6_desc:'GLM Agent 模式如何自动构建应用和自动化工作流',
+    case_label:'应用场景',case_title:'典型应用场景',case_desc:'覆盖游戏制作管线、发行、运营等多维场景，提供端到端的 AI 赋能方案。',
+    uc1_tag:'NPC',uc1_h:'RPG/MMO 智能NPC',uc1_p:'为角色扮演和大型多人在线游戏打造具有个性化人格、记忆和情感反应的 NPC，实现真正沉浸式的游戏体验。',
+    uc1_f1:'角色性格、背景故事自动生成',uc1_f2:'基于玩家行为的动态对话',uc1_f3:'NPC 间自主社交互动',
+    uc2_tag:'资产',uc2_h:'资产生成与管理',uc2_p:'利用多模态能力辅助游戏资产描述生成、关卡设计文档自动编写，提升美术和策划团队的产出效率。',
+    uc2_f1:'2D/3D 资产描述自动生成',uc2_f2:'关卡设计文档智能编写',uc2_f3:'项目资产全流程管理',
+    uc3_tag:'运营',uc3_h:'安全监测与风控',uc3_p:'AI 驱动的实时安全监测系统，精准识别外挂、黑产和异常行为，保障游戏经济和社区生态健康。',
+    uc3_f1:'异常行为模式智能识别',uc3_f2:'黑产账号批量检测',uc3_f3:'外挂作弊实时拦截',
+    uc4_tag:'开发',uc4_h:'代码生成与自动化测试',uc4_p:'GLM-5.1 开源代码能力全球领先，支持游戏逻辑代码自动生成、自动化回归测试和性能优化建议。',
+    uc4_f1:'游戏逻辑代码辅助生成',uc4_f2:'自动化回归测试套件',uc4_f3:'性能瓶颈分析建议',
+    cta_title:'开始探索 GLM 游戏方案',cta_desc:'无论是智能 NPC、研发提效还是发行运营，智谱 AI 都能为您提供定制化的 AI 解决方案。联系我们，开启游戏 AI 新时代。',
+    cta_btn1:'了解详情 →',cta_btn2:'开始使用 GLM',
+    footer_text:'© 2026 Z.AI — 智谱 AI 游戏行业解决方案 | 基于 GLM 大模型家族'
+  },
+  en: {
+    nav_overview:'Overview',nav_npc:'Smart NPC',nav_pipeline:'Dev Pipeline',nav_ops:'Operations',nav_arch:'Architecture',nav_videos:'Videos',nav_cases:'Use Cases',
+    hero_badge:'Gaming Industry Solution',hero_title:'GLM Powers Gaming<br><em>Full-Spectrum Innovation</em>',hero_desc:'From intelligent NPC dialogue to development pipeline acceleration, from asset generation to publishing operations — GLM provides AI-driven end-to-end solutions for the entire game lifecycle.',
+    st_enterprises:'Leading enterprises onboard',st_devtime:'Dev efficiency improvement',st_market:'2025 AI gaming market size',
+    ov_label:'Industry Empowerment',ov_title:'Three Core Directions<br>for <em>Full-Chain Upgrade</em>',ov_desc:'Zhipu GLM models are deeply engaged in the gaming industry, providing mature AI solutions across three key directions: intelligent NPC dialogue, development pipeline optimization, and publishing operations.',
+    sc1_h:'Intelligent NPC Dialogue',sc1_p:'Ultra-realistic large model massively expands NPC dialogues and events, significantly improving behavioral naturalness and complexity while enhancing player immersion.',
+    sc2_h:'Dev Pipeline Optimization',sc2_p:'Large model-assisted game code generation and asset creation, upgrading full-process management and organizational workflows for project assets.',
+    sc3_h:'Publishing & Operations',sc3_p:'Applied to creative ad buying, marketing planning, sentiment analysis, smart customer service, social safety, and cheat/bot detection across multiple scenarios.',
+    npc_label:'Intelligent NPC',npc_h:'Make Game NPCs More<br>Realistic & Interactive',npc_desc:'Powered by CharacterGLM\'s ultra-realistic large model with strong language understanding and generation capabilities, in-game NPCs exhibit more natural dialogue and behavior.',
+    npc_f1:'Configure character backgrounds, personality traits, and language styles to quickly build multi-dimensional NPC personas',npc_f2:'Massively expand NPC dialogues and events, breaking through traditional pre-set dialogue limitations',npc_f3:'Support multi-turn deep conversations where NPCs dynamically adjust response strategies based on context',npc_f4:'Already deployed in multiple top-tier game company projects, validated at scale',
+    npc_media_desc:'CharacterGLM Role Model<br>Powering Multi-dimensional NPC Persona Building',
+    pipe_label:'Dev Pipeline',pipe_h:'Full Pipeline<br>AI Acceleration',pipe_desc:'GLM models penetrate every stage of game development, from code generation to asset creation, comprehensively accelerating iteration efficiency.',
+    pipe_f1:'AI-assisted game code generation — GLM-5.1 leads globally in open-source coding',pipe_f2:'Asset generation & management — Multimodal capabilities support 2D/3D resource description and level design auto-generation',pipe_f3:'Automated testing — Agent-driven QA covering regression and performance testing',pipe_f4:'Knowledge base retrieval — Unified team collaboration knowledge management with intelligent document search',
+    pipe_media_desc:'GLM-5.1 Coding + Agent<br>End-to-End Dev Acceleration',
+    ops_label:'Publishing & Operations',ops_h:'Publishing Operations<br>AI Protection',ops_desc:'From creative ad buying to sentiment analysis, from smart customer service to safety monitoring, large models support the entire post-launch operation lifecycle.',
+    ops_f1:'Creative ad buying & marketing — AI-generated ad assets, A/B test copy, and placement strategy recommendations',ops_f2:'Sentiment analysis & smart customer service — Real-time player feedback monitoring, 24/7 intelligent response',ops_f3:'Social safety — Content moderation and violation detection for healthy game communities',ops_f4:'Cheat & bot detection — AI-powered anomaly behavior pattern recognition for precise enforcement',
+    ops_media_desc:'Full-Chain Operations AI<br>From Ads to Security',
+    arch_label:'Technical Architecture',arch_title:'Architecture Overview',arch_desc:'Built on the GLM model family, covering the entire game chain with AI-powered architecture. Self-developed, secure, and controllable.',
+    arch_b1_h:'Game Client',arch_b1_p:'Unity / Unreal / Custom Engine',arch_b2_h:'API Gateway',arch_b2_p:'Unified Access · Load Balancing · Security Filtering',arch_b3_h:'GLM Model Layer',arch_b3_p:'GLM-5.1 · CharacterGLM · GLM-5V',arch_b4_h:'Data & Knowledge',arch_b4_p:'Game Lore · Character Settings · Dialogue History',arch_b5_h:'Security & Compliance',arch_b5_p:'Content Moderation · Encrypted Transfer · Private Deploy',
+    adv1_h:'Self-Developed & Secure',adv1_p:'All model inputs and outputs undergo strict security filtering with optional encrypted transmission and private deployment.',adv2_h:'Ultra-Realistic Model',adv2_p:'CharacterGLM role model deployed across multiple top-tier game studios, validated at production scale.',adv3_h:'Full Modal Coverage',adv3_p:'Unified text, image, and video multimodal support covering all game development scenarios.',
+    vid_label:'Video Demos',vid_title:'Video Demonstrations',vid_desc:'See GLM models in action — code generation, agent capabilities, and application development.',
+    v1_title:'GLM 4.7 Review: 10 Real Coding Tests',v1_desc:'Including browser-based game development and Three.js 3D graphics demos',
+    v2_title:'Build Anything with GLM 5.1',v2_desc:'GLM 5.1 showcasing full-spectrum app development including games and websites',
+    v3_title:'GLM 5.1 — Coding, Quants, Apps & Maths TESTED',v3_desc:'Comprehensive testing of GLM 5.1 coding, quantitative reasoning, and app building',
+    v4_title:'GLM 4.7: New FREE Chinese AI Super Agent',v4_desc:'GLM Agent automatically building apps, games, and websites',
+    v5_title:'GLM-5 Deep Review: World\'s #1 Agent Capabilities',v5_desc:'In-depth evaluation of GLM-5\'s leading agent performance',
+    v6_title:'GLM-4.6 Agent Mode: AI App Builder',v6_desc:'How GLM Agent mode automatically builds applications and automation workflows',
+    case_label:'Application Scenarios',case_title:'Typical Use Cases',case_desc:'Covering game production pipeline, publishing, and operations with end-to-end AI empowerment.',
+    uc1_tag:'NPC',uc1_h:'RPG/MMO Smart NPCs',uc1_p:'Build NPCs with personalized personas, memory, and emotional reactions for RPG and MMO games — delivering truly immersive gaming experiences.',
+    uc1_f1:'Auto-generate character personalities and backstories',uc1_f2:'Dynamic dialogue based on player behavior',uc1_f3:'Autonomous social interactions between NPCs',
+    uc2_tag:'ASSET',uc2_h:'Asset Generation & Management',uc2_p:'Leverage multimodal capabilities for game asset description generation and level design document auto-writing, boosting art and design team productivity.',
+    uc2_f1:'Auto-generate 2D/3D asset descriptions',uc2_f2:'Intelligent level design document writing',uc2_f3:'Full-process project asset management',
+    uc3_tag:'OPS',uc3_h:'Security Monitoring & Risk Control',uc3_p:'AI-driven real-time security monitoring system for precise detection of cheats, bot farms, and anomalous behavior — protecting game economy and community health.',
+    uc3_f1:'Intelligent anomaly behavior pattern recognition',uc3_f2:'Batch black market account detection',uc3_f3:'Real-time cheat/exploit interception',
+    uc4_tag:'DEV',uc4_h:'Code Generation & Automated Testing',uc4_p:'GLM-5.1 leads globally in open-source coding, supporting game logic code auto-generation, automated regression testing, and performance optimization.',
+    uc4_f1:'Game logic code assisted generation',uc4_f2:'Automated regression test suite',uc4_f3:'Performance bottleneck analysis & recommendations',
+    cta_title:'Start Exploring GLM Gaming Solutions',cta_desc:'Whether it\'s intelligent NPCs, development acceleration, or publishing operations, Zhipu AI provides customized AI solutions. Contact us to start the gaming AI revolution.',
+    cta_btn1:'Learn More →',cta_btn2:'Get Started with GLM',
+    footer_text:'© 2026 Z.AI — Zhipu AI Gaming Industry Solution | Powered by GLM Model Family'
+  }
+};
+
+let lang = 'zh';
+function toggleLang(){
+  lang = lang === 'zh' ? 'en' : 'zh';
+  document.getElementById('langBtn').textContent = lang === 'zh' ? 'EN' : '中';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(I18N[lang][key]) el.innerHTML = I18N[lang][key];
+  });
+  document.documentElement.lang = lang === 'zh' ? 'zh' : 'en';
+}
+
+function toggleTheme(){
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+}
+
+// Reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
