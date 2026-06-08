@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>客户 88511776652429817 · 周报 (6/1-6/7)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "SF Pro SC", "PingFang SC", "Helvetica Neue", sans-serif; background: #f5f5f7; color: #1d1d1f; padding: 20px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { font-size: 14px; color: #86868b; margin-bottom: 24px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .card { background: #fff; border-radius: 12px; padding: 16px; }
+  .card .label { font-size: 12px; color: #86868b; margin-bottom: 4px; }
+  .card .value { font-size: 24px; font-weight: 700; }
+  .card .sub { font-size: 12px; color: #86868b; margin-top: 2px; }
+  .card.accent .value { color: #0066cc; }
+  .card.warn .value { color: #ff9500; }
+  .chart-card { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .chart-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .chart-row.full { grid-template-columns: 1fr; }
+  canvas { width: 100% !important; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; padding: 8px 12px; border-bottom: 2px solid #f0f0f0; color: #86868b; font-weight: 500; font-size: 12px; }
+  td { padding: 8px 12px; border-bottom: 1px solid #f5f5f7; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .badge.green { background: #e8f8ef; color: #1a7d3f; }
+  .badge.orange { background: #fff4e5; color: #b36b00; }
+  .badge.red { background: #ffe5e5; color: #c41e3a; }
+  .badge.blue { background: #e5f0ff; color: #0066cc; }
+  .section-title { font-size: 16px; font-weight: 700; margin: 20px 0 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>客户 88511776652429817 · 过去一周概览</h1>
+  <p class="subtitle">统计周期：2026-06-01 ~ 2026-06-07 | 数据源：Grafana + Metabase</p>
+
+  <!-- 核心指标卡片 -->
+  <div class="grid">
+    <div class="card accent">
+      <div class="label">总调用</div>
+      <div class="value">4.66 万</div>
+      <div class="sub">≈ 46,600 次</div>
+    </div>
+    <div class="card accent">
+      <div class="label">总消耗 Token</div>
+      <div class="value">32.85 亿</div>
+      <div class="sub">输入 + 输出 + 缓存</div>
+    </div>
+    <div class="card">
+      <div class="label">总收入</div>
+      <div class="value">¥8,083</div>
+      <div class="sub">日均值 ¥1,155</div>
+    </div>
+    <div class="card">
+      <div class="label">余额</div>
+      <div class="value">¥18,198</div>
+      <div class="sub">按日均消耗可用 ~15 天</div>
+    </div>
+  </div>
+
+  <!-- 第二行 -->
+  <div class="grid">
+    <div class="card">
+      <div class="label">综合成功率</div>
+      <div class="value">98.75%</div>
+      <div class="sub">470 次错误 / 43,226 总请求</div>
+    </div>
+    <div class="card">
+      <div class="label">Cache 命中率</div>
+      <div class="value">91.0%</div>
+      <div class="sub">节省 27.3 亿 tokens</div>
+    </div>
+    <div class="card warn">
+      <div class="label">并发峰值</div>
+      <div class="value">30</div>
+      <div class="sub">glm-5 限额 61</div>
+    </div>
+    <div class="card">
+      <div class="label">TPM 峰值</div>
+      <div class="value">7.83M</div>
+      <div class="sub">6/2 00:01</div>
+    </div>
+  </div>
+
+  <!-- 日调用量 & 消耗趋势 -->
+  <div class="chart-card">
+    <h3>📈 日调用量 & 消耗趋势</h3>
+    <canvas id="trendChart" height="260"></canvas>
+  </div>
+
+  <!-- 输入输出占比 & 模型分布 -->
+  <div class="chart-row">
+    <div class="chart-card">
+      <h3>📊 Token 构成（输入 vs 缓存 vs 输出）</h3>
+      <canvas id="tokenPie" height="240"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>🥧 调用量按模型分布</h3>
+      <canvas id="modelPie" height="240"></canvas>
+    </div>
+  </div>
+
+  <!-- 并发 & TPM -->
+  <div class="chart-row">
+    <div class="chart-card">
+      <h3>⚡ 并发峰值 vs 限额</h3>
+      <canvas id="concurrencyChart" height="220"></canvas>
+    </div>
+    <div class="chart-card">
+      <h3>🔄 TPM 分模型汇总</h3>
+      <canvas id="tpmChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- 错误分布 -->
+  <div class="chart-card">
+    <h3>❌ 错误分布（共 470 次）</h3>
+    <canvas id="errorChart" height="200"></canvas>
+  </div>
+
+  <!-- 性能指标表格 -->
+  <div class="chart-card">
+    <h3>⏱ 性能指标明细</h3>
+    <table>
+      <thead>
+        <tr><th>模型</th><th>请求数</th><th>首响 p50</th><th>首响 p90</th><th>首响 p99</th><th>成功率</th><th>Cache 命中率</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>glm-5.1</strong></td>
+          <td>30,617</td>
+          <td>4ms</td><td>10ms</td><td>23ms</td>
+          <td><span class="badge green">98.59%</span></td>
+          <td><span class="badge blue">90.7%</span></td>
+        </tr>
+        <tr>
+          <td><strong>glm-5</strong></td>
+          <td>12,477</td>
+          <td>3ms</td><td>6ms</td><td>11ms</td>
+          <td><span class="badge green">99.69%</span></td>
+          <td><span class="badge blue">91.9%</span></td>
+        </tr>
+        <tr>
+          <td><strong>glm-4.5-air</strong></td>
+          <td>132</td>
+          <td>1ms</td><td>9ms</td><td>17ms</td>
+          <td><span class="badge green">100%</span></td>
+          <td><span class="badge blue">82.3%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 资源包 & 账单 -->
+  <div class="chart-card">
+    <h3>📦 生效中资源包</h3>
+    <table>
+      <thead><tr><th>资源包</th><th>类型</th><th>当月余额</th><th>到期时间</th></tr></thead>
+      <tbody>
+        <tr><td>500万 GLM-4.7 体验包</td><td><span class="badge green">赠金</span></td><td>5,000,000</td><td>2026-07-21</td></tr>
+        <tr><td>100次搜索资源包</td><td><span class="badge green">赠金</span></td><td>100</td><td>2026-07-20</td></tr>
+        <tr><td>600万 GLM-4.6V 资源包</td><td><span class="badge green">赠金</span></td><td>6,000,000</td><td>2026-07-20</td></tr>
+        <tr><td>1200万 GLM-4.5-Air 资源包</td><td><span class="badge green">赠金</span></td><td>12,000,000</td><td>2026-07-20</td></tr>
+        <tr><td>20次图片/视频生成资源包</td><td><span class="badge green">赠金</span></td><td>20</td><td>2026-07-20</td></tr>
+        <tr><td>200万通用模型推理资源包</td><td><span class="badge orange">已耗尽</span></td><td>0</td><td>2026-07-20</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+const colors = {
+  blue: '#0066cc', blueLight: 'rgba(0,102,204,0.15)',
+  green: '#34c759', greenLight: 'rgba(52,199,89,0.15)',
+  orange: '#ff9500', orangeLight: 'rgba(255,149,0,0.15)',
+  red: '#ff3b30', purple: '#af52de', gray: '#8e8e93'
+};
+
+// 1. 日趋势
+new Chart(document.getElementById('trendChart'), {
+  type: 'bar',
+  data: {
+    labels: ['6/1','6/2','6/3','6/4','6/5','6/6','6/7'],
+    datasets: [
+      { label: '调用量(万)', data: [0.56,0.53,1.33,1.07,0.81,0.24,0.12], backgroundColor: colors.blue, borderRadius: 6, yAxisID: 'y' },
+      { label: '收入(元)', data: [835,1016,2210,1981,1547,391,104], type: 'line', borderColor: colors.orange, backgroundColor: colors.orangeLight, fill: true, tension: 0.4, pointRadius: 4, yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true, plugins: { legend: { position: 'top' } },
+    scales: {
+      y: { position: 'left', title: { display: true, text: '调用量(万)' }, grid: { color: '#f0f0f0' } },
+      y1: { position: 'right', title: { display: true, text: '收入(元)' }, grid: { display: false } }
+    }
+  }
+});
+
+// 2. Token 构成饼图
+// Total input: 3,002,942,668 (亿), Cache: 2,731,914,435, Output = input - cache (roughly, but output is separate)
+// From cache data: input tokens = 3,002,942,668, cached = 2,731,914,435, so non-cached input = 271,028,233
+// Output tokens not directly given, let's estimate from consumption
+const totalBillion = 32.85;
+const inputTokens = 30.03; // 30.03 亿
+const cacheTokens = 27.32; // 27.32 亿
+const realInput = inputTokens - cacheTokens; // ~2.71 亿
+const outputTokens = totalBillion - inputTokens; // ~2.82 亿 (rough)
+
+new Chart(document.getElementById('tokenPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['缓存命中 (27.3亿)', '实际输入 (2.7亿)', '输出 (2.8亿)'],
+    datasets: [{ data: [27.32, 2.71, 2.82], backgroundColor: [colors.blue, colors.green, colors.orange], borderWidth: 0 }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 3. 模型分布
+new Chart(document.getElementById('modelPie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['glm-5.1 (30,617)', 'glm-5 (12,477)', 'glm-4.5-air (132)'],
+    datasets: [{ data: [30617, 12477, 132], backgroundColor: [colors.blue, colors.green, colors.orange], borderWidth: 0 }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+
+// 4. 并发
+new Chart(document.getElementById('concurrencyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['glm-5.1', 'glm-5', 'glm-4.5-air'],
+    datasets: [
+      { label: '实际峰值', data: [25, 30, 1], backgroundColor: colors.blue, borderRadius: 6 },
+      { label: '限额', data: [213, 61, 61], backgroundColor: 'rgba(0,0,0,0.08)', borderRadius: 6 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { grid: { color: '#f0f0f0' } } } }
+});
+
+// 5. TPM
+new Chart(document.getElementById('tpmChart'), {
+  type: 'bar',
+  data: {
+    labels: ['glm-5.1', 'glm-5', 'glm-4.5-air'],
+    datasets: [
+      { label: 'TPM 峰值(百万/分)', data: [4.53, 7.83, 0.41], backgroundColor: colors.purple, borderRadius: 6 },
+      { label: '总量(百万)', data: [2394.44, 617.69, 4.33], backgroundColor: colors.blue, borderRadius: 6, hidden: true }
+    ]
+  },
+  options: { responsive: true, indexAxis: 'y', plugins: { legend: { position: 'top' } }, scales: { x: { grid: { color: '#f0f0f0' }, title: { display: true, text: '百万 tokens/分钟' } } } }
+});
+
+// 6. 错误分布
+new Chart(document.getElementById('errorChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Prompt超长 (168)', '模型并发过高 (164)', '推理服务异常 (106)', '内部错误 (13)', '调用参数有误 (8)', '客户端断开 (5)', '其他 (6)'],
+    datasets: [{ data: [168, 164, 106, 13, 8, 5, 6], backgroundColor: [colors.red, colors.orange, colors.purple, colors.gray, colors.blue, colors.green, '#ccc'], borderRadius: 6 }]
+  },
+  options: {
+    responsive: true, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: { x: { grid: { color: '#f0f0f0' } } }
+  }
+});
+</script>
+</body>
+</html>
