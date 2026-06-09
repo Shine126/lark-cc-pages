@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POC Test Plan — GLM for Brazilian Public Sector</title>
+<style>
+:root{--bg:#000;--bg-card:#0c0c0e;--bg-nav:rgba(0,0,0,.8);--text:#f5f5f7;--text-sec:rgba(255,255,255,.6);--text-tri:rgba(255,255,255,.32);--accent:#fff;--accent-glow:rgba(255,255,255,.06);--border:rgba(255,255,255,.09);--border-h:rgba(255,255,255,.2);--green:#34d399;--amber:#fbbf24;--red:#f87171;--blue:#60a5fa;--font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter','Noto Sans SC',system-ui,sans-serif;--shadow:0 16px 48px rgba(0,0,0,.3)}
+[data-theme="light"]{--bg:#fff;--bg-card:#f5f5f7;--bg-nav:rgba(255,255,255,.85);--text:#1d1d1f;--text-sec:rgba(0,0,0,.6);--text-tri:rgba(0,0,0,.35);--accent:#1d1d1f;--accent-glow:rgba(0,0,0,.04);--border:rgba(0,0,0,.1);--border-h:rgba(0,0,0,.22);--green:#059669;--amber:#d97706;--red:#dc2626;--blue:#2563eb;--shadow:0 16px 48px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;scroll-padding-top:56px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background .35s,color .35s}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bg-nav);backdrop-filter:blur(40px) saturate(180%);border-bottom:.5px solid var(--border);z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 48px;transition:background .4s}
+.nav-logo{font-size:15px;font-weight:600;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.nav-logo span{font-weight:400;color:var(--text-tri);font-size:13px}
+.nav-actions{display:flex;gap:8px}
+.nav-btn{height:34px;padding:0 14px;border-radius:20px;display:flex;align-items:center;justify-content:center;color:var(--text-sec);transition:all .25s;font-size:11px;font-weight:600;letter-spacing:.06em;border:1px solid var(--border);cursor:pointer;background:none;text-transform:uppercase}
+.nav-btn:hover{border-color:var(--border-h);color:var(--text);background:var(--accent-glow)}
+
+/* SECTIONS */
+.section{padding:100px 48px}
+.container{max-width:960px;margin:0 auto}
+.label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-tri);margin-bottom:16px;display:block}
+.title{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:20px}
+.title em{font-style:normal;color:var(--text-tri);font-weight:500}
+.subtitle{font-size:clamp(15px,1.6vw,18px);color:var(--text-sec);line-height:1.65;max-width:640px}
+
+/* HERO */
+.hero{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:52px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-card) 50%,var(--bg) 100%)}
+.hero .label{margin-bottom:20px}
+.hero .title{max-width:780px;margin:0 auto 20px}
+.hero .subtitle{margin:0 auto 32px;text-align:center}
+
+/* OVERVIEW CARDS */
+.overview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:48px}
+.overview-card{background:var(--bg);padding:32px 24px;text-align:center;transition:background .4s}
+.overview-card .num{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-.03em}
+.overview-card .desc{font-size:13px;color:var(--text-sec);margin-top:8px;line-height:1.5}
+
+/* SCENARIO BLOCK */
+.scenario-block{margin-top:64px;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .3s}
+.scenario-block:hover{border-color:var(--border-h)}
+.scenario-header{padding:28px 32px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border)}
+.scenario-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.scenario-icon.legal{background:rgba(96,165,250,.12);color:var(--blue)}
+.scenario-icon.admin{background:rgba(52,211,153,.12);color:var(--green)}
+.scenario-icon.chat{background:rgba(251,191,36,.12);color:var(--amber)}
+.scenario-header h3{font-size:18px;font-weight:600;letter-spacing:-.01em;flex:1}
+.scenario-header .tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;letter-spacing:.04em}
+.tag-critical{background:rgba(248,113,113,.12);color:var(--red)}
+.tag-important{background:rgba(251,191,36,.12);color:var(--amber)}
+.tag-standard{background:rgba(96,165,250,.12);color:var(--blue)}
+
+.scenario-body{padding:28px 32px}
+.scenario-desc{font-size:14px;color:var(--text-sec);line-height:1.7;margin-bottom:24px}
+
+/* TEST TABLE */
+.test-table{width:100%;border-collapse:collapse;font-size:13px}
+.test-table thead{border-bottom:1px solid var(--border)}
+.test-table th{text-align:left;padding:10px 12px;font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-tri)}
+.test-table td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text-sec);line-height:1.6}
+.test-table tr:last-child td{border-bottom:none}
+.test-table .metric{color:var(--text);font-weight:500}
+.test-table code{background:var(--accent-glow);padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Monaco,monospace}
+
+/* EVAL RUBRIC */
+.rubric{margin-top:24px;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border-radius:10px;overflow:hidden}
+.rubric-cell{background:var(--bg);padding:14px 10px;text-align:center;font-size:12px;line-height:1.5}
+.rubric-cell .score{font-weight:700;font-size:16px;display:block;margin-bottom:4px}
+.rubric-cell .label-s{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tri)}
+.rubric-header{background:var(--bg-card);font-weight:600;color:var(--text);font-size:11px}
+
+/* TIMELINE */
+.timeline{margin-top:48px;position:relative;padding-left:32px}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--border)}
+.timeline-item{position:relative;padding-bottom:40px}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-item::before{content:'';position:absolute;left:-32px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--border-h);border:2px solid var(--bg)}
+.timeline-item.active::before{background:var(--blue);border-color:var(--blue)}
+.timeline-item .phase{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tri);margin-bottom:6px}
+.timeline-item h4{font-size:16px;font-weight:600;margin-bottom:6px}
+.timeline-item p{font-size:14px;color:var(--text-sec);line-height:1.6}
+
+/* MODELS COMPARISON */
+.models-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:16px;overflow:hidden;margin-top:32px}
+.model-card{background:var(--bg);padding:28px 20px;text-align:center;transition:all .3s}
+.model-card.recommended{position:relative}
+.model-card.recommended::before{content:'★ RECOMMENDED';position:absolute;top:0;left:0;right:0;padding:6px;font-size:10px;font-weight:700;letter-spacing:.1em;background:var(--blue);color:#fff}
+.model-card h4{font-size:16px;font-weight:600;margin-top:8px;margin-bottom:4px}
+.model-card .model-desc{font-size:12px;color:var(--text-sec);line-height:1.5}
+.model-card .price{font-size:13px;color:var(--text-tri);margin-top:8px}
+.model-tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 8px;border-radius:4px;letter-spacing:.04em;margin-top:10px}
+.tag-pt{background:rgba(52,211,153,.12);color:var(--green)}
+.tag-code{background:rgba(96,165,250,.12);color:var(--blue)}
+.tag-cheap{background:rgba(251,191,36,.12);color:var(--amber)}
+
+/* CTA */
+.cta{text-align:center;margin-top:64px;padding:48px;border:1px solid var(--border);border-radius:16px}
+.cta h3{font-size:22px;font-weight:700;margin-bottom:12px}
+.cta p{color:var(--text-sec);font-size:15px;margin-bottom:24px}
+.cta-btn{display:inline-block;padding:12px 32px;background:var(--text);color:var(--bg);border-radius:24px;font-size:14px;font-weight:600;letter-spacing:-.01em;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+
+/* FOOTER */
+.footer{padding:40px 48px;border-top:.5px solid var(--border);text-align:center;font-size:12px;color:var(--text-tri)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .section{padding:64px 20px}
+  .nav{padding:0 20px}
+  .overview-grid,.models-grid{grid-template-columns:1fr}
+  .rubric{grid-template-columns:repeat(3,1fr)}
+  .scenario-header{flex-wrap:wrap}
+  .test-table{font-size:12px}
+  .test-table th,.test-table td{padding:8px 6px}
+}
+
+/* i18n */
+[data-lang="pt"] .en-only{display:none}
+[data-lang="en"] .pt-only{display:none}
+</style>
+</head>
+<body data-lang="en">
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">Z.AI <span>POC Test Plan</span></div>
+  <div class="nav-actions">
+    <button class="nav-btn lang-btn" onclick="toggleLang()">PT</button>
+    <button class="nav-btn theme-toggle" onclick="toggleTheme()">☀</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="label en-only">Proof of Concept · Q2 2026</span>
+  <span class="label pt-only">Prova de Conceito · Q2 2026</span>
+  <h1 class="title">
+    <span class="en-only">GLM Model Evaluation for <em>Brazilian Public Sector</em></span>
+    <span class="pt-only">Avaliação de Modelos GLM para o <em>Setor Público Brasileiro</em></span>
+  </h1>
+  <p class="subtitle">
+    <span class="en-only">A structured test plan to evaluate GLM-4.5 and GLM-5.1 across legal reasoning, administrative workflows, and Portuguese (PT-BR) conversation quality — compared against your current DeepSeek-V3 baseline.</span>
+    <span class="pt-only">Um plano de testes estruturado para avaliar GLM-4.5 e GLM-5.1 em raciocínio jurídico, fluxos administrativos e qualidade de conversação em português (PT-BR) — comparado com sua linha de base atual do DeepSeek-V3.</span>
+  </p>
+  <div class="overview-grid" style="max-width:680px;margin-top:40px">
+    <div class="overview-card">
+      <div class="num">3</div>
+      <div class="desc en-only">Test Scenarios</div>
+      <div class="desc pt-only">Cenários de Teste</div>
+    </div>
+    <div class="overview-card">
+      <div class="num">2</div>
+      <div class="desc en-only">GLM Models</div>
+      <div class="desc pt-only">Modelos GLM</div>
+    </div>
+    <div class="overview-card">
+      <div class="num">2 wk</div>
+      <div class="desc en-only">Est. Duration</div>
+      <div class="desc pt-only">Duração Estimada</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIO 1: LEGAL REASONING -->
+<section class="section">
+<div class="container">
+
+  <span class="label en-only">Scenario 1 of 3</span>
+  <span class="label pt-only">Cenário 1 de 3</span>
+
+  <div class="scenario-block">
+    <div class="scenario-header">
+      <div class="scenario-icon legal">⚖</div>
+      <h3>
+        <span class="en-only">Legal Reasoning (Public Sector)</span>
+        <span class="pt-only">Raciocínio Jurídico (Setor Público)</span>
+      </h3>
+      <span class="tag tag-critical en-only">CRITICAL</span>
+      <span class="tag tag-critical pt-only">CRÍTICO</span>
+    </div>
+    <div class="scenario-body">
+      <p class="scenario-desc en-only">Evaluates statutory interpretation, regulatory compliance analysis, and case law application in Brazilian legal context. This is the highest-risk scenario — inaccurate legal output can have real consequences.</p>
+      <p class="scenario-desc pt-only">Avalia interpretação estatutária, análise de conformidade regulatória e aplicação de jurisprudência no contexto jurídico brasileiro. Este é o cenário de maior risco — saídas jurídicas imprecisas podem ter consequências reais.</p>
+
+      <table class="test-table">
+        <thead>
+          <tr>
+            <th class="en-only">Test Case</th>
+            <th class="pt-only">Caso de Teste</th>
+            <th class="en-only">Input</th>
+            <th class="pt-only">Entrada</th>
+            <th class="en-only">Evaluation Criteria</th>
+            <th class="pt-only">Critérios de Avaliação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric en-only">Statutory Interpretation</td>
+            <td class="metric pt-only">Interpretação Estatutária</td>
+            <td class="en-only">Provide a statute excerpt (e.g., from Lei 8.666/93 or Lei 14.133/21) and ask the model to interpret specific clauses</td>
+            <td class="pt-only">Fornecer um trecho de estatuto (ex: Lei 8.666/93 ou Lei 14.133/21) e pedir ao modelo para interpretar cláusulas específicas</td>
+            <td class="en-only">Accuracy of interpretation, correct legal terminology (PT-BR), identification of relevant articles and exceptions</td>
+            <td class="pt-only">Precisão da interpretação, terminologia jurídica correta (PT-BR), identificação de artigos e exceções relevantes</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Regulatory Compliance</td>
+            <td class="metric pt-only">Conformidade Regulatória</td>
+            <td class="en-only">Describe a government procurement scenario and ask the model to identify compliance requirements under LGPD, CGU norms, etc.</td>
+            <td class="pt-only">Descrever um cenário de licitação governamental e pedir ao modelo para identificar requisitos de conformidade sob LGPD, normas CGU, etc.</td>
+            <td class="en-only">Completeness of compliance checklist, correct citation of regulations, practical applicability</td>
+            <td class="pt-only">Completude do checklist de conformidade, citação correta de regulamentos, aplicabilidade prática</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Case Law Application</td>
+            <td class="metric pt-only">Aplicação de Jurisprudência</td>
+            <td class="en-only">Present a factual scenario and ask the model to apply relevant STF/STJ precedents</td>
+            <td class="pt-only">Apresentar um cenário factual e pedir ao modelo para aplicar precedentes relevantes do STF/STJ</td>
+            <td class="en-only">Correct identification of applicable precedents, accurate summary of holdings, sound analogical reasoning</td>
+            <td class="pt-only">Identificação correta de precedentes aplicáveis, resumo preciso das decisões, raciocínio analógico sólido</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Legal Document Drafting</td>
+            <td class="metric pt-only">Redação de Documento Jurídico</td>
+            <td class="en-only">Ask the model to draft a legal opinion (parecer jurídico) or administrative act (ato administrativo)</td>
+            <td class="pt-only">Pedir ao modelo para redigir um parecer jurídico ou ato administrativo</td>
+            <td class="en-only">Proper legal document structure, formal PT-BR register, absence of hallucinated citations</td>
+            <td class="pt-only">Estrutura adequada do documento jurídico, registro formal em PT-BR, ausência de citações alucinadas</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rubric" style="margin-top:20px">
+        <div class="rubric-cell rubric-header"><span class="score">5</span><span class="label-s">Excellent</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">4</span><span class="label-s">Good</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">3</span><span class="label-s">Acceptable</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">2</span><span class="label-s">Poor</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">1</span><span class="label-s">Fail</span></div>
+      </div>
+      <p style="font-size:11px;color:var(--text-tri);margin-top:8px" class="en-only">Score ≥ 4 required for production use. Any hallucinated legal citation = automatic fail on that test case.</p>
+      <p style="font-size:11px;color:var(--text-tri);margin-top:8px" class="pt-only">Pontuação ≥ 4 necessária para uso em produção. Qualquer citação jurídica alucinada = falha automática nesse caso de teste.</p>
+    </div>
+  </div>
+
+  <!-- SCENARIO 2: ADMIN WORKFLOWS -->
+  <div class="scenario-block" style="margin-top:32px">
+    <div class="scenario-header">
+      <div class="scenario-icon admin">📋</div>
+      <h3>
+        <span class="en-only">Administrative Workflows</span>
+        <span class="pt-only">Fluxos Administrativos</span>
+      </h3>
+      <span class="tag tag-important en-only">IMPORTANT</span>
+      <span class="tag tag-important pt-only">IMPORTANTE</span>
+    </div>
+    <div class="scenario-body">
+      <p class="scenario-desc en-only">Tests procedure execution, form filling accuracy, and process navigation within Brazilian public administration systems. Focus on structured output quality and instruction following.</p>
+      <p class="scenario-desc pt-only">Testa execução de procedimentos, precisão no preenchimento de formulários e navegação de processos dentro de sistemas da administração pública brasileira. Foco na qualidade de saída estruturada e seguimento de instruções.</p>
+
+      <table class="test-table">
+        <thead>
+          <tr>
+            <th class="en-only">Test Case</th>
+            <th class="pt-only">Caso de Teste</th>
+            <th class="en-only">Description</th>
+            <th class="pt-only">Descrição</th>
+            <th class="en-only">Evaluation Criteria</th>
+            <th class="pt-only">Critérios de Avaliação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric en-only">Form Filling</td>
+            <td class="metric pt-only">Preenchimento de Formulários</td>
+            <td class="en-only">Extract information from a descriptive text and fill structured forms (e.g., SICONV, SIAFI fields)</td>
+            <td class="pt-only">Extrair informações de um texto descritivo e preencher formulários estruturados (ex: campos SICONV, SIAFI)</td>
+            <td class="en-only">Field accuracy > 95%, correct data types, no missing required fields</td>
+            <td class="pt-only">Precisão de campos > 95%, tipos de dados corretos, sem campos obrigatórios ausentes</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Process Navigation</td>
+            <td class="metric pt-only">Navegação de Processos</td>
+            <td class="en-only">Given a citizen request, guide through the correct administrative procedure step-by-step</td>
+            <td class="pt-only">Dado um pedido de cidadão, guiar pelo procedimento administrativo correto passo a passo</td>
+            <td class="en-only">Correct process identification, complete step sequence, clear PT-BR instructions</td>
+            <td class="pt-only">Identificação correta do processo, sequência completa de etapas, instruções claras em PT-BR</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Document Summarization</td>
+            <td class="metric pt-only">Resumo de Documentos</td>
+            <td class="en-only">Summarize lengthy administrative documents (portarias, resoluções, despachos) into structured briefs</td>
+            <td class="pt-only">Resumir documentos administrativos extensos (portarias, resoluções, despachos) em resumos estruturados</td>
+            <td class="en-only">Key points captured, no factual errors, appropriate formal register</td>
+            <td class="pt-only">Pontos-chave capturados, sem erros factuais, registro formal apropriado</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Multi-step Execution</td>
+            <td class="metric pt-only">Execução Multi-etapas</td>
+            <td class="en-only">Execute a 5+ step administrative workflow (e.g., license renewal) with data passing between steps</td>
+            <td class="pt-only">Executar um fluxo administrativo de 5+ etapas (ex: renovação de licença) com passagem de dados entre etapas</td>
+            <td class="en-only">Context consistency across steps, no data loss, logical flow correctness</td>
+            <td class="pt-only">Consistência de contexto entre etapas, sem perda de dados, correção do fluxo lógico</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rubric" style="margin-top:20px">
+        <div class="rubric-cell rubric-header"><span class="score">5</span><span class="label-s en-only">Zero errors</span><span class="label-s pt-only">Zero erros</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">4</span><span class="label-s en-only">Minor issues</span><span class="label-s pt-only">Problemas menores</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">3</span><span class="label-s en-only">Usable</span><span class="label-s pt-only">Utilizável</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">2</span><span class="label-s en-only">Many errors</span><span class="label-s pt-only">Muitos erros</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">1</span><span class="label-s en-only">Unusable</span><span class="label-s pt-only">Inutilizável</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 3: PT-BR CONVERSATION -->
+  <div class="scenario-block" style="margin-top:32px">
+    <div class="scenario-header">
+      <div class="scenario-icon chat">💬</div>
+      <h3>
+        <span class="en-only">General Conversation (PT-BR)</span>
+        <span class="pt-only">Conversação Geral (PT-BR)</span>
+      </h3>
+      <span class="tag tag-standard en-only">STANDARD</span>
+      <span class="tag tag-standard pt-only">PADRÃO</span>
+    </div>
+    <div class="scenario-body">
+      <p class="scenario-desc en-only">Evaluates natural language understanding, cultural context awareness, and colloquial Brazilian Portuguese usage. This is the baseline fluency test — if the model can't converse naturally, downstream tasks suffer.</p>
+      <p class="scenario-desc pt-only">Avalia compreensão de linguagem natural, consciência do contexto cultural e uso coloquial do português brasileiro. Este é o teste de fluência base — se o modelo não consegue conversar naturalmente, as tarefas subsequentes sofrem.</p>
+
+      <table class="test-table">
+        <thead>
+          <tr>
+            <th class="en-only">Test Case</th>
+            <th class="pt-only">Caso de Teste</th>
+            <th class="en-only">Description</th>
+            <th class="pt-only">Descrição</th>
+            <th class="en-only">Evaluation Criteria</th>
+            <th class="pt-only">Critérios de Avaliação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="metric en-only">Colloquial Usage</td>
+            <td class="metric pt-only">Uso Coloquial</td>
+            <td class="en-only">Multi-turn conversation using Brazilian slang, idioms, and regional expressions</td>
+            <td class="pt-only">Conversa de múltiplas rodadas usando gírias, expressões idiomáticas e regionalismos brasileiros</td>
+            <td class="en-only">Natural phrasing, correct register switching, no "translated" feel</td>
+            <td class="pt-only">Frases naturais, alternância correta de registro, sem sensação de "traduzido"</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Cultural Context</td>
+            <td class="metric pt-only">Contexto Cultural</td>
+            <td class="en-only">Questions about Brazilian culture, history, geography, public holidays, and social norms</td>
+            <td class="pt-only">Perguntas sobre cultura, história, geografia, feriados públicos e normas sociais brasileiras</td>
+            <td class="en-only">Factual accuracy, contextual sensitivity, depth of understanding</td>
+            <td class="pt-only">Precisão factual, sensibilidade contextual, profundidade de compreensão</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">NLU Accuracy</td>
+            <td class="metric pt-only">Precisão PLN</td>
+            <td class="en-only">Complex queries with ambiguous phrasing, implicit intent, and mixed formality levels</td>
+            <td class="pt-only">Consultas complexas com frases ambíguas, intenção implícita e níveis mistos de formalidade</td>
+            <td class="en-only">Correct intent understanding, appropriate response depth, no misunderstanding</td>
+            <td class="pt-only">Compreensão correta da intenção, profundidade de resposta apropriada, sem mal-entendidos</td>
+          </tr>
+          <tr>
+            <td class="metric en-only">Extended Dialogue</td>
+            <td class="metric pt-only">Diálogo Estendido</td>
+            <td class="en-only">10+ turn conversation requiring context retention and coherent thread</td>
+            <td class="pt-only">Conversa de 10+ rodadas exigindo retenção de contexto e coerência temática</td>
+            <td class="en-only">Context retention, topic coherence, no contradictions, natural flow</td>
+            <td class="pt-only">Retenção de contexto, coerência temática, sem contradições, fluxo natural</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="rubric" style="margin-top:20px">
+        <div class="rubric-cell rubric-header"><span class="score">5</span><span class="label-s en-only">Native-like</span><span class="label-s pt-only">Nativo</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">4</span><span class="label-s en-only">Fluent</span><span class="label-s pt-only">Fluente</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">3</span><span class="label-s en-only">Adequate</span><span class="label-s pt-only">Adequado</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">2</span><span class="label-s en-only">Stilted</span><span class="label-s pt-only">Artificial</span></div>
+        <div class="rubric-cell rubric-header"><span class="score">1</span><span class="label-s en-only">Broken</span><span class="label-s pt-only">Ininteligível</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- MODELS UNDER TEST -->
+<section class="section" style="padding-top:40px">
+<div class="container">
+  <span class="label en-only">Models Under Evaluation</span>
+  <span class="label pt-only">Modelos em Avaliação</span>
+  <h2 class="title" style="font-size:clamp(26px,3.5vw,40px)">
+    <span class="en-only">Which models are we testing?</span>
+    <span class="pt-only">Quais modelos estamos testando?</span>
+  </h2>
+
+  <div class="models-grid">
+    <div class="model-card recommended">
+      <h4>GLM-4.5</h4>
+      <p class="model-desc en-only">Strong multilingual writing quality. Best-in-class for non-English language generation within the GLM family. Recommended as primary candidate.</p>
+      <p class="model-desc pt-only">Forte qualidade de escrita multilíngue. Melhor da família GLM para geração em idiomas além do inglês. Recomendado como candidato principal.</p>
+      <span class="model-tag tag-pt en-only">★ Best PT-BR Writing</span>
+      <span class="model-tag tag-pt pt-only">★ Melhor Escrita PT-BR</span>
+      <div class="price" class="en-only">200K context · MoE architecture</div>
+    </div>
+    <div class="model-card">
+      <h4>GLM-5.1</h4>
+      <p class="model-desc en-only">Flagship reasoning & agentic model. Strongest coding and long-horizon task capability. Test for reasoning-heavy legal tasks.</p>
+      <p class="model-desc pt-only">Modelo principal de raciocínio e agente. Mais forte em coding e tarefas de longo prazo. Testar para tarefas jurídicas com alto raciocínio.</p>
+      <span class="model-tag tag-code en-only">★ Best Reasoning</span>
+      <span class="model-tag tag-code pt-only">★ Melhor Raciocínio</span>
+      <div class="price">200K context · 744B MoE</div>
+    </div>
+    <div class="model-card">
+      <h4>DeepSeek-V3</h4>
+      <p class="model-desc en-only">Your current baseline. 671B MoE, 100+ language support. Included as the comparison reference to measure improvement.</p>
+      <p class="model-desc pt-only">Sua linha de base atual. 671B MoE, suporte a 100+ idiomas. Incluído como referência de comparação para medir melhoria.</p>
+      <span class="model-tag tag-cheap en-only">Baseline</span>
+      <span class="model-tag tag-cheap pt-only">Referência</span>
+      <div class="price">128K context · 671B MoE</div>
+    </div>
+  </div>
+
+  <p style="margin-top:24px;font-size:13px;color:var(--text-sec);line-height:1.7" class="en-only">
+    <strong>Why GLM-4.5 first?</strong> Independent NCBench evaluations show GLM-4.5 outperforms GLM-5/5.1 in non-English language writing quality. For PT-BR-heavy workloads, this is the most promising candidate. GLM-5.1 is tested in parallel for reasoning-intensive tasks where language generation quality is less critical.
+  </p>
+  <p style="margin-top:24px;font-size:13px;color:var(--text-sec);line-height:1.7" class="pt-only">
+    <strong>Por que GLM-4.5 primeiro?</strong> Avaliações independentes do NCBench mostram que GLM-4.5 supera GLM-5/5.1 na qualidade de escrita em idiomas além do inglês. Para cargas de trabalho pesadas em PT-BR, este é o candidato mais promissor. GLM-5.1 é testado em paralelo para tarefas intensivas em raciocínio onde a qualidade de geração de linguagem é menos crítica.
+  </p>
+</div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section" style="padding-top:40px">
+<div class="container">
+  <span class="label en-only">Timeline & Process</span>
+  <span class="label pt-only">Cronograma e Processo</span>
+  <h2 class="title" style="font-size:clamp(26px,3.5vw,40px)">
+    <span class="en-only">How the POC works</span>
+    <span class="pt-only">Como funciona o POC</span>
+  </h2>
+
+  <div class="timeline" style="margin-top:40px">
+    <div class="timeline-item active">
+      <div class="phase en-only">Week 1 · Days 1-2</div>
+      <div class="phase pt-only">Semana 1 · Dias 1-2</div>
+      <h4 class="en-only">Sample Collection</h4>
+      <h4 class="pt-only">Coleta de Amostras</h4>
+      <p class="en-only">Customer provides 10-20 real samples per scenario (anonymized). We prepare test prompts and ground-truth answers for each. Total: 30-60 test cases.</p>
+      <p class="pt-only">O cliente fornece 10-20 amostras reais por cenário (anonimizadas). Preparamos prompts de teste e respostas de referência para cada um. Total: 30-60 casos de teste.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="phase en-only">Week 1 · Days 3-5</div>
+      <div class="phase pt-only">Semana 1 · Dias 3-5</div>
+      <h4 class="en-only">Parallel Model Evaluation</h4>
+      <h4 class="pt-only">Avaliação Paralela de Modelos</h4>
+      <p class="en-only">All 3 models (GLM-4.5, GLM-5.1, DeepSeek-V3) run the same test cases via Z.ai API. Outputs are collected and anonymized for blind evaluation.</p>
+      <p class="pt-only">Todos os 3 modelos (GLM-4.5, GLM-5.1, DeepSeek-V3) executam os mesmos casos de teste via API Z.ai. Saídas são coletadas e anonimizadas para avaliação cega.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="phase en-only">Week 2 · Days 6-8</div>
+      <div class="phase pt-only">Semana 2 · Dias 6-8</div>
+      <h4 class="en-only">Scoring & Analysis</h4>
+      <h4 class="pt-only">Pontuação e Análise</h4>
+      <p class="en-only">Customer team scores all outputs using the 1-5 rubric. We compile per-scenario scorecards, identify strengths/weaknesses, and calculate statistical significance.</p>
+      <p class="pt-only">A equipe do cliente pontua todas as saídas usando a rubrica de 1-5. Compilamos scorecards por cenário, identificamos pontos fortes/fracos e calculamos significância estatística.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="phase en-only">Week 2 · Days 9-10</div>
+      <div class="phase pt-only">Semana 2 · Dias 9-10</div>
+      <h4 class="en-only">Results & Recommendation</h4>
+      <h4 class="pt-only">Resultados e Recomendação</h4>
+      <p class="en-only">We deliver a structured report: per-model scores, scenario breakdown, cost analysis, and a clear recommendation on which model(s) to adopt. No spin — if GLM doesn't outperform your baseline, we'll say so.</p>
+      <p class="pt-only">Entregamos um relatório estruturado: pontuações por modelo, detalhamento por cenário, análise de custos e uma recomendação clara sobre qual(is) modelo(s) adotar. Sem spin — se GLM não superar sua linha de base, diremos.</p>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h3 class="en-only">Ready to start?</h3>
+    <h3 class="pt-only">Pronto para começar?</h3>
+    <p class="en-only">We'll provide free API credits for the entire POC period. Contact your Z.ai account manager to set up the test environment.</p>
+    <p class="pt-only">Forneceremos créditos de API gratuitos para todo o período de POC. Entre em contato com seu gerente de conta Z.ai para configurar o ambiente de teste.</p>
+    <a href="mailto:contact@z.ai" class="cta-btn en-only">Contact Z.AI Team</a>
+    <a href="mailto:contact@z.ai" class="cta-btn pt-only">Contatar Equipe Z.AI</a>
+  </div>
+</div>
+</section>
+
+<footer class="footer">
+  <p class="en-only">Z.AI · POC Test Plan · Confidential · June 2026</p>
+  <p class="pt-only">Z.AI · Plano de Teste POC · Confidencial · Junho 2026</p>
+</footer>
+
+<script>
+function toggleTheme(){
+  const h=document.documentElement,t=h.getAttribute('data-theme');
+  h.setAttribute('data-theme',t==='dark'?'light':'dark');
+  document.querySelector('.theme-toggle').textContent=t==='dark'?'☀':'☾';
+}
+function toggleLang(){
+  const b=document.body,l=b.getAttribute('data-lang');
+  const newLang=l==='en'?'pt':'en';
+  b.setAttribute('data-lang',newLang);
+  document.querySelector('.lang-btn').textContent=newLang==='en'?'PT':'EN';
+  document.documentElement.lang=newLang;
+}
+</script>
+</body>
+</html>
