@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>点点互动（北京）科技有限公司 — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+    --serif-en: "Source Serif 4", "Georgia", "Times New Roman", serif;
+    --sans-en: "Inter", -apple-system, "Helvetica Neue", sans-serif;
+  }
+  html { font-family: var(--sans-cn); }
+  html[lang="en"] { font-family: var(--sans-en); }
+  html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] .hd-title { font-family: var(--serif-en); }
+  html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1080px;
+    min-height: 1400px;
+    background: var(--bg);
+    padding: 56px 64px 48px;
+    border: 1px solid var(--rule);
+  }
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  .hd-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .hd-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .hd-tagline {
+    font-size: 14px;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+  .stat {
+    padding: 14px 16px 16px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .col { display: flex; flex-direction: column; gap: 22px; }
+  section h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  section h2 .num {
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  section p {
+    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 4px;
+  }
+  section ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  section ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+  .lede {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .sub-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+  sup.cite {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-left: 1px;
+  }
+  sup.cite a {
+    color: inherit;
+    text-decoration: none;
+  }
+  sup.cite a:hover { text-decoration: underline; }
+  .person { margin-bottom: 8px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 12px; color: var(--ink); }
+  .comp { margin-bottom: 6px; font-size: 12.5px; }
+  .comp-name { font-weight: 600; }
+  .collab {
+    margin-top: 26px;
+    padding: 22px 24px 20px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .collab h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13.5px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 32px;
+  }
+  .collab-block .ck-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .collab-block p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .sources {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 5px;
+    break-inside: avoid;
+    padding-left: 22px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览</div>
+      <h1 class="hd-title">点点互动（北京）科技有限公司</h1>
+      <p class="hd-tagline">世纪华通旗下全球化游戏研发与发行商，以休闲 + 4X SLG 双赛道称霸中国手游出海收入榜，代表作为《Whiteout Survival》及《Kingshot》</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink)">2026-06-09</strong>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">北京海淀</div>
+      <div class="stat-label">总部</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2010</div>
+      <div class="stat-label">成立年份</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">~1,076</div>
+      <div class="stat-label">员工（2024）</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">~150 亿</div>
+      <div class="stat-label">2024 年收入（CNY）</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式</h2>
+        <p class="lede">核心产品为自研 + 自发的移动游戏，以 IAP（应用内购买）和广告变现为主，覆盖全球市场。</p>
+        <ul>
+          <li>2024 年收入约 <strong>149.59 亿元</strong>，同比增长 155%，占母公司世纪华通总营收近 70%<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>海外收入首破 <strong>113.67 亿元</strong>，《Whiteout Survival》全球累计流水超 28 亿美元（截至 2025.09）<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>产品矩阵"老品稳增长、新品添动力"：《Whiteout Survival》长居出海收入冠军，《Kingshot》2025 年 7 月流水首破 5000 万美元<sup class="cite"><a href="#s2">[2]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态</h2>
+        <p class="lede">从发行代理彻底转型为自研自发，在 4X SLG 品类建立统治地位。</p>
+        <ul>
+          <li>2019 年重建自研体系，2023 年 10 月首次超越腾讯，跻身中国出海手游收入榜 <strong>TOP 2</strong><sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>2025 年 2 月推出《Kingshot》，与《Whiteout Survival》包揽出海收入榜冠亚军，4X SLG 品类总营收超越主要竞争对手 First Fun<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>CEO 陈琦定调"休闲 + SLG"双主线 + 探索类方向，国内与海外均为"主战场"<sup class="cite"><a href="#s4">[4]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI 布局</h2>
+        <p class="lede">点点互动尚未公开独立的 AI 战略，但其母公司世纪华通及母集团层面已有明确布局。</p>
+        <ul>
+          <li>世纪华通 2024 年报提及在游戏研发中应用 AIGC 辅助美术资产生成、智能 NPC 对话等场景，提升研发效率<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>行业层面，AIGC 已渗透至 SLG 品类的程序化地图生成、广告素材批量产出等环节，点点互动作为头部厂商大概率已内部部署</li>
+          <li>暂未发现与外部大模型厂商的公开合作或自研模型计划</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队</h2>
+        <div class="person">
+          <div><span class="person-name">陈琦</span> <span class="person-role">· CEO</span></div>
+          <div class="person-bio">2010 年入行，曾任职 SPIL GAMES（月活 1.2 亿）。2019 年主导重建自研体系，带领点点互动从持续亏损到年入 150 亿。<sup class="cite"><a href="#s4">[4]</a></sup></div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">王佶</span> <span class="person-role">· 世纪华通董事长</span></div>
+          <div class="person-bio">1971 年生，上海天游软件创办人。2016 年主导收购点点互动，长期信任陈琦并支持其自研路线，2021 年获腾讯 28 亿元增持。<sup class="cite"><a href="#s5">[5]</a></sup></div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">钟英武</span> <span class="person-role">· 趣加 FunPlus 创始人</span></div>
+          <div class="person-bio">大连理工大学计算机系毕业，2010 年创立 FunPlus，点点互动最初为 FunPlus 子公司，后于 2016 年出售给中技控股（现世纪华通）。</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局</h2>
+        <p class="lede">在中国游戏出海赛道，点点互动已超越腾讯、米哈游升至收入榜第二位。</p>
+        <div class="comp"><span class="comp-name">First Fun（Last War）</span> — 4X SLG 品类单一产品收入最高，但点点双产品合力营收已超越</div>
+        <div class="comp"><span class="comp-name">腾讯</span> — 全品类巨头，出海手游收入已被点点超越（2023.10）</div>
+        <div class="comp"><span class="comp-name">米哈游</span> — 二次元 + 开放世界赛道，与点点品类不直接竞争但争夺出海收入排名</div>
+        <div class="comp"><span class="comp-name">柠檬微趣</span> — 合成/三消品类，与点点休闲产品线存在交叉竞争</div>
+        <div class="sub-label">差异化</div>
+        <p style="font-size:12px;margin:0;">点点互动的核心壁垒在于"休闲玩法 + SLG 变现"的品类融合能力，以及全球化发行覆盖 8 国本地化运营的执行力。</p>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- COLLAB ANGLE -->
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai）</h2>
+    <p class="lede">点点互动是全球最激进的游戏出海厂商之一，研发效率与本地化能力是核心诉求，Z.ai 可从 AIGC 工具链切入。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机</span>
+        <p>SLG 游戏美术资产、广告素材需求海量，现有 AIGC 方案多为自建或零散工具，存在降本增效空间；海外多语言本地化（英/日/韩/德/法等 8 国）对翻译质量要求极高。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合</span>
+        <p>GLM-5v 多模态模型可用于游戏角色/场景概念图批量生成；GLM-5.1 API 适配多语言文案本地化与智能客服；GLM-5-Turbo 支持 NPC 动态对话生成。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点</span>
+        <p>头部游戏厂商已有内部 AI 团队和成熟工具链，替换成本高；世纪华通与腾讯有资本关系（腾讯 2021 年 28 亿增持），腾讯混元大模型可能优先被采用。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步</span>
+        <p>以"出海广告素材多语言 A/B 测试文案生成"为切口，提供 90 天 POC，承诺 CTR 提升 15%+ 为验收指标；同时对接世纪华通集团层面探讨 AIGC 平台共建。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">东方财富 — "点点互动贡献近七成营收，世纪华通 2024 年净利润翻倍" — 2025-04-29 — <a href="https://wap.eastmoney.com/a/202504293393084438.html">link</a></li>
+      <li id="s2">游戏大观 — "7 月成功出海的中国手游：点点互动《Kingshot》与《Whiteout Survival》" — 2025-08 — <a href="http://www.gamelook.com.cn/2025/08/576313/">link</a></li>
+      <li id="s3">证券时报 — "坐二望一！点点互动跻身中国游戏出海收入榜 TOP2" — 2023-11 — <a href="https://www.stcn.com/article/detail/1036617.html">link</a></li>
+      <li id="s4">东方财富 — "点点互动 CEO 陈琦：《无尽冬日》成功并非偶然靠'微创新'不断探索" — 2024-12-07 — <a href="https://wap.eastmoney.com/a/202412073262051666.html">link</a></li>
+      <li id="s5">白鲸出海 / 雷峰网 — "无尽冬日，陈琦与世纪华通的'诺亚方舟'" — 2025 — <a href="https://m.leiphone.com/category/industrynews/nn2QQ06DwPFkKUab.html">link</a></li>
+      <li id="s6">36 氪 — "趣加 FunPlus 项目信息" — <a href="https://pitchhub.36kr.com/project/2144515107374339">link</a></li>
+      <li id="s7">天眼查 — "点点互动（北京）科技有限公司" — <a href="https://www.tianyancha.com/company/11782061">link</a></li>
+      <li id="s8">Enjoy 出海 — "4X SLG 全球霸榜！深度解读点点互动游戏增长的'秘方'" — 2025-11-19 — <a href="https://enjoyglobal.net/detail/news/2025111904">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
