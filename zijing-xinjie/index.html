@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>紫荆芯界 — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  html { font-family: var(--sans-cn); }
+  html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #ECEAE3; color: var(--ink);
+    font-size: 13px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+    padding: 32px 16px; display: flex; justify-content: center;
+  }
+  .page {
+    width: 1080px; min-height: 1400px; background: var(--bg);
+    padding: 56px 64px 48px; border: 1px solid var(--rule);
+  }
+  .hd {
+    display: grid; grid-template-columns: 1fr auto; align-items: end;
+    border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 22px;
+  }
+  .hd-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .hd-title { font-size: 38px; font-weight: 700; line-height: 1.1; color: var(--ink); margin: 0 0 8px; }
+  .hd-tagline { font-size: 14px; color: var(--ink); max-width: 680px; margin: 0; }
+  .hd-date { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.4; }
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+  .stat { padding: 14px 16px 16px 0; border-right: 1px solid var(--rule); }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value { font-size: 26px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .body { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .col { display: flex; flex-direction: column; gap: 22px; }
+  section h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+  section h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  section p { margin: 0 0 8px; font-size: 13px; line-height: 1.55; }
+  section ul { list-style: none; padding: 0; margin: 0 0 4px; }
+  section ul li { position: relative; padding-left: 14px; margin-bottom: 5px; font-size: 12.5px; line-height: 1.5; }
+  section ul li::before { content: "\2014"; position: absolute; left: 0; color: var(--muted); }
+  .lede { font-size: 13.5px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .sub-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; margin-bottom: 3px; }
+  sup.cite { font-size: 9px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
+  sup.cite a:hover { text-decoration: underline; }
+  .person { margin-bottom: 8px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 12px; color: var(--ink); }
+  .comp { margin-bottom: 6px; font-size: 12.5px; }
+  .comp-name { font-weight: 600; }
+  .collab { margin-top: 26px; padding: 22px 24px 20px; background: #F3F1EA; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--rule); }
+  .collab h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; padding-bottom: 0; border-bottom: none; }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13.5px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 32px; }
+  .collab-block .ck-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 4px; display: block; }
+  .collab-block p { font-size: 12px; line-height: 1.5; margin: 0; }
+  .sources { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--rule); }
+  .sources h2 { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; border-bottom: none; padding-bottom: 0; }
+  .sources ol { list-style: none; counter-reset: src; padding: 0; margin: 0; columns: 2; column-gap: 36px; }
+  .sources ol li { counter-increment: src; font-size: 10.5px; color: var(--muted); line-height: 1.45; margin-bottom: 5px; break-inside: avoid; padding-left: 22px; position: relative; }
+  .sources ol li::before { content: "[" counter(src) "]"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  .sources a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--rule); }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  @media print { body { background: white; padding: 0; } .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; } }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览</div>
+      <h1 class="hd-title">紫荆芯界</h1>
+      <p class="hd-tagline">基于 RISC-V 开源架构的 AI 计算芯片设计初创企业，聚焦通用计算与人工智能加速，核心团队来自苹果、谷歌、英伟达、阿里</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink)">2026-06-09</strong>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">上海</div>
+      <div class="stat-label">总部 / HQ</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2024</div>
+      <div class="stat-label">成立年份 / Founded</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">100–499</div>
+      <div class="stat-label">员工规模 / Employees</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">未披露</div>
+      <div class="stat-label">融资轮次 / Funding</div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式</h2>
+        <p class="lede">基于 RISC-V 指令集架构，研发 AI 计算芯片及配套系统，面向通用计算与 AI 推理加速场景。</p>
+        <ul>
+          <li>核心产品：RISC-V 架构 AI 计算芯片，覆盖云、边、端全场景，走软硬件协同路线<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>收入模式：芯片销售 + 系统解决方案（参考同类企业路径，尚处研发早期，未进入规模量产）</li>
+          <li>目标客户：AI 推理、边缘计算、国产化替代场景下的政企及工业客户</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态</h2>
+        <p class="lede">2024 年密集成立上海、北京、杭州三地主体，快速搭建研发团队。</p>
+        <ul>
+          <li>2024 年 1 月上海公司注册（注册资本 200 万），3 月北京公司成立，7 月杭州分公司设立<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>招聘高级 ASIC 设计工程师（40–70K/月），岗位覆盖硬件设计、算法、芯片验证等全栈方向<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>公司规模从"少于 50 人"快速扩张至 100–499 人区间，反映早期加速招人阶段</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI 布局</h2>
+        <p class="lede">以 RISC-V 开源架构为底座，自研 AI 加速单元，走国产自主可控路线。</p>
+        <ul>
+          <li>技术路线：RISC-V CPU + 自研 AI 加速器，目标实现通用计算与 AI 推理的统一架构<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>RISC-V AI 加速器市场预计 2031 年达 2223 亿美元（CAGR 19%），赛道空间巨大<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>政策红利：深圳等多地出台 RISC-V 产业化扶持政策，国产替代加速推进</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队</h2>
+        <div class="person">
+          <div><span class="person-name">王映洲</span> <span class="person-role">· 创始人 / CEO</span></div>
+          <div class="person-bio">法定代表人，上海/北京/杭州三地主体负责人。具体学术与行业背景公开信息有限。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">核心研发团队</span> <span class="person-role">· 芯片设计 / 算法</span></div>
+          <div class="person-bio">成员来自苹果、谷歌、英伟达（NVIDIA）、阿里巴巴等知名企业，具备丰富芯片产品研发与商业化经验<sup class="cite"><a href="#s1">[1]</a></sup>。清华校友背景。</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局</h2>
+        <p class="lede">RISC-V AI 芯片赛道玩家众多，紫荆芯界以纯 RISC-V + AI 加速的定位差异化切入。</p>
+        <div class="comp"><span class="comp-name">奕斯伟计算</span> — 国内 RISC-V 阵营走得最系统的企业，定位 AI 智能化解决方案<sup class="cite"><a href="#s5">[5]</a></sup></div>
+        <div class="comp"><span class="comp-name">寒武纪</span> — AI 芯片龙头，市值超 4400 亿元，2025 年首次年度盈利</div>
+        <div class="comp"><span class="comp-name">睿思芯科</span> — 中国最早做 RISC-V 指令集芯片的公司之一，高能效路线</div>
+        <div class="comp"><span class="comp-name">平头哥（阿里）</span> — RISC-V 生态核心推动者，已有多款量产芯片<sup class="cite"><a href="#s5">[5]</a></sup></div>
+        <div class="sub-label">差异化</div>
+        <p style="font-size:12px;margin:0;">纯 RISC-V 路线 + AI 加速的垂直整合，团队来自顶级大厂但公司极早期（2024 年成立），是"小而精"的技术驱动型选手，与已有量产规模的奕斯伟、寒武纪形成错位。</p>
+      </section>
+
+    </div>
+
+  </div>
+
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai）</h2>
+    <p class="lede">紫荆芯界作为国产 RISC-V AI 芯片初创企业，需要大模型做芯片验证与生态建设；Z.ai 需要 国产芯片适配方案。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机</span>
+        <p>作为 RISC-V AI 芯片厂商，紫荆芯界需要主流大模型在其芯片上的推理适配与性能验证，以向客户证明"芯片跑得动大模型"的商用可行性。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合</span>
+        <p>Z.ai 的 GLM-4/5 系列模型（含端侧小模型）可在紫荆芯界的 RISC-V AI 芯片上做推理适配 POC；Z.ai 已有国产芯片适配经验（GLM-Image 在国产芯片上完成训练）<sup class="cite"><a href="#s5">[5]</a></sup>。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点</span>
+        <p>公司极早期（2024 年成立），产品可能尚未量产，合作交付能力存疑；团队规模有限，技术对接资源可能不足；融资信息未公开，财务可持续性待验证。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步</span>
+        <p>以"GLM 端侧模型 × RISC-V AI 芯片"联合技术验证为切入点，开展 90 天 POC：Z.ai 提供模型与推理框架适配支持，紫荆芯界提供芯片测试环境，联合发布性能 benchmark 白皮书。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sources">
+    <h2>信息来源</h2>
+    <ol>
+      <li id="s1">飞书文档 — "清华校友AI项目大盘点" — 2026 — <a href="https://agispace.feishu.cn/wiki/MMkHw7wNki6SwMkx3nIcbJOmnsc">link</a></li>
+      <li id="s2">企查查 — "上海紫荆芯界智能科技有限公司杭州分公司" — 2024 — <a href="https://www.qcc.com/firm/956dd81a896924e244818009708d4f7e.html">link</a></li>
+      <li id="s3">BOSS直聘 — "紫荆芯界招聘主页" — 2026 — <a href="https://www.zhipin.com/gongsi/dc8e21b748a34c331HZz3Nu-GFU~.html">link</a></li>
+      <li id="s4">电子工程专辑 — "全球RISC-V产业进入商业化关键期" — 2026 — <a href="https://imgtec.eetrend.com/blog/2026/100601681.html">link</a></li>
+      <li id="s5">证券时报 — "阿里平头哥上市猜想" — 2026-01 — <a href="https://www.stcn.com/article/detail/3611098.html">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
