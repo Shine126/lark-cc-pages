@@ -351,7 +351,7 @@ a{color:inherit;text-decoration:none}
 
     <div class="scenario-grid reveal" style="margin-top:48px">
       <div class="scenario"><div class="scenario-icon">💬</div><h4 data-i18n="g1_h">NPC Dialogue & Lore</h4><p data-i18n="g1_p">Generate rich, context-aware NPC dialogues, champion backstories, and lore expansions. 200K context handles entire champion rosters and world-building docs in a single pass.</p></div>
-      <div class="scenario"><div class="scenario-icon">🎨</div><h4 data-i18n="g2_h">Content Creation Pipeline</h4><p data-i18n="g2_p">Automate cinematic scripts, patch notes, community posts, and social content. Multimodal GLM-5V generates visuals from text descriptions for marketing assets.</p></div>
+      <div class="scenario"><div class="scenario-icon">🎨</div><h4 data-i18n="g2_h">Content Creation Pipeline</h4><p data-i18n="g2_p">Automate cinematic scripts, patch notes, community posts, and social content. 200K context handles entire game design docs and lore libraries in a single pass.</p></div>
       <div class="scenario"><div class="scenario-icon">🛡️</div><h4 data-i18n="g3_h">Anti-Cheat & Toxicity</h4><p data-i18n="g3_p">Real-time analysis of player chat and behavior patterns. Fine-tuned models detect toxic language across 50+ languages with high precision and low latency.</p></div>
       <div class="scenario"><div class="scenario-icon">🔧</div><h4 data-i18n="g4_h">Game Dev Automation</h4><p data-i18n="g4_p">#1 on SWE-Bench Pro — GLM-5.1 autonomously debugs, refactors, and writes game engine code. 8-hour long-horizon tasks handle entire feature branches end-to-end.</p></div>
       <div class="scenario"><div class="scenario-icon">📊</div><h4 data-i18n="g5_h">Player Analytics</h4><p data-i18n="g5_p">Natural-language querying of game telemetry data. "Show me win rate anomalies for new champions in Diamond+ ranked" — instant SQL generation and analysis.</p></div>
@@ -373,7 +373,7 @@ a{color:inherit;text-decoration:none}
       <div class="feature-text">
         <div class="label">Spotlight: Content Pipeline</div>
         <h3 data-i18n="sp2_title">From Concept to<br>Cinematic in Minutes</h3>
-        <p data-i18n="sp2_desc">GLM-5V's multimodal capabilities combined with GLM-5.1's creative writing can transform your content pipeline.</p>
+        <p data-i18n="sp2_desc">GLM-5.1's creative writing and long-context capabilities can transform your content pipeline.</p>
         <ul>
           <li data-i18n="sp2_l1">Script → storyboard → visual concept in one flow</li>
           <li data-i18n="sp2_l2">Champion lore generation consistent with existing canon</li>
@@ -507,14 +507,14 @@ const i18n = {
     vs_note:'At scale (10B+ tokens/month), GLM-5.1 can save $1M+/month vs. Claude Opus. Pricing source: docs.z.ai/pricing, anthropic.com/pricing (June 2026).',
     gm_title:'Gaming Use Cases<br><em>Powered by GLM</em>',gm_sub:'Where GLM-5.1 and GLM New Version can create immediate impact across Riot\'s portfolio — League of Legends, VALORANT, Teamfight Tactics, and beyond.',
     g1_h:'NPC Dialogue & Lore',g1_p:'Generate rich, context-aware NPC dialogues, champion backstories, and lore expansions. 200K context handles entire champion rosters and world-building docs in a single pass.',
-    g2_h:'Content Creation Pipeline',g2_p:'Automate cinematic scripts, patch notes, community posts, and social content. Multimodal GLM-5V generates visuals from text descriptions for marketing assets.',
+    g2_h:'Content Creation Pipeline',g2_p:'Automate cinematic scripts, patch notes, community posts, and social content. 200K context handles entire game design docs and lore libraries in a single pass.',
     g3_h:'Anti-Cheat & Toxicity',g3_p:'Real-time analysis of player chat and behavior patterns. Fine-tuned models detect toxic language across 50+ languages with high precision and low latency.',
     g4_h:'Game Dev Automation',g4_p:'#1 on SWE-Bench Pro — GLM-5.1 autonomously debugs, refactors, and writes game engine code. 8-hour long-horizon tasks handle entire feature branches end-to-end.',
     g5_h:'Player Analytics',g5_p:'Natural-language querying of game telemetry data. "Show me win rate anomalies for new champions in Diamond+ ranked" — instant SQL generation and analysis.',
     g6_h:'Localization at Scale',g6_p:'Context-aware translation for 20+ game languages. GLM understands gaming-specific jargon, champion names, and ability descriptions — not just word-for-word translation.',
     sp_title:'8-Hour Autonomous<br>Game Development',sp_desc:'Imagine giving GLM-5.1 a feature spec at 9 AM and getting a reviewed, tested pull request by 5 PM. That\'s the reality of long-horizon tasks.',
     sp_l1:'Self-plans task breakdown from feature specs',sp_l2:'Writes, tests, and debugs code autonomously',sp_l3:'Switches strategies when blocked — no human hand-holding',sp_l4:'Delivers production-ready PRs with test coverage',
-    sp2_title:'From Concept to<br>Cinematic in Minutes',sp2_desc:'GLM-5V\'s multimodal capabilities combined with GLM-5.1\'s creative writing can transform your content pipeline.',
+    sp2_title:'From Concept to<br>Cinematic in Minutes',sp2_desc:'GLM-5.1\'s creative writing and long-context capabilities can transform your content pipeline.',
     sp2_l1:'Script → storyboard → visual concept in one flow',sp2_l2:'Champion lore generation consistent with existing canon',sp2_l3:'Patch note summaries tailored for different audiences',sp2_l4:'Community FAQ auto-generation from dev notes',
     pr_title:'Simple, Transparent<br><em>Volume Pricing</em>',pr_sub:'Pay-as-you-go with enterprise volume discounts. No hidden fees.',
     pr_badge_prod:'Production',pr_badge_next:'Coming Soon',
@@ -565,14 +565,14 @@ const i18n = {
     vs_note:'大规模场景（100 亿+ tokens/月），GLM-5.1 每月可比 Claude Opus 节省 $1M+。定价来源：docs.z.ai/pricing, anthropic.com/pricing（2026年6月）。',
     gm_title:'游戏场景<br><em>GLM 赋能</em>',gm_sub:'GLM-5.1 和 GLM New Version 可在 Riot 全产品线 — 英雄联盟、VALORANT、云顶之弈等 — 创造即时价值。',
     g1_h:'NPC 对话与世界观',g1_p:'生成丰富的、上下文感知的 NPC 对话、英雄背景故事和世界观扩展。200K 上下文一次处理全部英雄阵容和世界观文档。',
-    g2_h:'内容创作管线',g2_p:'自动化电影剧本、版本更新说明、社区帖子和社交内容。多模态 GLM-5V 从文字描述生成营销素材视觉。',
+    g2_h:'内容创作管线',g2_p:'自动化电影剧本、版本更新说明、社区帖子和社交内容。200K 上下文一次处理完整游戏设计文档和世界观库。',
     g3_h:'反作弊与言论检测',g3_p:'实时分析玩家聊天和行为模式。微调模型高精度、低延迟检测 50+ 语言的 toxic 言论。',
     g4_h:'游戏开发自动化',g4_p:'SWE-Bench Pro #1 — GLM-5.1 自主调试、重构和编写游戏引擎代码。8 小时长程任务端到端处理整个功能分支。',
     g5_h:'玩家数据分析',g5_p:'自然语言查询游戏遥测数据。"显示新英雄在钻石+段位的胜率异常" — 即时 SQL 生成和分析。',
     g6_h:'大规模本地化',g6_p:'上下文感知翻译支持 20+ 游戏语言。GLM 理解游戏专有术语、英雄名和技能描述 — 不仅仅是字面翻译。',
     sp_title:'8 小时自主<br>游戏开发',sp_desc:'想象一下：上午 9 点给 GLM-5.1 一个功能规格，下午 5 点收到经过审查、测试的 PR。这就是长程任务的现实。',
     sp_l1:'从功能规格自主拆解任务',sp_l2:'自主编写、测试和调试代码',sp_l3:'遇阻时自动切换策略 — 无需人工干预',sp_l4:'交付生产级 PR，包含测试覆盖',
-    sp2_title:'从概念到电影<br>只需几分钟',sp2_desc:'GLM-5V 的多模态能力结合 GLM-5.1 的创意写作，可以彻底改变内容管线。',
+    sp2_title:'从概念到电影<br>只需几分钟',sp2_desc:'GLM-5.1 的创意写作和长上下文能力，可以彻底改变内容管线。',
     sp2_l1:'剧本 → 分镜 → 视觉概念，一条链路',sp2_l2:'与现有设定一致的英雄背景生成',sp2_l3:'针对不同受众定制的版本更新摘要',sp2_l4:'从开发笔记自动生成社区 FAQ',
     pr_title:'简单透明的<br><em>批量定价</em>',pr_sub:'按量付费，企业批量折扣。无隐藏费用。',
     pr_badge_prod:'生产就绪',pr_badge_next:'即将发布',
