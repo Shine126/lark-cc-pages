@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM-5.2 · 智谱新一代开源旗舰模型</title>
+<meta name="description" content="GLM-5.2：真正可用的 1M 上下文，Coding 稳居国产+开源第一梯队，比肩 Claude Opus 4.8。Agentic Coding / 泛 Coding / 代码翻译 / 科研复现四大最佳实践。">
+<style>
+  :root{
+    --bg:#070b16; --bg2:#0b1120; --bg3:#0f172a;
+    --card:rgba(255,255,255,.035); --card2:rgba(255,255,255,.05);
+    --border:rgba(255,255,255,.09); --border2:rgba(255,255,255,.14);
+    --text:#eef2fb; --muted:#9aa3b8; --dim:#6b7488;
+    --b:#5b8cff; --p:#a855f7; --c:#22d3ee; --g:#34d399; --o:#fb923c; --red:#f87171;
+    --grad:linear-gradient(120deg,#5b8cff 0%,#a855f7 50%,#22d3ee 100%);
+    --grad-soft:linear-gradient(120deg,rgba(91,140,255,.16),rgba(168,85,247,.16),rgba(34,211,238,.16));
+    --shadow:0 24px 60px -20px rgba(0,0,0,.6);
+    --r:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:84px}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.75;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(900px 600px at 12% -5%,rgba(91,140,255,.16),transparent 60%),
+      radial-gradient(800px 500px at 92% 8%,rgba(168,85,247,.14),transparent 60%),
+      radial-gradient(700px 600px at 50% 120%,rgba(34,211,238,.10),transparent 60%),
+      var(--bg);
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* ===== NAV ===== */
+  nav{
+    position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);
+    background:rgba(7,11,22,.72);border-bottom:1px solid var(--border);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:17px;letter-spacing:.3px}
+  .logo{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-size:14px;color:#0b1120;font-weight:900;box-shadow:0 6px 18px -4px rgba(91,140,255,.6)}
+  .nav-links{display:flex;gap:6px;align-items:center}
+  .nav-links a{font-size:13.5px;color:var(--muted);padding:8px 13px;border-radius:9px;transition:.2s;white-space:nowrap}
+  .nav-links a:hover{color:var(--text);background:var(--card)}
+  .nav-cta{background:var(--grad);color:#0b1120!important;font-weight:700;padding:9px 18px;border-radius:10px;font-size:13.5px}
+  .nav-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  @media(max-width:900px){.nav-links{display:none}}
+
+  /* ===== HERO ===== */
+  .hero{padding:78px 0 56px;text-align:center;position:relative}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;
+    background:var(--card2);border:1px solid var(--border2);font-size:13px;color:var(--c);
+    margin-bottom:30px;backdrop-filter:blur(8px)}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  h1.title{font-size:clamp(44px,8vw,92px);font-weight:900;line-height:1.02;letter-spacing:-2px;margin-bottom:8px}
+  .title .glow{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 8px 30px rgba(168,85,247,.35))}
+  .ver{font-size:clamp(18px,2.4vw,26px);color:var(--muted);font-weight:600;margin-bottom:30px}
+  .lead{max-width:780px;margin:0 auto 38px;font-size:clamp(15px,1.6vw,18.5px);color:#c7cee0}
+  .lead b{color:var(--text)}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:920px;margin:0 auto}
+  @media(max-width:680px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 14px;transition:.3s}
+  .stat:hover{border-color:var(--border2);background:var(--card2);transform:translateY(-3px)}
+  .stat .num{font-size:clamp(26px,3.4vw,38px);font-weight:900;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .stat .lab{font-size:12.5px;color:var(--muted);margin-top:8px}
+
+  /* ===== SECTION ===== */
+  section{padding:64px 0;position:relative}
+  .sec-head{text-align:center;margin-bottom:48px}
+  .sec-tag{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+    color:var(--c);padding:5px 14px;border:1px solid rgba(34,211,238,.3);border-radius:999px;background:rgba(34,211,238,.06);margin-bottom:18px}
+  h2{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.5px;margin-bottom:14px;line-height:1.15}
+  .sec-sub{color:var(--muted);max-width:680px;margin:0 auto;font-size:15.5px}
+
+  /* ===== SPEC TABLE ===== */
+  .spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:820px){.spec-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.spec-grid{grid-template-columns:1fr}}
+  .spec-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px}
+  .spec-card .k{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+  .spec-card .v{font-size:19px;font-weight:700}
+  .spec-card .v small{font-size:13px;color:var(--muted);font-weight:400}
+  .spec-full{grid-column:1/-1;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px}
+  .spec-full .k{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .pillrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+  .pill{padding:6px 13px;border-radius:8px;background:var(--card2);border:1px solid var(--border);font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .pill.def{background:rgba(34,211,238,.12);border-color:rgba(34,211,238,.35);color:var(--c)}
+  .pill.hot{background:rgba(251,146,60,.12);border-color:rgba(251,146,60,.35);color:var(--o)}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:rgba(0,0,0,.32);padding:2px 7px;border-radius:6px;font-size:13px;color:var(--c)}
+
+  /* ===== HIGHLIGHTS ===== */
+  .hl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:820px){.hl-grid{grid-template-columns:1fr}}
+  .hl{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:30px;position:relative;overflow:hidden;transition:.3s}
+  .hl::before{content:"";position:absolute;inset:0;background:var(--grad-soft);opacity:0;transition:.3s}
+  .hl:hover{transform:translateY(-4px);border-color:var(--border2)}
+  .hl:hover::before{opacity:1}
+  .hl>*{position:relative}
+  .hl .icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:23px;margin-bottom:18px;background:var(--card2);border:1px solid var(--border)}
+  .hl h3{font-size:21px;font-weight:800;margin-bottom:6px}
+  .hl .hnum{font-size:12px;color:var(--c);font-weight:700;letter-spacing:1.5px;margin-bottom:14px}
+  .hl p{color:#c2cae0;font-size:14.7px;margin-bottom:10px}
+  .hl ul{list-style:none;margin-top:14px}
+  .hl li{font-size:13.8px;color:#aab2c8;padding:6px 0 6px 22px;position:relative;border-top:1px solid rgba(255,255,255,.05)}
+  .hl li:first-child{border-top:0}
+  .hl li::before{content:"▸";position:absolute;left:0;color:var(--p)}
+  .hl li b{color:var(--text)}
+  .hl.featured{grid-column:1/-1}
+
+  /* ===== FIGURE / IMG ===== */
+  .fig{margin:24px 0;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:#000;box-shadow:var(--shadow)}
+  .fig img{cursor:zoom-in;width:100%;transition:.4s}
+  .fig:hover img{transform:scale(1.01)}
+  .figcap{padding:13px 18px;background:var(--bg2);border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+  .figcap b{color:var(--text)}
+
+  /* ===== PRICING ===== */
+  .price-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:26px}
+  .ptab{padding:9px 20px;border-radius:10px;border:1px solid var(--border);background:var(--card);font-size:14px;color:var(--muted);cursor:pointer;transition:.2s;font-weight:600}
+  .ptab.active{background:var(--grad);color:#0b1120;border-color:transparent}
+  .price-table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  .price-table th,.price-table td{padding:15px 18px;text-align:left;border-bottom:1px solid var(--border);font-size:14.5px}
+  .price-table th{background:var(--bg2);font-size:12.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .price-table td:first-child{color:var(--muted)}
+  .price-table td .v{font-weight:700;font-size:17px}
+  .price-table tr:last-child td{border-bottom:0}
+  .free{color:var(--g);font-weight:700}
+
+  /* ===== SCENE ===== */
+  .scene{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .scene-head{display:flex;align-items:center;gap:20px;margin-bottom:8px;flex-wrap:wrap}
+  .scene-no{width:54px;height:54px;border-radius:15px;background:var(--grad);display:grid;place-items:center;font-size:22px;font-weight:900;color:#0b1120;flex-shrink:0}
+  .scene-head h2{text-align:left;margin:0}
+  .scene-head .new{background:rgba(251,146,60,.15);color:var(--o);border:1px solid rgba(251,146,60,.35);font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;letter-spacing:.5px}
+
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:26px 0}
+  .kv .box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+  .kv .box .t{font-size:12px;color:var(--c);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:7px}
+  .kv .box .d{font-size:14px;color:#c2cae0}
+  .kv .box .d b{color:var(--text)}
+
+  .prose{font-size:15.5px;color:#c7cee0;max-width:880px}
+  .prose p{margin-bottom:14px}
+  .prose b{color:var(--text)}
+
+  h3.sub{font-size:20px;font-weight:800;margin:34px 0 14px;display:flex;align-items:center;gap:10px}
+  h3.sub::before{content:"";width:5px;height:22px;background:var(--grad);border-radius:3px}
+  h4.mini{font-size:16px;font-weight:700;margin:22px 0 10px;color:var(--b)}
+
+  .caplist{list-style:none;display:grid;gap:12px;margin:18px 0}
+  .caplist li{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px 16px 50px;position:relative;font-size:14.3px;color:#c2cae0}
+  .caplist li .n{position:absolute;left:16px;top:16px;width:22px;height:22px;border-radius:7px;background:var(--grad);color:#0b1120;font-size:12px;font-weight:800;display:grid;place-items:center}
+  .caplist li b{color:var(--text)}
+
+  /* compare grid */
+  .cmp{display:grid;gap:16px;margin:24px 0}
+  .cmp-3{grid-template-columns:repeat(3,1fr)}
+  .cmp-4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:820px){.cmp-3,.cmp-4{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.cmp-3,.cmp-4{grid-template-columns:1fr}}
+  .cmp .cell{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .cmp .cell.best{border-color:rgba(34,211,238,.5);box-shadow:0 0 0 1px rgba(34,211,238,.3),0 18px 40px -18px rgba(34,211,238,.4)}
+  .cmp .cell .lab{padding:11px 14px;font-size:13px;font-weight:700;text-align:center;border-bottom:1px solid var(--border);background:var(--bg3)}
+  .cmp .cell.best .lab{background:rgba(34,211,238,.12);color:var(--c)}
+  .cmp .cell .figmini{background:#000}
+  .cmp .cell .figmini img{width:100%;cursor:zoom-in}
+  .cmp .cell .note{padding:10px 13px;font-size:12.3px;color:var(--muted);border-top:1px solid var(--border)}
+  .cmp .cell .note.bad{color:var(--red)}
+
+  .phone-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+  @media(max-width:680px){.phone-row{grid-template-columns:1fr}}
+  .phone-row .cell{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .phone-row .cell img{cursor:zoom-in}
+  .phone-row .cap{padding:9px 13px;font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--border)}
+
+  .shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+  @media(max-width:760px){.shop-grid{grid-template-columns:1fr}}
+  .shop-grid .cell{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+  .shop-grid .cell img{cursor:zoom-in}
+  .shop-grid .cap{padding:9px 13px;font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--border)}
+
+  .quote{border-left:3px solid var(--p);background:rgba(168,85,247,.07);padding:16px 20px;border-radius:0 12px 12px 0;margin:20px 0;font-size:14.5px;color:#d4dbef}
+  .quote.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;color:#bcc6de}
+
+  .metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin:22px 0}
+  .metric{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
+  .metric .big{font-size:30px;font-weight:900;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .metric .sml{font-size:12.5px;color:var(--muted);margin-top:6px}
+
+  /* resource */
+  .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+  @media(max-width:760px){.flow{grid-template-columns:1fr}}
+  .flow .step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;position:relative}
+  .flow .step .n{font-size:13px;font-weight:800;color:#0b1120;background:var(--grad);width:28px;height:28px;border-radius:8px;display:grid;place-items:center;margin-bottom:12px}
+  .flow .step h4{font-size:15.5px;margin-bottom:7px}
+  .flow .step p{font-size:13.5px;color:var(--muted)}
+  .contacts{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .chip{background:var(--card);border:1px solid var(--border);border-radius:999px;padding:7px 15px;font-size:13.5px;display:flex;align-items:center;gap:8px}
+  .chip .av{width:22px;height:22px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-size:11px;color:#0b1120;font-weight:800}
+
+  .cta-band{background:var(--grad);border-radius:24px;padding:42px;text-align:center;margin-top:20px}
+  .cta-band h3{font-size:26px;font-weight:900;color:#0b1120;margin-bottom:8px}
+  .cta-band p{color:rgba(11,17,32,.78);font-size:15px;margin-bottom:22px}
+  .cta-band .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .cta-band .btn{background:#0b1120;color:#fff;padding:12px 24px;border-radius:11px;font-weight:700;font-size:14px}
+  .cta-band .btn.ghost{background:transparent;color:#0b1120;border:2px solid #0b1120}
+
+  footer{padding:50px 0 60px;border-top:1px solid var(--border);text-align:center;color:var(--dim);font-size:13px}
+  footer .matrix{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:22px}
+  footer .matrix .m{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 20px;text-align:left}
+  footer .matrix .m b{display:block;font-size:15px;color:var(--text)}
+  footer .matrix .m span{font-size:12.5px;color:var(--muted)}
+  footer a{color:var(--c)}
+
+  /* reveal anim */
+  .reveal{opacity:0;transform:translateY(26px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* lightbox */
+  #lb{position:fixed;inset:0;background:rgba(3,6,14,.94);z-index:9999;display:none;align-items:center;justify-content:center;padding:40px;backdrop-filter:blur(6px)}
+  #lb.on{display:flex}
+  #lb img{max-width:94vw;max-height:90vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7)}
+  #lb .close{position:absolute;top:22px;right:30px;font-size:34px;color:#fff;cursor:pointer;line-height:1;opacity:.7}
+  #lb .close:hover{opacity:1}
+  #lb .cap{position:absolute;bottom:24px;left:0;right:0;text-align:center;color:var(--muted);font-size:13.5px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap nav-in">
+    <div class="brand"><span class="logo">智</span> GLM-5.2</div>
+    <div class="nav-links">
+      <a href="#spec">模型规格</a>
+      <a href="#highlights">核心亮点</a>
+      <a href="#pricing">定价</a>
+      <a href="#scene-agentic">Agentic Coding</a>
+      <a href="#scene-pancoding">泛 Coding</a>
+      <a href="#translation">代码翻译</a>
+      <a href="#research">科研复现</a>
+      <a href="#resource" class="nav-cta">资源申请</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="badge"><span class="dot"></span> 2026 年 6 月 · 智谱新一代开源旗舰 · MIT License</div>
+    <h1 class="title">GLM<span class="glow">-5.2</span></h1>
+    <div class="ver">真正可用的 1M 上下文 · Coding 稳居国产 &amp; 开源第一梯队</div>
+    <p class="lead">以<b>真正可用的 1M 上下文</b>为核心突破，支持小时级长程任务稳定执行，Coding 能力稳居全球第一梯队，<b>比肩 Claude Opus 4.8</b>。为开发者与企业提供从"能看完"到"能做完"的端到端智能服务。</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="num">1M</div><div class="lab">上下文窗口<br>突破 5.1 的 200K</div></div>
+      <div class="stat"><div class="num">744B</div><div class="lab">总参数 / 激活 40B<br>MoE 架构</div></div>
+      <div class="stat"><div class="num">128K</div><div class="lab">最大输出 Token<br>默认 64K</div></div>
+      <div class="stat"><div class="num">领先</div><div class="lab">国产 + 开源<br>Coding 第一梯队</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- SPEC -->
+<section id="spec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">Model Spec</span>
+      <h2>模型规格一览</h2>
+      <p class="sec-sub">HuggingFace 与 ModelScope 同步开源，已纳入 GLM Coding Plan（Max / Pro / Lite），支持 Claude Code、OpenCode 等主流开发工具。</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card"><div class="k">模型类型</div><div class="v">语言模型 <small>· MoE</small></div></div>
+      <div class="spec-card"><div class="k">模型参数</div><div class="v">744B <small>激活 40B</small></div></div>
+      <div class="spec-card"><div class="k">上下文</div><div class="v">1,000,000 <small>tokens</small></div></div>
+      <div class="spec-card"><div class="k">Max Output Token</div><div class="v">128K <small>默认 64K</small></div></div>
+      <div class="spec-card"><div class="k">Temperature / top-p</div><div class="v">0~1 <small>默认 1 / 0.95</small></div></div>
+      <div class="spec-card"><div class="k">Decode 速度</div><div class="v">30-40 <small>tokens/s · 待更新</small></div></div>
+      <div class="spec-card"><div class="k">Tools 调用</div><div class="v">支持</div></div>
+      <div class="spec-card"><div class="k">缓存命中</div><div class="v">支持</div></div>
+      <div class="spec-card"><div class="k">安全策略</div><div class="v">通用 / 宽松 <small>默认通用</small></div></div>
+
+      <div class="spec-full">
+        <div class="k">🆕 reasoning_effort（本次新增 · 控制推理力度）</div>
+        <div class="pillrow">
+          <span class="pill hot">high（增强推理）</span>
+          <span class="pill def">max（默认 · 深度推理）</span>
+          <span class="pill">none / minimal → 放弃思考</span>
+          <span class="pill">low / medium → 映射为 high</span>
+          <span class="pill">xhigh → 映射为 max</span>
+        </div>
+      </div>
+      <div class="spec-full">
+        <div class="k">🧠 thinking · 保留式思考（Coding Plan 端点默认开 / 标准 API 默认关）</div>
+        <p style="font-size:13.5px;color:var(--muted);margin-top:6px">控制模型保留先前 assistant 回合的 reasoning content，开启需将<span class="code">完整、未修改的</span> reasoning content 传回 API，有助于保持推理连续性、提升缓存命中率、在真实任务中节省 tokens。</p>
+        <div class="quote mono" style="margin-top:14px">"thinking": { "type": "enabled", "clear_thinking": false }&nbsp;&nbsp;<span style="color:var(--dim)">// false = 开启，true = 关闭</span></div>
+        <div class="fig" style="margin-top:16px">
+          <img src="assets/main-thinking.png" alt="GLM-5.2 保留式思考能力说明" loading="lazy">
+          <div class="figcap"><b>保留式思考</b>：模型可在上下文中保留先前回合的 reasoning content，保持推理连续性、提升缓存命中率、节省 token。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="highlights">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">Core Highlights</span>
+      <h2>四大核心亮点</h2>
+      <p class="sec-sub">别家的 1M 是"能塞进去"，我们的 1M 是"塞进去还能用、还用得起"。</p>
+    </div>
+    <div class="hl-grid">
+      <div class="hl featured">
+        <div class="icon">🚀</div>
+        <div class="hnum">亮点一 · 本次最大差异点</div>
+        <h3>真正能用的 1M 上下文</h3>
+        <p>市面上不少模型把窗口堆到 1M，但喂满长文本后<b>效果断崖式衰减、推理成本爆炸</b>，1M 只是参数表上的数字，没人敢用满。GLM-5.2 用<b>四层优化同时压住"效果衰减"和"推理成本"两个矛盾</b>。</p>
+        <ul>
+          <li><b>模型架构 — IndexShare</b>：注意力结构创新，超长序列下更高效共享/复用索引，显著降低 attention 索引阶段 Per-Token 计算量与访存带宽，相比 GLM-5 的 DSA 策略结构更优、成本更低。</li>
+          <li><b>推理引擎 — KV8 + LayerSplit</b>：KV8 把 KV Cache 压到 8bit 大幅降显存，LayerSplit 按层拆分释放 GPU 缓存空间，让 1M 这种"吃显存大户"真正稳定可服务。</li>
+          <li><b>算子优化 — 长上下文算子</b>：对底层热点算子专项重写，上下文越长优势越明显。</li>
+          <li><b>调度优化 — 缓存命中率提升</b>：相同/公共前缀不重复计算，长 system prompt、多轮对话、长文档反复提问直接省钱省时间。</li>
+        </ul>
+      </div>
+      <div class="hl">
+        <div class="icon">⏱️</div>
+        <div class="hnum">亮点二</div>
+        <h3>长程任务能力</h3>
+        <p>延续 GLM-5.1 的"8 小时自主工作"叙事：可长时间自主执行复杂任务，而非聊几轮就跑偏。</p>
+        <ul>
+          <li>上下文越大 → 越少压缩、越少遗忘、错误累积更慢 → <b>任务越久越稳</b>。</li>
+          <li>长程基准上，1M 配置相比 200K 有明显提升——<b>长任务，不忘事</b>。</li>
+        </ul>
+      </div>
+      <div class="hl">
+        <div class="icon">💻</div>
+        <div class="hnum">亮点三</div>
+        <h3>Coding 能力全面提升</h3>
+        <p>在 SWE-Bench、Coding Arena 等核心编程基准上保持<b>稳居国产、开源第一梯队</b>，主流基准实测<b>比肩 Claude Opus 4.8</b>。</p>
+        <ul>
+          <li>FrontierSWE、DeepSWE、PostTrainingBench、SWE-Marathon 等长程工程榜单为本代新增重点。</li>
+          <li>移动端开发能力提升，国内外开发者一致好评。</li>
+        </ul>
+      </div>
+      <div class="hl featured">
+        <div class="icon">✨</div>
+        <div class="hnum">亮点四</div>
+        <h3>通用能力全面提升</h3>
+        <p>除了 1M、长上下文与 Coding 三条主线，长上下文能力的增强直接反哺了多个高频使用场景。</p>
+        <div class="kv" style="margin:16px 0 0">
+          <div class="box"><div class="t">写作</div><div class="d">文采更好、行文更自然，少了机器感，<b>更有"人味"</b>。</div></div>
+          <div class="box"><div class="t">角色扮演</div><div class="d">长久保持人设与情境一致，<b>沉浸感更强、不易出戏</b>。</div></div>
+          <div class="box"><div class="t">长文档处理</div><div class="d">MRCR、GraphWalk 等基准提升，<b>看得全、记得住、答得准</b>。</div></div>
+          <div class="box"><div class="t">Chat-PPT</div><div class="d">无需 Agent 框架，一个 Prompt <b>直出 HTML PPT</b>。</div></div>
+          <div class="box"><div class="t">Artifacts</div><div class="d">Landing Page、数据看板、交互 Demo 更接近<b>真实产品形态</b>。</div></div>
+          <div class="box"><div class="t">推理</div><div class="d">数学与逻辑推理等硬核任务能力进一步提升。</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">Pricing</span>
+      <h2>模型定价</h2>
+      <p class="sec-sub">国内定价对标 GLM-5.1 的 32K-200K 档位，海外定价与 5.1 一致，<b>不分段</b>。</p>
+    </div>
+    <div class="price-tabs">
+      <div class="ptab active" data-t="cn">🇨🇳 国内（元 / 百万 tokens）</div>
+      <div class="ptab" data-t="os">🌍 海外（USD / 百万 tokens）</div>
+    </div>
+    <table class="price-table" id="pt-cn">
+      <thead><tr><th>计费项</th><th>价格</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>输入</td><td><span class="v">8 元</span> / M</td><td>不分段</td></tr>
+        <tr><td>输出</td><td><span class="v">28 元</span> / M</td><td>不分段</td></tr>
+        <tr><td>输入命中 Cache</td><td><span class="v">2 元</span> / M</td><td>长上下文场景显著降本</td></tr>
+        <tr><td>输入 Cache 存储</td><td><span class="v free">限时免费</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <table class="price-table" id="pt-os" style="display:none">
+      <thead><tr><th>计费项</th><th>价格</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>输入</td><td><span class="v">$1.4</span> / M</td><td>不分段</td></tr>
+        <tr><td>输出</td><td><span class="v">$4.4</span> / M</td><td>不分段</td></tr>
+        <tr><td>输入命中 Cache</td><td><span class="v">$0.26</span> / M</td><td>长上下文场景显著降本</td></tr>
+        <tr><td>输入 Cache 存储</td><td><span class="v free">限时免费</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="fig" style="margin-top:26px">
+      <img src="assets/main-pricing.jpg" alt="GLM-5.2 国内与海外定价对比" loading="lazy">
+      <div class="figcap"><b>GLM-5.2 定价总览</b>（国内 / 海外），输入缓存命中价约为常规输入价的 1/4（国内）/ 1/5（海外），显著降低长上下文调用成本。</div>
+    </div>
+    <div class="quote" style="margin-top:22px">
+      <b>对照 · Claude 缓存计费（以 Opus 4.8 为例）</b><br>
+      Claude 输入 token 有三种缓存相关计费：5 分钟缓存写入 <span class="code">$6.25/MTok</span>、1 小时缓存写入 <span class="code">$10/MTok</span>、缓存命中 <span class="code">$0.50/MTok</span>。由开发者在 API 请求中给内容块加 <span class="code">cache_control</span> 指定走哪种缓存；命中由系统自动判定前缀一致性 + 有效期。每次命中会免费刷新有效期。
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENE 1: AGENTIC CODING ============ -->
+<section id="scene-agentic" class="scene">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:34px">
+      <span class="sec-tag">Best Practice · 场景一</span>
+      <h2>四大最佳实践场景</h2>
+      <p class="sec-sub">每个场景统一按"场景介绍 → 能力提升点 → 1M/长程如何赋能 → 实测案例 → 横评对比 → 客户价值"展开。</p>
+    </div>
+
+    <div class="scene-head">
+      <div class="scene-no">1</div>
+      <h2>Agentic Coding · 自主软件工程</h2>
+    </div>
+    <p class="prose" style="margin-top:14px">让 Agent 像开发者一样理解任务、规划实现、编写代码、运行测试、反思修复，不断迭代直至闭环。模型被赋予一个目标并接入真实开发环境，需要理解整个代码库结构、进行多轮长程交互与工具调用，并自主判断任务是否完成——从"写代码"升级为"<b>做软件工程</b>"。</p>
+
+    <div class="fig">
+      <img src="assets/agentic-flow.png" alt="Agentic Coding 完整流程：理解需求→分析代码库→规划→编码→运行测试→反思修复→闭环" loading="lazy">
+      <div class="figcap"><b>Agentic Coding 完整闭环</b>：以"给用户服务添加邮件验证功能"为例的 7 步自主流程。</div>
+    </div>
+
+    <h3 class="sub">典型业务场景与真实价值</h3>
+    <div class="kv">
+      <div class="box"><div class="t">自动化 Bug 修复</div><div class="d">对接 GitLab/GitHub，Bug 工单触发 Agent 自动拉代码、读日志、定位、改码、测试、提交 PR。</div></div>
+      <div class="box"><div class="t">数据分析与端到端开发</div><div class="d">杂乱 CSV + 一句自然语言 → 自动写 Python 清洗、聚类、出可视化报告；前后端+迁移+测试全流程交付。</div></div>
+      <div class="box"><div class="t">大规模重构与迁移</div><div class="d">框架升级、API 迁移、依赖升级、单体拆微服务，跨多文件语义级重构并持续跑单测。</div></div>
+      <div class="box"><div class="t">代码审查 / 测试自动化</div><div class="d">自动审 PR、补测试覆盖、跑通 CI 修失败用例；生成测试、识别回归。</div></div>
+      <div class="box"><div class="t">智能运维与环境排障</div><div class="d">写/调 Dockerfile、CI/CD、配置管理，甚至驱动真实环境排查线上故障。</div></div>
+    </div>
+
+    <h3 class="sub">Agentic Coding 考验的六项核心能力</h3>
+    <ul class="caplist">
+      <li><span class="n">1</span><b>规划与任务分解</b> · 把模糊需求自主拆解为可管理的子任务，规划正确实现路径。</li>
+      <li><span class="n">2</span><b>代码库理解与导航</b> · 大型仓库中分析结构、定位"要改的地方"，主动构建局部心智模型。</li>
+      <li><span class="n">3</span><b>工具使用与编排</b> · 判断何时搜索、读文件、跑测试、改代码——错误的工具顺序直接导致任务失败。</li>
+      <li><span class="n">4</span><b>闭环调试与错误恢复</b> · 读反馈→定位根因→修正→再验证，从失败中恢复而非卡死或"瞎改"。</li>
+      <li><span class="n">5</span><b>长程推理与目标保持</b> · 30~100 步执行中始终记得最终目标，不被细节带偏、不漏前置步骤。</li>
+      <li><span class="n">6</span><b>真实软件工程素养</b> · 复用而非重写、遵循仓库风格、处理边界、写出能通过真实测试套件的代码。</li>
+    </ul>
+
+    <h3 class="sub">案例实测：自主完成整个生鲜商城系统</h3>
+    <p class="prose">要求 GLM-5.2 完整实现一个<b>生鲜商城系统</b>：前台（PC + 移动端）+ 后端服务 + 后台运营系统，<b>约 50 个接口、27 个页面</b>，体量足以考察长程任务能力与真正可用的 1M 上下文窗口。</p>
+    <div class="kv">
+      <div class="box"><div class="t">前台用户能力</div><div class="d">注册登录、浏览商品、选 SKU、加购物车、用券、秒杀、下单、模拟支付、查单、收货。</div></div>
+      <div class="box"><div class="t">后台管理能力</div><div class="d">管理商品分类/商品/SKU/库存/订单/优惠券/秒杀活动/用户。</div></div>
+      <div class="box"><div class="t">1M 加成</div><div class="d">PRD + Design + Tech + SPEC + Claude.md <b>五份文档一次性装入</b>，跨文件理解与重构不依赖检索拼接。</div></div>
+    </div>
+
+    <h4 class="mini">① 优秀的规划与任务分解</h4>
+    <p class="prose">先查文档目录、读 PRD/Design/SPEC、读数据库 schema 与 seed 数据，通读后判断大型项目，检查工具链并<b>自主拆分开发范围与优先级</b>。</p>
+    <div class="fig"><img src="assets/agentic-plan.png" alt="GLM-5.2 自主拆分开发范围与优先级" loading="lazy"><div class="figcap">模型自主划分<b>前端商城、前置服务、后端</b>等工程及各自开发要求。</div></div>
+
+    <h4 class="mini">② 精准的工具使用与编排</h4>
+    <p class="prose">按规划清单有序执行，过程中自主跑 bash、装依赖、做 typecheck、阶段性测试与端到端冒烟测试。</p>
+    <div class="fig"><img src="assets/agentic-tools.png" alt="自主执行 bash、安装依赖、typecheck、冒烟测试" loading="lazy"><div class="figcap">自主编排工具链：依赖安装 → 类型检查 → 阶段测试 → 端到端冒烟。</div></div>
+
+    <h4 class="mini">③ 高效的闭环调试与错误恢复</h4>
+    <p class="prose">测试发现错误后高效定位根因，修复后再次迭代直至完全修复，并做回归测试保证其他模块不新增问题。</p>
+    <div class="fig"><img src="assets/agentic-debug.png" alt="定位问题根因 → 修复 → 回归测试" loading="lazy"><div class="figcap">闭环调试：定位根因 → 修复 → 回归测试，确保不引入新问题。</div></div>
+
+    <h4 class="mini">④ 出色的长程推理与目标保持</h4>
+    <p class="prose">整个流程仅在需要用户批准执行计划时交互，其余均自主完成。<b>一次性完成 PC 端和移动端实现（前端 + 后端 + 后台），逻辑 0 bug</b>，指令遵循出色，细节完全按需求文档开发、无遗漏，移动端适配完美。</p>
+
+    <div class="phone-row">
+      <div class="cell"><img src="assets/shop-mobile.png" alt="商城移动端首页" loading="lazy"><div class="cap">移动端 · 首页 + 秒杀</div></div>
+      <div class="cell"><img src="assets/shop-seckill.png" alt="智利车厘子秒杀详情页" loading="lazy"><div class="cap">移动端 · 车厘子秒杀详情</div></div>
+      <div class="cell"><img src="assets/shop-admin.png" alt="后台运营管理系统" loading="lazy"><div class="cap">后台 · 运营管理系统</div></div>
+    </div>
+    <div class="shop-grid">
+      <div class="cell"><img src="assets/shop-pc-home.png" alt="PC 端商城首页：新鲜蔬菜产地直发" loading="lazy"><div class="cap">PC 端 · 商城首页（新鲜蔬菜 产地直发）</div></div>
+      <div class="cell"><img src="assets/shop-pc-cat.png" alt="PC 端全部分类与商品展示" loading="lazy"><div class="cap">PC 端 · 全部分类</div></div>
+      <div class="cell"><img src="assets/shop-pc-list.png" alt="PC 端商品列表：车厘子、大米、龙虾等" loading="lazy"><div class="cap">PC 端 · 商品列表</div></div>
+    </div>
+
+    <h3 class="sub">横评对比：GLM-5.2 vs 某闭源国产模型</h3>
+    <p class="prose">同一个 case、相同提示词。二者在<b>规划与分解任务阶段已展现出差异</b>：某闭源国产模型 给出的 plan 选择全量执行，整个任务用时 76 分钟，但执行完成后发现严重 bug、编译失败，经模型自主两轮修改仍未修复成功。</p>
+    <div class="shop-grid" style="grid-template-columns:1fr 1fr">
+      <div class="cell"><img src="assets/kimi-plan.png" alt="某闭源国产模型 全量执行 plan" loading="lazy"><div class="cap">某闭源国产模型 · 全量执行 plan，76 分钟后编译失败</div></div>
+      <div class="cell"><img src="assets/kimi-fail.png" alt="某闭源国产模型 编译失败、两轮修复未果" loading="lazy"><div class="cap">某闭源国产模型 · 编译失败，两轮自主修复未果</div></div>
+    </div>
+    <div class="quote"><b>客户价值</b>：自动化 Bug 修复、数据分析与端到端功能开发、大规模重构迁移、代码审查与测试自动化——GLM-5.2 把"按指令写代码"升级为"<b>自己找方法、自己跑通、自己修好</b>"的自主软件工程能力。</div>
+  </div>
+</section>
+
+<!-- ============ SCENE 2: PAN CODING ============ -->
+<section id="scene-pancoding" class="scene">
+  <div class="wrap">
+    <div class="scene-head">
+      <div class="scene-no">2</div>
+      <h2>泛 Coding · 从写代码到生成作品</h2>
+    </div>
+    <p class="prose" style="margin-top:14px">覆盖原型开发、前端 vibe coding、视频/动效生成、3D 游戏场景搭建、开放式工具应用等非专业 Agent 链路的日常编码。不只是"代码能跑"，更关注最终产物的<b>效果与完成度</b>——前端美观度、动画质感、3D 场景可见变化、开放需求下的产品逻辑理解与联网找数据能力。</p>
+
+    <h3 class="sub">示例一 · Coding to Video：GLM-5.2 + Remotion</h3>
+    <p class="prose">把一段自然语言视频创意，直接转化为可运行的 Remotion React 视频代码，生成具备真实地图质感、合理运镜和完整路线动画的可演示视频。典型场景：营销视频自动生成（科普/品牌/网课）、AI 辅助动效开发。</p>
+    <div class="quote mono">使用 Remotion 最佳实践。新建一个 composition，加入一张地图，然后从洛杉矶（LA）拉远镜头（zoom out），但始终保持聚焦在它身上。完成后，绘制一条从洛杉矶到纽约（NY）的路线动画，并让相机跟随这条线移动。再给这趟旅程加一站，这次我们去巴黎。</div>
+    <p class="prose">任务难点不只是生成 React 代码，而是同时处理：① 地图真实性 ② 镜头语言（LA 拉远且保持聚焦）③ 路线动画（LA→NY→Paris）④ 最终美观度。三类模型的差距<b>首先体现在"是否会自主发现工具"</b>。</p>
+
+    <div class="cmp cmp-3">
+      <div class="cell best">
+        <div class="lab">GLM-5.2 ✦</div>
+        <div class="figmini"><img src="assets/remotion-52.png" alt="GLM-5.2 Remotion 地图：真实配色 + 第三视角航线" loading="lazy"></div>
+        <div class="note">唯一自主发现并使用 Map skill；地图配色最真实，zoom out 最合理，LA→NY→Paris 第三视角航线，最适合客户演示。</div>
+      </div>
+      <div class="cell">
+        <div class="lab">GLM-5.1</div>
+        <div class="figmini"><img src="assets/remotion-51.png" alt="GLM-5.1 第一视角航线" loading="lazy"></div>
+        <div class="note bad">需用户提示才找工具；用<b>第一视角</b>展示飞行路径，看不清整条航线，不符合常识。</div>
+      </div>
+      <div class="cell">
+        <div class="lab">其他国产模型</div>
+        <div class="figmini"><img src="assets/remotion-other.png" alt="其他国产模型：灰白地图、无运镜、航线卡顿" loading="lazy"></div>
+        <div class="note bad">地图<b>灰白配色</b>不真实；全程<b>无运镜</b>；飞行航线<b>播放卡顿</b>，可演示性最弱。</div>
+      </div>
+    </div>
+
+    <h4 class="mini">GLM-5.2 核心优势</h4>
+    <ul class="caplist">
+      <li><span class="n">1</span><b>自主调研与工具发现</b> · 从"按指令写代码"升级到"自己找方法"——唯一主动深度调研、找到 Map skill 并引导配置 token key 的模型。</li>
+      <li><span class="n">2</span><b>长上下文</b> · 同时理解视频目标、城市航线、镜头要求、地图呈现与代码结构，不遗漏关键约束。</li>
+      <li><span class="n">3</span><b>长程任务</b> · 从需求理解→工具调研→代码生成→地图调用→动画设计→视频渲染的多步骤自主推进。</li>
+      <li><span class="n">4</span><b>泛 Coding</b> · 生成的不是孤立代码片段，而是一个最终可展示的视频产物。</li>
+    </ul>
+
+    <h3 class="sub">示例二 · 开放式任务：《怪物猎人荒野》配装器</h3>
+    <p class="prose">测试方式极度开放：用户<b>没给产品结构、没给数据源、没给功能拆解</b>，只给一句模糊需求，让模型自己完成完整应用。</p>
+    <div class="quote mono">上网搜集最新的资料，做一个怪物猎人荒野最新版本的配装器，用网页端启动。</div>
+    <p class="prose">难点不在网页界面，而在模型是否真正理解"配装器"：正确逻辑是<b>用户先选目标技能，系统反向搜索可行装备组合并输出方案</b>；很多模型错做成"选装备→展示技能"的展示器。此外还需自己找到正确数据源 <b>wilds.mhdb.io</b>，否则装备/技能/数值会瞎编。</p>
+    <p class="prose">GLM-5.2 完成了国产模型过去普遍没做到的两个关键点：<b>① 正确理解配装器核心功能 ② 找到 wilds.mhdb.io 正确数据源</b>，并生成可运行网页端应用（含技能选择、搜索参数、配装结果、装备部位、技能条、珠子配置）。短板是 UI 质感仍弱于 某海外模型。</p>
+    <div class="cmp cmp-3">
+      <div class="cell">
+        <div class="lab">GLM-5.2</div>
+        <div class="figmini"><img src="assets/armor-52.jpg" alt="GLM-5.2 配装器：技能选择 + 配装结果" loading="lazy"></div>
+        <div class="note">正确理解配装逻辑 + 找到 wilds.mhdb.io 数据源，功能理解与数据可靠性突出。</div>
+      </div>
+      <div class="cell best">
+        <div class="lab">某海外模型</div>
+        <div class="figmini"><img src="assets/armor-gpt.jpg" alt="某海外模型 配装器：更完整的 UI 质感" loading="lazy"></div>
+        <div class="note">界面完成度、视觉层次与产品感更强（GLM-5.2 的 UI 仍有提升空间）。</div>
+      </div>
+      <div class="cell">
+        <div class="lab">配装器成品</div>
+        <div class="figmini"><img src="assets/armor-extra.webp" alt="配装器网页端成品展示" loading="lazy"></div>
+        <div class="note">可在网页端启动的配装器，含技能选择/搜索参数/配装结果等核心模块。</div>
+      </div>
+    </div>
+    <div class="quote"><b>客户价值</b>：降低视频/应用创意生产门槛；客户无需把需求拆成 PRD、无需告诉数据源，模型从一句自然语言推断产品目标并自主推进——<b>从模糊需求到可交付作品</b>。</div>
+  </div>
+</section>
+
+<!-- ============ SCENE 3: CODE TRANSLATION ============ -->
+<section id="translation" class="scene">
+  <div class="wrap">
+    <div class="scene-head">
+      <div class="scene-no">3</div>
+      <h2>代码翻译 · 理解而非替换</h2>
+      <span class="new">本次新增重点</span>
+    </div>
+    <p class="prose" style="margin-top:14px">在保持业务逻辑与运行行为一致的前提下，将代码从一种编程语言、技术栈或运行平台迁移到另一种（如 Java→Go、C→Rust、老旧系统现代化、跨框架迁移）。区别于简单语法替换——核心在于读懂原有逻辑、处理框架与运行时差异、保证迁移后<b>行为等价</b>。<br><br><b>典型客户画像</b>：银行/运营商遗留系统改造、国产化替代迁移、终端工具网页化、跨技术栈复用。</p>
+
+    <h3 class="sub">案例实测：终端《太空侵略者》→ 浏览器单文件 HTML5</h3>
+    <p class="prose">源项目是开源终端版《太空侵略者》（spacedinvaders）：基于 Python + curses，含主游戏循环、多重继承类体系、神秘 UFO、可逐步摧毁掩体与多关卡机制。要求<b>完整迁移为单一 HTML5</b>：Canvas 渲染、requestAnimationFrame 驱动、localStorage 存最高分，并保持六大核心规则行为等价，自主完成"翻译→运行→自测→定位→修复→再验证"完整闭环。</p>
+    <p class="prose">难点不是把 Python 写成 JavaScript，而是同时跨过<b>六道非语法转换难关</b>：</p>
+    <ul class="caplist">
+      <li><span class="n">1</span><b>输入模型转换</b> · 终端阻塞式读键 → 浏览器异步事件监听。</li>
+      <li><span class="n">2</span><b>渲染机制转换</b> · curses 字符网格逐格绘制 → Canvas 坐标绘制。</li>
+      <li><span class="n">3</span><b>游戏循环重构</b> · 同步帧控制 → requestAnimationFrame 帧回调。</li>
+      <li><span class="n">4</span><b>运行时差异</b> · 本地 SQLite → localStorage；终端音频 → Web Audio 合成。</li>
+      <li><span class="n">5</span><b>结构与依赖收敛</b> · 多文件多模块多重继承 → 单个可运行文件。</li>
+      <li><span class="n">6</span><b>行为一致性保持</b> · 以上全推倒重写，核心玩法必须等价。</li>
+    </ul>
+
+    <h3 class="sub">GLM-5.2 三大核心优势</h3>
+    <div class="kv">
+      <div class="box"><div class="t">1M 长上下文 · 装得下整个项目</div><div class="d">约 <b>3260 行源码一次性装入</b>，重写任何模块都掌握全局信息，不依赖检索拼接——这是"行为等价"的前提。</div></div>
+      <div class="box"><div class="t">长程任务 · 自己干完完整闭环</div><div class="d">读源码→重写→运行→自测→发现问题→定位→修复→再验证，<b>无需人工拆解或盯催</b>。</div></div>
+      <div class="box"><div class="t">理解而非替换 · 连边界细节都还原</div><div class="d">守住失焦按键重置、敌群清理后续投弹、结束画面暗化、原版字符像素美术等容易被忽略的细节。</div></div>
+    </div>
+
+    <h3 class="sub">GLM-5.2 实测表现</h3>
+    <div class="metric-row">
+      <div class="metric"><div class="big">~18min</div><div class="sml">一条指令全自主产出</div></div>
+      <div class="metric"><div class="big">25 万帧</div><div class="sml">自建 Node 无头测试模拟</div></div>
+      <div class="metric"><div class="big">3 个</div><div class="sml">自主发现并修复的真实 bug</div></div>
+      <div class="metric"><div class="big">6/6</div><div class="sml">核心玩法行为全部等价</div></div>
+    </div>
+    <p class="prose">自建 Node 无头测试工具，模拟约 25 万帧并对各界面做渲染冒烟测试，期间自主发现并修复 3 个真实 bug（渲染传参错误、ES6 类错误实例化、长按移动手感），并顺带补上窗口失焦按键重置防护。忠实搬运原版 Unicode 半块/象限字符设计的鱿鱼、螃蟹、章鱼造型，最接近原版街机质感，真机实玩通过。</p>
+    <div class="phone-row" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cell"><img src="assets/si-52-title.png" alt="GLM-5.2 迁移版标题屏" loading="lazy"><div class="cap">GLM-5.2 · 标题屏（像素美术忠实还原）</div></div>
+      <div class="cell"><img src="assets/si-52-play.png" alt="GLM-5.2 迁移版游戏画面" loading="lazy"><div class="cap">GLM-5.2 · 游戏画面</div></div>
+      <div class="cell"><img src="assets/si-52-over.png" alt="GLM-5.2 迁移版结束画面" loading="lazy"><div class="cap">GLM-5.2 · 结束画面（含暗化叠加）</div></div>
+    </div>
+
+    <h3 class="sub">三模型产物效果对比</h3>
+    <div class="cmp cmp-4">
+      <div class="cell"><div class="lab">游戏原版</div><div class="figmini"><img src="assets/si-orig.png" alt="原版太空侵略者" loading="lazy"></div><div class="note">Python + curses 终端原版。</div></div>
+      <div class="cell best"><div class="lab">GLM-5.2 ✦</div><div class="figmini"><img src="assets/si-52-play.png" alt="GLM-5.2 产物" loading="lazy"></div><div class="note">综合完成度最高，六大规则全等价。</div></div>
+      <div class="cell"><div class="lab">GLM-5.1</div><div class="figmini"><img src="assets/si-51-main.png" alt="GLM-5.1 产物" loading="lazy"></div><div class="note bad">三次卡死无产出，需人工拆五步 + 持续引导才出活。</div></div>
+      <div class="cell"><div class="lab">某开源国产模型</div><div class="figmini"><img src="assets/si-qwen-title.png" alt="某开源国产模型 产物" loading="lazy"></div><div class="note bad">能跑但行为不等价（射击不连发/命中错乱）。</div></div>
+    </div>
+
+    <h4 class="mini">GLM-5.1 的三个真机 bug</h4>
+    <div class="shop-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cell"><img src="assets/si-51-bug1.png" alt="窗口失焦后按键卡住" loading="lazy"><div class="cap">窗口失焦后按键状态卡住，角色无法移动</div></div>
+      <div class="cell"><img src="assets/si-51-bug2.png" alt="后排敌人不投弹" loading="lazy"><div class="cap">最底排敌人被消灭后整列停止投弹</div></div>
+      <div class="cell"><img src="assets/si-51-bug3.png" alt="结束画面未做暗化叠加" loading="lazy"><div class="cap">游戏结束文字未做暗化叠加，模糊难辨</div></div>
+    </div>
+    <h4 class="mini">某开源国产模型 的三大短板</h4>
+    <div class="shop-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cell"><img src="assets/si-qwen-ugly.png" alt="视觉还原差：粗糙纯色方块" loading="lazy"><div class="cap">视觉还原差：未用原版像素美术，粗糙纯色方块</div></div>
+      <div class="cell"><img src="assets/si-qwen-hit.png" alt="命中规则错误：后排先死" loading="lazy"><div class="cap">命中规则错误：后排先死、前排存活</div></div>
+      <div class="cell"><img src="assets/si-qwen-over.png" alt="某开源国产模型 结束画面" loading="lazy"><div class="cap">结束画面（整体视觉与原版风格存在差异）</div></div>
+    </div>
+
+    <div class="quote" style="margin-top:24px"><b>横评结论 · 三句话</b><br>
+    <b>1. 能自主干完（对 5.1）</b>：5.2 一条指令约 18 分钟交付；5.1 连续三次卡死、人工拆五步 + 引导耗时约一天。<br>
+    <b>2. 行为真等价（对 某开源国产模型）</b>：5.2 六大规则全还原；某开源国产模型 射击不连发、命中判定错乱，真机不通过——"翻译得对"而非只是"翻译得出"。<br>
+    <b>3. 细节最稳、最经得起真人用</b>：失焦按键重置、列尾续投弹、结束层暗化、像素美术还原，5.2 都处理到位。</div>
+    <div class="quote"><b>客户价值</b>：跨语言/跨平台迁移不再需要资深专家逐行重写；以行为等价为目标，自建测试、自我验证、自主修复；一个能在浏览器直接玩、行为与原版一致的成品，<b>经得起客户现场使用</b>。</div>
+  </div>
+</section>
+
+<!-- ============ SCENE 4: RESEARCH ============ -->
+<section id="research" class="scene">
+  <div class="wrap">
+    <div class="scene-head">
+      <div class="scene-no">4</div>
+      <h2>科研复现 · 像研究员一样工作</h2>
+      <span class="new">本次新增重点</span>
+    </div>
+    <p class="prose" style="margin-top:14px">依据一篇论文与其公开数据，独立把论文里的模型与方法复刻成可在本地运行、并能复现论文结果的代码工程——检验"模型能否像研究员一样完成完整研究流程"的高难度任务。<br><br><b>典型客户画像</b>：高校/科研院所、企业研究院、AI Lab 的算法与研究团队。</p>
+
+    <h3 class="sub">市场机会与能力定位</h3>
+    <p class="prose">科研智能化（AI for Science）是当前增长最快的 AI 应用方向之一；其中「论文/模型复现」是一个<b>可验证、可按任务计费</b>的具体场景——代码可运行、指标对齐论文即视为交付，商业化路径清晰。但能稳定跑通"阅读多篇论文 + 补全实现 + 配置环境 + 自检修复"这类长程复现任务的，仍是少数模型才能达到的水准。</p>
+
+    <h3 class="sub">科研复现要求模型的五项能力</h3>
+    <ul class="caplist">
+      <li><span class="n">1</span><b>读懂论文、补全未写明的实现细节</b> · 关键信息分散于正文、附录及其他论文，一句话带过的步骤遗漏一处即得不到正确结果。</li>
+      <li><span class="n">2</span><b>理清数据格式、构建处理流程</b> · 数据实际格式往往未知；切分不当会使训练/测试数据相互泄露，结果不可信。</li>
+      <li><span class="n">3</span><b>在多文件间保持规则一致</b> · 一条数据处理流程需贯穿多个文件，任何一处不一致都会导致整体失败。</li>
+      <li><span class="n">4</span><b>自主运行、自主定位并修复问题</b> · 训练存在随机性，必须实际运行才能验证。</li>
+      <li><span class="n">5</span><b>配置环境、适配算力约束</b> · 版本错误、依赖缺失、权重无法下载，任一环节受阻即无法推进。</li>
+    </ul>
+
+    <h3 class="sub">实例：「从云图找船迹」U-Net CNN 视觉模型</h3>
+    <p class="prose">让 GLM-5.2 依据两篇论文（CloudTracks 数据集论文 + U-Net 模型论文），用 PyTorch 复现一个模型：<b>输入一张卫星云图，输出图中"船迹"（船舶尾气在云层上形成的细线）的位置</b>。训练仅在一张普通家用显卡上完成。结果：模型结构一次搭建正确、与论文一致；训练从头运行至结束；测试图上检出的船迹位置与论文结论一致。</p>
+    <div class="shop-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="cell"><img src="assets/cloud-1.png" alt="船迹复现结果 1：输入云图 / 真实船迹 / 预测船迹" loading="lazy"><div class="cap">复现结果 1 · 输入云图 → 真实船迹 → 预测船迹</div></div>
+      <div class="cell"><img src="assets/cloud-2.png" alt="船迹复现结果 2" loading="lazy"><div class="cap">复现结果 2 · 三栏对比</div></div>
+      <div class="cell"><img src="assets/cloud-3.png" alt="船迹复现结果 3" loading="lazy"><div class="cap">复现结果 3 · 预测与论文结论一致</div></div>
+    </div>
+
+    <h3 class="sub">全程自主完成，一次跑通</h3>
+    <div class="metric-row">
+      <div class="metric"><div class="big">2 小时</div><div class="sml">自主运行时长</div></div>
+      <div class="metric"><div class="big">~100 次</div><div class="sml">自主操作（读论文/写码/运行/检索）</div></div>
+      <div class="metric"><div class="big">12 个</div><div class="sml">产出代码文件</div></div>
+      <div class="metric"><div class="big">7 阶段</div><div class="sml">读论文→规划→写码→配环境→自检→训练→评估</div></div>
+      <div class="metric"><div class="big">~5 个</div><div class="sml">自主发现并修复的问题</div></div>
+      <div class="metric"><div class="big">50–70 万</div><div class="sml">占用 token 上下文，细节全程保持</div></div>
+    </div>
+    <p class="prose">约两小时内，GLM-5.2 全程自主从论文写出模型架构、搭好环境并逐环节自检修复，<b>正式训练一次启动即跑通全程、零返工、无需人工调试</b>。前期确立的论文细节与文件约定在后期仍被准确保持。</p>
+
+    <h3 class="sub">与 某闭源国产模型 对比：研究判断的差异</h3>
+    <p class="prose">最能体现差异的，在于模型是否主动将一项<b>关键抉择交由用户决定</b>。对这篇论文，模型骨干是否使用 ImageNet 预训练权重是一项会实质影响结果的重要决定。</p>
+    <div class="kv">
+      <div class="box"><div class="t">GLM-5.2 ✦</div><div class="d">识别出该抉择的重要性，<b>主动向用户说明并交由确认</b>，判断本任务需使用预训练权重——体现严谨研究判断与 50–70 万上下文中的精准 MRCR 能力。</div></div>
+      <div class="box"><div class="t">某闭源国产模型</div><div class="d">未提出这一选择，<b>自行默认从零开始训练</b>——对结果高度依赖预训练的任务，相当于在用户未察觉时采用了很可能无法达到论文水平的配置。</div></div>
+    </div>
+    <div class="quote"><b>客户价值</b>：把"依据论文复现一个模型"从研究员耗时数日的环境搭建与代码调试，压缩为"提供论文与数据，模型自主完成至可验证结果"。门槛低、结果可靠（自检自修复）、可适配客户实际显卡条件。典型客户为高校与研究所算法团队、需要快速建立论文基线的企业研发团队。</div>
+
+    <div class="cta-band">
+      <h3>让 GLM-5.2 从"能看完"到"能做完"</h3>
+      <p>真正可用的 1M 上下文 · Coding 稳居国产+开源第一梯队 · 四大场景最佳实践已就绪</p>
+      <div class="btns">
+        <a class="btn" href="https://bigmodel.cn/trialcenter/modeltrial/text?modelCode=glm-5.2" target="_blank">立即体验</a>
+        <a class="btn ghost" href="#resource">申请企业资源</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESOURCE -->
+<section id="resource">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">Resource</span>
+      <h2>资源申请</h2>
+      <p class="sec-sub">上线初期资源紧张，资源问题统一走申请流程（置换 P0 / 新增 P1，沿用 5.1 流程）。</p>
+    </div>
+    <div class="flow">
+      <div class="step"><div class="n">1</div><h4>提交申请</h4><p>销售发起并发，<b>必填</b>：场景、TPM（非并发数）、所需模型、有效期。<b>7 天内不确认折扣将被回收</b>。</p></div>
+      <div class="step"><div class="n">2</div><h4>Agent 自动分配</h4><p>Agent 根据当前资源及客户收益分数换算并配置资源。</p></div>
+      <div class="step"><div class="n">3</div><h4>成功反馈</h4><p>分配成功后收到通知。</p></div>
+      <div class="step"><div class="n">4</div><h4>异常 / 监控反馈</h4><p>利用率低、TPM 低、未确认折扣等会自动触发降配 / 峰值未达标 / 催办折扣通知。</p></div>
+    </div>
+    <div class="quote"><b>预计 TPM 算法说明</b>：1M 请求对算力占用远高于常规请求，并发配额与审批口径存在换算逻辑。测试期默认并发配额（coding=10 / 其他=8 / 两者=9）；正式上线并发爬坡策略根据历史资源使用取中间值换算。<b>申请 1000 万 TPM 且场景为 Coding → 配置 100 并发。</b></div>
+
+    <h3 class="sub">资源接口人</h3>
+    <div class="contacts">
+      <div class="chip"><span class="av">邓</span> 邓凡</div>
+      <div class="chip"><span class="av">杨</span> 杨亚楠</div>
+      <div class="chip"><span class="av">李</span> 李世研 (Ethan)</div>
+      <div class="chip"><span class="av">毛</span> 毛鑫</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="matrix">
+      <div class="m"><b>GLM-5.2</b><span>主推 coding、agent 场景 · 文本模型</span></div>
+      <div class="m"><b>GLM-5V-Turbo</b><span>主推 coding · 多模态模型</span></div>
+    </div>
+    <p>API 0616 晚 Ready · 0616 晚海外宣发 · 0617 早国内宣发</p>
+    <p style="margin-top:8px">BigModel 开放平台 · Z.ai · HuggingFace · ModelScope · MIT License</p>
+    <p style="margin-top:14px;color:#4a5266">本页整理自《GLM-5.2 模型培训》及四大场景最佳实践 · 内部销售/培训材料，请勿外传</p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lb"><span class="close">×</span><img src="" alt=""><div class="cap"></div></div>
+
+<script>
+  // reveal on scroll
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('section,.hl,.stat,.cell,.box,.step,.metric').forEach((el,i)=>{el.classList.add('reveal');io.observe(el);});
+
+  // pricing tabs
+  document.querySelectorAll('.ptab').forEach(t=>t.addEventListener('click',()=>{
+    document.querySelectorAll('.ptab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    const os=t.dataset.t==='os';
+    document.getElementById('pt-cn').style.display=os?'none':'';
+    document.getElementById('pt-os').style.display=os?'':'none';
+  }));
+
+  // lightbox
+  const lb=document.getElementById('lb'),lbimg=lb.querySelector('img'),lbcap=lb.querySelector('.cap');
+  document.querySelectorAll('img').forEach(img=>{
+    if(img.closest('#lb'))return;
+    img.addEventListener('click',()=>{
+      if(img.naturalWidth<200&&img.naturalHeight<200)return;
+      lbimg.src=img.src;lbcap.textContent=img.alt||'';
+      lb.classList.add('on');
+    });
+  });
+  lb.addEventListener('click',()=>lb.classList.remove('on'));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on');});
+</script>
+</body>
+</html>
