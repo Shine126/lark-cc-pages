@@ -16,7 +16,7 @@
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.78;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .35s,color .35s}
   a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
   .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-  .logo-l{display:none}[data-theme="dark"] .logo-d{display:none}[data-theme="dark"] .logo-l{display:inline}
+  [data-theme="dark"] .hero-logo{filter:invert(1)}
   code{font-family:ui-monospace,Menlo,monospace;background:var(--surface-2);border:1px solid var(--line);padding:1px 6px;border-radius:5px;font-size:13px}
   nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
@@ -49,16 +49,16 @@
   h2{font-size:clamp(27px,3.8vw,40px);font-weight:800;letter-spacing:-.5px;margin-bottom:12px;line-height:1.14}
   .sec-sub{color:var(--text-2);max-width:600px;margin:0 auto;font-size:15px}
   .col{max-width:720px;margin:0 auto}
-  .prose{font-size:15.5px;color:var(--text-2);line-height:1.8}
+  .prose{font-size:15.5px;color:var(--text-2);line-height:1.8;max-width:720px}
   .prose p{margin-bottom:14px}.prose b{color:var(--text);font-weight:700}
   h3.sub{font-size:19px;font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:10px;letter-spacing:-.2px}
   h3.sub::before{content:"";width:4px;height:20px;background:var(--accent);border-radius:2px;flex-shrink:0}
   h4.mini{font-size:15px;font-weight:700;margin:0 0 8px;color:var(--text)}
-  .blk{margin:40px auto;max-width:720px}.blk:first-child{margin-top:0}
+  .blk{margin:34px auto;max-width:1080px}.blk:first-child{margin-top:0}
   .quote{border-left:3px solid var(--accent);background:var(--surface-2);padding:15px 19px;border-radius:0 12px 12px 0;font-size:14.5px;color:var(--text-2);margin:20px 0}
   .quote.mono{font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.7}
   .quote b{color:var(--text)}
-  .fig{max-width:740px;margin:28px auto;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:var(--sh-lg);transition:.3s}
+  .fig{max-width:900px;margin:28px auto;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--surface);box-shadow:var(--sh-lg);transition:.3s}
   .fig:hover{box-shadow:var(--sh-xl);transform:translateY(-2px)}
   .fig img{cursor:zoom-in;width:100%}
   .figcap{padding:13px 17px;border-top:1px solid var(--line);font-size:12.5px;color:var(--text-3)}.figcap b{color:var(--text-2);font-weight:600}
@@ -83,7 +83,7 @@
   .kv .box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:17px 19px;box-shadow:var(--sh-sm)}
   .kv .box .t{font-size:10.5px;color:var(--text-3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
   .kv .box .d{font-size:13.5px;color:var(--text-2)}.kv .box .d b{color:var(--text);font-weight:700}
-  .caplist{list-style:none;max-width:720px;margin:18px auto;display:grid;gap:10px}
+  .caplist{list-style:none;max-width:1080px;margin:18px auto;display:grid;gap:10px}
   .caplist li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 17px 15px 50px;position:relative;font-size:14px;color:var(--text-2);box-shadow:var(--sh-sm)}
   .caplist li .n{position:absolute;left:14px;top:15px;width:24px;height:24px;border-radius:7px;background:var(--accent);color:var(--on-accent);font-size:11.5px;font-weight:800;display:grid;place-items:center}
   .caplist li b{color:var(--text);font-weight:700}
@@ -159,8 +159,7 @@
 
 <header class="hero">
   <div class="wrap">
-    <img class="hero-logo logo-d" src="assets/brand/zai-logo-dark.svg" alt="Z.AI">
-    <img class="hero-logo logo-l" src="assets/brand/zai-logo-light.svg" alt="Z.AI">
+    <img class="hero-logo" src="assets/brand/zai-logo-dark.svg" alt="Z.AI">
     <div class="badge"><span class="dot"></span> June 2026 · Z.AI's New Open-Source Flagship · MIT License</div>
     <h1 class="title">GLM-5.2</h1>
     <div class="ver">A truly usable 1M context · Top-tier Coding among domestic &amp; open-source models</div>
@@ -191,7 +190,7 @@
         <div class="pillrow"><span class="pill">high (enhanced)</span><span class="pill def">max (default · deep)</span><span class="pill">none / minimal → no thinking</span><span class="pill">low / medium → maps to high</span><span class="pill">xhigh → maps to max</span></div></div>
       <div class="spec-full"><div class="k">🧠 thinking · retained thinking (on by default on Coding Plan endpoints / off on standard API)</div>
         <p style="font-size:13px;color:var(--text-2);margin-top:6px">Controls whether the model retains reasoning content from prior assistant turns. Enabling requires passing the <code>complete, unmodified</code> reasoning content back to the API — it preserves reasoning continuity, improves cache-hit rates, and saves tokens in real tasks.</p>
-        <div class="quote mono" style="max-width:720px;margin:14px auto 0">"thinking": { "type": "enabled", "clear_thinking": false }&nbsp;&nbsp;<span style="color:var(--text-3)">// false = on, true = off</span></div>
+        <div class="quote mono">"thinking": { "type": "enabled", "clear_thinking": false }&nbsp;&nbsp;<span style="color:var(--text-3)">// false = on, true = off</span></div>
         <div class="fig" style="margin-top:16px"><img src="assets/main-thinking.webp" alt="GLM-5.2 retained thinking" loading="lazy"><div class="figcap"><b>Retained thinking</b>: the model keeps reasoning content from prior turns in context, maintaining reasoning continuity, improving cache hits, and saving tokens.</div></div>
       </div>
     </div>
@@ -242,7 +241,7 @@
       <tr><td>Input cache hit</td><td><span class="v">$0.26</span> / M</td><td>Major savings for long context</td></tr>
       <tr><td>Input cache storage</td><td><span class="v">Free (limited)</span></td><td>—</td></tr></tbody></table>
     <div class="fig" style="margin-top:24px"><img src="assets/main-pricing.webp" alt="GLM-5.2 domestic and overseas pricing" loading="lazy"><div class="figcap"><b>GLM-5.2 pricing overview</b> (domestic / overseas). Cache-hit input is roughly 1/4 of regular input (domestic) / 1/5 (overseas), sharply lowering long-context cost.</div></div>
-    <div class="quote" style="max-width:720px;margin:20px auto"><b>For comparison · Claude cache pricing (Opus 4.8)</b><br>Three cache-related rates: 5-min cache write <code>$6.25/MTok</code>, 1-hour cache write <code>$10/MTok</code>, cache hit <code>$0.50/MTok</code>. The developer marks content blocks with <code>cache_control</code> to choose the cache type; hits are auto-judged by prefix consistency + validity. Each hit refreshes validity for free.</div>
+    <div class="quote"><b>For comparison · Claude cache pricing (Opus 4.8)</b><br>Three cache-related rates: 5-min cache write <code>$6.25/MTok</code>, 1-hour cache write <code>$10/MTok</code>, cache hit <code>$0.50/MTok</code>. The developer marks content blocks with <code>cache_control</code> to choose the cache type; hits are auto-judged by prefix consistency + validity. Each hit refreshes validity for free.</div>
   </div>
 </section>
 
@@ -307,7 +306,7 @@
       <div class="shot"><div class="img"><img src="assets/kimi-plan.webp" alt="Competitor full execution" loading="lazy"></div><div class="cap">Competitor · full run, compile fails after 76 min</div></div>
       <div class="shot"><div class="img"><img src="assets/kimi-fail.webp" alt="compile fail, two rounds no fix" loading="lazy"></div><div class="cap">Competitor · compile fail, 2 repair rounds fail</div></div>
     </div>
-    <div class="quote" style="max-width:720px;margin:20px auto"><b>Customer value</b>: automated bug fixing, end-to-end dev, large-scale refactor/migration, code review and test automation — GLM-5.2 turns "code on command" into "<b>finds the method, runs it through, fixes it itself</b>".</div>
+    <div class="quote"><b>Customer value</b>: automated bug fixing, end-to-end dev, large-scale refactor/migration, code review and test automation — GLM-5.2 turns "code on command" into "<b>finds the method, runs it through, fixes it itself</b>".</div>
   </div>
 </section>
 
@@ -351,7 +350,7 @@
       <div class="vc best"><div class="lab">Overseas model</div><div class="img"><img src="assets/armor-gpt.webp" alt="overseas loadout builder" loading="lazy"></div><div class="note">Stronger completion, visual hierarchy (GLM-5.2's UI still has room).</div></div>
       <div class="vc"><div class="lab">Finished app</div><div class="img"><img src="assets/armor-extra.webp" alt="loadout builder web app" loading="lazy"></div><div class="note">Launchable web app with skill pick / search / results.</div></div>
     </div>
-    <div class="quote" style="max-width:720px;margin:20px auto"><b>Customer value</b>: lowers the bar for creative output; clients need no PRD, no data source — the model infers the product goal from one line and drives it forward — <b>from fuzzy idea to deliverable</b>.</div>
+    <div class="quote"><b>Customer value</b>: lowers the bar for creative output; clients need no PRD, no data source — the model infers the product goal from one line and drives it forward — <b>from fuzzy idea to deliverable</b>.</div>
   </div>
 </section>
 
@@ -406,11 +405,11 @@
       <div class="shot"><div class="img"><img src="assets/si-qwen-over.webp" alt="game over" loading="lazy"></div><div class="cap">No auto-fire on hold (edge-detect replaces cooldown)</div></div>
     </div>
 
-    <div class="quote" style="max-width:720px;margin:24px auto 16px"><b>Comparison · in three lines</b><br>
+    <div class="quote"><b>Comparison · in three lines</b><br>
       <b>1. It finishes autonomously (vs 5.1)</b>: 5.2 ships in ~18 min on one prompt; 5.1 stuck 3×, needed 5 manual steps + guidance, ~a day.<br>
       <b>2. Truly behavior-equivalent (vs open model)</b>: 5.2 restores all six rules; the other has no auto-fire and broken hit detection — fails real play. "Translated right", not just "translated at all".<br>
       <b>3. Steadiest on details, survives real users</b>: blur-key reset, column-rear firing, end dimming, pixel-art fidelity — 5.2 nails them all.</div>
-    <div class="quote" style="max-width:720px;margin:16px auto"><b>Customer value</b>: cross-language/cross-platform migration no longer needs senior experts line by line; targeting behavioral equivalence, it self-tests, self-verifies, self-fixes — a playable-in-browser artifact identical in behavior to the original, <b>ready for live customer use</b>.</div>
+    <div class="quote"><b>Customer value</b>: cross-language/cross-platform migration no longer needs senior experts line by line; targeting behavioral equivalence, it self-tests, self-verifies, self-fixes — a playable-in-browser artifact identical in behavior to the original, <b>ready for live customer use</b>.</div>
   </div>
 </section>
 
@@ -456,7 +455,7 @@
         <div class="box"><div class="t">GLM-5.2 ✦</div><div class="d">Recognizes the decision's weight, <b>proactively explains and asks the user</b>, judging this task needs pretrained weights — rigorous research judgment and precise MRCR across 500–700K of context.</div></div>
         <div class="box"><div class="t">Competitor</div><div class="d">Doesn't raise it, <b>silently trains from scratch</b> — for a task that leans on pretraining, that's a config likely to miss the paper's level.</div></div>
       </div></div>
-    <div class="quote" style="max-width:720px;margin:20px auto"><b>Customer value</b>: compresses "reproduce a model from a paper" from days of environment setup and debugging into "give paper + data, model delivers to a verifiable result". Low bar, reliable results (self-check &amp; self-fix), adaptable to the customer's actual GPU.</div>
+    <div class="quote"><b>Customer value</b>: compresses "reproduce a model from a paper" from days of environment setup and debugging into "give paper + data, model delivers to a verifiable result". Low bar, reliable results (self-check &amp; self-fix), adaptable to the customer's actual GPU.</div>
 
     <div class="cta-band">
       <h3>From "can read it all" to "can get it done"</h3>
