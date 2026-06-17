@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>北京神州泰岳软件股份有限公司 — 公司速览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  html { font-family: var(--sans-cn); }
+  html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1080px;
+    min-height: 1400px;
+    background: var(--bg);
+    padding: 56px 64px 48px;
+    border: 1px solid var(--rule);
+  }
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+  }
+  .hd-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .hd-title {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .hd-tagline {
+    font-size: 14px;
+    color: var(--ink);
+    max-width: 680px;
+    margin: 0;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+  .stat {
+    padding: 14px 16px 16px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+  }
+  .col { display: flex; flex-direction: column; gap: 22px; }
+  section h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  section h2 .num {
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  section p {
+    margin: 0 0 8px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 4px;
+  }
+  section ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  section ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+  .lede {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .sub-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+    margin-bottom: 3px;
+  }
+  sup.cite {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-left: 1px;
+  }
+  sup.cite a { color: inherit; text-decoration: none; }
+  sup.cite a:hover { text-decoration: underline; }
+  .person { margin-bottom: 8px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 12px; color: var(--ink); }
+  .comp { margin-bottom: 6px; font-size: 12.5px; }
+  .comp-name { font-weight: 600; }
+  .collab {
+    margin-top: 26px;
+    padding: 22px 24px 20px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .collab h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 12px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13.5px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 32px;
+  }
+  .collab-block .ck-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .collab-block p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .sources {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 36px;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 5px;
+    break-inside: avoid;
+    padding-left: 22px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a {
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  @media print {
+    body { background: white; padding: 0; }
+    .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览 / Company Brief</div>
+      <h1 class="hd-title">北京神州泰岳软件股份有限公司</h1>
+      <p class="hd-tagline">深交所创业板首批上市企业（300002），"游戏出海 + AI/ICT 数智化服务"双轮驱动的科技集团，总资产逾110亿元，员工超4000人。</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink)">2025-06-17</strong>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">北京</div>
+      <div class="stat-label">总部 / HQ</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2001</div>
+      <div class="stat-label">成立年份 / Founded</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">4,000+</div>
+      <div class="stat-label">员工人数 / Employees</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">64.5亿</div>
+      <div class="stat-label">2024年营收 (RMB)</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式 / Business Model</h2>
+        <p class="lede">双主业结构：游戏出海（C端）+ AI/ICT 数智化服务（B端），构建"ICT架构布局、云提供基础设施"的数字产业格局。</p>
+        <ul>
+          <li><strong>游戏业务（~75%营收）：</strong>以SLG策略游戏海外发行为核心，旗舰产品War and Order、Age of Origins 等长线运营，游戏出海收入占比超九成<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li><strong>AI/ICT 运营管理（~15%）：</strong>面向运营商、金融、政企客户提供IT运维管理、系统集成、信息安全服务，深耕行业20余年<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li><strong>物联网/通讯 + 创新服务：</strong>覆盖物联网通信、云增值服务等创新业务板块</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态</h2>
+        <p class="lede">2025年游戏主业承压、AI 业务加速布局——"增收转降"与"AI转型加码"同步发生。</p>
+        <ul>
+          <li><strong>2025年营收利润双降：</strong>全年营收58.24亿元（-9.74%），归母净利7.98亿元（-44.1%），主因游戏主力产品流水回落<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li><strong>AI产品密集发布：</strong>2025年6月发布"泰岳灯塔"AI大模型应用能力体系，7月推出"岳擎"数智化新IT运营大模型<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li><strong>AWS深度绑定：</strong>获亚马逊云科技AI Services Competency认证，系首批生成式AI能力认证合作伙伴，基于SageMaker构建AI应用<sup class="cite"><a href="#s5">[5]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI 布局 / AI Play</h2>
+        <p class="lede">以"泰岳灯塔"为核心载体，构建"1个AI双核引擎 + 1个垂类智能体矩阵 + N个行业赋能方案"体系。</p>
+        <ul>
+          <li><strong>模型训推一体化平台：</strong>实现算力、数据、大模型的系统化管理，衔接通用大模型与行业垂类应用</li>
+          <li><strong>智能体开发协同平台：</strong>面向ICT运营、信息安全等场景构建行业专属智能体，已有气象"黔小丰"等落地案例<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li><strong>云+AI综合服务：</strong>携手AWS为中国企业出海提供全栈式云+AI服务，覆盖架构选型→模型调优→云应用全链路</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队 / Key People</h2>
+        <div class="person">
+          <div><span class="person-name">冒大卫</span> <span class="person-role">· 董事长兼总裁</span></div>
+          <div class="person-bio">1980年生，北京大学博士、副教授（光华管理学院），曾任北大财务部部长。2018年加入神州泰岳任总裁，2021年起任董事长。2023年薪酬971万元，系A股高薪掌门人之一<sup class="cite"><a href="#s6">[6]</a></sup></div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">李力</span> <span class="person-role">· 创始人 / 第一大个人股东</span></div>
+          <div class="person-bio">公司创始人，持股约8.78%（2022年数据），为公司单一最大自然人股东，不参与日常经营管理</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">张开彦</span> <span class="person-role">· 董事 / 董秘</span></div>
+          <div class="person-bio">1982年生，武汉大学经济学学士、北京大学法律硕士，保荐代表人，曾任西南证券投行部</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局 / Competitive Landscape</h2>
+        <p class="lede">跨游戏与ICT两大赛道，各赛道竞争对手属性差异显著。</p>
+        <div class="comp"><span class="comp-name">三七互娱</span> — 游戏出海SLG赛道直接竞品，规模更大（2024年营收~175亿），但泰岳SLG产品长线运营能力突出</div>
+        <div class="comp"><span class="comp-name">神州数码</span> — ICT分销与云服务赛道重叠，但泰岳偏重自研软件+运维，神州数码偏重分销代理</div>
+        <div class="comp"><span class="comp-name">亚信科技</span> — 电信BSS/OSS赛道竞品，均为运营商客户体系，泰岳在ICT运维管理领域有差异化积累</div>
+        <div class="comp"><span class="comp-name">博彦科技 / 软通动力</span> — 软件外包与IT服务赛道竞品，均在向AI服务商转型</div>
+        <div class="sub-label">差异化定位</div>
+        <p style="font-size:12px;margin:0;">泰岳的独特性在于"游戏现金流 + ICT行业Know-how"的双轮结构——游戏提供稳定现金流反哺B端AI/ICT投入，20余年运营商/金融客户积累构成B端壁垒。</p>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- COLLAB ANGLE -->
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai / 智谱）</h2>
+    <p class="lede">神州泰岳正在构建AI大模型应用能力体系，但底层模型依赖AWS生态——这正是Z.ai GLM模型的切入窗口。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机 / Why They'd Care</span>
+        <p>"泰岳灯塔"和"岳擎"体系需要强大的基座模型支撑，目前深度绑定AWS SageMaker。在政企/运营商客户场景中，国产化模型需求强烈（信创合规要求），GLM的MIT开源许可和国产适配是刚需。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合 / Product Fit</span>
+        <p>GLM系列模型（GLM-4/GLM-4V）可嵌入"岳擎"ICT运营大模型作为基座；GLM开源版（MIT许可）适合私有化部署至运营商/金融客户内网；智谱的推理加速方案可优化泰岳智能体矩阵的响应性能。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点 / Friction</span>
+        <p>现有AWS生态深度绑定（多项Competency认证），切换成本不低；公司游戏业务占营收75%+，AI/ICT业务体量尚小，短期模型采购预算有限；泰岳可能自研行业小模型而非直接外采。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步 / First Move</span>
+        <p>以"岳擎"ICT运营场景为切入点，提供GLM模型90天POC——聚焦网络告警智能分析、工单自动分类等明确场景，输出可量化的准确率/效率提升数据。同步探讨将GLM纳入"泰岳灯塔"模型矩阵，形成联合解决方案推向运营商客户。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h2>信息来源 / Sources</h2>
+    <ol>
+      <li id="s1">国际金融报 — "主营游戏业务成拖累，神州泰岳陷入'双降'困境" — 2026-02 — <a href="https://www.ifnews.com/news.html?aid=757605&cid=43">link</a></li>
+      <li id="s2">企查查 — "北京神州泰岳软件股份有限公司" — 2025 — <a href="https://m.qcc.com/firm/e30f0b2e9a150fc7e8621b5a244f56ff.html">link</a></li>
+      <li id="s3">国际金融报 — "'常青树'游戏显疲态，神州泰岳2025年营收利润双双下滑" — 2026-02 — <a href="https://www.ifnews.com/news.html?aid=808878&cid=43">link</a></li>
+      <li id="s4">美通社 — "神州泰岳正式发布'泰岳灯塔'AI大模型应用能力体系" — 2025-06-11 — <a href="https://www.prnasia.com/story/492530-1.shtml">link</a></li>
+      <li id="s5">神州泰岳官网 — "荣获AWS AI Services Competency认证" — 2026-06 — <a href="https://www.ultrapower.com.cn/news/">link</a></li>
+      <li id="s6">21经济网 — "北大老师转行游戏，海外狂收140亿" — 2024-01 — <a href="https://www.21jingji.com/article/20240117/herald/29a86fbb8ac4fbb7ddb70b3d71896ec4.html">link</a></li>
+      <li id="s7">东方财富 — "神州泰岳（300002）2024年年报及2025Q1点评" — 2025-04 — <a href="https://pdf.dfcfw.com/pdf/H3_AP202504281663872577_1.pdf">link</a></li>
+      <li id="s8">证券时报 — "神州泰岳2024年净利润同比增长超60%" — 2025-04-25 — <a href="https://www.stcn.com/article/detail/1712272.html">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
