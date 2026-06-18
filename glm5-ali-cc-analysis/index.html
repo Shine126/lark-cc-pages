@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM-5-ali 并发 × 成功率异常分析</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+  :root{
+    --bg:#0b0f17; --panel:#121826; --panel2:#0f1420; --border:#1f2738;
+    --txt:#e6edf6; --sub:#8b97ac; --muted:#5b6478;
+    --cyan:#22d3ee; --amber:#f59e0b; --red:#ef4444; --orange:#fb923c; --violet:#a78bfa; --green:#34d399;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+  header{margin-bottom:24px}
+  .eyebrow{color:var(--cyan);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  h1{font-size:26px;font-weight:700;letter-spacing:-.01em}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;color:var(--sub);font-size:13px}
+  .meta b{color:var(--txt);font-weight:600}
+  .meta .dot{color:var(--muted)}
+
+  .verdict{background:linear-gradient(135deg,rgba(239,68,68,.10),rgba(245,158,11,.06));border:1px solid #2a2330;border-radius:14px;padding:20px 22px;margin:22px 0}
+  .verdict .tag{display:inline-block;background:rgba(239,68,68,.16);color:#fca5a5;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;margin-bottom:10px}
+  .verdict p{font-size:16px;color:var(--txt)}
+  .verdict p b{color:#fca5a5}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0 26px}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+  .kpi .k{font-size:12px;color:var(--sub);margin-bottom:6px}
+  .kpi .v{font-size:24px;font-weight:700;letter-spacing:-.02em}
+  .kpi .h{font-size:12px;color:var(--muted);margin-top:3px}
+  .kpi.warn .v{color:var(--red)}
+  .kpi.amber .v{color:var(--amber)}
+  .kpi.cyan .v{color:var(--cyan)}
+  .kpi.green .v{color:var(--green)}
+
+  .chart-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 18px 8px;margin-bottom:18px}
+  .chart-title{font-size:15px;font-weight:600;margin-bottom:2px}
+  .chart-sub{font-size:12px;color:var(--sub);margin-bottom:10px}
+  .chart{width:100%;height:380px}
+
+  .legend-row{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--sub);padding:6px 4px 14px}
+  .legend-row span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:3px;border-radius:2px;display:inline-block}
+  .sw.bar{height:9px;width:9px;border-radius:2px}
+  .sw.dash{background:transparent;border-top:2px dashed var(--red);height:0;width:14px}
+
+  footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+  footer b{color:var(--sub)}
+  @media(max-width:680px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    h1{font-size:21px}
+    .chart{height:320px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Incident Analysis · 并发异常归因</div>
+    <h1>GLM-5-ali 并发峰值 × 业务成功率 时序分析</h1>
+    <div class="meta">
+      <span><b>客户</b> 23031705992020361</span><span class="dot">·</span>
+      <span><b>模型</b> glm-5-ali</span><span class="dot">·</span>
+      <span><b>并发配额</b> 2500</span><span class="dot">·</span>
+      <span><b>范围</b> 2026-06-15 11:00 → 06-18 11:00（72h，按小时）</span>
+    </div>
+  </header>
+
+  <div class="verdict">
+    <span class="tag">● 定性结论</span>
+    <p>非服务端抖动。<b>6/16 中午起客户在 glm-5-ali 上的并发需求翻倍、顶穿 2500 配额</b>，持续触发 1302（客户并发过高）/ 1305（模型并发过高）限流，把成功率拉低。因果方向为「<b>并发先冲高 → 限流 → 成功率跌</b>」，与成功率低谷严格同频；推理服务异常（1234）全程低位，排除。</p>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi warn"><div class="k">成功率最低</div><div class="v">88.08%</div><div class="h">6/16 15:00（并发2141）</div></div>
+    <div class="kpi amber"><div class="k">并发峰值</div><div class="v">2543</div><div class="h">超配额 2500</div></div>
+    <div class="kpi warn"><div class="k">1302 单小时峰值</div><div class="v">14,302</div><div class="h">6/17 17:00 客户并发过高</div></div>
+    <div class="kpi cyan"><div class="k">1305 单小时峰值</div><div class="v">26,931</div><div class="h">6/16 15:00 模型并发过高</div></div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">并发峰值 vs 业务成功率</div>
+    <div class="chart-sub">左轴=并发数（青色面积），红色虚线为 2500 配额；右轴=成功率（琥珀）。并发触及/超过配额时，成功率同步跌入低谷。</div>
+    <div id="main" class="chart"></div>
+    <div class="legend-row">
+      <span><i class="sw" style="background:var(--cyan)"></i>并发峰值（左轴）</span>
+      <span><i class="sw dash"></i>配额 2500</span>
+      <span><i class="sw" style="background:var(--amber)"></i>成功率（右轴）</span>
+    </div>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-title">限流错误码 vs 业务成功率</div>
+    <div class="chart-sub">堆叠柱=限流错误数（左轴）；折线=成功率（右轴）。错误爆发峰与成功率低谷完全重合，证实「限流致失败」。</div>
+    <div id="err" class="chart"></div>
+    <div class="legend-row">
+      <span><i class="sw bar" style="background:var(--red)"></i>1302 客户并发过高</span>
+      <span><i class="sw bar" style="background:var(--orange)"></i>1305 模型并发过高</span>
+      <span><i class="sw bar" style="background:var(--violet)"></i>1234 推理异常（对照）</span>
+      <span><i class="sw" style="background:var(--amber)"></i>成功率（右轴）</span>
+    </div>
+  </div>
+
+  <footer>
+    <b>数据来源：</b>Grafana（platform.view_platform_monitor_prod_rt，API 直查） · <b>生成：</b>2026-06-18 · 由 Easer 自动生成 · 配额=customer_concurrency，并发峰值=real_customer_concurrency 小时 max
+  </footer>
+</div>
+
+<script>
+const DATA = [
+  {time:"2026-06-15 11:00",concurrency:1158,success_rate:98.71,err_1302:0,err_1305:0,err_1234:461},
+  {time:"2026-06-15 12:00",concurrency:992,success_rate:98.75,err_1302:0,err_1305:0,err_1234:529},
+  {time:"2026-06-15 13:00",concurrency:696,success_rate:98.85,err_1302:0,err_1305:0,err_1234:532},
+  {time:"2026-06-15 14:00",concurrency:1076,success_rate:99.08,err_1302:0,err_1305:0,err_1234:461},
+  {time:"2026-06-15 15:00",concurrency:1058,success_rate:99.13,err_1302:0,err_1305:0,err_1234:446},
+  {time:"2026-06-15 16:00",concurrency:1239,success_rate:98.94,err_1302:0,err_1305:244,err_1234:524},
+  {time:"2026-06-15 17:00",concurrency:1231,success_rate:98.98,err_1302:0,err_1305:407,err_1234:264},
+  {time:"2026-06-15 18:00",concurrency:1064,success_rate:99.16,err_1302:0,err_1305:0,err_1234:329},
+  {time:"2026-06-15 19:00",concurrency:931,success_rate:98.97,err_1302:0,err_1305:0,err_1234:455},
+  {time:"2026-06-15 20:00",concurrency:1048,success_rate:99.33,err_1302:0,err_1305:0,err_1234:189},
+  {time:"2026-06-15 21:00",concurrency:905,success_rate:99.28,err_1302:0,err_1305:0,err_1234:172},
+  {time:"2026-06-15 22:00",concurrency:876,success_rate:99.55,err_1302:0,err_1305:0,err_1234:150},
+  {time:"2026-06-15 23:00",concurrency:1028,success_rate:99.51,err_1302:0,err_1305:0,err_1234:118},
+  {time:"2026-06-16 00:00",concurrency:731,success_rate:99.42,err_1302:0,err_1305:0,err_1234:285},
+  {time:"2026-06-16 01:00",concurrency:683,success_rate:99.14,err_1302:0,err_1305:0,err_1234:411},
+  {time:"2026-06-16 02:00",concurrency:526,success_rate:98.72,err_1302:0,err_1305:103,err_1234:192},
+  {time:"2026-06-16 03:00",concurrency:357,success_rate:97.95,err_1302:0,err_1305:212,err_1234:258},
+  {time:"2026-06-16 04:00",concurrency:331,success_rate:97.99,err_1302:0,err_1305:222,err_1234:222},
+  {time:"2026-06-16 05:00",concurrency:345,success_rate:97.45,err_1302:0,err_1305:246,err_1234:290},
+  {time:"2026-06-16 06:00",concurrency:396,success_rate:98.15,err_1302:0,err_1305:193,err_1234:206},
+  {time:"2026-06-16 07:00",concurrency:392,success_rate:98.41,err_1302:0,err_1305:126,err_1234:196},
+  {time:"2026-06-16 08:00",concurrency:801,success_rate:99.05,err_1302:0,err_1305:31,err_1234:531},
+  {time:"2026-06-16 09:00",concurrency:959,success_rate:99.45,err_1302:0,err_1305:0,err_1234:274},
+  {time:"2026-06-16 10:00",concurrency:1115,success_rate:99.44,err_1302:0,err_1305:0,err_1234:223},
+  {time:"2026-06-16 11:00",concurrency:1146,success_rate:99.21,err_1302:0,err_1305:0,err_1234:443},
+  {time:"2026-06-16 12:00",concurrency:2245,success_rate:92.67,err_1302:0,err_1305:12167,err_1234:389},
+  {time:"2026-06-16 13:00",concurrency:900,success_rate:99.18,err_1302:0,err_1305:0,err_1234:522},
+  {time:"2026-06-16 14:00",concurrency:1710,success_rate:95.67,err_1302:0,err_1305:6499,err_1234:197},
+  {time:"2026-06-16 15:00",concurrency:2141,success_rate:88.08,err_1302:0,err_1305:26931,err_1234:11},
+  {time:"2026-06-16 16:00",concurrency:1392,success_rate:99.45,err_1302:0,err_1305:282,err_1234:20},
+  {time:"2026-06-16 17:00",concurrency:2513,success_rate:94.66,err_1302:9901,err_1305:1098,err_1234:26},
+  {time:"2026-06-16 18:00",concurrency:1468,success_rate:97.02,err_1302:0,err_1305:0,err_1234:3976},
+  {time:"2026-06-16 19:00",concurrency:2514,success_rate:92.86,err_1302:13325,err_1305:458,err_1234:1},
+  {time:"2026-06-16 20:00",concurrency:2518,success_rate:93.75,err_1302:11850,err_1305:249,err_1234:4},
+  {time:"2026-06-16 21:00",concurrency:2512,success_rate:95.73,err_1302:7050,err_1305:0,err_1234:0},
+  {time:"2026-06-16 22:00",concurrency:2205,success_rate:99.66,err_1302:0,err_1305:0,err_1234:1},
+  {time:"2026-06-16 23:00",concurrency:2513,success_rate:94.99,err_1302:9226,err_1305:0,err_1234:1},
+  {time:"2026-06-17 00:00",concurrency:2514,success_rate:96.83,err_1302:4814,err_1305:0,err_1234:4},
+  {time:"2026-06-17 01:00",concurrency:1531,success_rate:99.52,err_1302:0,err_1305:0,err_1234:2},
+  {time:"2026-06-17 02:00",concurrency:2508,success_rate:96.21,err_1302:3319,err_1305:0,err_1234:0},
+  {time:"2026-06-17 03:00",concurrency:2516,success_rate:96.37,err_1302:3218,err_1305:3,err_1234:1},
+  {time:"2026-06-17 04:00",concurrency:2510,success_rate:96.41,err_1302:2604,err_1305:24,err_1234:10},
+  {time:"2026-06-17 05:00",concurrency:2515,success_rate:95.86,err_1302:2928,err_1305:47,err_1234:0},
+  {time:"2026-06-17 06:00",concurrency:2510,success_rate:96.02,err_1302:3105,err_1305:11,err_1234:2},
+  {time:"2026-06-17 07:00",concurrency:2511,success_rate:96.02,err_1302:3051,err_1305:0,err_1234:0},
+  {time:"2026-06-17 08:00",concurrency:2517,success_rate:94.50,err_1302:7922,err_1305:0,err_1234:3},
+  {time:"2026-06-17 09:00",concurrency:2509,success_rate:99.04,err_1302:1195,err_1305:0,err_1234:7},
+  {time:"2026-06-17 10:00",concurrency:2543,success_rate:93.77,err_1302:11721,err_1305:37,err_1234:8},
+  {time:"2026-06-17 11:00",concurrency:2520,success_rate:93.85,err_1302:12193,err_1305:1,err_1234:13},
+  {time:"2026-06-17 12:00",concurrency:2516,success_rate:95.91,err_1302:6709,err_1305:0,err_1234:6},
+  {time:"2026-06-17 13:00",concurrency:918,success_rate:99.63,err_1302:0,err_1305:0,err_1234:11},
+  {time:"2026-06-17 14:00",concurrency:2524,success_rate:94.77,err_1302:10158,err_1305:3,err_1234:6},
+  {time:"2026-06-17 15:00",concurrency:2514,success_rate:94.53,err_1302:10023,err_1305:0,err_1234:6},
+  {time:"2026-06-17 16:00",concurrency:2511,success_rate:98.71,err_1302:1827,err_1305:11,err_1234:3},
+  {time:"2026-06-17 17:00",concurrency:2525,success_rate:92.97,err_1302:14302,err_1305:2,err_1234:5},
+  {time:"2026-06-17 18:00",concurrency:1221,success_rate:99.57,err_1302:0,err_1305:0,err_1234:4},
+  {time:"2026-06-17 19:00",concurrency:2518,success_rate:95.39,err_1302:8188,err_1305:0,err_1234:20},
+  {time:"2026-06-17 20:00",concurrency:2530,success_rate:95.82,err_1302:7881,err_1305:0,err_1234:8},
+  {time:"2026-06-17 21:00",concurrency:2513,success_rate:96.89,err_1302:5397,err_1305:0,err_1234:5},
+  {time:"2026-06-17 22:00",concurrency:1522,success_rate:99.14,err_1302:0,err_1305:0,err_1234:205},
+  {time:"2026-06-17 23:00",concurrency:2511,success_rate:96.08,err_1302:5699,err_1305:0,err_1234:263},
+  {time:"2026-06-18 00:00",concurrency:2514,success_rate:95.29,err_1302:6093,err_1305:0,err_1234:261},
+  {time:"2026-06-18 01:00",concurrency:2505,success_rate:99.26,err_1302:288,err_1305:0,err_1234:271},
+  {time:"2026-06-18 02:00",concurrency:2526,success_rate:95.25,err_1302:2964,err_1305:0,err_1234:264},
+  {time:"2026-06-18 03:00",concurrency:2511,success_rate:95.80,err_1302:2609,err_1305:0,err_1234:276},
+  {time:"2026-06-18 04:00",concurrency:2514,success_rate:96.66,err_1302:2299,err_1305:23,err_1234:261},
+  {time:"2026-06-18 05:00",concurrency:2513,success_rate:96.96,err_1302:1924,err_1305:6,err_1234:268},
+  {time:"2026-06-18 06:00",concurrency:2510,success_rate:95.75,err_1302:2925,err_1305:15,err_1234:333},
+  {time:"2026-06-18 07:00",concurrency:674,success_rate:99.08,err_1302:0,err_1305:0,err_1234:269},
+  {time:"2026-06-18 08:00",concurrency:2513,success_rate:97.29,err_1302:3793,err_1305:0,err_1234:261},
+  {time:"2026-06-18 09:00",concurrency:2514,success_rate:96.29,err_1302:6448,err_1305:0,err_1234:267},
+  {time:"2026-06-18 10:00",concurrency:2520,success_rate:95.77,err_1302:7872,err_1305:0,err_1234:255},
+  {time:"2026-06-18 11:00",concurrency:1084,success_rate:99.64,err_1302:0,err_1305:0,err_1234:30}
+];
+const T = DATA.map(d=>d.time);
+const CC = DATA.map(d=>d.concurrency);
+const SR = DATA.map(d=>d.success_rate);
+const E2 = DATA.map(d=>d.err_1302);
+const E5 = DATA.map(d=>d.err_1305);
+const E4 = DATA.map(d=>d.err_1234);
+
+const baseGrid = {left:54,right:62,top:46,bottom:74};
+const baseX = {
+  type:'category', data:T, boundaryGap:false,
+  axisLabel:{color:'#8b97ac',fontSize:10,interval:5,rotate:0,hideOverlap:true},
+  axisLine:{lineStyle:{color:'#2a3346'}}, axisTick:{show:false},
+  splitLine:{show:true,lineStyle:{color:'rgba(255,255,255,.04)'}}
+};
+const dataZoom = [{type:'inside',start:0,end:100},{type:'slider',height:16,bottom:10,start:0,end:100,
+  dataBackground:{lineStyle:{color:'#334'},areaStyle:{color:'#222'}},borderColor:'#1f2738',textStyle:{color:'#5b6478'}}];
+const tooltipBase = {trigger:'axis',backgroundColor:'#0f1420',borderColor:'#2a3346',textStyle:{color:'#e6edf6',fontSize:12}};
+
+// ---- Main chart ----
+const main = echarts.init(document.getElementById('main'),null,{renderer:'canvas'});
+main.setOption({
+  grid:baseGrid, tooltip:{...tooltipBase,
+    formatter:(p)=>{
+      let s=`<b>${p[0].axisValue}</b>`;
+      p.forEach(x=>{s+=`<br/>${x.marker}${x.seriesName}: <b>${x.seriesName==='成功率'?x.value+'%':x.value}</b>`;});
+      return s;
+    }},
+  legend:{show:false},
+  xAxis:baseX,
+  yAxis:[
+    {type:'value',name:'并发',min:0,max:2700,nameTextStyle:{color:'#8b97ac',fontSize:11},
+     axisLabel:{color:'#8b97ac'},splitLine:{lineStyle:{color:'rgba(255,255,255,.05)'}},axisLine:{show:false},axisTick:{show:false}},
+    {type:'value',name:'成功率 %',min:85,max:100,nameTextStyle:{color:'#8b97ac',fontSize:11},
+     axisLabel:{color:'#8b97ac',formatter:'{value}%'},splitLine:{show:false},axisLine:{show:false},axisTick:{show:false}}
+  ],
+  dataZoom,
+  series:[
+    {name:'并发峰值',type:'line',data:CC,yAxisIndex:0,smooth:true,symbol:'none',
+     lineStyle:{color:'#22d3ee',width:2.2},itemStyle:{color:'#22d3ee'},
+     areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'rgba(34,211,238,.28)'},{offset:1,color:'rgba(34,211,238,.02)'}])},
+     markLine:{symbol:'none',silent:true,data:[{yAxis:2500,lineStyle:{color:'#ef4444',type:'dashed',width:1.5},label:{formatter:'配额 2500',color:'#fca5a5',fontSize:10,position:'insideStartTop'}}]}},
+    {name:'成功率',type:'line',data:SR,yAxisIndex:1,smooth:true,symbol:'none',
+     lineStyle:{color:'#f59e0b',width:2.2},itemStyle:{color:'#f59e0b'},
+     markPoint:{symbol:'pin',symbolSize:46,data:[
+       {name:'最低谷',coord:['2026-06-16 15:00',88.08],value:'88%',itemStyle:{color:'#ef4444'},label:{color:'#fff',fontSize:10}},
+       {name:'突变点',coord:['2026-06-16 12:00',92.67],value:'92%',itemStyle:{color:'#fb923c'},label:{color:'#fff',fontSize:10}}
+     ]}}
+  ]
+});
+
+// ---- Error chart ----
+const err = echarts.init(document.getElementById('err'),null,{renderer:'canvas'});
+err.setOption({
+  grid:baseGrid, tooltip:{...tooltipBase,
+    formatter:(p)=>{
+      let s=`<b>${p[0].axisValue}</b>`;
+      p.forEach(x=>{s+=`<br/>${x.marker}${x.seriesName}: <b>${x.seriesName==='成功率'?x.value+'%':x.value.toLocaleString()}</b>`;});
+      return s;
+    }},
+  legend:{show:false},
+  xAxis:baseX,
+  yAxis:[
+    {type:'value',name:'错误数',min:0,nameTextStyle:{color:'#8b97ac',fontSize:11},
+     axisLabel:{color:'#8b97ac'},splitLine:{lineStyle:{color:'rgba(255,255,255,.05)'}},axisLine:{show:false},axisTick:{show:false}},
+    {type:'value',name:'成功率 %',min:85,max:100,nameTextStyle:{color:'#8b97ac',fontSize:11},
+     axisLabel:{color:'#8b97ac',formatter:'{value}%'},splitLine:{show:false},axisLine:{show:false},axisTick:{show:false}}
+  ],
+  dataZoom,
+  series:[
+    {name:'1302 客户并发过高',type:'bar',stack:'err',data:E2,itemStyle:{color:'#ef4444'},barWidth:'60%'},
+    {name:'1305 模型并发过高',type:'bar',stack:'err',data:E5,itemStyle:{color:'#fb923c'},barWidth:'60%'},
+    {name:'1234 推理异常',type:'bar',stack:'err',data:E4,itemStyle:{color:'#a78bfa'},barWidth:'60%'},
+    {name:'成功率',type:'line',data:SR,yAxisIndex:1,smooth:true,symbol:'none',lineStyle:{color:'#f59e0b',width:2.2},itemStyle:{color:'#f59e0b'}}
+  ]
+});
+
+window.addEventListener('resize',()=>{main.resize();err.resize();});
+</script>
+</body>
+</html>
