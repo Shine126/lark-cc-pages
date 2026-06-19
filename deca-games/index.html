@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>DECA Games — 公司速览</title>
+<title>Deca Games — One-Pager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
@@ -24,150 +24,37 @@
   html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
   * { box-sizing: border-box; }
   body {
-    margin: 0;
-    background: #ECEAE3;
-    color: var(--ink);
-    font-size: 13px;
-    line-height: 1.5;
+    margin: 0; background: #ECEAE3; color: var(--ink);
+    font-size: 13px; line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    padding: 32px 16px;
-    display: flex;
-    justify-content: center;
+    padding: 32px 16px; display: flex; justify-content: center;
   }
   .page {
-    width: 1080px;
-    min-height: 1400px;
-    background: var(--bg);
-    padding: 56px 64px 48px;
-    border: 1px solid var(--rule);
+    width: 1080px; min-height: 1400px;
+    background: var(--bg); padding: 56px 64px 48px; border: 1px solid var(--rule);
   }
-  .hd {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    border-bottom: 2px solid var(--ink);
-    padding-bottom: 18px;
-    margin-bottom: 22px;
-  }
-  .hd-eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .hd-title {
-    font-size: 38px;
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--ink);
-    margin: 0 0 8px;
-  }
-  .hd-tagline {
-    font-size: 14px;
-    color: var(--ink);
-    max-width: 680px;
-    margin: 0;
-  }
-  .hd-date {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: right;
-    line-height: 1.4;
-  }
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 24px;
-  }
-  .stat {
-    padding: 14px 16px 16px 0;
-    border-right: 1px solid var(--rule);
-  }
+  .hd { display: grid; grid-template-columns: 1fr auto; align-items: end; border-bottom: 2px solid var(--ink); padding-bottom: 18px; margin-bottom: 22px; }
+  .hd-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .hd-title { font-size: 38px; font-weight: 700; line-height: 1.1; color: var(--ink); margin: 0 0 8px; }
+  .hd-tagline { font-size: 14px; color: var(--ink); max-width: 680px; margin: 0; }
+  .hd-date { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.4; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+  .stat { padding: 14px 16px 16px 0; border-right: 1px solid var(--rule); }
   .stat:last-child { border-right: none; padding-right: 0; }
-  .stat-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-  .stat-label {
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
-  }
+  .stat-value { font-size: 26px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .body { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
   .col { display: flex; flex-direction: column; gap: 22px; }
-  section h2 {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--rule);
-  }
-  section h2 .num {
-    color: var(--muted);
-    font-weight: 500;
-    margin-right: 8px;
-  }
-  section p {
-    margin: 0 0 8px;
-    font-size: 13px;
-    line-height: 1.55;
-  }
-  section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 4px;
-  }
-  section ul li {
-    position: relative;
-    padding-left: 14px;
-    margin-bottom: 5px;
-    font-size: 12.5px;
-    line-height: 1.5;
-  }
-  section ul li::before {
-    content: "—";
-    position: absolute;
-    left: 0;
-    color: var(--muted);
-  }
-  .lede {
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--ink);
-    margin-bottom: 8px;
-  }
-  .sub-label {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 8px;
-    margin-bottom: 3px;
-  }
-  sup.cite {
-    font-size: 9px;
-    font-weight: 500;
-    color: var(--accent);
-    margin-left: 1px;
-  }
-  sup.cite a {
-    color: inherit;
-    text-decoration: none;
-  }
+  section h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+  section h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  section p { margin: 0 0 8px; font-size: 13px; line-height: 1.55; }
+  section ul { list-style: none; padding: 0; margin: 0 0 4px; }
+  section ul li { position: relative; padding-left: 14px; margin-bottom: 5px; font-size: 12.5px; line-height: 1.5; }
+  section ul li::before { content: "—"; position: absolute; left: 0; color: var(--muted); }
+  .lede { font-size: 13.5px; font-weight: 500; color: var(--ink); margin-bottom: 8px; }
+  .sub-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; margin-bottom: 3px; }
+  sup.cite { font-size: 9px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
   sup.cite a:hover { text-decoration: underline; }
   .person { margin-bottom: 8px; }
   .person-name { font-weight: 600; }
@@ -175,93 +62,21 @@
   .person-bio { font-size: 12px; color: var(--ink); }
   .comp { margin-bottom: 6px; font-size: 12.5px; }
   .comp-name { font-weight: 600; }
-  .collab {
-    margin-top: 26px;
-    padding: 22px 24px 20px;
-    background: #F3F1EA;
-    border-top: 3px solid var(--accent);
-    border-bottom: 1px solid var(--rule);
-  }
-  .collab h2 {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin: 0 0 12px;
-    padding-bottom: 0;
-    border-bottom: none;
-  }
+  .collab { margin-top: 26px; padding: 22px 24px 20px; background: #F3F1EA; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--rule); }
+  .collab h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 12px; padding-bottom: 0; border-bottom: none; }
   .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
   .collab .lede { font-size: 13.5px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
-  .collab-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px 32px;
-  }
-  .collab-block .ck-label {
-    font-size: 9.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 700;
-    margin-bottom: 4px;
-    display: block;
-  }
-  .collab-block p {
-    font-size: 12px;
-    line-height: 1.5;
-    margin: 0;
-  }
-  .sources {
-    margin-top: 28px;
-    padding-top: 16px;
-    border-top: 1px solid var(--rule);
-  }
-  .sources h2 {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin: 0 0 10px;
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-  .sources ol {
-    list-style: none;
-    counter-reset: src;
-    padding: 0;
-    margin: 0;
-    columns: 2;
-    column-gap: 36px;
-  }
-  .sources ol li {
-    counter-increment: src;
-    font-size: 10.5px;
-    color: var(--muted);
-    line-height: 1.45;
-    margin-bottom: 5px;
-    break-inside: avoid;
-    padding-left: 22px;
-    position: relative;
-  }
-  .sources ol li::before {
-    content: "[" counter(src) "]";
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .sources a {
-    color: var(--muted);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--rule);
-  }
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 32px; }
+  .collab-block .ck-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 4px; display: block; }
+  .collab-block p { font-size: 12px; line-height: 1.5; margin: 0; }
+  .sources { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--rule); }
+  .sources h2 { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; border-bottom: none; padding-bottom: 0; }
+  .sources ol { list-style: none; counter-reset: src; padding: 0; margin: 0; columns: 2; column-gap: 36px; }
+  .sources ol li { counter-increment: src; font-size: 10.5px; color: var(--muted); line-height: 1.45; margin-bottom: 5px; break-inside: avoid; padding-left: 22px; position: relative; }
+  .sources ol li::before { content: "[" counter(src) "]"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  .sources a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--rule); }
   .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
-  @media print {
-    body { background: white; padding: 0; }
-    .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; }
-  }
+  @media print { body { background: white; padding: 0; } .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; } }
 </style>
 </head>
 <body>
@@ -271,13 +86,13 @@
   <!-- ============== HEADER ============== -->
   <header class="hd">
     <div>
-      <div class="hd-eyebrow">公司速览 / Company Brief</div>
-      <h1 class="hd-title">DECA Games</h1>
-      <p class="hd-tagline">柏林移动游戏"复活"专家——收购衰退期 F2P 游戏IP，通过 Live Ops 延长游戏生命周期，现隶属 Embracer Group 旗下六大运营集团之一。</p>
+      <div class="hd-eyebrow">客户速览 / Company Brief</div>
+      <h1 class="hd-title">Deca Games</h1>
+      <p class="hd-tagline">专注「游戏长尾运营」的移动游戏发行商，收购并持续运营老化的免费游戏（F2P），通过 LiveOps 延长游戏生命周期并持续变现。</p>
     </div>
     <div class="hd-date">
       研究日期<br>
-      <strong style="color:var(--ink)">2026-06-01</strong>
+      <strong style="color:var(--ink)">2025-06-20</strong>
     </div>
   </header>
 
@@ -292,12 +107,12 @@
       <div class="stat-label">成立 / Founded</div>
     </div>
     <div class="stat">
-      <div class="stat-value">~290</div>
+      <div class="stat-value">~220</div>
       <div class="stat-label">员工 / Employees</div>
     </div>
     <div class="stat">
-      <div class="stat-value">~€25M</div>
-      <div class="stat-label">收购价 (2020 Embracer)</div>
+      <div class="stat-value">€25M</div>
+      <div class="stat-label">收购估值 (2020)</div>
     </div>
   </div>
 
@@ -309,34 +124,31 @@
 
       <section>
         <h2><span class="num">01</span>商业模式 / Business Model</h2>
-        <p class="lede">核心定位：收购老化和无人维护的免费游戏 IP，通过专业 Live Ops 团队重新激活并长期运营。</p>
+        <p class="lede">收购老化 F2P 游戏 → 持续运营（LiveOps）→ 长尾变现</p>
         <ul>
-          <li>营收模式为 F2P 游戏 IAP + 活动运营，不依赖买量获客，而是深耕存量社区<sup class="cite"><a href="#s1">[1]</a></sup></li>
-          <li>产品组合覆盖 24+ 款游戏，横跨动作 RPG、FPS、放置、策略等品类，平台涵盖 Mobile / PC / Browser<sup class="cite"><a href="#s2">[2]</a></sup></li>
-          <li>代表作品：Realm of the Mad God（DAU 翻倍）、DragonVale、Knights & Dragons、The Walking Dead: No Man's Land、Dead Trigger 系列</li>
-          <li>年营收约 $65M 量级，近期通过与 Aghanim 合作实现 44% 增量收入<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>核心模式：从原开发商手中收购已过峰值但仍有忠实玩家基础的免费游戏，接管全部运营权，通过持续的内容更新、活动策划和社区维护延长游戏寿命<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>收入来源：游戏内购（IAP）、广告变现、Battle Pass / 季票等 F2P 标准变现场景；运营 10+ 款游戏组合分散风险</li>
+          <li>当前运营组合：Realm of the Mad God、DragonVale、Zombie Catchers（5500万+下载）、Knights & Dragons、Almost a Hero、Gods & Glory、Robbery Bob、The Walking Dead: No Man's Land、Star Trek Online、Neverwinter<sup class="cite"><a href="#s2">[2]</a></sup></li>
         </ul>
       </section>
 
       <section>
         <h2><span class="num">02</span>战略调整与近期动态</h2>
-        <p class="lede">Embracer 集团重构中，DECA 作为移动游戏核心资产被保留。</p>
+        <p class="lede">Embracer 拆分重组 + 接管 Cryptic Studios 核心 IP</p>
         <ul>
-          <li>2026年5月 Embracer 宣布拆分 Fellowship Entertainment（含 Dark Horse、Plaion 部分业务）独立上市，<strong>DECA Games 留在 Embracer 体内</strong>，成为移动游戏唯一支柱<sup class="cite"><a href="#s4">[4]</a></sup></li>
-          <li>2025年 Embracer 出售 Arc Games / Cryptic Studios 后，Star Trek Online 等老游戏运营转移至 DECA<sup class="cite"><a href="#s5">[5]</a></sup></li>
-          <li>DECA 自身持续收购游戏资产：已累计收购 10 个独立游戏资产 + 4 个开发工作室（含 IUGO Mobile Entertainment、A Thinking Ape）</li>
-          <li>通过 Flexion 第三方商店分发，额外带来 80% 收入增量<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>2024 年：母公司 Embracer Group 将 Cryptic Studios（Neverwinter、Star Trek Online）的开发工作移交给 Deca Games，大幅扩展了其 PC/主机端 MMO 运营版图<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>Embracer Group 正在拆分为三家独立上市公司；Deca Games 将归属于拆分后主体「Fellowship Entertainment」，战略独立性提升<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>持续收购策略：通过 Embracer 体系收购了 Gaea 旗下 Jufeng Studio 及其 6 款手游，强化亚洲市场布局</li>
         </ul>
       </section>
 
       <section>
-        <h2><span class="num">03</span>AI 布局</h2>
-        <p class="lede">AI 主要用于运营侧（数据分析、玩家管理、商业化优化），而非内容生成。</p>
+        <h2><span class="num">03</span>AI 布局 / AI Play</h2>
+        <p class="lede">尚无公开 AI 战略，但存在多个 AI 赋能切入点</p>
         <ul>
-          <li>与 Aghanim 合作部署 AI 游戏中心，8 天内 ARPPU 提升 183%、增量收入增长 44%<sup class="cite"><a href="#s3">[3]</a></sup></li>
-          <li>招聘信息显示正在构建 Agent 驱动的智能运营中枢：动态玩家画像、自动化分层运营、AI 活动配置与效果预测</li>
-          <li>2025年引入 Data Modeling Analyst 角色，持续加码数据科学与 AI 能力建设</li>
-          <li>尚未公开自研大模型或 AI-native 游戏产品计划</li>
+          <li>Deca Games 目前未公开宣布任何 AI/ML 产品或合作，其技术堆栈以传统游戏运营工具为主</li>
+          <li>潜在场景：玩家行为分析预测、自动化客服工单处理、游戏内容多语言本地化、NPC 对话生成、社区内容审核</li>
+          <li>母公司 Embracer 体系内有 AI 探索（如 THQ Nordic 等子公司的 NPC AI 实验），但 Deca 层面尚未落地<sup class="cite"><a href="#s5">[5]</a></sup></li>
         </ul>
       </section>
 
@@ -346,26 +158,30 @@
     <div class="col">
 
       <section>
-        <h2><span class="num">04</span>核心团队</h2>
+        <h2><span class="num">04</span>核心团队 / Key People</h2>
         <div class="person">
-          <div><span class="person-name">Ken Go</span> <span class="person-role">· 创始人兼 CEO</span></div>
-          <div class="person-bio">George Washington University BBA。前 Kabam 欧洲出版负责人兼 Kingdoms of Camelot 执行制作人，2016年创立 DECA，主张"游戏可以活十年"的运营哲学。<sup class="cite"><a href="#s6">[6]</a></sup></div>
+          <div><span class="person-name">Ken Go</span> <span class="person-role">· 创始人 & CEO</span></div>
+          <div class="person-bio">George Washington University 毕业。曾任 Kabam（后被 Foxnext/Disney 收购）欧洲区 GM，2016 年创立 Deca Games，将 Kabam 的 LiveOps 方法论带到独立工作室模式<sup class="cite"><a href="#s6">[6]</a></sup></div>
         </div>
         <div class="person">
-          <div><span class="person-name">Embracer Group</span> <span class="person-role">· 母公司 (STO: EMBRAC B)</span></div>
-          <div class="person-bio">2020年8月以 ~€25M 全资收购 DECA，后者成为其六大运营集团之一。创始人 Lars Wingefors 主导"收购—整合—拆分"资本运作策略。</div>
+          <div><span class="person-name">—</span> <span class="person-role">· VP of Partnerships</span></div>
+          <div class="person-bio">负责游戏资产收购与合作洽谈，是 Deca 持续扩张游戏组合的关键角色</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">Anton Westbergh</span> <span class="person-role">· Operative Group CEO（上级）</span></div>
+          <div class="person-bio">原 Coffee Stain CEO，2024 年 4 月起担任 Embracer 旗下涵盖 Deca 的运营集团负责人，Ken Go 向其汇报</div>
         </div>
       </section>
 
       <section>
-        <h2><span class="num">05</span>竞争格局</h2>
-        <p class="lede">DECA 的"老游戏收购+Live Ops"模式在行业内属于利基定位，直接竞品不多。</p>
-        <div class="comp"><span class="comp-name">Stillfront Group</span> — 斯德哥尔摩上市公司，同样以收购成熟 F2P 游戏组合为核心策略，规模更大（年营收 ~$600M）</div>
-        <div class="comp"><span class="comp-name">Pixel United (Aristocrat)</span> — 澳大利亚 Aristocrat 旗下移动游戏部门，Social Casino + Casual Live Ops</div>
-        <div class="comp"><span class="comp-name">MTG (Modern Times Group)</span> — 瑞典媒体集团，旗下 Innogames / Kongregate 做在线游戏运营</div>
-        <div class="comp"><span class="comp-name">Scopely</span> — 以高投入 Live Ops 著称，但聚焦头部 IP 合作（Monopoly GO），不收购长尾资产</div>
-        <div class="sub-label">差异化</div>
-        <p style="font-size:12px;margin:0;">DECA 是唯一一家专注<strong>"继承式"老游戏收购运营</strong>的中小型独立团队——竞品要么体量大一个量级（Stillfront），要么完全不做老游戏收购（Scopely）。</p>
+        <h2><span class="num">05</span>竞争格局 / Competitive Landscape</h2>
+        <p class="lede">游戏 LiveOps 赛道竞争者分散</p>
+        <div class="comp"><span class="comp-name">Electronic Arts (EA Mobile)</span> — 全球巨头，自有 IP + 收购运营，资源远超 Deca 但不够灵活</div>
+        <div class="comp"><span class="comp-name">NetEase Games</span> — 中国出海 F2P 运营巨头，自研+代理双模式，体量远大于 Deca</div>
+        <div class="comp"><span class="comp-name">Jelly Button / Huuuge Games</span> — 专注社交博彩类 F2P 运营，细分赛道竞争</div>
+        <div class="comp"><span class="comp-name">Scopely</span> — 美国头部 F2P 发行商，被 Savvy Games Group 收购后资源充裕</div>
+        <div class="sub-label">差异化 / Differentiation</div>
+        <p style="font-size:12px;margin:0;">Deca 的核心壁垒是「收购 + 专业 LiveOps」的细分定位——不追求自研新 IP，而是专注于被其他公司视为「长尾」的老游戏的重新激活与持续变现，决策链短、运营经验深厚。</p>
       </section>
 
     </div>
@@ -375,39 +191,40 @@
   <!-- ============== COLLAB ANGLE ============== -->
   <section class="collab">
     <h2><span class="num">06</span>合作切入点（与 Z.ai）</h2>
-    <p class="lede">DECA 正在构建 AI 驱动的运营能力，且母公司 Embracer 有降低运营成本、提高资产回报的明确诉求——这是 GLM 模型能力切入的窗口。</p>
+    <p class="lede">Deca 运营 10+ 款全球化 F2P 游戏，覆盖数千万玩家，存在大量可被 LLM 降本增效的运营场景。</p>
     <div class="collab-grid">
       <div class="collab-block">
-        <span class="ck-label">对方动机</span>
-        <p>DECA 已在招聘 AI 运营工程师、使用第三方 AI 商业化工具（Aghanim），但尚未有自建 AI 能力。24+ 款游戏产生的海量玩家行为数据需要更智能的分析与自动化运营方案。</p>
+        <span class="ck-label">对方动机 / Why they'd care</span>
+        <p>运营 10+ 款游戏意味着海量玩家客服工单、社区内容审核、多语言本地化需求。当前以人力处理为主，成本高且响应慢。AI 驱动的自动化可显著降低运营成本（OpEx），提高玩家留存。</p>
       </div>
       <div class="collab-block">
-        <span class="ck-label">产品契合</span>
-        <p>GLM-5.1 API 可用于玩家行为分析与智能活动推荐；GLM-5v 多模态模型可辅助游戏素材（活动 banner、角色立绘）的批量生成与 A/B 测试；私有化部署方案满足游戏数据不出境要求。</p>
+        <span class="ck-label">产品契合 / Product fit</span>
+        <p>GLM-4.6 API → 玩家客服自动回复（多语言）；GLM-4v → 游戏内 UGC 图片审核；GLM 长文本 → 游戏剧情/活动文案批量生成与本地化翻译；可私有化部署满足 GDPR 合规要求（德国总部）。</p>
       </div>
       <div class="collab-block">
-        <span class="ck-label">摩擦点</span>
-        <p>团队规模有限（~290人），可能缺乏独立集成大模型的工程能力；母公司 Embracer 总部在瑞典，技术决策链路较长；已有 Aghanim 等第三方合作伙伴在位。</p>
+        <span class="ck-label">摩擦点 / Friction</span>
+        <p>Deca 是 Embracer 子公司，采购决策需母公司层面的合规审批；游戏行业对 AI 持谨慎态度（玩家社区对 AI 生成内容敏感）；德国/欧盟 GDPR 数据合规要求严格。</p>
       </div>
       <div class="collab-block">
-        <span class="ck-label">建议首步</span>
-        <p>以"GLM-powered Live Ops Copilot"为主题，选择 1 款中等规模游戏（如 Knights & Dragons）做 90 天 POC：自动生成活动方案 + 玩家流失预测。用 A/B 测试数据证明 ROI，再推动全量合作。</p>
+        <span class="ck-label">建议首步 / Suggested first move</span>
+        <p>以「客服工单自动分类 + 多语言自动回复」为 90 天 POC 切入，选取一款游戏（如 Zombie Catchers，5500万+下载，多语言玩家基数大）试点。承诺数据本地化部署（德国/欧盟节点），打消 GDPR 顾虑。</p>
       </div>
     </div>
   </section>
 
   <!-- ============== SOURCES ============== -->
   <div class="sources">
-    <h2>信息来源</h2>
+    <h2>信息来源 / Sources</h2>
     <ol>
-      <li id="s1">DECA Games Official — "Breathing New Life into Old Games" — decagames.com — <a href="https://decagames.com/">link</a></li>
-      <li id="s2">Neon River — "Mobile Games Guide — DECA Games Profile" — neonriver.com — <a href="https://www.neonriver.com/mobile-games-guide/">link</a></li>
-      <li id="s3">Aghanim LinkedIn — "DECA Games Joins Aghanim, Boosts Revenue 44% in 8 Days" — 2025 — <a href="https://www.linkedin.com/posts/aghanim_thrilledto-announce-that-deca-games-has-activity-7417493074626592768-Z-GO">link</a></li>
-      <li id="s4">Pocket Gamer — "Embracer Keeps Mobile In-House as It Spins Off Fellowship Entertainment" — 2026-05 — <a href="https://www.pocketgamer.biz/embracer-keeps-mobile-in-house-as-it-spins-off-fellowship-entertainment/">link</a></li>
-      <li id="s5">Embracer Group — "Embracer Group Acquires DECA Games" (PDF) — 2020-08 — <a href="https://embracer.com/wp-content/uploads/2020/08/Embracer-Group-acquires-DECA-Games.pdf">link</a></li>
-      <li id="s6">LinkedIn — "Ken Go, Founder at DECA Games" — uk.linkedin.com/in/kennethgo — <a href="https://uk.linkedin.com/in/kennethgo">link</a></li>
-      <li id="s7">Growjo — "Deca Games Revenue, Competitors, Alternatives" — 2026 — <a href="https://growjo.com/company/Deca_Games">link</a></li>
-      <li id="s8">Flexion — "DECA Games Achieves 80% Revenue Increase on Alternative App Stores" — flexion.games — <a href="https://flexion.games/deca-games-achieves-80-revenue-increase-on-alternative-app-stores/">link</a></li>
+      <li id="s1">Wikipedia — "Deca Games" — 2024 — <a href="https://en.wikipedia.org/wiki/Deca_Games">link</a></li>
+      <li id="s2">Deca Games Official — "Game Portfolio" — 2025 — <a href="https://decagames.com/">link</a></li>
+      <li id="s3">MMORPG.com — "Cryptic Studios to Move Development to DECA" — 2024 — <a href="https://www.mmorpg.com/news/cryptic-studios-to-move-development-of-its-games-to-deca-all-current-titles-to-get-content-for-years-to-come-2000130871">link</a></li>
+      <li id="s4">Embracer Group — "Spin-off Coffee Stain Group / Fellowship Entertainment" — 2025 — <a href="https://embracer.com/releases/embracer-to-spin-off-coffee-stain-group-remaining-business-to-be-renamed-fellowship-entertainment/">link</a></li>
+      <li id="s5">GamesIndustry.biz — "Embracer sales drop 22% to $1.5bn" — 2025 — <a href="https://www.gamesindustry.biz/embracer-sales-drop-22-to-15bn-298m-debt-remains">link</a></li>
+      <li id="s6">LinkedIn / WholesGame — "Ken Go — Founder & CEO, Deca Games" — 2024 — <a href="https://uk.linkedin.com/in/kennethgo">link</a></li>
+      <li id="s7">Embracer Group — "Embracer Group acquires Deca Games" — 2020-08 — <a href="https://embracer.com/releases/embracer-group-acquires-deca-games/">link</a></li>
+      <li id="s8">GamesBeat — "Deca Games acquires Zombie Catchers (55M+ downloads)" — 2021 — <a href="https://gamesbeat.com/deca-games-acquires-hit-indie-mobile-game-zombie-catchers/">link</a></li>
+      <li id="s9">CB Insights — "Deca Games — Products, Competitors, Financials" — 2024 — <a href="https://www.cbinsights.com/company/deca-games">link</a></li>
     </ol>
   </div>
 
