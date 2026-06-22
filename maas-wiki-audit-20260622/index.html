@@ -1,0 +1,339 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MaaS产品解决方案知识库 · 评测报告 2026-06-22</title>
+<style>
+:root{--p:#6d28d9;--p2:#7c3aed;--bg:#f8fafc;--card:#fff;--ink:#1e293b;--mut:#64748b;--li:#e2e8f0;--ok:#059669;--warn:#d97706;--bad:#dc2626}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 24px 80px}
+.hero{background:linear-gradient(135deg,#4c1d95,#6d28d9);color:#fff;border-radius:18px;padding:34px 36px 30px;box-shadow:0 10px 40px rgba(76,29,149,.25)}
+.hero .meta-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.hero .meta-row span{background:rgba(255,255,255,.16);padding:5px 13px;border-radius:20px;font-size:12.5px}
+.hero h1{margin:0 0 8px;font-size:27px;letter-spacing:-.5px}
+.hero .sub{margin:0;opacity:.92;font-size:15px}
+.grade-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+.grade{background:var(--card);border-radius:14px;padding:18px 18px;border:1px solid var(--li);border-top:4px solid var(--p)}
+.grade .gt{font-size:13.5px;font-weight:700;color:var(--ink)}
+.grade .g{font-size:30px;font-weight:800;color:var(--p);line-height:1;margin:8px 0 4px}
+.grade .g small{font-size:14px;color:var(--mut);font-weight:600}
+.grade .d{font-size:12.5px;color:var(--mut)}
+.grade.bad{border-top-color:var(--bad)}.grade.bad .g{color:var(--bad)}
+.grade.warn{border-top-color:var(--warn)}.grade.warn .g{color:var(--warn)}
+.grade.ok{border-top-color:var(--ok)}.grade.ok .g{color:var(--ok)}
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0}
+.kpi{background:var(--card);border:1px solid var(--li);border-radius:12px;padding:15px 10px;text-align:center}
+.kpi .v{font-size:24px;font-weight:800;color:var(--p2)}
+.kpi .l{font-size:11px;color:var(--mut);margin-top:4px}
+.kpi.bad .v{color:var(--bad)}.kpi.warn .v{color:var(--warn)}.kpi.ok .v{color:var(--ok)}
+h2.sec{font-size:21px;font-weight:800;margin:46px 0 8px;padding-bottom:10px;border-bottom:2px solid var(--p2);display:flex;align-items:center;gap:10px}
+h2.sec .tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;background:#ede9fe;color:var(--p)}
+h2.sec .anc{font-size:12px;color:var(--mut);font-weight:500;margin-left:auto}
+h3{font-size:16.5px;font-weight:700;margin:24px 0 10px}
+h4{font-size:14.5px;font-weight:700;margin:18px 0 6px;color:#334155}
+p{margin:9px 0}.mut{color:var(--mut);font-size:13.5px}
+.lead{font-size:16px;background:var(--card);border:1px solid var(--li);border-left:5px solid var(--p2);border-radius:10px;padding:18px 22px;margin:14px 0}
+.callout{border-radius:10px;padding:14px 18px;margin:14px 0;font-size:14px}
+.callout.bad{background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d}
+.callout.warn{background:#fffbeb;border:1px solid #fde68a;color:#78350f}
+.callout.ok{background:#f0fdf4;border:1px solid #bbf7d0;color:#14532d}
+.callout.info{background:#f5f3ff;border:1px solid #ddd6fe;color:#4c1d95}
+.callout b{display:block;margin-bottom:4px;font-size:14.5px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--li);margin:12px 0}
+th,td{padding:8px 11px;text-align:left;border-bottom:1px solid var(--li);vertical-align:top}
+th{background:#f1f5f9;font-weight:700;font-size:12px;color:var(--mut);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.mut{color:var(--mut)}
+.stale{color:var(--bad);font-weight:700}
+.fresh{color:var(--ok);font-weight:700}
+.pchip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:700}
+.p0{background:#fee2e2;color:#991b1b}.p1{background:#fef3c7;color:#92400e}.p2{background:#dbeafe;color:#1e40af}.p3{background:#e0e7ff;color:#3730a3}
+.sc{display:inline-block;width:30px;height:22px;border-radius:5px;text-align:center;line-height:22px;font-weight:700;font-size:12.5px;color:#fff}
+.sc1{background:#dc2626}.sc2{background:#ea580c}.sc3{background:#d97706}.sc4{background:#65a30d}.sc5{background:#059669}
+.bar{height:9px;background:var(--li);border-radius:5px;overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--p2)}
+.wp-card{background:var(--card);border:1px solid var(--li);border-left:5px solid var(--p2);border-radius:12px;padding:18px 22px;margin:14px 0}
+.wp-card .wn{font-size:16.5px;font-weight:800}.wp-card .wn .ph{margin-left:8px}
+.wp-card .scope{font-size:13px;color:#475569;margin:10px 0;padding:9px 13px;background:#f8fafc;border-radius:8px;border:1px dashed var(--li)}
+.wp-card ul{margin:6px 0;padding-left:20px}.wp-card li{margin:4px 0;font-size:13.5px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+.toc{background:var(--card);border:1px solid var(--li);border-radius:12px;padding:16px 22px;margin:18px 0;font-size:13.5px}
+.toc a{color:var(--p2);text-decoration:none}.toc a:hover{text-decoration:underline}
+.toc .t2{padding-left:14px;color:var(--mut)}
+details{background:var(--card);border:1px solid var(--li);border-radius:10px;padding:6px 16px;margin:10px 0}
+summary{cursor:pointer;font-weight:700;padding:8px 0;font-size:14px;color:var(--p)}
+.foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--li);color:var(--mut);font-size:12.5px}
+@media(max-width:760px){.grade-grid,.kpi-row,.cols{grid-template-columns:1fr 1fr}.kpi-row{grid-template-columns:repeat(3,1fr)}}
+</style></head><body><div class="wrap">
+<div class="hero">
+<div class="meta-row"><span>评测日期 2026-06-22</span><span>对比基线 06-16 评测</span><span>样本：60 顶层文档 + 21 篇深度内容</span><span>方法：飞书 API + 多 Agent 内容审计</span></div>
+<h1>MaaS 产品解决方案知识库 · 评测报告</h1>
+<p class="sub">结论先行 —— <b>资产丰富但严重失修</b>：模型代际整体滞后于 GLM-5 时代，86% 抽样内容停留在 GLM-4/ChatGLM，存在明文密码泄露与多篇自述废弃文档未清理。</p>
+</div>
+<div class="toc"><b>目录</b><br>
+<a href="#dx">总体诊断与评级</a> · <a href="#d1">①时效性</a> · <a href="#d2">②分类合理性</a> · <a href="#d3">③内容质量</a> · <a href="#d4">④命名规范</a> · <a href="#d5">⑤结构组织</a> · <a href="#d6">⑥维护治理</a> · <a href="#sec">🔴 安全告警</a> · <a href="#fix">修改建议 P0-P2</a> · <a href="#apx">附录</a></div>
+<h2 class="sec" id="dx">总体诊断与评级 <span class="tag">综合 3.5 / 10</span></h2>
+<div class="lead">该知识库定位清晰（MaaS 产品解决方案，4 大板块 23 一级分类 722 叶子文档），但处于<b>「建得多、管得少」</b>的失修状态。最致命的不是分类或命名，而是<b>内容时效</b>：作为「MaaS 产品解决方案」知识库，主体内容仍停留在上一代 GLM-4/ChatGLM，与当前 GLM-5 主力代际脱节近 2 年。叠加明文密码泄露、3 篇自述废弃文档未下线、限时促销过期挂着、近 90 天活跃度仅 9%，整体可用性受限。</div>
+<div class="grade-grid">
+<div class="grade bad"><div class="gt">① 内容时效性</div><div class="g">2<small>/10</small></div><div class="d">86% 抽样过时；GLM-4 代际全面滞后</div></div>
+<div class="grade warn"><div class="gt">② 分类合理性</div><div class="g">4<small>/10</small></div><div class="d">场景四兄弟边界模糊；杂物间 38 二级</div></div>
+<div class="grade warn"><div class="gt">③ 内容质量</div><div class="g">5<small>/10</small></div><div class="d">完整度尚可；图片丢失、密码泄露</div></div>
+<div class="grade warn"><div class="gt">④ 命名规范</div><div class="g">4<small>/10</small></div><div class="d">15 项带 .pptx 后缀；版本/日期堆叠</div></div>
+<div class="grade warn"><div class="gt">⑤ 结构组织</div><div class="g">4<small>/10</small></div><div class="d">45 组重名；最深 7 层；容器页空壳</div></div>
+<div class="grade bad"><div class="gt">⑥ 维护治理</div><div class="g">2<small>/10</small></div><div class="d">活跃度 9%；仅 1 名成员；无复核机制</div></div>
+</div>
+<div class="kpi-row">
+<div class="kpi "><div class="v">722</div><div class="l">叶子文档(06-16)</div></div>
+<div class="kpi "><div class="v">60</div><div class="l">本次顶层样本</div></div>
+<div class="kpi bad"><div class="v">86%</div><div class="l">抽样内容过时</div></div>
+<div class="kpi bad"><div class="v">9%</div><div class="l">近90天活跃</div></div>
+<div class="kpi bad"><div class="v">18/21</div><div class="l">缺 GLM-5 系列</div></div>
+<div class="kpi bad"><div class="v">1</div><div class="l">明文密码泄露</div></div>
+</div>
+<h2 class="sec" id="d1">① 内容时效性 <span class="tag">最严重</span><span class="anc">21 篇深度审计</span></h2>
+<div class="callout bad"><b>核心问题：模型代际整体滞后</b>
+21 篇有实质内容的文档中，<b>18 篇(86%)存在过时内容</b>，几乎所有技术/场景文档仍以 <b>GLM-4-Plus / GLM-4-Flash / GLM-4-AirX / ChatGLM2-3</b> 为「当前推荐模型」，完全缺失 GLM-5、GLM-4.8/4.6 等当前主力系列。作为「MaaS 产品解决方案知识库」，这是最致命的硬伤——读者拿到的解决方案会指向已过时的模型与价格。</div>
+<h3>1.1 三篇「自述废弃」仍挂着的文档（P0）</h3>
+<div class="callout warn">这些文档<b>作者本人已标注废弃</b>，但未被清理，仍作为知识库主条目存在，持续误导：</div>
+<table><tr><th>文档</th><th>位置</th><th>废弃标记原文</th><th>处置</th></tr>
+<tr><td><b>标准模型API产品</b></td><td class="mut">产品&gt;API与模型</td><td class="mut">&quot;本文档不更新了，请跳转至开放平台标准API服务产品说明书(0711更新)&quot;</td><td><span class="pchip p0">用新说明书替换后归档</span></td></tr>
+<tr><td><b>2023.11-AI院-ChatGPT API 服务文档</b></td><td class="mut">产品&gt;API与模型</td><td class="mut">标题自带【Deprecated】；gpt-3.5-turbo/openai≤0.28.1</td><td><span class="pchip p0">直接删除</span></td></tr>
+<tr><td><b>技术文档</b></td><td class="mut">产品&gt;培训与帮助</td><td class="mut">&quot;以下内容部分已废弃&quot;；通篇为「悟道开放平台」旧品牌(2023)</td><td><span class="pchip p0">归档移出知识库</span></td></tr>
+</table>
+<h3>1.2 限时促销过期未下线（P0，影响对外可信度）</h3>
+<div class="callout warn"><b>欢迎页与招投标方案</b>仍挂着 2025-04 的短期促销政策，以「现状」口吻呈现：<br>
+• 「直降90%！智谱GLM-4-Plus 旗舰模型 1 折普惠」（欢迎页，已过 14 个月）<br>
+• 招投标方案多处「限时特惠」定价（2024 价格体系）<br>
+读者点进去会发现已失效，损害对外材料可信度。</div>
+<h3>1.3 时效分布（60 顶层文档）</h3>
+<table><tr><th>状态</th><th>篇数</th><th>说明</th></tr>
+<tr><td><span class="stale">严重过时 (>365天)</span></td><td><b>17</b></td><td class="mut">17 篇明确过时，含行业 PPT、API 周报、隐私方案等</td></tr>
+<tr><td><span class="">偏旧 (181-365天)</span></td><td><b>8</b></td><td class="mut">含重点板块 4 个容器页(2025-07 后未动)</td></tr>
+<tr><td><span class="">正常/新鲜</span></td><td><b>5</b></td><td class="mut">仅 5 篇近期维护，如业务路由指南、入职指引</td></tr>
+<tr><td><span class="">无时间戳</span></td><td><b>30</b></td><td class="mut">15 个 file 附件(文件名均带 2024 日期)、外部链接等</td></tr>
+</table>
+<p class="mut">注：行业解决方案 PPT（15 个）文件名日期集中在 2024-04 至 2024-09，距今近 2 年，均属严重过时。</p>
+<h2 class="sec" id="d2">② 分类合理性 <span class="tag">复用 06-16 评测(722篇)</span></h2>
+<div class="callout info"><b>6 天前评测已对 722 篇做完整分类分析，本次复用其结论</b>（本次 API 权限受限无法重新遍历全量）。核心结论：</div>
+<div class="cols">
+<div class="wp-card"><div class="wn">一级碎片化</div><div class="scope">23 个一级分类中，10 个仅含 1–3 篇，职责重叠</div>
+<ul><li>对客材料 / 汇报总结 / MaaS产品规划 / 新方向 / 模型推广 / OKR 等边界模糊</li>
+<li>「重点」板块 4 个入口（技术文档/场景解决方案库/场景项目案例/应用级API）本质是其他板块的二次聚合，制造冗余</li></ul></div>
+<div class="wp-card"><div class="wn">「场景」四兄弟边界模糊</div><div class="scope">场景解决方案库 / 场景项目案例 / 场景评测集 / 场景产品</div>
+<ul><li>四者 + SOP/技术文档 各自又含「场景评测」，读者无法判断该进哪个</li>
+<li>「场景解决方案库」是<b>最严重的杂物间</b>：38 个二级分类混了 6 种维度</li></ul></div>
+</div>
+<div class="wp-card"><div class="wn">本次新增发现：分类错配（3 处）</div>
+<ul>
+<li><b>「从大模型到智能体工程的范式引领者」</b>——实为 GLM 企业级解决方案<b>演讲稿</b>(封面标注「演讲稿 最终版 20分钟」)，被放进「产品>API与模型」，内无任何 API 端点/参数，分类严重错配 → 应移至 BD/市场演讲材料</li>
+<li><b>「【工时填报手册】-OA系统」</b>——内部 OA 行政手册，与技术知识库主题无关 → 移至行政/HR 维度</li>
+<li><b>「RAG 的未来」</b>——2024 中的草稿式信息拼接，既过时又无智谱落地方案，归在「重点场景方案」不当</li>
+</ul></div>
+<h2 class="sec" id="d3">③ 内容质量 <span class="tag">21 篇深度审计</span></h2>
+<div class="lead">本次将内容质量从「上次字数抽样」升级为「逐篇实质审计」——21 篇有正文文档经多 Agent 通读，评估时效/准确/完整/结构。结果：<b>均分 2.6/5</b>，仅 1 篇达 4 分，9 篇仅 2 分。</div>
+<table><tr><th>质量分</th><th>篇数</th><th>占比</th></tr>
+<tr><td><span class="sc sc4">4</span></td><td><b>1</b></td><td><div class="bar" style="width:120px;display:inline-block"><span style="width:4%"></span></div> 5%</td></tr>
+<tr><td><span class="sc sc3">3</span></td><td><b>11</b></td><td><div class="bar" style="width:120px;display:inline-block"><span style="width:52%"></span></div> 52%</td></tr>
+<tr><td><span class="sc sc2">2</span></td><td><b>9</b></td><td><div class="bar" style="width:120px;display:inline-block"><span style="width:42%"></span></div> 43%</td></tr>
+</table>
+<h3>3.1 按板块的内容审计结论</h3>
+<details><summary>📦 产品（10 篇审计）</summary><table>
+<tr><th>文档</th><th>分</th><th>过时</th><th>完整度</th><th>核心结论与建议</th></tr>
+<tr><td><b>欢迎来到智谱AI 开放平台 BigModel</b><br><span class="mut">编辑 2025-04-22 · 📦 产品&gt;平台概览</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">摘要概览</td><td class="mut">这是一篇停在 2025 年 4 月的&quot;平台欢迎页&quot;，News 全过期、主推的 GLM-4/Z1 已非当前主力、限时促销长期未下线、核心板块仍占位——建议重写：清空过期 News、把模型矩阵更新到 GLM-5 系列、补完平台使用板块，或先归档旧版另建新页。</td></tr>
+<tr><td><b>MaaS 平台架构对齐（信通院行标）</b><br><span class="mut">编辑 2025-04-08 · 📦 产品&gt;平台概览</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">这是一份结构完整、有清晰判断的 MaaS 平台战略解读，但核心论据停留在 2023-2024（OpenAI 旧营收、信通院 2024 报告、旧中标数据、\&quot;4o/Long\&quot;规划话术），与当前 GLM-5 系列时代脱节——建议保留并更新：刷新营收/竞品/中标数据，补充 GLM-4.6/4.8/5 代际与当前平台能力，复</td></tr>
+<tr><td><b>标准模型API产品</b><br><span class="mut">编辑 2025-12-03 · 📦 产品&gt;API与模型</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">摘要概览</td><td class="mut">文档头部已自述&#x27;不更新了,请跳转&#x27;,模型矩阵停留在 2024 年初 GLM-4/ChatGLM2-3,完全缺失当前 GLM-5 主力系列,且下线日期已过期近 2 年——建议归档(或删除)并在知识库用&#x27;开放平台标准API服务产品说明书&#x27;替换。</td></tr>
+<tr><td><b>API性能周报-241128</b><br><span class="mut">编辑 2024-11-28 · 📦 产品&gt;API与模型</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">摘要概览</td><td class="mut">2024-11-28 的旧周报，模型/数据/竞品均已迭代两代，图片全部丢失，对 2026 年现状零价值——建议归档（或删除），不应留在\&quot;API与模型\&quot;活跃分类误导读者。</td></tr>
+<tr><td><b>2023.11-AI院-ChatGPT API 服务文档</b><br><span class="mut">编辑 未知(docx) · 📦 产品&gt;API与模型</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">信息碎片</td><td class="mut">标题已自标【Deprecated】的 2023 年 ChatGPT 代理服务文档，模型/SDK/定价全过时且 FAQ 信息缺失——建议直接删除，若需保留历史可在知识库移入「已归档/历史」分类而非留在「产品&gt;API与模型」。</td></tr>
+<tr><td><b>从大模型到智能体工程的范式引领者</b><br><span class="mut">编辑 2026-03-12 · 📦 产品&gt;API与模型</span></td><td><span class="sc sc3">3</span></td><td><span class="fresh">否</span></td><td class="mut">完整文档</td><td class="mut">本质是一份 GLM 企业级解决方案的营销演讲稿，被错放进&quot;API与模型&quot;分类，作为知识库条目定位不当且模型梯队略旧；建议移出该分类(转至市场/BD 演讲材料库或归档)，若保留则需更新 GLM-4.7→GLM-4.8/4.6 的模型矩阵。</td></tr>
+<tr><td><b>【For业务团队】MaaS平台业务路由指南</b><br><span class="mut">编辑 2026-06-22 · 📦 产品&gt;业务与运营</span></td><td><span class="sc sc4">4</span></td><td><span class="fresh">否</span></td><td class="mut">完整文档</td><td class="mut">这是一份面向业务/销售团队的MaaS平台运营路由指南，内容完整、结构清晰、时效基本对齐2026年，无旧模型名等硬伤，但含多处&#x27;目前&#x27;现状声明（注册赠送权益、体验金规则等）需建立定期复核机制；建议保留并周期性更新权益数值与流程链接。</td></tr>
+<tr><td><b>客户隐私数据保护方案（外部）</b><br><span class="mut">编辑 2024-04-07 · 📦 产品&gt;安全与合规</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">2024 年初的隐私合规方案，整体框架完整但时间信息全面过期（认证进度、云架构、版本表均停在 2024 年 1-4 月），已不能作为对外可信材料；建议归档原版并由安全/合规团队基于当前资质与架构重写（保留并更新→若无人承接则归档）。</td></tr>
+<tr><td><b>智谱大模型课程培训方案-通用</b><br><span class="mut">编辑 2024-12-27 · 📦 产品&gt;培训与帮助</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">培训方案框架完整但内容停留在 2024 年初(GLM-4/智谱清言口径)，未跟进 GLM-5 系列与 BigModel 开放平台，且有空白占位字段与失效图片，建议保留框架并全面更新模型/产品口径及图片后重新发布。</td></tr>
+<tr><td><b>技术文档</b><br><span class="mut">编辑 2023-09-30 · 📦 产品&gt;培训与帮助</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">摘要概览</td><td class="mut">这是一份2023年「悟道开放平台」时代的内部技术设计草稿，已被作者自己标记「部分废弃」，内容过时且含开发期敏感信息，不应出现在「产品&gt;培训与帮助」分类下，建议归档并从面向客户的知识库删除（内部存档可保留）。</td></tr>
+</table></details>
+<details><summary>🎯 场景（8 篇审计）</summary><table>
+<tr><th>文档</th><th>分</th><th>过时</th><th>完整度</th><th>核心结论与建议</th></tr>
+<tr><td><b>【外部】场景解决方案文档模板</b><br><span class="mut">编辑 2024-11-22 · 🎯 场景&gt;场景方案模板</span></td><td><span class="sc sc3">3</span></td><td><span class="fresh">否</span></td><td class="mut">摘要概览</td><td class="mut">一篇结构清晰的纯模板骨架(无实质内容、无陈旧事实硬伤)，作为&quot;如何撰写场景方案&quot;的提纲尚可，但作为知识库正式文档过于空洞；建议保留并精简为内部写作指南，或补充真实案例填充后升级为可复用方案库，当前不必归档或删除。</td></tr>
+<tr><td><b>智慧教育：多文体智能作文批改评分</b><br><span class="mut">编辑 2024-12-02 · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">内容完整、结构清晰、含具体 prompt 与批改示例，是有保留价值的场景方案；但模型选型(GLM-4-Plus)与 SuperBench 卖点在 GLM-5 时代已全面过时——建议保留并更新：替换为 GLM-5/4.8 系列选型、刷新评测依据与对比数据、补充可验证的客户量化指标。</td></tr>
+<tr><td><b>学术场景数据处理：论文总结翻译润色</b><br><span class="mut">编辑 2024-11-14 · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">摘要概览</td><td class="mut">过时的 GLM-4-Plus 方案文档,代码含缩进缺陷且提示词占位痕迹重,建议重写为基于 GLM-5 系列的版本并补充可直接运行的完整案例后保留更新。</td></tr>
+<tr><td><b>【重点客户分享】网页翻译场景解决方案</b><br><span class="mut">编辑 2024-10-29 · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">工程方案扎实仍适用，但模型选型与性能对标整段停留在 GLM-4 时代（2024-10），建议保留并更新：把 GLM-4-Flash/Plus/AirX 升级为 GLM-5/4.8 系列口径、补 tokens 速度数据来源、核实或下线 2024 获客问卷入口。</td></tr>
+<tr><td><b>【翻译场景】合成数据SFT PRD</b><br><span class="mut">编辑 未知(docx) · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">信息碎片</td><td class="mut">这是一份2024年Q3的半成品PRD草稿，时效严重过时（未涉及GLM-5系列）、含明文泄露凭据、核心pipeline章节只有todo，建议归档或基于GLM-5/BigModel现状重写，并立即删除明文密码。</td></tr>
+<tr><td><b>【内部】场景方案-网页浏览翻译</b><br><span class="mut">编辑 未知(docx) · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">技术实现部分（HTML提取/CSS规则/YAML流式翻译prompt）仍是模型无关的有效方案，但模型选型章节把 GLM-4-AirX/Flash/Plus 当最新已严重过时——建议保留并更新模型选型为 GLM-5 系列、补全评测数据附件，同时清理 Readme 残留占位。</td></tr>
+<tr><td><b>【内部】智谱大模型招投标文件关键数据提取方案</b><br><span class="mut">编辑 2024-10-17 · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">方案方法论（预处理/Prompt工程/后处理/校验/修复/Batch）框架完整、可复用，但通篇锁死在 2024 年的 GLM-4 体系与限时价格，作为 2026 年销售/交付材料会给出过时模型与错误报价——建议保留架构主干、重写模型选型与 Batch 定价章节、删除所有&quot;限时特惠/立即抢购&quot;内容。</td></tr>
+<tr><td><b>RAG的未来</b><br><span class="mut">编辑 2024-07-04 · 🎯 场景&gt;重点场景方案</span></td><td><span class="sc sc2">2</span></td><td><span class="stale">是</span></td><td class="mut">信息碎片</td><td class="mut">一篇 2024 年中的草稿式信息拼接，既过时（停在 Qwen2/GraphRAG 节点、GLM 部分仍是早期 retrieval tool）又缺乏智谱自家落地方案，建议归档后以 GLM-5 系列 + 当前开放平台 RAG/Agent 能力重写。</td></tr>
+</table></details>
+<details><summary>🚀 入职（3 篇审计）</summary><table>
+<tr><th>文档</th><th>分</th><th>过时</th><th>完整度</th><th>核心结论与建议</th></tr>
+<tr><td><b>智谱入职指引</b><br><span class="mut">编辑 2026-05-21 · 🚀 入职</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">结构完整、实用性强的入职手册，但宣传文案残留旧模型名(GLM-4.6/4.5)、打卡规则新旧并存、图片附件丢失，建议保留并更新——统一模型宣传口径为GLM-5、合并考勤规则至2026版、补回关键图片附件。</td></tr>
+<tr><td><b>试用期转正管理文档</b><br><span class="mut">编辑 2025-02-27 · 🚀 入职</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">一份内容完整的 HR 试用期转正制度文档，非技术文档故无模型时效问题，但距上次编辑已超 1 年、引用 2025 版模板、含图片占位和人名硬编码，建议与 HR 核对 2026 最新流程后更新并补充图片文字说明。</td></tr>
+<tr><td><b>【工时填报手册】-OA系统</b><br><span class="mut">编辑 2025-07-24 · 🚀 入职</span></td><td><span class="sc sc3">3</span></td><td><span class="stale">是</span></td><td class="mut">完整文档</td><td class="mut">这是一份内容完整但与智谱AI/BigModel 技术评测主题完全无关的内部 OA 工时填报行政手册,且因截图丢失+具名联系人+近一年未更新而时效性存疑;建议:从技术知识库评测范围中剔除(或归入行政类),技术维度无需保留更新,如行政仍需使用应补回截图并核实 OA 路径与联系人。</td></tr>
+</table></details>
+<h3>3.2 共性问题</h3>
+<div class="cols">
+<div class="wp-card" style="border-left-color:var(--bad)"><div class="wn">图片大面积丢失</div><div class="scope">API 性能周报 / ChatGPT API / 培训方案 / 入职指引 等</div>
+<ul><li>纯文本导出后正文遍布 <code>image.png</code> 占位，核心图表(性能趋势/价格表/打卡流程)全部不可见</li><li>数据型文档失去可视化支撑，结论难以采信</li></ul></div>
+<div class="wp-card" style="border-left-color:var(--bad)"><div class="wn">「元数据更新、正文不更新」</div><div class="scope">标准模型API产品 edit=2025-12-03 但正文仍是 2024</div>
+<ul><li>仅改了文档属性时间，正文模型矩阵未同步</li><li>会造成「最近更新」的假象，更隐蔽</li></ul></div>
+</div>
+<h2 class="sec" id="d4">④ 命名规范</h2>
+<div class="lead">行业解决方案 PPT 的命名是重灾区：<b>15 个目录项带 <code>.pptx</code> 后缀</b>，且文件名普遍堆叠版本号 + 快照日期，体现「每次更新新建文件」而非「原地更新」的坏习惯。</div>
+<table><tr><th>问题类型</th><th>数量</th><th>示例</th><th>规范建议</th></tr>
+<tr><td>目录项带文件后缀 <code>.pptx</code></td><td><b>15</b></td><td class="mut">智谱大模型制造行业解决方案_20240903<b>.pptx</b></td><td>目录项用规范标题，后缀由系统管理</td></tr>
+<tr><td>文件名含版本号(vN.N)</td><td>~9</td><td class="mut">医疗器械解决方案_v4.2 / 文旅 v2.8 / 酒店 v5.1</td><td>版本走文档历史，不入标题</td></tr>
+<tr><td>文件名含快照日期</td><td>~8</td><td class="mut">家电行业解决方案_<b>20240402</b></td><td>原地更新，日期走更新记录</td></tr>
+<tr><td>日期/版本前缀不一致</td><td>—</td><td class="mut">v2.8-20240611 / _v4.2_20240920 / V2-20240908 混用</td><td>统一一种命名约定</td></tr></table>
+<h2 class="sec" id="d5">⑤ 结构组织 <span class="tag">复用 06-16 + 本次</span></h2>
+<div class="cols">
+<div class="wp-card"><div class="wn">重复与重名</div><ul>
+<li>全库 <b>45 组重名文档</b>(06-16 评测)</li>
+<li>场景项目案例中 美团、Zalando 各出现 2 次</li>
+<li>本次发现：「技术文档」同名出现在「产品>培训」与「重点」两个板块，是两个不同节点</li></ul></div>
+<div class="wp-card"><div class="wn">层级过深</div><ul>
+<li>应用级API、场景解决方案库 <b>嵌套至 7 层</b></li>
+<li>全库 108 篇 ≥5 层(06-16 评测)</li>
+<li>读者需多次点入才能到达内容</li></ul></div>
+</div>
+<div class="wp-card"><div class="wn">本次新增：容器页空壳</div><div class="scope">「重点」板块 4 个入口文档正文仅 7-11 字(仅标题)</div>
+<ul><li>技术文档(7字)、场景解决方案库(11字)、应用级API(9字)、PMF场景案例(10字) 均为 has_child=true 的容器节点</li>
+<li>父文档无任何目录说明/导航文字，用户点入只见空白，需自行展开侧栏子树</li>
+<li><b>建议</b>：容器页补充 2-3 句板块说明 + 子文档速览，降低发现成本</li></ul></div>
+<h2 class="sec" id="d6">⑥ 维护治理 <span class="tag">根因维度</span></h2>
+<div class="callout bad"><b>治理缺位是上述所有问题的根因</b>
+<ul style="margin:6px 0">
+<li><b>活跃度极低</b>：近 90 天仅 9% 文档有更新(06-16 数据)，即 91% 的文档长期无人维护</li>
+<li><b>权限过度集中</b>：知识库成员仅 <b>1 人</b>(创建者/管理员)，无其他维护者；本次评测因账号非成员导致 API 无法遍历全量</li>
+<li><b>无定期复核机制</b>：限时促销、模型矩阵、合规资质等强时效内容无复核周期，过期后长期挂着</li>
+<li><b>无准入/退出标准</b>：废弃文档(自述 Deprecated)、明文密码、OA 行政手册均能进入并长期留存</li>
+</ul></div>
+<h2 class="sec" id="sec">🔴 安全与合规告警 <span class="tag">P0 立即处置</span></h2>
+<div class="callout bad"><b>1. 明文密码泄露 —「【翻译场景】合成数据SFT PRD」</b>
+内容审计发现该 PRD 草稿(2024 Q3)中<b>含明文泄露凭据(密码)</b>。知识库若对外开放或成员较多，属直接凭证泄露。<b>立即删除明文密码并轮换相关凭据</b>。</div>
+<div class="callout warn"><b>2. 对外合规材料过期 —「客户隐私数据保护方案（外部）」</b>
+版本表/认证进度/等保 ISO 计划全部停在 2024-01~04，所有「预计完成」节点已过 2 年。作为<b>对外</b>可信材料，当前状态可能不反映真实合规资质，存在对外误导与合规风险。建议安全/合规团队基于当前资质重写。</div>
+<div class="callout warn"><b>3. 已弃用服务文档留存 —「2023.11 ChatGPT API 服务文档」</b>
+标题自带【Deprecated】，内容为已停用的 ChatGPT 代理服务(one-api.glm.ai)，含 $200 初始额度等失效定价。若知识库对客户可见，会暴露已下线的内部服务入口。</div>
+<h2 class="sec" id="fix">修改建议（按优先级）</h2>
+<p class="mut">工作量为人时(h)估算，按「中等熟练知识库管理员」测算，含核验+处置+验证。可结合 06-16 评测的 WBS 跟踪。</p>
+<div class="wp-card" style="border-left-color:var(--bad)"><div class="wn"><span class="pchip p0">P0 · 今日</span> 安全与废弃清理 <span class="ph">≈ 3h</span></div>
+<div class="scope">消除即时风险，不需内容判断，纯处置</div>
+<ul>
+<li><b>删除明文密码</b>：SFT PRD 中的凭据 → 删除 + 轮换相关服务密码（30min）</li>
+<li><b>下线 3 篇自述废弃文档</b>：标准API产品(替换为新说明书)/ChatGPT API(删除)/技术文档-悟道版(归档移出)（1h）</li>
+<li><b>下线过期促销</b>：欢迎页 GLM-4-Plus 1 折、招投标限时特惠（30min）</li>
+<li><b>权限加固</b>：确认知识库对外可见范围，评估是否需收紧（30min）</li>
+</ul></div>
+<div class="wp-card" style="border-left-color:var(--warn)"><div class="wn"><span class="pchip p1">P1 · 本周</span> 模型代际迁移（核心价值修复） <span class="ph">≈ 16h</span></div>
+<div class="scope">把内容从 GLM-4 时代拉到 GLM-5 时代，这是知识库可用性的根本</div>
+<ul>
+<li><b>建立 GLM-5 迁移清单</b>：18 篇过时文档按「保留更新/重写/归档」三档分类（2h）</li>
+<li><b>优先更新高频引用文档</b>：标准API产品说明书、欢迎页模型矩阵、重点场景方案的模型选型段（6h）</li>
+<li><b>场景方案批量换型</b>：作文批改/论文处理/网页翻译/招投标等方案的 GLM-4-Plus → GLM-5/4.8（5h）</li>
+<li><b>补回丢失图片</b>：API周报/培训方案/入职指引的关键图表（3h）</li>
+</ul></div>
+<div class="wp-card" style="border-left-color:#3b82f6"><div class="wn"><span class="pchip p2">P2 · 本月</span> 结构与分类治理 <span class="ph">≈ 24h</span></div>
+<div class="scope">解决找得到、不混乱的问题（复用 06-16 WBS）</div>
+<ul>
+<li><b>重构「场景解决方案库」杂物间</b>：38 个二级按 6 维度拆分为清晰子树（8h）</li>
+<li><b>合并「场景四兄弟」</b>：明确场景解决方案库/项目案例/评测集/产品的边界或合并（4h）</li>
+<li><b>去重重名</b>：45 组重名逐组核验合并；「技术文档」双节点择一（5h）</li>
+<li><b>压平深嵌套</b>：7 层结构上提，容器页补导航说明（4h）</li>
+<li><b>分类错配修正</b>：演讲稿/OA手册移出产品分类（1h）</li>
+<li><b>命名规范化</b>：去 .pptx 后缀、统一版本/日期约定（2h）</li>
+</ul></div>
+<div class="wp-card" style="border-left-color:var(--ok)"><div class="wn"><span class="pchip p3">P3 · 持续</span> 治理机制 <span class="ph">机制性</span></div>
+<div class="scope">防止再次失修</div>
+<ul>
+<li><b>增补维护者</b>：从仅 1 名成员扩展到各板块 owner（产品/场景/合规各 1）</li>
+<li><b>季度复核</b>：强时效内容(模型矩阵/价格/促销/合规资质)每季度过一遍</li>
+<li><b>准入标准</b>：新建文档须含 owner、最后复核日期；废弃文档及时移入「已归档」</li>
+<li><b>定期评测</b>：每月/季跑一次本类内容审计（可固化为本 workflow）</li>
+</ul></div>
+<h2 class="sec" id="apx">附录</h2>
+<details><summary>A. 60 篇顶层文档完整清单（按板块，含时效）</summary>
+<h4 style="margin-top:18px">📦 产品（18 篇）</h4><table>
+<tr><th>文档</th><th>子分类</th><th>类型</th><th>最后更新</th><th>时效</th><th>正文</th></tr>
+<tr><td><b>欢迎来到智谱AI 开放平台 BigModel</b></td><td class="mut">平台概览</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>公司介绍</b></td><td class="mut">平台概览</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">873字</td></tr>
+<tr><td><b>MaaS 平台架构对齐（信通院行标）</b></td><td class="mut">平台概览</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">5916字</td></tr>
+<tr><td><b>MaaS平台竞争力对比</b></td><td class="mut">平台概览</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">1178字</td></tr>
+<tr><td><b>标准模型API产品</b></td><td class="mut">API与模型</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>智谱AI大模型API性能白皮书</b></td><td class="mut">API与模型</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>API性能周报-241128</b></td><td class="mut">API与模型</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">3144字</td></tr>
+<tr><td><b>2023.11-AI院-ChatGPT API 服务文档</b></td><td class="mut">API与模型</td><td>docx</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">2361字</td></tr>
+<tr><td><b>从大模型到智能体工程的范式引领者</b></td><td class="mut">API与模型</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">6894字</td></tr>
+<tr><td><b>【For业务团队】MaaS平台业务路由指南🧭</b></td><td class="mut">业务与运营</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">4579字</td></tr>
+<tr><td><b>销售材料</b></td><td class="mut">业务与运营</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>Q3-Q4产品规划</b></td><td class="mut">业务与运营</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>数据平台指南</b></td><td class="mut">业务与运营</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>安全框架</b></td><td class="mut">安全与合规</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>客户隐私数据保护方案（外部）</b></td><td class="mut">安全与合规</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">2482字</td></tr>
+<tr><td><b>智谱大模型课程培训方案-通用</b></td><td class="mut">培训与帮助</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">3895字</td></tr>
+<tr><td><b>清言帮助文档总目录</b></td><td class="mut">培训与帮助</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>技术文档</b></td><td class="mut">培训与帮助</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+</table>
+<h4 style="margin-top:18px">🎯 场景（34 篇）</h4><table>
+<tr><th>文档</th><th>子分类</th><th>类型</th><th>最后更新</th><th>时效</th><th>正文</th></tr>
+<tr><td><b>【外部】场景解决方案文档模板</b></td><td class="mut">场景方案模板</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">1742字</td></tr>
+<tr><td><b>【内部】场景解决方案文档模板</b></td><td class="mut">场景方案模板</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>智慧教育：多文体智能作文批改评分</b></td><td class="mut">重点场景方案</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">3117字</td></tr>
+<tr><td><b>智能招聘：多模态人力资源解决方案</b></td><td class="mut">重点场景方案</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>学术场景数据处理：论文总结翻译润色</b></td><td class="mut">重点场景方案</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">7050字</td></tr>
+<tr><td><b>【重点客户分享】网页翻译场景解决方案</b></td><td class="mut">重点场景方案</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">14444字</td></tr>
+<tr><td><b>【翻译场景】合成数据SFT PRD</b></td><td class="mut">重点场景方案</td><td>docx</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">4551字</td></tr>
+<tr><td><b>【内部】场景方案-网页浏览翻译</b></td><td class="mut">重点场景方案</td><td>docx</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">14354字</td></tr>
+<tr><td><b>【内部】智谱大模型招投标文件关键数据提取方案</b></td><td class="mut">重点场景方案</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">14410字</td></tr>
+<tr><td><b>RAG的未来</b></td><td class="mut">重点场景方案</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">7661字</td></tr>
+<tr><td><b>智谱大模型MaaS平台赋能千行百业</b></td><td class="mut">行业解决方案PPT</td><td>slides</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>教培行业解决方案v2.0</b></td><td class="mut">行业解决方案PPT</td><td>slides</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>【全版】教育行业解决方案-高校v2.0-0927.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>智谱大模型制造行业解决方案_20240903.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-09-03</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>影视行业解决方案v1.2.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>医疗器械解决方案_v4.2_20240920.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-09-20</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>【医疗行业】解决方案_V4.0_20240924.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-09-24</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>文旅行业解决方案v2.8-20240611.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-06-11</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>家电行业解决方案_20240402.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-04-02</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>【零售药房】解决方案V2.1_20240920.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-09-20</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>游戏行业解决方案v1.52.pptx</b></td><td class="mut">行业解决方案PPT</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>出版行业解决方案v1.12.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>出行签证大模型应用交流v1.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>酒店行业解决方案v5.1-20240613.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-06-13</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>民航机场大模型行业解决方案v1.0.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>汽车端云一体解决方案_20240828.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-08-28</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>424大消费私董会PPT.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>大消费行业解决方案V2-20240908.pptx</b></td><td class="mut">行业解决方案PPT</td><td>file</td><td class="mut">文件名:2024-09-08</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>官网案例库 https://open.bigmodel.cn/dev/guidelines/LanguageModels</b></td><td class="mut">案例库与参考</td><td>external</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>竞品案例库 场景案例推广专项</b></td><td class="mut">案例库与参考</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>PMF 场景案例</b></td><td class="mut">案例库与参考</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>解决方案弹药库 查看文件夹</b></td><td class="mut">案例库与参考</td><td>folder</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>提示工程实战笔记 银行AIGC业务理解与新工作流搭建</b></td><td class="mut">案例库与参考</td><td>external</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>场景资料文件夹</b></td><td class="mut">案例库与参考</td><td>folder</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+</table>
+<h4 style="margin-top:18px">🚀 入职（4 篇）</h4><table>
+<tr><th>文档</th><th>子分类</th><th>类型</th><th>最后更新</th><th>时效</th><th>正文</th></tr>
+<tr><td><b>OA | 邮箱</b></td><td class="mut">—</td><td>external</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">附件/外链</span></td></tr>
+<tr><td><b>智谱入职指引</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">4141字</td></tr>
+<tr><td><b>试用期转正管理文档</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">3679字</td></tr>
+<tr><td><b>【工时填报手册】-OA系统</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut">2257字</td></tr>
+</table>
+<h4 style="margin-top:18px">🔩 重点（4 篇）</h4><table>
+<tr><th>文档</th><th>子分类</th><th>类型</th><th>最后更新</th><th>时效</th><th>正文</th></tr>
+<tr><td><b>技术文档</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>场景解决方案库</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>场景项目案例</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+<tr><td><b>应用级API</b></td><td class="mut">—</td><td>wiki</td><td class="mut">—</td><td><span class=mut>—</span></td><td class="mut"><span class="mut">容器(子树未纳)</span></td></tr>
+</table>
+</details>
+<details><summary>B. 评测方法与局限</summary>
+<div style="padding:8px 4px 14px;font-size:13.5px">
+<p><b>方法</b>：① 飞书 API 读取知识库根目录页 blocks 重建 60 篇顶层结构；② 对 38 篇 wiki/docx 取元数据(创建/编辑时间)；③ 对 21 篇 >1500 字文档抓全文；④ 多 Agent 并行通读，逐篇评估内容时效/质量/结构。</p>
+<p><b>局限</b>：</p>
+<ul>
+<li><b>权限受限</b>：本次账号非知识库成员(成员仅创建者 1 人)，<code>nodes.list</code> 被拒，<b>11 个容器节点的子树未纳入评测</b>。全量结构结论(722 篇/45 组重名/7 层嵌套/场景库 38 二级)复用 06-16 评测。</li>
+<li><b>file/slides 附件</b>(15+2)未解析正文，时效从文件名日期推断。</li>
+<li><b>图片/附件内容</b>无法经 API 核验，「图片丢失」指纯文本导出后占位，不代表原图缺失。</li>
+</ul>
+<p><b>与 06-16 评测的关系</b>：本报告聚焦「内容时效与质量的实质审计」(上次为字数抽样)，结构/分类/重名等沿用上次 722 篇结论并补充本次新发现(分类错配、容器空壳、自述废弃、明文密码)。</p>
+</div></details>
+<div class="foot">
+本报告由多 Agent 内容审计生成 · 数据截至 2026-06-22 · 评测对象：<a href="https://zhipu-ai.feishu.cn/wiki/HtPrw5Hg9iGfI1kH78AcNINcnqf">MaaS产品解决方案知识库</a><br>
+基线参考：06-16 评测(722 篇) · 样本：60 顶层 + 21 篇深度 · 共评估 21 篇内容 / 451k tokens
+</div>
+</div></body></html>
