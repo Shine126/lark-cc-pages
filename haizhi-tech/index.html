@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>北京海致科技集团 — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  html { font-family: var(--sans-cn); }
+  html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #ECEAE3;
+    color: var(--ink);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+  }
+  .page {
+    width: 1080px;
+    min-height: 1400px;
+    background: var(--bg);
+    padding: 48px 56px 40px;
+    border: 1px solid var(--rule);
+  }
+
+  /* ---------- Header ---------- */
+  .hd {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+  }
+  .hd-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .hd-title {
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .hd-sub {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  .hd-tagline {
+    font-size: 13.5px;
+    color: var(--ink);
+    max-width: 720px;
+    margin: 0;
+    line-height: 1.5;
+  }
+  .hd-date {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  /* ---------- At-a-glance data strip ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 20px;
+  }
+  .stat {
+    padding: 12px 16px 14px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value {
+    font-size: 23px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-value small { font-size: 13px; font-weight: 500; color: var(--muted); }
+  .stat-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ---------- Two-column body ---------- */
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .col { display: flex; flex-direction: column; gap: 18px; }
+
+  section h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 7px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  section h2 .num {
+    color: var(--muted);
+    font-weight: 500;
+    margin-right: 8px;
+  }
+  section p {
+    margin: 0 0 7px;
+    font-size: 12.5px;
+    line-height: 1.55;
+  }
+  section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2px;
+  }
+  section ul li {
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  section ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+  }
+
+  .lede {
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 7px;
+  }
+
+  sup.cite { font-size: 9px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
+  sup.cite a:hover { text-decoration: underline; }
+
+  /* People */
+  .person { margin-bottom: 7px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 11.5px; color: var(--ink); }
+
+  /* Competitor list */
+  .comp { margin-bottom: 5px; font-size: 12px; }
+  .comp-name { font-weight: 600; }
+  .sub-label {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 7px;
+    margin-bottom: 3px;
+  }
+
+  /* ---------- Collaboration band ---------- */
+  .collab {
+    margin-top: 22px;
+    padding: 18px 22px 16px;
+    background: #F3F1EA;
+    border-top: 3px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+  }
+  .collab h2 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 30px;
+  }
+  .collab-block .ck-label {
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .collab-block p {
+    font-size: 11.5px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  /* ---------- Sources footer ---------- */
+  .sources {
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+  }
+  .sources h2 {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 9px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .sources ol {
+    list-style: none;
+    counter-reset: src;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 32px;
+  }
+  .sources ol li {
+    counter-increment: src;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin-bottom: 5px;
+    break-inside: avoid;
+    padding-left: 20px;
+    position: relative;
+  }
+  .sources ol li::before {
+    content: "[" counter(src) "]";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .sources a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--rule); }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============== HEADER ============== -->
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览 · Company Brief</div>
+      <h1 class="hd-title">北京海致科技集团股份有限公司</h1>
+      <div class="hd-sub">HAIZHI TECH GROUP · 港股 02706.HK · "AI 除幻第一股"</div>
+      <p class="hd-tagline">以"图模融合"（自研知识图谱 + 大语言模型）技术打造产业级 AI 智能体，破解大模型幻觉，服务金融、能源、政务等大型政企客户。</p>
+    </div>
+    <div class="hd-date">
+      研究日期<br>
+      <strong style="color:var(--ink)">2026 / 06 / 24</strong>
+    </div>
+  </header>
+
+  <!-- ============== AT-A-GLANCE STATS ============== -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">北京</div>
+      <div class="stat-label">总部 HQ</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2013</div>
+      <div class="stat-label">成立年份 Founded</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">400<small>+ 家</small></div>
+      <div class="stat-label">B 端头部客户</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">~230<small>亿港元</small></div>
+      <div class="stat-label">市值（2026.5）</div>
+    </div>
+  </div>
+
+  <!-- ============== BODY ============== -->
+  <div class="body">
+
+    <!-- LEFT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式 / Business Model</h2>
+        <p class="lede">核心产品为 Atlas 图谱解决方案（知识图谱 / 图数据库 / 图计算）与 Atlas 智能体（产业级 AI 智能体），向大型政企交付项目制 + 平台型 AI 解决方案。</p>
+        <ul>
+          <li>收入模式：面向金融、能源、政务、电信、高端制造的 to B 解决方案交付，按项目 / 平台授权收费<sup class="cite"><a href="#s1">[1]</a></sup><sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>规模：年营收约 5 亿元，但近三年累计亏损约 5 亿元<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>增长引擎 Atlas 智能体：2024 年收入 8655 万元（同比 +872%），2023–2025 累计增长 1637%<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>在中国"以图为核心的 AI 智能体"市场份额超 50%，居第一<sup class="cite"><a href="#s2">[2]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态</h2>
+        <p class="lede">2026 年 2 月 13 日港股主板上市，完成从"大数据 / 图数据库(BDP)"到"产业级 AI 智能体 / AI 除幻"的全面叙事转型。</p>
+        <ul>
+          <li>招股价 27.06 港元，募资约 7.6 亿港元；香港公开发售获 5065 倍认购，刷新年内纪录<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>上市首日开盘涨超 250%，市值一度达约 256 亿港元，后回落至约 230 亿（5/26）<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>战略押注"图模融合"——用知识图谱的确定性补大模型幻觉，主攻金融、政务等容错率极低的产业场景<sup class="cite"><a href="#s4">[4]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI 布局 / AI Play</h2>
+        <p class="lede">不训练通用大模型，而是做"大模型外挂"——以图数据库 + 知识图谱为确定性底座，让大模型在产业场景可解释、可验证。</p>
+        <ul>
+          <li>自研 Atlas Graph 国产分布式云原生图数据库，曾打破世界纪录，技术壁垒显著<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>Atlas 智能体（2023.9 推出）：国内首个知识图谱融合大模型应用平台<sup class="cite"><a href="#s5">[5]</a></sup></li>
+          <li>上市后获纳入恒生综合指数，AI 智能体叙事获资本市场认可<sup class="cite"><a href="#s1">[1]</a></sup></li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队 / Key People</h2>
+        <div class="person">
+          <div><span class="person-name">任旭阳</span> <span class="person-role">· 董事长 / 联合创始人</span></div>
+          <div class="person-bio">百度创业元老、前副总裁（主管并购 / 公关 / 市场），斯坦福毕业，现同时运营真知资本；早年亲自任 CEO 后交棒。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">杨再飞</span> <span class="person-role">· CEO / 执行董事</span></div>
+          <div class="person-bio">前央视记者，2019 年加入，为当前实际掌舵人，主导 IPO 与日常经营<sup class="cite"><a href="#s3">[3]</a></sup></div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">史有才 / 胡嵩</span> <span class="person-role">· 联合创始人（已退出管理）</span></div>
+          <div class="person-bio">史有才为"百度渠道体系奠基人"，胡嵩曾任百度无线事业部总架构师；两人现仅持股、不在公司任职。</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局 / Competitive Landscape</h2>
+        <p class="lede">海致定位"图 + 大模型融合"的产业智能体，竞争来自上游图数据库厂商与产业 AI 应用层。</p>
+        <div class="comp"><span class="comp-name">华为云</span> — 2024 年中国图数据库市场份额第一，云厂商综合生态优势</div>
+        <div class="comp"><span class="comp-name">蚂蚁集团 + 清华 TuGraph</span> — 高性能图数据库，金融风控基础设施，已纳入 OceanBase 生态</div>
+        <div class="comp"><span class="comp-name">创邻科技 Galaxybase</span> — 原生分布式图数据库垂直厂商</div>
+        <div class="comp"><span class="comp-name">星环科技 / 杭州悦数</span> — 传统数据库与图数据库厂商，2024 年市占前五<sup class="cite"><a href="#s6">[6]</a></sup></div>
+        <div class="sub-label">差异化</div>
+        <p style="font-size:11.5px;margin:0;">多数对手停留在"图数据库/图计算"基础设施层；海致向上延伸到"图 + 大模型 = 产业级智能体 + AI 除幻"应用层，叠加金融、政务渠道与上市资本优势。</p>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- ============== COLLAB ANGLE ============== -->
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai / 智谱）</h2>
+    <p class="lede">海致的"图模融合"需要一张大模型底座提供推理能力，自研通用大模型成本高、迭代慢——这是智谱 GLM 的天然切入点。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机 / Why they'd care</span>
+        <p>Atlas 智能体的"模"就是大语言模型；其金融、政务客户要求推理底座国产可控、可私有化、低幻觉。外采头部国产大模型比自己训练更划算、更快。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合 / Product fit</span>
+        <p>GLM 系列大模型作为 Atlas 智能体推理底座；智谱私有化部署（MIT 许可 + 昇腾等国产芯片推理）正好满足其政企客户国产化与数据不出域要求。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点 / Friction</span>
+        <p>海致强调确定性推理，对大模型可控性要求高；上市公司有自己的生态与资本动作，可能倾向多模型策略或绑定其他厂商；现有客户私有化算力/芯片适配需评估。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步 / Suggested first move</span>
+        <p>以金融行业为试点做 90 天联合 POC——"GLM 大模型 + 海致知识图谱 / Atlas"联合方案（智能风控 / 投研），共同客户联合交付 + 联合发布，验证"国产大模型 + 除幻图谱"组合卖点。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SOURCES ============== -->
+  <div class="sources">
+    <h2>信息来源 / Sources</h2>
+    <ol>
+      <li id="s1">财联社 — "海致科技集团和沃尔核材开始招股" — 2026-02 — <a href="https://www.cls.cn/detail/2281202">link</a></li>
+      <li id="s2">太博 — "海致科技正式登陆港交所：开盘上涨超250%" — 2026-02 — <a href="https://www.taibo.cn/p/99046">link</a></li>
+      <li id="s3">时代财经 — "海致科技冲刺大模型除幻第一股底色几何？" — 2026 — <a href="https://www.tfcaijing.com/article/page/62514d395059365164427936476d4a376b4d667548673d3d">link</a></li>
+      <li id="s4">东方财富 — "海致科技如何凭图模融合塑造产业AI新范式？" — 2026-01 — <a href="https://wap.eastmoney.com/a/202601263630056188.html">link</a></li>
+      <li id="s5">新华网 — "海致科技推出首个知识图谱融合大模型应用平台" — 2023-09 — <a href="http://www.news.cn/tech/20230909/6e7067a2df08400faa2ed3a25fb14d4a/c.html">link</a></li>
+      <li id="s6">智研咨询 — "2025 中国图数据库行业竞争格局" — 2025 — <a href="https://m.chyxx.com/industry/1232315.html">link</a></li>
+      <li id="s7">21财经 — "IDG、高瓴押注 海致科技冲刺AI除幻第一股" — 2026-02 — <a href="https://www.21jingji.com/article/20260202/herald/dc2941d77810a4823bc14588a9fcc1bc.html">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
