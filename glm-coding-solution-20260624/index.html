@@ -131,6 +131,30 @@ nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
 .sub-title{font-size:13px;font-weight:700;color:var(--gold);margin:30px 0 14px;letter-spacing:.5px;
   border-left:3px solid var(--gold);padding-left:11px}
 
+/* methodology · 干货 */
+.method{margin-top:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.m-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.m-card .mt{font-size:11px;color:var(--brand);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.m-card h4{font-size:15.5px;margin:0 0 10px}
+.m-card ul.role{list-style:none;padding:0;margin:0;font-size:13.3px;color:var(--text-2)}
+.m-card ul.role li{padding:3px 0 3px 16px;position:relative;line-height:1.6}
+.m-card ul.role li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:var(--text-3)}
+.m-card ul.role li b{color:var(--text)}
+.m-card .out{margin-top:10px;font-size:12px;color:var(--text-3);border-top:1px dashed var(--line);padding-top:9px}
+.m-card .out b{color:var(--gold)}
+.how-box{margin:30px auto;max-width:1040px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
+.how-box .hb-head{padding:14px 22px;border-bottom:1px solid var(--line);font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.how-box .hb-head .tag2{font-size:10.5px;font-weight:700;color:var(--green);background:color-mix(in srgb,var(--green) 14%,transparent);padding:3px 9px;border-radius:6px;letter-spacing:.5px}
+.how-box .hb-body{padding:18px 22px;font-size:13.6px;color:var(--text-2);line-height:1.8}
+.how-box .term{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:14px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.8px;line-height:1.85;color:var(--text-2);margin:11px 0;white-space:pre-wrap;word-break:break-word}
+.how-box .term .u{color:var(--green)}
+.how-box .term .a{color:#7aa2ff}
+.how-box .term .k{color:var(--gold)}
+.flow-mini{display:flex;gap:0;flex-wrap:wrap;margin:10px 0 4px}
+.flow-mini .fm{flex:1;min-width:120px;font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 11px;margin:0 3px 3px 0}
+.flow-mini .fm b{color:var(--gold);display:block;font-size:11px;letter-spacing:.5px;margin-bottom:2px}
+@media(max-width:860px){.method,.flow-mini{grid-template-columns:1fr}.flow-mini{display:grid}}
+
 /* glm52 base */
 .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
 .spec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;text-align:center}
@@ -189,7 +213,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:v
       <a href="#scene-industry">行业融合</a>
       <a href="#scene-virtual">虚拟用户</a>
       <a href="#glm52">GLM-5.2</a>
-      <a href="#landing">落地</a>
+      <a href="#landing">接入</a>
     </div>
     <button class="theme-btn" onclick="toggleTheme()" title="切换主题">☾</button>
   </div>
@@ -313,32 +337,100 @@ footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:v
       <div class="stage">
         <div class="stag">需求阶段</div>
         <h4>从「我觉得」到「被验证的假设」</h4>
-        <p>AI 作为调研与推理引擎，PM 退为问题定义者。七步闭环：问题对齐 → 信息收集 → 机会空间 → 方案共创 → 最小验证 → <b>PRD 自动化生成</b> → 设计稿联动产出 Wireframe。</p>
+        <p>AI 作为调研与推理引擎，PM 退为问题定义者。一条可落地的七步链路：</p>
+        <ul class="role">
+          <li><b>问题对齐</b>：业务目标 → 可度量指标，识别信息缺口</li>
+          <li><b>信息收集</b>：聚类埋点 / 工单 / 竞品，输出痛点证据</li>
+          <li><b>方案共创</b>：每个机会出 MVP / 体验 / AI 增强三版</li>
+          <li><b>最小验证</b>：AI 模拟用户访谈、Prompt 级 MVP</li>
+        </ul>
         <div class="kpi"><span>需求一次成链路</span><span>返工率 <b>↓</b></span></div>
       </div>
       <div class="stage">
         <div class="stag">架构阶段</div>
-        <h4>AI 辅助系统方案与架构设计</h4>
-        <p>输入业务背景与约束，AI 协助完成技术选型、模块拆分、架构图与评审材料，输入与产出一次对齐，减少设计-开发间的理解偏差。</p>
-        <div class="kpi"><span>方案可评审</span><span>上下文贯穿</span></div>
+        <h4>AI 辅助识别关键决策点</h4>
+        <p>输入需求与现有技术栈，AI 拆解功能 / 非功能要求，标出需架构师拍板的关键决策并给出选项分析。</p>
+        <ul class="role">
+          <li>租户隔离：共享库+tenant_id 还是独立库？</li>
+          <li>LLM 集成：绑定单一 还是 可插拔？</li>
+          <li>检索策略：纯向量 还是 混合召回？</li>
+          <li>成本与时效：热冷分离 / 异步批处理</li>
+        </ul>
+        <div class="kpi"><span>决策点前置</span><span>选型可追溯</span></div>
       </div>
       <div class="stage">
         <div class="stag">研发阶段</div>
         <h4>AI Coding 全流程</h4>
-        <p>前端从界面到交互的智能化实现、开发流程场景化实践。低复杂度需求交付周期<b>从天级降至小时级</b>；首次通过率 85%+，token 成本降低 30%+。</p>
+        <p>前端从界面到交互的智能化实现、开发流程场景化实践；多 Agent 编排 + 工具调用 + 自主纠错。</p>
+        <ul class="role">
+          <li>低复杂度需求交付 <b>天级 → 小时级</b></li>
+          <li>首次通过率 <b>85%+</b>，token 成本降 <b>30%+</b></li>
+          <li>支持 LangGraph / AutoGen / CrewAI 等框架</li>
+        </ul>
         <div class="kpi"><span>交付 <b>天→小时</b></span><span>首次通过 <b>85%+</b></span></div>
       </div>
       <div class="stage">
         <div class="stag">测试阶段</div>
-        <h4>端到端全流程自动化测试</h4>
-        <p>一句话生成压测脚本→执行→自动生成报告，<b>时间成本由天降至分钟，节约 90%</b>；需求→用例→自动化代码→报告端到端驱动，节省 <b>50–70%</b> 人力。</p>
+        <h4>一句话生成 → 自调试 → 报告</h4>
+        <p>描述压测需求，AI 生成脚本、自行调试解决依赖报错、执行并输出分析报告，全程无需人工介入。</p>
+        <ul class="role">
+          <li>压测时间 <b>天 → 分钟，省 90%</b></li>
+          <li>端到端测试省 <b>50–70%</b> 人力</li>
+          <li>无缝集成 Locust / Selenium 主流框架</li>
+        </ul>
         <div class="kpi"><span>压测省 <b>90%</b></span><span>人力省 <b>50–70%</b></span></div>
       </div>
       <div class="stage" style="grid-column:span 2">
         <div class="stag">运维阶段</div>
-        <h4>对话式运维升级：大模型打造自助排障</h4>
-        <p>用自然语言跨日志/指标/链路/事件统一检索（支持业务术语与模糊描述），系统自动汇聚告警、指标、链路与变更记录，拼成<b>「事故故事线」</b>，给出根因假设、验证步骤与分级处置建议。实测通过 Grafana MCP 自然语言查询「过去 5 分钟 QPS 超过 100 的接口」即可自动转译并返回结果，<b>降低告警噪声、缩短 MTTR、减轻值班负担</b>。</p>
+        <h4>对话式运维：自然语言排障 + 事故故事线</h4>
+        <p>用自然语言跨日志 / 指标 / 链路 / 事件统一检索（支持业务术语与模糊描述），系统自动汇聚告警、指标、链路与变更记录，拼成<b>「事故故事线」</b>，给出根因假设、验证步骤与分级处置建议——<b>非专家也能高效定位，缩短 MTTR</b>。下方是真实查询样例。</p>
         <div class="kpi"><span>自然语言排障</span><span>MTTR <b>↓</b></span><span>非专家可用</span></div>
+      </div>
+    </div>
+
+    <div class="how-box">
+      <div class="hb-head"><span class="tag2">真实样例</span> 运维 · 一句话查「过去 5 分钟 QPS 超过 100 的接口」</div>
+      <div class="hb-body">
+        工程师无需记查询语法，自然语言提问即可。GLM 经 Grafana MCP 自动转译为多源查询并聚合返回：
+        <div class="term"><span class="u">▸ 工程师</span>  使用 grafana mcp 获取本服务在过去 5 分钟内接口 QPS 超过 100 的数据
+<span class="a">◂ GLM</span>  先定位 Prometheus 数据源，按 uri、method 聚合 QPS 指标 http_server_requests_seconds_count
+<span class="a">◂ GLM</span>  grafana - Query Prometheus metrics (MCP)  →  sum(rate(...[5m])) by (uri,method) > 100
+<span class="a">◂ GLM</span>  过去 5 分钟高 QPS 接口：
+        <span class="k">/v4/chat/completions</span>      QPS 4245 → 4648（主流量入口，持续上升）
+        <span class="k">/v3/model-api/.../invoke</span>  QPS 363 → 371（稳定）
+        <span class="k">/v4/async-result/...</span>     QPS 282 → 286（稳定）
+        <span class="k">/v4/embeddings</span>           QPS 103 → 112（后半段起量）</div>
+        同一机制可拼「事故故事线」：给定一个 logID，自动拉取网关 → 业务 → 下游日志，给出最可能的异常根因。
+      </div>
+    </div>
+
+    <div class="method">
+      <div class="m-card">
+        <div class="mt">需求阶段 · 七步落地法</div>
+        <h4>每步都有「PM 做什么 / AI 做什么 / 产出物」</h4>
+        <ul class="role">
+          <li><b>① 问题对齐</b>：目标拆指标、识别信息缺口 → 《问题定义 One-pager》</li>
+          <li><b>② 信息收集</b>：聚类痛点、提炼关键路径 → 《痛点证据表》</li>
+          <li><b>③ 机会空间</b>：打分排序给优先级 → 《机会评估矩阵》</li>
+          <li><b>④ 方案共创</b>：多版本方案草图 → 《方案对比表》</li>
+          <li><b>⑤ 最小验证</b>：AI 模拟访谈 / 日志回放 → 《验证结论摘要》</li>
+          <li><b>⑥ PRD 自动化</b>：拼装初稿 + 评审清单 → 《PRD v1.0》</li>
+          <li><b>⑦ 设计稿联动</b>：生成 IA + Wireframe Brief → 可导入 Figma</li>
+        </ul>
+        <div class="out">最终交付 <b>PRD v1.0 + Wireframe</b>，同源生成、信息一致、可追溯。</div>
+      </div>
+      <div class="m-card">
+        <div class="mt">架构阶段 · 关键决策识别</div>
+        <h4>AI 把模糊需求变成「待拍板清单」</h4>
+        <ul class="role">
+          <li><b>需求拆解</b>：自动分出功能性 / 非功能性要求</li>
+          <li><b>租户隔离</b>：共享库+tenant_id vs 独立库（含升级预留）</li>
+          <li><b>LLM 集成</b>：建议可插拔结构，作为核心竞争力</li>
+          <li><b>检索架构</b>：异步批量向量化 + 混合召回 + Re-rank</li>
+          <li><b>性能 / 成本</b>：p95 延迟目标、热冷分离、按需扩容</li>
+          <li><b>评估体系</b>：标准指标（RAGAS）+ 业务自定义，定期自动化</li>
+        </ul>
+        <div class="out">基于<b>现有技术栈</b>选型，优先复用已有组件，必要时才引入新中间件。</div>
       </div>
     </div>
 
@@ -357,7 +449,7 @@ footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:v
       <div class="tl">
         <div class="tlt">上层 · 研发工具适配</div>
         <h5>嵌入日常工作流</h5>
-        <p>基于 GLM Coding 套餐，嵌入 IDE / Git / Jira；AI Coding 平台与自动化测试平台贯通。</p>
+        <p>通过 API 与主流编码工具接入，嵌入 IDE / Git / Jira；AI Coding 与自动化测试平台贯通全流程。</p>
       </div>
     </div>
 
@@ -514,46 +606,57 @@ footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:v
 <section id="landing">
   <div class="wrap">
     <div class="sec-head">
-      <span class="sec-tag">落地路径</span>
-      <h2>怎么开始</h2>
-      <p class="sec-sub">无需从零搭建。通过 GLM Coding Plan 订阅，在主流编码工具中即享智谱旗舰模型；配合 MCP 扩展与私有知识库，逐步沉淀企业专属能力。</p>
+      <span class="sec-tag">能力接入</span>
+      <h2>如何把这些能力用起来</h2>
+      <p class="sec-sub">GLM 模型提供三种接入方式，按场景与数据安全要求灵活组合；能力可通过工具与 MCP 扩展，并可沉淀企业专属知识。</p>
     </div>
 
-    <div class="sub-title">GLM Coding Plan 套餐（订阅制，55+ Tokens/秒）</div>
-    <table class="plan-table">
-      <thead><tr><th>套餐</th><th>每 5 小时限额</th><th>每周限额</th><th>适合</th></tr></thead>
-      <tbody>
-        <tr><td><b>Lite</b></td><td>≈ 80 次 prompt</td><td>≈ 400 次 prompt</td><td>个人尝鲜 / 轻量任务</td></tr>
-        <tr><td><b>Pro</b></td><td>≈ 400 次 prompt</td><td>≈ 2000 次 prompt</td><td>日常研发主力</td></tr>
-        <tr><td><b>Max</b></td><td>≈ <b>1600</b> 次 prompt</td><td>≈ <b>8000</b> 次 prompt</td><td>高频复杂项目 / 团队</td></tr>
-      </tbody>
-    </table>
-    <p class="prose" style="font-size:13px">每月可用额度按 API 定价折算，相当于月订阅费用的 <b>15–30 倍</b>。默认使用 GLM-4.7，复杂任务可切换 GLM-5 / GLM-5.2。</p>
+    <div class="three-layer">
+      <div class="tl">
+        <div class="tlt">方式一 · API 直连</div>
+        <h5>最快验证</h5>
+        <p>OpenAI 兼容接口，几行代码调用 GLM-4.6 / 4.7 / 5.2，适合自研应用、数据代码生成、虚拟用户后端等场景。</p>
+      </div>
+      <div class="tl">
+        <div class="tlt">方式二 · 编码工具集成</div>
+        <h5>嵌入研发流</h5>
+        <p>在 Claude Code、Cursor 等主流编码工具中配置 GLM，直接用于研发全链条的 AI Coding。</p>
+      </div>
+      <div class="tl">
+        <div class="tlt">方式三 · 私有化部署</div>
+        <h5>数据不出域</h5>
+        <p>政务、金融、能源等敏感行业，模型私有化部署 + 企业知识库接入，深度适配业务规则，越用越懂业务。</p>
+      </div>
+    </div>
 
-    <div class="sub-title">兼容工具与 MCP 扩展</div>
+    <div class="sub-title">兼容的编码工具生态</div>
     <div class="tool-grid">
       <span class="t">Claude Code</span><span class="t">Cursor</span><span class="t">OpenCode</span><span class="t">Kilo Code</span>
-      <span class="t">Cline</span><span class="t">Roo Code</span><span class="t">Crush</span><span class="t">Goose</span><span class="t">OpenClaw</span><span class="t">…10+</span>
+      <span class="t">Cline</span><span class="t">Roo Code</span><span class="t">Crush</span><span class="t">Goose</span><span class="t">OpenClaw</span><span class="t">… 10+</span>
     </div>
+
+    <div class="sub-title">MCP 扩展 · 让模型长出手脚</div>
     <div class="tool-grid">
-      <span class="t">🔎 联网搜索 MCP</span><span class="t">🌐 网页读取 MCP</span><span class="t">👁 视觉理解 MCP</span><span class="t">📦 开源仓库 MCP</span>
+      <span class="t">🔎 联网搜索</span><span class="t">🌐 网页读取</span><span class="t">👁 视觉理解</span><span class="t">📦 开源仓库</span>
+      <span class="t">📊 Grafana（运维排障）</span>
     </div>
+    <p class="prose" style="font-size:13.5px;margin-top:8px">MCP 让模型按需调用外部能力——上文运维排障样例即通过 Grafana MCP 查询监控数据；企业也可接入内部系统的 MCP，把模型能力落到具体业务工具上。</p>
 
     <div class="steps3">
       <div class="stp">
         <div class="sn">STEP 1</div>
-        <h5>选定场景，订阅套餐</h5>
-        <p>从三类场景中选定优先级（建议全链条先行），按团队规模选择 Lite / Pro / Max。</p>
+        <h5>选定一个场景试点</h5>
+        <p>从三类场景中选定优先级（建议全链条先行），用一个真实小项目验证能力匹配度。</p>
       </div>
       <div class="stp">
         <div class="sn">STEP 2</div>
-        <h5>接入工具，接入知识</h5>
-        <p>在 Claude Code 等工具中配置 GLM 模型；挂载 MCP 与企业知识库 / 代码仓库，沉淀专属能力。</p>
+        <h5>接入模型与知识</h5>
+        <p>选定接入方式（API / 工具 / 私有化），挂载 MCP 与企业知识库、代码仓库，让模型理解你的业务。</p>
       </div>
       <div class="stp">
         <div class="sn">STEP 3</div>
-        <h5>跑通闭环，规模化</h5>
-        <p>按研发五阶段跑通一个试点项目，验证效率提升后，向更多业务线与行业场景复制。</p>
+        <h5>跑通闭环，量化收益</h5>
+        <p>按研发五阶段或数据代码链路跑通闭环，用效率数据（周期、人力、MTTR）验证，再向更多场景复制。</p>
       </div>
     </div>
   </div>
