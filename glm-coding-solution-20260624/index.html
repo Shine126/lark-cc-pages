@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="zh" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GLM Coding 全场景方案 · 致客户</title>
+<meta name="description" content="面向客户三大类 Coding 场景的智谱 GLM 方案：研发全链条、行业知识融合、B 端虚拟用户模拟，以 GLM-5.2 为能力底座。">
+<style>
+:root{
+  --bg:#000;--bg-alt:#0a0a0a;--surface:#0e0e0e;--surface-2:#161616;
+  --text:#fafafa;--text-2:#a6a6a6;--text-3:#6b6b6b;
+  --line:#1f1f1f;--line-2:#2e2e2e;
+  --accent:#fafafa;--on-accent:#0a0a0a;
+  --brand:#3b82f6;--brand-2:#8b5cf6;--gold:#e0b341;--green:#34d399;--rose:#fb7185;
+  --sh-sm:0 1px 2px rgba(0,0,0,.4);--sh-md:0 6px 18px -6px rgba(0,0,0,.5);
+  --sh-lg:0 22px 48px -16px rgba(0,0,0,.6);--r:14px;--r-lg:20px;
+  --max:1120px;
+}
+[data-theme="light"]{
+  --bg:#fff;--bg-alt:#f7f7f8;--surface:#fff;--surface-2:#f4f4f5;
+  --text:#0a0a0a;--text-2:#525252;--text-3:#8c8c8c;
+  --line:#e8e8ea;--line-2:#d4d4d4;--accent:#0a0a0a;--on-accent:#fff;
+  --sh-sm:0 1px 2px rgba(0,0,0,.05);--sh-md:0 6px 18px -6px rgba(0,0,0,.1);
+  --sh-lg:0 22px 48px -16px rgba(0,0,0,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.78;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;transition:background .35s,color .35s;margin:0}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+section{padding:78px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+.sec-head{text-align:center;margin-bottom:46px}
+.sec-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--text-2);padding:5px 13px;border:1px solid var(--line-2);border-radius:30px;margin-bottom:18px}
+.sec-head h2{font-size:32px;margin:0 0 12px;letter-spacing:-.5px;line-height:1.25}
+.sec-sub{color:var(--text-2);max-width:680px;margin:0 auto;font-size:15.5px}
+.prose{color:var(--text-2);font-size:15.5px;line-height:1.85}
+.prose b{color:var(--text)}
+.hl-num{color:var(--gold);font-weight:700}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;gap:18px;height:58px}
+.brand{font-weight:800;letter-spacing:-.3px;font-size:15.5px;white-space:nowrap}
+.brand .v{color:var(--text-3);font-weight:600;font-size:12px;margin-left:6px}
+.nav-links{display:flex;gap:2px;margin-left:6px;flex:1;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:13px;color:var(--text-2);padding:7px 11px;border-radius:8px;white-space:nowrap;transition:.15s}
+.nav-links a:hover{color:var(--text);background:var(--surface-2)}
+.theme-btn{margin-left:auto;cursor:pointer;font-size:15px;padding:6px 10px;border:1px solid var(--line-2);
+  border-radius:9px;background:var(--surface);color:var(--text);line-height:1}
+
+/* hero */
+#hero{padding:92px 0 64px;text-align:center;position:relative}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;font-size:12px;color:var(--text-2);
+  border:1px solid var(--line-2);padding:6px 14px;border-radius:30px;margin-bottom:26px}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+#hero h1{font-size:clamp(34px,5.4vw,56px);line-height:1.12;letter-spacing:-1.2px;margin:0 0 22px;font-weight:800}
+#hero h1 .grad{background:linear-gradient(100deg,var(--brand),var(--brand-2) 60%,var(--gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+#hero .lede{font-size:18px;color:var(--text-2);max-width:720px;margin:0 auto 30px;line-height:1.7}
+.hero-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.chip{font-size:13px;color:var(--text);background:var(--surface);border:1px solid var(--line-2);
+  padding:8px 15px;border-radius:30px}
+.chip b{color:var(--gold)}
+
+/* need cards */
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:26px 24px;transition:.2s}
+.card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.card .ico{font-size:26px;margin-bottom:12px}
+.card h3{font-size:17px;margin:0 0 8px}
+.card .meta{font-size:11px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.card p{font-size:14px;color:var(--text-2);margin:0 0 14px;line-height:1.7}
+.badge-main{display:inline-block;font-size:11px;font-weight:700;color:var(--gold);background:color-mix(in srgb,var(--gold) 14%,transparent);
+  padding:3px 10px;border-radius:20px}
+.card ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--text-2)}
+.card ul li{margin:5px 0}
+
+/* architecture / overview */
+.arch{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px;max-width:960px;margin:0 auto}
+.arch-layer{border:1px dashed var(--line-2);border-radius:var(--r);padding:18px 20px;margin-bottom:14px}
+.arch-layer:last-child{margin-bottom:0}
+.arch-layer .lt{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:10px;font-weight:700}
+.arch-layer.top{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 7%,transparent)}
+.arch-layer.mid{border-color:var(--brand-2)}
+.arch-layer.base{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 6%,transparent)}
+.arch-pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{font-size:13px;background:var(--bg);border:1px solid var(--line-2);padding:8px 14px;border-radius:10px}
+.pill b{color:var(--text)}
+.arch-arrow{text-align:center;color:var(--text-3);font-size:18px;margin:-4px 0}
+
+/* fullchain (scene 1) */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:18px 0 8px;position:relative}
+.flow-step{text-align:center;padding:14px 8px;position:relative}
+.flow-step .num{width:38px;height:38px;border-radius:50%;background:var(--surface);border:1.5px solid var(--line-2);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:800;font-size:15px;color:var(--brand)}
+.flow-step .ft{font-size:13.5px;font-weight:700;margin-bottom:4px}
+.flow-step .fd{font-size:11.5px;color:var(--text-3);line-height:1.5}
+.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-7px;top:24px;color:var(--text-3);font-size:14px;z-index:2;
+  background:var(--bg);padding:0 2px}
+.stage-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 20px}
+.stage .stag{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--brand);text-transform:uppercase}
+.stage h4{font-size:16.5px;margin:6px 0 10px}
+.stage p{font-size:13.8px;color:var(--text-2);margin:0 0 12px;line-height:1.7}
+.stage .kpi{display:flex;gap:8px;flex-wrap:wrap}
+.kpi span{font-size:12px;background:var(--surface-2);border:1px solid var(--line);padding:5px 10px;border-radius:8px;color:var(--text)}
+.kpi span b{color:var(--gold)}
+.three-layer{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.tl{border:1px solid var(--line);border-radius:var(--r);padding:18px;background:var(--surface)}
+.tl .tlt{font-size:11px;letter-spacing:1px;color:var(--text-3);text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.tl h5{font-size:14.5px;margin:0 0 8px}
+.tl p{font-size:13px;color:var(--text-2);margin:0;line-height:1.65}
+
+/* case cards (scene 2/3) */
+.case-row{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.case{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;position:relative;transition:.2s}
+.case:hover{border-color:var(--line-2)}
+.case .model-tag{position:absolute;top:18px;right:18px;font-size:10.5px;font-weight:700;letter-spacing:.5px;
+  color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,transparent);padding:3px 9px;border-radius:6px}
+.case h4{font-size:16px;margin:0 0 6px;padding-right:70px}
+.case .ind{font-size:11px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.case p{font-size:13.6px;color:var(--text-2);margin:0 0 12px;line-height:1.72}
+.case .stack{display:flex;gap:6px;flex-wrap:wrap}
+.case .stack span{font-size:11px;color:var(--text-2);background:var(--surface-2);border:1px solid var(--line);padding:3px 8px;border-radius:6px}
+.sub-title{font-size:13px;font-weight:700;color:var(--gold);margin:30px 0 14px;letter-spacing:.5px;
+  border-left:3px solid var(--gold);padding-left:11px}
+
+/* glm52 base */
+.spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0}
+.spec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;text-align:center}
+.spec .big{font-size:26px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(100deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.spec .lbl{font-size:12px;color:var(--text-2);margin-top:6px;line-height:1.5}
+.scenes4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.s4{border:1px solid var(--line);border-radius:var(--r);padding:20px;background:var(--surface)}
+.s4 .s4n{font-size:11px;color:var(--text-3);letter-spacing:1px}
+.s4 h5{font-size:15px;margin:4px 0 8px}
+.s4 p{font-size:13.2px;color:var(--text-2);margin:0;line-height:1.7}
+.price-note{text-align:center;font-size:13px;color:var(--text-2);margin-top:22px;padding:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r);max-width:680px;margin-left:auto;margin-right:auto}
+
+/* landing path */
+.plan-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px}
+.plan-table th,.plan-table td{padding:13px 14px;border:1px solid var(--line);text-align:left}
+.plan-table th{background:var(--surface);font-size:12px;color:var(--text-2);text-transform:uppercase;letter-spacing:.5px}
+.plan-table td b{color:var(--gold)}
+.tool-grid{display:flex;gap:9px;flex-wrap:wrap;margin:12px 0}
+.tool-grid .t{font-size:12.5px;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:9px}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+.stp{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.stp .sn{font-size:12px;font-weight:800;color:var(--brand);letter-spacing:1px}
+.stp h5{font-size:15px;margin:6px 0 8px}
+.stp p{font-size:13px;color:var(--text-2);margin:0;line-height:1.7}
+
+/* cta */
+#cta{text-align:center;padding:90px 0}
+#cta h2{font-size:34px;margin:0 0 16px;letter-spacing:-.5px}
+#cta p{color:var(--text-2);max-width:560px;margin:0 auto 28px;font-size:16px}
+.cta-btn{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:700;
+  padding:14px 32px;border-radius:12px;font-size:15px}
+footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--text-3);font-size:12.5px}
+
+@media(max-width:860px){
+  .cards-3,.stage-grid,.case-row,.scenes4,.three-layer,.steps3{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(2,1fr);gap:10px}
+  .flow-step:not(:last-child)::after{display:none}
+  .spec-grid{grid-template-columns:repeat(2,1fr)}
+  .sec-head h2,#hero h1{font-size:28px}
+  nav .wrap{height:52px}
+  .brand .v{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">GLM Coding 全场景方案<span class="v">致客户 · 2026.06</span></div>
+    <div class="nav-links">
+      <a href="#needs">需求</a>
+      <a href="#overview">总览</a>
+      <a href="#scene-fullchain">全链条</a>
+      <a href="#scene-industry">行业融合</a>
+      <a href="#scene-virtual">虚拟用户</a>
+      <a href="#glm52">GLM-5.2</a>
+      <a href="#landing">落地</a>
+    </div>
+    <button class="theme-btn" onclick="toggleTheme()" title="切换主题">☾</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span> 智谱 GLM · AI Native Coding 解决方案</div>
+    <h1>从研发全链条到行业融合<br><span class="grad">一套 GLM Coding 能力，回应您的三类场景</span></h1>
+    <p class="lede">基于「GLM Coding 开发者社区」官方最佳实践与近百个真实落地案例梳理，覆盖软件全生命周期、行业知识融合的代码生成与分析、以及面向 B 端的虚拟用户模拟——以新一代旗舰模型 <b>GLM-5.2</b> 为统一底座。</p>
+    <div class="hero-chips">
+      <span class="chip">真正可用的 <b>1M</b> 上下文</span>
+      <span class="chip">Coding 国产 & 开源 <b>第一梯队</b></span>
+      <span class="chip">交付周期 <b>天级 → 小时级</b></span>
+      <span class="chip">10+ 主流编码工具即插即用</span>
+    </div>
+  </div>
+</section>
+
+<!-- NEEDS -->
+<section id="needs">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">客户需求洞察</span>
+      <h2>我们听到了什么</h2>
+      <p class="sec-sub">基于前期沟通，您方对 coding 场景的需求集中在三类。本方案将逐一给出能力回应与可复用的落地参考。</p>
+    </div>
+    <div class="cards-3">
+      <div class="card">
+        <div class="ico">🛠️</div>
+        <div class="meta">需求一 · 主需求</div>
+        <h3>广义 AI Coding 全链条</h3>
+        <p>覆盖软件及智能化系统的<b>全生命周期</b>：设计、架构、研发、测试、部署运维。大部分客户的主要方向。</p>
+        <span class="badge-main">★ 本方案重点展开</span>
+      </div>
+      <div class="card">
+        <div class="ico">🏛️</div>
+        <div class="meta">需求二</div>
+        <h3>行业知识融合的 Coding</h3>
+        <p>政务、金融、能源等场景，结合行业知识与数据融合：SQL / Cypher 代码生成，以及数据代码执行后的<b>分析与报告</b>。</p>
+        <ul>
+          <li>行业语料 + 知识库对齐</li>
+          <li>数据代码生成与执行</li>
+          <li>分析报告自动产出</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ico">👥</div>
+        <div class="meta">需求三</div>
+        <h3>B 端虚拟用户模拟</h3>
+        <p>面向汽车、消费行业 B 端客户，模拟虚拟用户——类似基于客户画像数据的<b>角色扮演类应用</b>。</p>
+        <ul>
+          <li>画像驱动的角色 Agent</li>
+          <li>多智能体协作与对话</li>
+          <li>可交互的拟人体验</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">方案总览</span>
+      <h2>三层架构，一套能力覆盖三类场景</h2>
+      <p class="sec-sub">从底层模型基座，到中层 AI 产研基础设施，再到上层场景化应用——能力贯通、上下文贯穿全流程。</p>
+    </div>
+    <div class="arch">
+      <div class="arch-layer top">
+        <div class="lt">上层 · 场景化应用</div>
+        <div class="arch-pills">
+          <span class="pill"><b>研发全链条</b>（需求→架构→研发→测试→运维）</span>
+          <span class="pill"><b>行业融合</b>（政务 / 金融 / 能源 · SQL/Cypher）</span>
+          <span class="pill"><b>虚拟用户</b>（画像角色扮演 · 多智能体）</span>
+        </div>
+      </div>
+      <div class="arch-arrow">▲</div>
+      <div class="arch-layer mid">
+        <div class="lt">中层 · AI 产研基础设施</div>
+        <div class="arch-pills">
+          <span class="pill"><b>GLM Coding Plan</b> 订阅（Lite/Pro/Max）</span>
+          <span class="pill"><b>Coding Agent</b> 编排与长程任务</span>
+          <span class="pill"><b>MCP</b>（视觉/联网/网页/仓库）</span>
+          <span class="pill">企业知识库与代码仓库接入</span>
+        </div>
+      </div>
+      <div class="arch-arrow">▲</div>
+      <div class="arch-layer base">
+        <div class="lt">底层 · 模型基座</div>
+        <div class="arch-pills">
+          <span class="pill"><b>GLM-5.2</b> 旗舰 · 1M 上下文 · Coding 第一梯队</span>
+          <span class="pill">GLM-4.7 / 4.6 全系可用</span>
+          <span class="pill">私有化部署 · 企业级定制</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENE 1: FULL CHAIN -->
+<section id="scene-fullchain">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">场景一 · 主需求</span>
+      <h2>AI Native 研发流程重塑</h2>
+      <p class="sec-sub">从传统「需求-设计-编码-测试-发布」的线性模式，升级为以数据、模型与快速反馈为核心的<b>双循环</b>敏捷 AI 工程方式——把 AI Coding 能力深度融入产研每一个环节。</p>
+    </div>
+
+    <div class="flow">
+      <div class="flow-step"><div class="num">1</div><div class="ft">需求</div><div class="fd">智能需求生成与分析</div></div>
+      <div class="flow-step"><div class="num">2</div><div class="ft">架构</div><div class="fd">AI 辅助方案与系统设计</div></div>
+      <div class="flow-step"><div class="num">3</div><div class="ft">研发</div><div class="fd">AI Coding 全流程</div></div>
+      <div class="flow-step"><div class="num">4</div><div class="ft">测试</div><div class="fd">端到端自动化测试</div></div>
+      <div class="flow-step"><div class="num">5</div><div class="ft">运维</div><div class="fd">对话式自助排障</div></div>
+    </div>
+
+    <div class="stage-grid">
+      <div class="stage">
+        <div class="stag">需求阶段</div>
+        <h4>从「我觉得」到「被验证的假设」</h4>
+        <p>AI 作为调研与推理引擎，PM 退为问题定义者。七步闭环：问题对齐 → 信息收集 → 机会空间 → 方案共创 → 最小验证 → <b>PRD 自动化生成</b> → 设计稿联动产出 Wireframe。</p>
+        <div class="kpi"><span>需求一次成链路</span><span>返工率 <b>↓</b></span></div>
+      </div>
+      <div class="stage">
+        <div class="stag">架构阶段</div>
+        <h4>AI 辅助系统方案与架构设计</h4>
+        <p>输入业务背景与约束，AI 协助完成技术选型、模块拆分、架构图与评审材料，输入与产出一次对齐，减少设计-开发间的理解偏差。</p>
+        <div class="kpi"><span>方案可评审</span><span>上下文贯穿</span></div>
+      </div>
+      <div class="stage">
+        <div class="stag">研发阶段</div>
+        <h4>AI Coding 全流程</h4>
+        <p>前端从界面到交互的智能化实现、开发流程场景化实践。低复杂度需求交付周期<b>从天级降至小时级</b>；首次通过率 85%+，token 成本降低 30%+。</p>
+        <div class="kpi"><span>交付 <b>天→小时</b></span><span>首次通过 <b>85%+</b></span></div>
+      </div>
+      <div class="stage">
+        <div class="stag">测试阶段</div>
+        <h4>端到端全流程自动化测试</h4>
+        <p>一句话生成压测脚本→执行→自动生成报告，<b>时间成本由天降至分钟，节约 90%</b>；需求→用例→自动化代码→报告端到端驱动，节省 <b>50–70%</b> 人力。</p>
+        <div class="kpi"><span>压测省 <b>90%</b></span><span>人力省 <b>50–70%</b></span></div>
+      </div>
+      <div class="stage" style="grid-column:span 2">
+        <div class="stag">运维阶段</div>
+        <h4>对话式运维升级：大模型打造自助排障</h4>
+        <p>用自然语言跨日志/指标/链路/事件统一检索（支持业务术语与模糊描述），系统自动汇聚告警、指标、链路与变更记录，拼成<b>「事故故事线」</b>，给出根因假设、验证步骤与分级处置建议。实测通过 Grafana MCP 自然语言查询「过去 5 分钟 QPS 超过 100 的接口」即可自动转译并返回结果，<b>降低告警噪声、缩短 MTTR、减轻值班负担</b>。</p>
+        <div class="kpi"><span>自然语言排障</span><span>MTTR <b>↓</b></span><span>非专家可用</span></div>
+      </div>
+    </div>
+
+    <div class="sub-title">交付范式 · 三层能力闭环</div>
+    <div class="three-layer">
+      <div class="tl">
+        <div class="tlt">底层 · 模型基座</div>
+        <h5>行业大模型 + 私有知识库</h5>
+        <p>结合企业代码库、技术栈、业务逻辑，不仅生成代码，更能感知业务场景，真正解决一线问题。</p>
+      </div>
+      <div class="tl">
+        <div class="tlt">中层 · 产研基础设施</div>
+        <h5>统一工具平台</h5>
+        <p>需求到交付的研发流程重塑；上下文记忆与协同机制联通产品、研发、测试、运维工具。</p>
+      </div>
+      <div class="tl">
+        <div class="tlt">上层 · 研发工具适配</div>
+        <h5>嵌入日常工作流</h5>
+        <p>基于 GLM Coding 套餐，嵌入 IDE / Git / Jira；AI Coding 平台与自动化测试平台贯通。</p>
+      </div>
+    </div>
+
+    <p class="prose" style="text-align:center;margin-top:34px;max-width:760px;margin-left:auto;margin-right:auto">
+      工程师写代码时间仅占 20%，单点优化编码效率远远不够。AI Native 的最大价值，是让 AI 理解用户意图、把需求转化为完整产品方案——推动研发从<b>「代码驱动」转向「需求驱动」</b>，建立从季度级到月度级的创新节奏。
+    </p>
+  </div>
+</section>
+
+<!-- SCENE 2: INDUSTRY -->
+<section id="scene-industry">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">场景二</span>
+      <h2>行业知识融合的 Coding</h2>
+      <p class="sec-sub">将行业知识理解与数据融合注入编码能力：从 <b>SQL / Cypher 代码生成</b>，到数据代码执行后的<b>分析与报告</b>，再到行业垂类应用交付。下列案例均来自开发者社区真实实践。</p>
+    </div>
+
+    <div class="case">
+      <span class="model-tag">能力 · 泛 Coding</span>
+      <h4>数据代码生成 → 执行 → 分析报告</h4>
+      <p>对应「文档类 Coding 应用」的核心链路：模型依据自然语言或业务问题<b>生成 SQL / Cypher 等数据代码</b>，调用数据源执行，再将结果自动转化为结构化分析与可视化报告——从问数到结论一次打通。</p>
+      <div class="stack"><span>Text-to-SQL</span><span>Text-to-Cypher</span><span>数据执行</span><span>报告生成</span><span>可视化</span></div>
+    </div>
+
+    <div class="sub-title">金融行业</div>
+    <div class="case-row">
+      <div class="case">
+        <span class="model-tag">GLM-4.6</span>
+        <h4>量化交易策略分析平台</h4>
+        <div class="ind">金融 · 量化回测</div>
+        <p>「30 分钟上手量化策略」的教育导向平台。基于真实市场数据（AKShare 期货数据）的回测，GLM-4.6 协作完成前后端一体化开发，体现可复现、可扩展、可维护的工程思维。</p>
+        <div class="stack"><span>FastAPI</span><span>Next.js</span><span>SQLAlchemy</span><span>Redis</span><span>策略回测</span></div>
+      </div>
+      <div class="case">
+        <span class="model-tag">GLM</span>
+        <h4>多智能体 AI 投资辅助平台「股伴」</h4>
+        <div class="ind">金融 · 多智能体投研</div>
+        <p>用「AI 投资合议庭」替代单模型输出：宏观、行业、财报、技术、舆情、风控、策略 7 个专家 Agent 分工，经 <b>AI 辩论</b>后整合成综合报告，让普通投资者获得接近机构级的分析能力。</p>
+        <div class="stack"><span>Multi-Agent</span><span>Agent Debate</span><span>盯盘/舆情</span></div>
+      </div>
+      <div class="case">
+        <span class="model-tag">GLM-4.6</span>
+        <h4>股票数据-资讯联动系统</h4>
+        <div class="ind">金融 · 资讯聚合</div>
+        <p>用自然语言描述即可生成专业金融资讯平台：行情卡片（涨跌色标）、新闻瀑布流、舆情标签云，含数据动效与深色模式——从需求到可演示产品快速落地。</p>
+        <div class="stack"><span>自然语言生成</span><span>数据可视化</span><span>多模态</span></div>
+      </div>
+      <div class="case">
+        <span class="model-tag">GLM-4.7</span>
+        <h4>政务大厅数字人导办系统</h4>
+        <div class="ind">政务 · 智能导办</div>
+        <p>打通从密钥管理到流式播报的全流程。数字人状态机（idle/listen/think/speak）+ GLM 流式响应，提供政策咨询、办事指南、流程引导，解决窗口重复问询、政策更新频繁的痛点。</p>
+        <div class="stack"><span>数字人 SDK</span><span>流式响应</span><span>政务知识库</span></div>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:28px"><b>可迁移性：</b>金融的「多专家会商」、政务的「知识库+流式对话」范式，可平移至<b>能源</b>（设备运维知识问答、能源数据分析报告）、更多行业的文档与数据代码场景。</p>
+  </div>
+</section>
+
+<!-- SCENE 3: VIRTUAL USER -->
+<section id="scene-virtual">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">场景三</span>
+      <h2>B 端虚拟用户模拟</h2>
+      <p class="sec-sub">基于客户画像数据的<b>角色扮演类应用</b>——单个角色化 Agent 模拟，到多智能体协作对话，构建可交互、人格一致的虚拟用户。面向汽车、消费等 B 端场景。</p>
+    </div>
+
+    <div class="case-row">
+      <div class="case">
+        <span class="model-tag">GLM-4.6</span>
+        <h4>AI 面试教练</h4>
+        <div class="ind">画像驱动 · 求职者画像</div>
+        <p>「企业能用 AI 筛人，我也能用 AI 武装自己」。输入目标公司岗位，自动抓取面经并<b>语义聚类</b>提取高频考点，结合简历做匹配度分析，生成个性化面试准备报告——用 AI 对抗 AI。</p>
+        <div class="stack"><span>面经抓取</span><span>语义聚类</span><span>简历解析</span><span>策略生成</span></div>
+      </div>
+      <div class="case">
+        <span class="model-tag">GLM-4.6</span>
+        <h4>心理咨询智能客服（小程序）</h4>
+        <div class="ind">画像驱动 · 用户画像</div>
+        <p>零基础开发者借助 TRAE + GLM-4.6，从需求分析到前后端交付一款跨平台（微信/抖音）智能客服：理解问题、检索机构知识库、稳定输出答案，7×24 在线挡在人工前面。</p>
+        <div class="stack"><span>知识库问答</span><span>跨平台</span><span>零基础开发</span></div>
+      </div>
+      <div class="case">
+        <span class="model-tag">GLM-4.7</span>
+        <h4>OpenAgents 多角色协作（帝王群聊 / 游戏双智能体）</h4>
+        <div class="ind">多智能体 · 角色扮演</div>
+        <p>为不同角色分别设计独立智能体与精细化指令，多 Agent 在同一网络中协作对话——既呈现鲜明人格差异，也体现稳定的<b>指令遵循与角色一致性</b>。可迁移到品牌虚拟代言人、游戏 NPC、销售陪练等 B 端拟人场景。</p>
+        <div class="stack"><span>OpenAgents</span><span>多 Agent 网络</span><span>角色一致性</span></div>
+      </div>
+      <div class="case">
+        <span class="model-tag">GLM-4.7</span>
+        <h4>AI 漫剧 APP「漫导」（Claude Code 协作）</h4>
+        <div class="ind">角色塑造 · 内容生成</div>
+        <p>一句话创建剧本、角色、场景，自动生成分镜图片与视频并合成漫剧。8 天完成 MVP、人物一致性高，全程 GLM-4.7 驱动，<b>开发成本仅约 20 元</b>——展示 AI Coding 在内容/消费类 B 端应用的极速落地能力。</p>
+        <div class="stack"><span>多模态生成</span><span>角色一致性</span><span>ReAct 架构</span></div>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:28px"><b>面向汽车 / 消费 B 端：</b>把「用户画像」注入角色 Agent，即可构建虚拟试驾用户、虚拟消费者调研、智能导购与客服——同一套「画像驱动 + 多智能体」能力，换数据即换场景。</p>
+  </div>
+</section>
+
+<!-- GLM-5.2 BASE -->
+<section id="glm52">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">能力底座</span>
+      <h2>GLM-5.2 · 让上面的一切更稳、更强</h2>
+      <p class="sec-sub">智谱 2026 年 6 月新一代开源旗舰（MIT License）。上述案例多由 GLM-4.6 / 4.7 跑通，GLM-5.2 是更强的升级底座——以真正可用的 1M 上下文为核心突破。</p>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec"><div class="big">1M</div><div class="lbl">上下文窗口<br>突破 5.1 的 200K</div></div>
+      <div class="spec"><div class="big">744B</div><div class="lbl">总参数 / 激活 40B<br>MoE 架构</div></div>
+      <div class="spec"><div class="big">第一梯队</div><div class="lbl">Coding 国产 & 开源<br>比肩 Claude Opus 4.8</div></div>
+      <div class="spec"><div class="big">小时级</div><div class="lbl">长程任务稳定执行<br>长任务，不忘事</div></div>
+    </div>
+
+    <div class="sub-title">四大最佳实践场景</div>
+    <div class="scenes4">
+      <div class="s4">
+        <div class="s4n">场景 1</div>
+        <h5>Agentic Coding · 自主软件工程</h5>
+        <p>规划→工具调用→调试→回归的自主闭环。以「给服务加邮件验证」为例的 7 步自主流程，从需求到交付端到端。</p>
+      </div>
+      <div class="s4">
+        <div class="s4n">场景 2</div>
+        <h5>泛 Coding · 非专业链路日常编码</h5>
+        <p>原型开发、前端 vibe coding、视频/动效生成、3D 场景搭建、开放式工具应用——关注产物<b>效果与完成度</b>。</p>
+      </div>
+      <div class="s4">
+        <div class="s4n">场景 3</div>
+        <h5>代码翻译</h5>
+        <p>跨语言、跨框架迁移与现代化重构，1M 上下文让大型项目一次性「看完」，翻译更完整、更少遗漏。</p>
+      </div>
+      <div class="s4">
+        <div class="s4n">场景 4</div>
+        <h5>科研复现 · AI for Science</h5>
+        <p>阅读多篇论文 + 补全实现 + 配置环境 + 自检修复——可验证、可按任务计费的清晰商业化路径。</p>
+      </div>
+    </div>
+
+    <div class="price-note">
+      <b>工程可服务：</b>推理引擎 KV8 + LayerSplit 把 KV Cache 压到 8bit、按层拆分释放显存，让 1M 真正稳定可服务。<br>
+      <b>普惠定价：</b>输入命中 Cache 低至 <b>¥2 / M token</b>（国内）/ <b>$0.26 / M</b>（海外），长上下文场景显著降本。
+    </div>
+  </div>
+</section>
+
+<!-- LANDING -->
+<section id="landing">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag">落地路径</span>
+      <h2>怎么开始</h2>
+      <p class="sec-sub">无需从零搭建。通过 GLM Coding Plan 订阅，在主流编码工具中即享智谱旗舰模型；配合 MCP 扩展与私有知识库，逐步沉淀企业专属能力。</p>
+    </div>
+
+    <div class="sub-title">GLM Coding Plan 套餐（订阅制，55+ Tokens/秒）</div>
+    <table class="plan-table">
+      <thead><tr><th>套餐</th><th>每 5 小时限额</th><th>每周限额</th><th>适合</th></tr></thead>
+      <tbody>
+        <tr><td><b>Lite</b></td><td>≈ 80 次 prompt</td><td>≈ 400 次 prompt</td><td>个人尝鲜 / 轻量任务</td></tr>
+        <tr><td><b>Pro</b></td><td>≈ 400 次 prompt</td><td>≈ 2000 次 prompt</td><td>日常研发主力</td></tr>
+        <tr><td><b>Max</b></td><td>≈ <b>1600</b> 次 prompt</td><td>≈ <b>8000</b> 次 prompt</td><td>高频复杂项目 / 团队</td></tr>
+      </tbody>
+    </table>
+    <p class="prose" style="font-size:13px">每月可用额度按 API 定价折算，相当于月订阅费用的 <b>15–30 倍</b>。默认使用 GLM-4.7，复杂任务可切换 GLM-5 / GLM-5.2。</p>
+
+    <div class="sub-title">兼容工具与 MCP 扩展</div>
+    <div class="tool-grid">
+      <span class="t">Claude Code</span><span class="t">Cursor</span><span class="t">OpenCode</span><span class="t">Kilo Code</span>
+      <span class="t">Cline</span><span class="t">Roo Code</span><span class="t">Crush</span><span class="t">Goose</span><span class="t">OpenClaw</span><span class="t">…10+</span>
+    </div>
+    <div class="tool-grid">
+      <span class="t">🔎 联网搜索 MCP</span><span class="t">🌐 网页读取 MCP</span><span class="t">👁 视觉理解 MCP</span><span class="t">📦 开源仓库 MCP</span>
+    </div>
+
+    <div class="steps3">
+      <div class="stp">
+        <div class="sn">STEP 1</div>
+        <h5>选定场景，订阅套餐</h5>
+        <p>从三类场景中选定优先级（建议全链条先行），按团队规模选择 Lite / Pro / Max。</p>
+      </div>
+      <div class="stp">
+        <div class="sn">STEP 2</div>
+        <h5>接入工具，接入知识</h5>
+        <p>在 Claude Code 等工具中配置 GLM 模型；挂载 MCP 与企业知识库 / 代码仓库，沉淀专属能力。</p>
+      </div>
+      <div class="stp">
+        <div class="sn">STEP 3</div>
+        <h5>跑通闭环，规模化</h5>
+        <p>按研发五阶段跑通一个试点项目，验证效率提升后，向更多业务线与行业场景复制。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="wrap">
+    <h2>三类场景，一套能力。<br>从一个试点项目开始。</h2>
+    <p>我们可以一起选定一个优先场景，基于您方的真实数据与流程，跑通从需求到交付的 AI Coding 闭环，用数据说话。</p>
+    <a class="cta-btn" href="#scene-fullchain">↑ 回顾全链条方案</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    内容来源：飞书 wiki「GLM Coding 开发者社区」官方最佳实践与开发者精选案例 · 新模型数据参考 GLM-5.2 介绍页 · 案例模型版本按实践原文标注<br>
+    本页为方案讲解材料，数据以最新官方文档为准。
+  </div>
+</footer>
+
+<script>
+function toggleTheme(){
+  var h=document.documentElement,cur=h.getAttribute('data-theme'),n=cur==='dark'?'light':'dark';
+  h.setAttribute('data-theme',n);
+  document.querySelector('.theme-btn').textContent=n==='dark'?'☾':'☀';
+  try{localStorage.setItem('glm-theme',n)}catch(e){}
+}
+(function(){try{var t=localStorage.getItem('glm-theme');if(t){document.documentElement.setAttribute('data-theme',t);document.querySelector('.theme-btn').textContent=t==='dark'?'☾':'☀'}}catch(e){}})();
+</script>
+</body>
+</html>
