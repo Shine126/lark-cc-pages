@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>四维图新 / SEEWAY.AI — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAFAF7;
+    --ink: #1A1A1A;
+    --muted: #6B6B68;
+    --accent: #1B365D;
+    --rule: #D4D4D0;
+    --serif-cn: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+    --sans-cn: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", -apple-system, sans-serif;
+  }
+  html { font-family: var(--sans-cn); }
+  html:not([lang="en"]) h1, html:not([lang="en"]) h2, html:not([lang="en"]) .hd-title { font-family: var(--serif-cn); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #ECEAE3; color: var(--ink);
+    font-size: 13px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px; display: flex; justify-content: center;
+  }
+  .page { width: 1080px; min-height: 1400px; background: var(--bg); padding: 48px 60px 40px; border: 1px solid var(--rule); }
+
+  /* Header */
+  .hd { display: grid; grid-template-columns: 1fr auto; align-items: end; border-bottom: 2px solid var(--ink); padding-bottom: 16px; margin-bottom: 18px; }
+  .hd-eyebrow { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .hd-title { font-size: 34px; font-weight: 700; line-height: 1.1; color: var(--ink); margin: 0 0 8px; }
+  .hd-title .en { font-size: 18px; color: var(--accent); font-weight: 600; margin-left: 10px; letter-spacing: 0.04em; }
+  .hd-tagline { font-size: 13.5px; color: var(--ink); max-width: 700px; margin: 0; }
+  .hd-date { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.4; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-bottom: 1px solid var(--rule); margin-bottom: 22px; }
+  .stat { padding: 12px 14px 14px 0; border-right: 1px solid var(--rule); }
+  .stat:last-child { border-right: none; padding-right: 0; }
+  .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+  /* Body */
+  .body { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .col { display: flex; flex-direction: column; gap: 18px; }
+  section h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+  section h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  section p { margin: 0 0 7px; font-size: 12.5px; line-height: 1.55; }
+  section ul { list-style: none; padding: 0; margin: 0 0 4px; }
+  section ul li { position: relative; padding-left: 14px; margin-bottom: 5px; font-size: 12px; line-height: 1.5; }
+  section ul li::before { content: "—"; position: absolute; left: 0; color: var(--muted); }
+  .lede { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 7px; }
+  .sub-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 8px; margin-bottom: 3px; }
+
+  sup.cite { font-size: 9px; font-weight: 500; color: var(--accent); margin-left: 1px; }
+  sup.cite a { color: inherit; text-decoration: none; }
+  sup.cite a:hover { text-decoration: underline; }
+
+  .person { margin-bottom: 7px; }
+  .person-name { font-weight: 600; }
+  .person-role { color: var(--muted); font-size: 11px; letter-spacing: 0.05em; }
+  .person-bio { font-size: 11.5px; color: var(--ink); line-height: 1.45; }
+
+  .comp { margin-bottom: 5px; font-size: 12px; }
+  .comp-name { font-weight: 600; }
+
+  /* Collab */
+  .collab { margin-top: 22px; padding: 20px 22px 18px; background: #F3F1EA; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--rule); }
+  .collab h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; padding-bottom: 0; border-bottom: none; }
+  .collab h2 .num { color: var(--muted); font-weight: 500; margin-right: 8px; }
+  .collab .lede { font-size: 13px; font-weight: 500; margin-bottom: 12px; line-height: 1.5; }
+  .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 30px; }
+  .collab-block .ck-label { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 4px; display: block; }
+  .collab-block p { font-size: 11.5px; line-height: 1.5; margin: 0; }
+
+  /* Sources */
+  .sources { margin-top: 22px; padding-top: 14px; border-top: 1px solid var(--rule); }
+  .sources h2 { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; border-bottom: none; padding-bottom: 0; }
+  .sources ol { list-style: none; counter-reset: src; padding: 0; margin: 0; columns: 2; column-gap: 32px; }
+  .sources ol li { counter-increment: src; font-size: 10px; color: var(--muted); line-height: 1.4; margin-bottom: 5px; break-inside: avoid; padding-left: 22px; position: relative; }
+  .sources ol li::before { content: "[" counter(src) "]"; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  .sources a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--rule); }
+  .sources a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  @media print { body { background: white; padding: 0; } .page { border: none; width: 100%; min-height: 0; padding: 24px 32px; } }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="hd">
+    <div>
+      <div class="hd-eyebrow">公司速览 · Company Brief · BD Intelligence</div>
+      <h1 class="hd-title">四维图新<span class="en">SEEWAY.AI · 002405.SZ</span></h1>
+      <p class="hd-tagline">从导航地图起家的国资背景汽车智能化 Tier1，2025 年品牌升级为 SEEWAY.AI，转型"AI 人"，提供"智云·智驾·智舱·智芯"全栈方案。</p>
+    </div>
+    <div class="hd-date">
+      研究日期 / Research Date<br>
+      <strong style="color:var(--ink)">2026-06-25</strong>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">北京</div>
+      <div class="stat-label">总部 / HQ</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">2002</div>
+      <div class="stat-label">成立 / Founded</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">约 1,600</div>
+      <div class="stat-label">员工（2025 年报）</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">¥41.25 亿</div>
+      <div class="stat-label">2025 营收（+17.25%）</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- LEFT -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">01</span>商业模式 / Business Model</h2>
+        <p class="lede">以导航地图数据为底座的汽车智能化全栈 Tier1，向车企前装供货并收取软件授权与服务费。</p>
+        <ul>
+          <li>四大板块：智云（车联网云）、智驾、智舱（智能座舱）、智芯（车规级芯片），软硬一体。<sup class="cite"><a href="#s1">[1]</a></sup></li>
+          <li>客户：覆盖 20+ 主流车企、120+ 定点车型；2025 年智驾方案累计定点突破 585 万套。<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>2025 全年营收 41.25 亿元（+17.25%），归母净利 1.04 亿元扭亏；但扣非净利 −14.81 亿元，主业盈利仍承压。<sup class="cite"><a href="#s1">[1]</a></sup></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">02</span>战略调整与近期动态 / Strategic Shift</h2>
+        <p class="lede">18 亿元入主鉴智开曼，将自有智驾业务剥离注入，高阶智驾能力"借壳重生"。</p>
+        <ul>
+          <li>2025 年 12 月完成 18 亿元（2.5 亿现金 + 15.5 亿资产注入）入主鉴智开曼，持 39.14% 成第一大股东，跻身"地平线链"。<sup class="cite"><a href="#s3">[3]</a></sup></li>
+          <li>2025 年 10 月品牌升级 SEEWAY.AI，叙事从"地图人 → 汽车人 → AI 人"，定位 AI 中枢的舱驾协同 Tier1。<sup class="cite"><a href="#s2">[2]</a></sup></li>
+          <li>净利转正主要靠资产处置等非经常性损益，扣非巨亏暴露主业变现仍未跑通。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2><span class="num">03</span>AI 布局 / AI Play</h2>
+        <p class="lede">以 AI 为中枢的舱驾协同一站式方案，押注"大模型上车"与车规级芯片自研。</p>
+        <ul>
+          <li>智芯：子公司杰发科技 SoC + MCU 出货量双破亿，座舱域控 SoC AC8025 已量产，支持舱行泊一体。<sup class="cite"><a href="#s4">[4]</a></sup></li>
+          <li>智驾：兼容地平线 / 高通多芯片平台，覆盖低中高阶；程鹏提"轻地图"理念，主张地图轻重取决于场景。<sup class="cite"><a href="#s5">[5]</a></sup></li>
+          <li>大模型：将多模态大模型融入座舱交互与服务架构，公开层面尚未发布独立"世界模型"产品。</li>
+        </ul>
+      </section>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col">
+
+      <section>
+        <h2><span class="num">04</span>核心团队 / Key People</h2>
+        <div class="person">
+          <div><span class="person-name">程鹏</span> <span class="person-role">· 联合创始人 / 副董事长 / 总经理（CEO）</span></div>
+          <div class="person-bio">1976 年生，本科学历。提出"车企不必全栈自研，脏活累活我们来干"，把四维图新定位为服务型 Tier1；多次喊话"2026 年会见分晓"。<sup class="cite"><a href="#s5">[5]</a></sup></div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">孟庆昕</span> <span class="person-role">· 高级副总裁 / CMO / 董秘</span></div>
+          <div class="person-bio">负责市场、品牌与资本运作，主导 SEEWAY.AI 品牌焕新对外叙事。</div>
+        </div>
+        <div class="person">
+          <div><span class="person-name">中国四维测绘</span> <span class="person-role">· 控股股东 / 国资背景</span></div>
+          <div class="person-bio">隶属国资体系，赋予四维图新测绘资质与政企/前装渠道壁垒。</div>
+        </div>
+      </section>
+
+      <section>
+        <h2><span class="num">05</span>竞争格局 / Competitive Landscape</h2>
+        <p class="lede">高精地图 CR5 &gt; 80%，智驾方案赛道更卷；四维图新以"图商底座 + 自研芯片 + 量产渠道"错位。</p>
+        <div class="comp"><span class="comp-name">百度</span> — 高精地图市占第一（约 28%），Apollo 生态 + C 端数据，正面竞争。<sup class="cite"><a href="#s6">[6]</a></sup></div>
+        <div class="comp"><span class="comp-name">华为 ADS</span> — 主推"无图"智驾路线，深度绑定车企，智驾侧最强威胁。</div>
+        <div class="comp"><span class="comp-name">高德</span> — C 端导航用户第一，背靠阿里，地图侧竞争。</div>
+        <div class="comp"><span class="comp-name">地平线</span> — 智驾芯片龙头；四维图新反成其生态方（鉴智基于地平线平台），竞合关系。</div>
+        <div class="sub-label">差异化 / Differentiation</div>
+        <p style="font-size:11.5px;margin:0;">国内唯一同时握有"导航地图测绘资质 + 杰发科自研车规芯片 + 前装量产渠道"的图商，全栈可控但智驾算法高阶段需借鉴智补齐。</p>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- COLLAB -->
+  <section class="collab">
+    <h2><span class="num">06</span>合作切入点（与 Z.ai）/ Collaboration Angle</h2>
+    <p class="lede">SEEWAY.AI 的核心叙事是"大模型上车"，亟需国产、可私有化、车规级稳定的大模型能力——这正是 Z.ai 的楔子。</p>
+    <div class="collab-grid">
+      <div class="collab-block">
+        <span class="ck-label">对方动机 · Why they'd care</span>
+        <p>智驾端到端 / 座舱多模态交互 / 数据闭环均依赖大模型，且需规避国外模型与跨境数据合规风险，倾向国产自主可控底座。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">产品契合 · Product fit</span>
+        <p>GLM 系列多模态/视觉模型（智驾感知、座舱语音+视觉）、GLM 私有化部署（车端+云端数据闭环）、昇腾国产芯片推理适配。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">摩擦点 · Friction</span>
+        <p>已有杰发科自研芯片生态、与地平线/高通深度绑定；车规级认证与定点周期长；国产化自主可控要求排他性。</p>
+      </div>
+      <div class="collab-block">
+        <span class="ck-label">建议首步 · Suggested first move</span>
+        <p>90 天 POC：以 GLM 多模态模型在杰发科 AC8025 座舱平台做端侧 demo，或共建智驾数据标注/仿真闭环，先打标杆再谈前装。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h2>信息来源 / Sources</h2>
+    <ol>
+      <li id="s1">新华网 — "四维图新 2025 年报｜营收超 41 亿、净利转正" — 2026-04-30 — <a href="https://www.xinhuanet.com/auto/20260430/3c15d8d323914b08a2df001d293324b5/c.html">link</a></li>
+      <li id="s2">新华网 — "四维图新创想大会：SEEWAY.AI 启航" — 2025-10-30 — <a href="http://www.news.cn/auto/20251030/00ae271061554c9fb8181e51042ebc19/c.html">link</a></li>
+      <li id="s3">21 财经 — "A 股最大智驾重组揭幕，四维图新跻身地平线链公司大股东" — 2025-10-09 — <a href="https://www.21jingji.com/article/20251009/herald/fe34e8127622b2fa3212589553fed726.html">link</a></li>
+      <li id="s4">ESM 中国 — "杰发科技汽车芯片 SoC+MCU 双破亿领跑国产" — 2025 — <a href="https://www.esmchina.com/news/13643.html">link</a></li>
+      <li id="s5">21 财经 — "四维图新 CEO 程鹏详解行业竞争趋势" — 2025-01-03 — <a href="https://www.21jingji.com/article/20250103/herald/0eefd30fdb1762b6e8242967775f57b1.html">link</a></li>
+      <li id="s6">前瞻产业研究院 / IDC — "高精地图市场份额：百度 28% 居首、四维图新次之" — 2022 — <a href="https://ecoapp.qianzhan.com/detials/211122-a4b89a16.html">link</a></li>
+      <li id="s7">证券时报 — "四维图新上半年营收 17.61 亿元" — 2025-08 — <a href="https://www.stcn.com/article/detail/3257730.html">link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
